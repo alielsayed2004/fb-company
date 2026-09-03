@@ -1,0 +1,264 @@
+[
+  {
+    "id": "chillout-10th-of-ramadan-banks",
+    "name": "Chillout Hub – 10th of Ramadan (Banks Service Center)",
+    "name_ar": "شيل أوت هب – العاشر من رمضان (مركز خدمات البنوك)",
+    "city": "10th of Ramadan City",
+    "city_ar": "مدينة العاشر من رمضان",
+    "location": "Banks Service Center Corridor, 10th of Ramadan City",
+    "location_ar": "ممر مركز البنوك الخدمي، مدينة العاشر من رمضان",
+    "status": "Operational",
+    "coverColor": "from-teal-800 to-teal-950",
+    "video": "/projects/Main Banks Service Corridor/Main Banks Service Corridor.mp4",
+    "coverImage": "/projects/Main Banks Service Corridor/Artboard 3.jpg",
+    "overview": "A flagship multi-service fuel and commercial asset located in the dense industrial and banking core of 10th of Ramadan City, hosting a premium selection of national and international retail and F&B brands.",
+    "overview_ar": "مشروع وقود وأصول تجارية رائد يقع في قلب المنطقة الصناعية والمصرفية لمدينة العاشر من رمضان، ويضم مجموعة ممتازة من العلامات التجارية ومحلات التجزئة والمطاعم الوطنية والعالمية.",
+    "metrics": {
+      "landArea": "7,200 SQM",
+      "numBrands": "8",
+      "occupancyRate": "100%",
+      "openingYear": "2023"
+    },
+    "brands": [
+      "McDonald's",
+      "El Ezaby Pharmacy",
+      "Bazooka",
+      "Cilantro",
+      "TBS",
+      "Nine Two Nine",
+      "Othaim Market",
+      "Papa John's"
+    ],
+    "coordinates": { "x": 57, "y": 16 },
+    "mapInfo": {
+      "road": "Main Banks Service Corridor",
+      "road_ar": "ممر البنوك الخدمي الرئيسي",
+      "catchment": "120,000+ daily vehicles & employees",
+      "catchment_ar": "أكثر من 120,000 موظف ومركبة يومياً",
+      "peakHours": "8:00 AM - 9:00 PM",
+      "peakHours_ar": "8:00 صباحاً - 9:00 مساءً"
+    }
+  },
+  {
+    "id": "chillout-mostafa-kamel",
+    "name": "Chillout Hub – Mostafa Kamel Axis",
+    "name_ar": "شيل أوت هب – محور مصطفى كامل",
+    "city": "New Cairo",
+    "city_ar": "القاهرة الجديدة",
+    "location": "South of the Academy, Mostafa Kamel Axis, New Cairo",
+    "location_ar": "جنوب الأكاديمية، محور مصطفى كامل، القاهرة الجديدة",
+    "status": "Operational",
+    "coverColor": "from-slate-800 to-teal-900",
+    "video": "/projects/Mostafa Kamel Axis/video.mp4",
+    "overview": "A high-traffic fuel station plaza situated along the vital Mostafa Kamel Axis in New Cairo, serving the premium residential catchment of South Academy and adjacent districts.",
+    "overview_ar": "مجمع تجاري ومحطة وقود ذو حركة مرور كثيفة يقع على محور مصطفى كامل الحيوي في القاهرة الجديدة، ويخدم التجمع السكني الراقي لجنوب الأكاديمية والمناطق المجاورة.",
+    "metrics": {
+      "landArea": "5,400 SQM",
+      "numBrands": "6",
+      "occupancyRate": "100%",
+      "openingYear": "2024"
+    },
+    "brands": [
+      "Carrefour",
+      "Papa John's",
+      "El Ezaby Pharmacy",
+      "Burger Republic",
+      "Nine Two Nine",
+      "Cilantro"
+    ],
+    "coordinates": { "x": 54, "y": 24 },
+    "mapInfo": {
+      "road": "Mostafa Kamel Axis",
+      "road_ar": "محور مصطفى كامل",
+      "catchment": "85,000+ local residents in 1.5km radius",
+      "catchment_ar": "أكثر من 85,000 نسمة في محيط 1.5 كم",
+      "peakHours": "10:00 AM - 11:00 PM",
+      "peakHours_ar": "10:00 صباحاً - 11:00 مساءً"
+    }
+  },
+  {
+    "id": "chillout-marina-5",
+    "name": "Chillout Hub – Marina 5",
+    "name_ar": "شيل أوت هب – مارينا 5",
+    "city": "North Coast",
+    "city_ar": "الساحل الشمالي",
+    "location": "Alexandria-Matrouh Road, In Front of Rotana Hotel, Marina 5",
+    "location_ar": "طريق الإسكندرية مطروح، أمام فندق روتانا، مارينا 5",
+    "status": "Operational",
+    "coverColor": "from-teal-900 to-slate-900",
+    "video": "/projects/Marina 5/video.mp4",
+    "overview": "A premium seasonal and year-round gateway commercial hub servicing the elite coastal corridor of Marina 5, directly facing the Rotana Hotel gates.",
+    "overview_ar": "مركز تجاري وبوابة ساحلية راقية تخدم الممر الساحلي لمارينا 5، ويواجه مباشرة بوابات فندق روتانا لخدمة الزوار على مدار العام وفي موسم الصيف.",
+    "metrics": {
+      "landArea": "9,200 SQM",
+      "numBrands": "8",
+      "occupancyRate": "98%",
+      "openingYear": "2022"
+    },
+    "brands": [
+      "McDonald's",
+      "Spinneys",
+      "Burger Republic",
+      "TBS",
+      "Shashlik",
+      "Sultan",
+      "Al Koftageya",
+      "El Ezaby Pharmacy"
+    ],
+    "coordinates": { "x": 33, "y": 12 },
+    "mapInfo": {
+      "road": "Alex-Matrouh Coastal Rd (KM 105)",
+      "road_ar": "طريق إسكندرية - مطروح الساحلي (كم 105)",
+      "catchment": "300,000+ weekly summer tourists",
+      "catchment_ar": "أكثر من 300,000 سائح أسبوعياً في الصيف",
+      "peakHours": "12:00 PM - 3:00 AM",
+      "peakHours_ar": "12:00 ظهراً - 3:00 صباحاً"
+    }
+  },
+  {
+    "id": "chillout-10th-of-ramadan-alrowad",
+    "name": "Chillout Hub – 10th of Ramadan (Al-Rowad Club)",
+    "name_ar": "شيل أوت هب – العاشر من رمضان (نادي الرواد)",
+    "city": "10th of Ramadan City",
+    "city_ar": "مدينة العاشر من رمضان",
+    "location": "Next to Al-Rowad Club, 10th of Ramadan City",
+    "location_ar": "بجوار نادي الرواد، مدينة العاشر من رمضان",
+    "status": "Operational",
+    "coverColor": "from-zinc-800 to-teal-950",
+    "video": "/projects/Al-Rowad Club/Al-Rowad Club.mp4",
+    "coverImage": "/projects/Al-Rowad Club/Artboard 4.jpg",
+    "overview": "Strategically positioned adjacent to the high-traffic Al-Rowad Club, this development captures local families, sports club visitors, and regional commuters daily.",
+    "overview_ar": "موقع إستراتيجياً بجوار نادي الرواد الرياضي ذو الإقبال الجماهيري الواسع، يخدم العائلات المحلية، وزوار النادي الرياضي، والمسافرين يومياً بشكل ممتاز.",
+    "metrics": {
+      "landArea": "4,900 SQM",
+      "numBrands": "5",
+      "occupancyRate": "100%",
+      "openingYear": "2023"
+    },
+    "brands": [
+      "Bazooka",
+      "El Ezaby Pharmacy",
+      "Othaim Market",
+      "Hunger Station",
+      "Sultan"
+    ],
+    "coordinates": { "x": 58, "y": 17 },
+    "mapInfo": {
+      "road": "Al-Rowad Club Main Road",
+      "road_ar": "الطريق الرئيسي لنادي الرواد",
+      "catchment": "40,000+ local sports club footfall",
+      "catchment_ar": "أكثر من 40,000 زائر محلي للنادي",
+      "peakHours": "3:00 PM - 10:00 PM",
+      "peakHours_ar": "3:00 عصراً - 10:00 مساءً"
+    }
+  },
+  {
+    "id": "sour-nady-el-nady",
+    "name": "Sour Nady El Nady",
+    "name_ar": "سور نادي النادي",
+    "city": "Sheraton",
+    "city_ar": "شيراتون",
+    "location": "Sheraton Area, Heliopolis, Cairo",
+    "location_ar": "منطقة شيراتون، مصر الجديدة، القاهرة",
+    "status": "Operational",
+    "coverColor": "from-teal-950 to-neutral-900",
+    "video": "/projects/Sour Nady El Nady/video.mp4",
+    "overview": "An urban commercial strip border development on the walls of Nady El Nady in Sheraton, providing dedicated brand options to high-income local catchments.",
+    "overview_ar": "شريط تجاري متطور على سور نادي النادي في منطقة شيراتون بمصر الجديدة، يوفر خيارات تجارية حصرية ومستهدفة للفئات السكنية ذات الدخل المرتفع.",
+    "metrics": {
+      "landArea": "3,800 SQM",
+      "numBrands": "6",
+      "occupancyRate": "100%",
+      "openingYear": "2024"
+    },
+    "brands": [
+      "McDonald's",
+      "TBS",
+      "El Ezaby Pharmacy",
+      "Burger Republic",
+      "Nine Two Nine",
+      "Cilantro"
+    ],
+    "coordinates": { "x": 52, "y": 22 },
+    "mapInfo": {
+      "road": "Nady El Nady Access Road",
+      "road_ar": "طريق الوصول لنادي النادي",
+      "catchment": "70,000+ local urban population",
+      "catchment_ar": "أكثر من 70,000 نسمة من السكان المحليين",
+      "peakHours": "4:00 PM - 11:00 PM",
+      "peakHours_ar": "4:00 عصراً - 11:00 مساءً"
+    }
+  },
+  {
+    "id": "sour-nady-el-obour",
+    "name": "Sour Nady El Obour",
+    "name_ar": "سور نادي العبور",
+    "city": "Obour City",
+    "city_ar": "مدينة العبور",
+    "location": "Obour Club Perimeter, Obour City",
+    "location_ar": "محيط نادي العبور، مدينة العبور",
+    "status": "Operational",
+    "coverColor": "from-emerald-950 to-teal-950",
+    "video": "/projects/Sour Nady El Obour/video.mp4",
+    "overview": "A commercial perimeter leasing layout executed around the Obour City Club wall, delivering premium retail and F&B anchors to a growing suburban residential city.",
+    "overview_ar": "مخطط تأجير تجاري على سور نادي العبور، يوفر علامات تجارية مميزة ومحلات تجزئة تخدم التجمع السكني المتنامي لضواحي مدينة العبور.",
+    "metrics": {
+      "landArea": "4,200 SQM",
+      "numBrands": "5",
+      "occupancyRate": "96%",
+      "openingYear": "2023"
+    },
+    "brands": [
+      "Carrefour",
+      "Papa John's",
+      "El Ezaby Pharmacy",
+      "Al Koftageya",
+      "Bazooka"
+    ],
+    "coordinates": { "x": 55, "y": 18 },
+    "mapInfo": {
+      "road": "Obour Club Main Axis",
+      "road_ar": "المحور الرئيسي لنادي العبور",
+      "catchment": "50,000+ local residents & club members",
+      "catchment_ar": "أكثر من 50,000 من السكان المحليين وأعضاء النادي",
+      "peakHours": "12:00 PM - 10:00 PM",
+      "peakHours_ar": "12:00 ظهراً - 10:00 مساءً"
+    }
+  },
+
+  {
+    "id": "el-salam-plaza-mall",
+    "name": "El Salam Plaza Mall",
+    "name_ar": "مول السلام بلازا",
+    "city": "El Salam",
+    "city_ar": "مدينة السلام",
+    "location": "El Salam Main Transit Corridor, Cairo",
+    "location_ar": "ممر طريق السلام الرئيسي، القاهرة",
+    "status": "Under Construction",
+    "coverColor": "from-teal-950 to-slate-950",
+    "video": "/projects/Suez Road Corridor/video.mp4",
+    "overview": "A flagship commercial shopping mall and retail plaza development located along the high-density El Salam corridor in Cairo, anchoring top-tier retail and F&B brands.",
+    "overview_ar": "مركز تسوق ومول تجاري رائد يقع على ممر طريق السلام الحيوي ذي الكثافة العالية بالقاهرة، ويضم نخبة من كبرى العلامات التجارية ومحلات التجزئة والمطاعم.",
+    "metrics": {
+      "landArea": "6,200 SQM",
+      "numBrands": "4",
+      "occupancyRate": "Allocating",
+      "openingYear": "2026"
+    },
+    "brands": [
+      "McDonald's",
+      "El Ezaby Pharmacy",
+      "TBS",
+      "Cilantro"
+    ],
+    "coordinates": { "x": 58, "y": 23 },
+    "mapInfo": {
+      "road": "El Salam Transit Corridor",
+      "road_ar": "ممر طريق السلام الرئيسي",
+      "catchment": "180,000+ daily commuter vehicle flows",
+      "catchment_ar": "أكثر من 180,000 سيارة للمسافرين يومياً",
+      "peakHours": "Finalizing Allocations",
+      "peakHours_ar": "في مرحلة التخصيص النهائي"
+    }
+  }
+]
