@@ -178,25 +178,9 @@ export default function Home() {
           <div className="absolute inset-0 hero-grid-overlay pointer-events-none" />
         </motion.div>
 
-        {/* Slowly shifting gradients and glowing nodes */}
-        <motion.div
-          animate={{
-            scale: [1, 1.05, 1],
-            x: [0, 15, 0],
-            y: [0, -10, 0]
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-1/4 w-[30rem] h-[30rem] bg-fb-green/10 rounded-full blur-3xl pointer-events-none"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.08, 1],
-            x: [0, -20, 0],
-            y: [0, 15, 0]
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-1/4 right-1/4 w-[35rem] h-[35rem] bg-fb-green/5 rounded-full blur-3xl pointer-events-none"
-        />
+        {/* Slowly shifting gradients and glowing nodes (GPU-accelerated CSS) */}
+        <div className="absolute top-1/4 left-1/4 w-[30rem] h-[30rem] bg-fb-green/10 rounded-full blur-3xl pointer-events-none transform-gpu animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[35rem] h-[35rem] bg-fb-green/5 rounded-full blur-3xl pointer-events-none transform-gpu animate-pulse [animation-duration:8s]" />
 
         {/* Foreground Content with Floating Parallax */}
         <motion.div

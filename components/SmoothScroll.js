@@ -11,14 +11,14 @@ export default function SmoothScroll() {
       return;
     }
 
-    // High-performance 120 FPS Inertia Smooth Scroll for desktop
+    // High-performance, responsive 120 FPS Inertia Smooth Scroll for desktop
     const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential deceleration curve
+      duration: 0.85,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Clean exponential deceleration
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.05,
+      wheelMultiplier: 1.0,
       infinite: false,
     });
 

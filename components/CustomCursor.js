@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import { motion, useSpring } from 'framer-motion';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 export default function CustomCursor() {
   const [cursorState, setCursorState] = useState('default'); // 'default', 'hover'
@@ -18,32 +18,37 @@ export default function CustomCursor() {
   );
 
   // Smooth Spring physics for the trailing ring
-  const springConfig = { damping: 25, stiffness: 400, mass: 0.5 };
+  const springConfig = { damping: 28, stiffness: 450, mass: 0.4 };
   const cursorX = useSpring(-100, springConfig);
   const cursorY = useSpring(-100, springConfig);
 
-  // Fast direct position for inner dot
-  const [dotPos, setDotPos] = useState({ x: -100, y: -100 });
+  // Zero-rerender motion values for inner dot
+  const dotX = useMotionValue(-100);
+  const dotY = useMotionValue(-100);
 
   useEffect(() => {
     if (isTouch) return;
 
+    let lastTarget = null;
+
     const onMouseMove = (e) => {
       if (!isVisible) setIsVisible(true);
+      
+      // Update motion values directly without triggering React re-renders
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
-      setDotPos({ x: e.clientX, y: e.clientY });
+      dotX.set(e.clientX);
+      dotY.set(e.clientY);
 
-      // Determine hover target type
-      const target = e.target;
-      if (!target) return;
-
-      const interactiveElement = target.closest('a, button, [role="button"], input, select, textarea, .cursor-pointer');
-
-      if (interactiveElement) {
-        setCursorState('hover');
-      } else {
-        setCursorState('default');
+      // Only check DOM hierarchy when the hovered element changes
+      if (e.target !== lastTarget) {
+        lastTarget = e.target;
+        if (e.target && e.target.closest) {
+          const isInteractive = Boolean(
+            e.target.closest('a, button, [role="button"], input, select, textarea, .cursor-pointer')
+          );
+          setCursorState((prev) => (prev !== (isInteractive ? 'hover' : 'default') ? (isInteractive ? 'hover' : 'default') : prev));
+        }
       }
     };
 
@@ -56,29 +61,28 @@ export default function CustomCursor() {
     };
 
     window.addEventListener('mousemove', onMouseMove, { passive: true });
-    document.addEventListener('mouseleave', onMouseLeave);
-    document.addEventListener('mouseenter', onMouseEnter);
+    document.addEventListener('mouseleave', onMouseLeave, { passive: true });
+    document.addEventListener('mouseenter', onMouseEnter, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseleave', onMouseLeave);
       document.removeEventListener('mouseenter', onMouseEnter);
     };
-  }, [cursorX, cursorY, isVisible, isTouch]);
+  }, [cursorX, cursorY, dotX, dotY, isVisible, isTouch]);
 
   if (isTouch) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none">
+    <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none will-change-transform">
       {/* 1. Inner Precision Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-fb-green z-50 -translate-x-1/2 -translate-y-1/2"
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-fb-green z-50 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         style={{
-          x: dotPos.x,
-          y: dotPos.y,
+          x: dotX,
+          y: dotY,
           opacity: isVisible ? 1 : 0,
         }}
-        transition={{ duration: 0.05 }}
       />
 
       {/* 2. Trailing Reactive Spring Ring */}
@@ -90,15 +94,15 @@ export default function CustomCursor() {
           opacity: isVisible ? 1 : 0,
         }}
         animate={{
-          scale: cursorState === 'hover' ? 1.3 : 1,
-          width: cursorState === 'hover' ? 36 : 28,
-          height: cursorState === 'hover' ? 36 : 28,
-          backgroundColor: cursorState === 'hover' ? 'rgba(83, 183, 121, 0.15)' : 'rgba(83, 183, 121, 0.05)',
+          scale: cursorState === 'hover' ? 1.35 : 1,
+          width: cursorState === 'hover' ? 38 : 26,
+          height: cursorState === 'hover' ? 38 : 26,
+          backgroundColor: cursorState === 'hover' ? 'rgba(83, 183, 121, 0.15)' : 'rgba(83, 183, 121, 0.04)',
           borderColor: cursorState === 'hover' ? '#53B779' : 'rgba(83, 183, 121, 0.35)',
           borderWidth: '1px',
-          boxShadow: cursorState === 'hover' ? '0 0 15px rgba(83, 183, 121, 0.3)' : 'none',
+          boxShadow: cursorState === 'hover' ? '0 0 15px rgba(83, 183, 121, 0.25)' : 'none',
         }}
-        transition={{ type: 'spring', damping: 25, stiffness: 400, mass: 0.5 }}
+        transition={{ type: 'spring', damping: 28, stiffness: 450, mass: 0.4 }}
       />
     </div>
   );

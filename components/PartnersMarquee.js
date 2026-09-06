@@ -79,11 +79,11 @@ export default function PartnersMarquee() {
 
         {/* Row 1 -> Left */}
         <div className="flex overflow-hidden w-full py-2">
-          <div className="animate-marquee-left whitespace-nowrap flex items-center">
+          <div className="animate-marquee-left whitespace-nowrap flex items-center transform-gpu will-change-transform">
             {multiply(row1).map((item, idx) => (
               <div
                 key={`row1-${item.id}-${idx}`}
-                className="logo-container inline-flex items-center justify-center mx-2 sm:mx-3 shrink-0 group/logo cursor-pointer px-3 py-1.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/[0.08] hover:border-emerald-400/40 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.18)] transition-all duration-300 h-14 sm:h-16 w-[150px] sm:w-[180px]"
+                className="logo-container inline-flex items-center justify-center mx-2 sm:mx-3 shrink-0 group/logo cursor-pointer px-3 py-1.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.09] hover:border-emerald-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 h-14 sm:h-16 w-[150px] sm:w-[180px] transform-gpu"
               >
                 <img
                   src={item.logoUrl || `/logos/${item.id}.png`}
@@ -99,11 +99,11 @@ export default function PartnersMarquee() {
         {/* Row 2 -> Right */}
         {row2.length > 0 && (
           <div className="flex overflow-hidden w-full py-2">
-            <div className="animate-marquee-right whitespace-nowrap flex items-center">
+            <div className="animate-marquee-right whitespace-nowrap flex items-center transform-gpu will-change-transform">
               {multiply(row2).map((item, idx) => (
                 <div
                   key={`row2-${item.id}-${idx}`}
-                  className="logo-container inline-flex items-center justify-center mx-2 sm:mx-3 shrink-0 group/logo cursor-pointer px-3 py-1.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/[0.08] hover:border-emerald-400/40 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.18)] transition-all duration-300 h-14 sm:h-16 w-[150px] sm:w-[180px]"
+                  className="logo-container inline-flex items-center justify-center mx-2 sm:mx-3 shrink-0 group/logo cursor-pointer px-3 py-1.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.09] hover:border-emerald-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 h-14 sm:h-16 w-[150px] sm:w-[180px] transform-gpu"
                 >
                   <img
                     src={item.logoUrl || `/logos/${item.id}.png`}
@@ -120,11 +120,11 @@ export default function PartnersMarquee() {
         {/* Row 3 -> Left */}
         {row3.length > 0 && (
           <div className="flex overflow-hidden w-full py-2">
-            <div className="animate-marquee-left whitespace-nowrap flex items-center">
+            <div className="animate-marquee-left whitespace-nowrap flex items-center transform-gpu will-change-transform">
               {multiply(row3).map((item, idx) => (
                 <div
                   key={`row3-${item.id}-${idx}`}
-                  className="logo-container inline-flex items-center justify-center mx-2 sm:mx-3 shrink-0 group/logo cursor-pointer px-3 py-1.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/[0.08] hover:border-emerald-400/40 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.18)] transition-all duration-300 h-14 sm:h-16 w-[150px] sm:w-[180px]"
+                  className="logo-container inline-flex items-center justify-center mx-2 sm:mx-3 shrink-0 group/logo cursor-pointer px-3 py-1.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.09] hover:border-emerald-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 h-14 sm:h-16 w-[150px] sm:w-[180px] transform-gpu"
                 >
                   <img
                     src={item.logoUrl || `/logos/${item.id}.png`}
