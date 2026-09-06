@@ -11,11 +11,19 @@ export default function PartnersMarquee() {
 
   const activeBrands = (brands && brands.length > 0) ? brands : defaultBrands;
 
+  // Filter to only brands with real verified logo files (1.png to 30.png)
+  const validBrands = activeBrands.filter((b) => {
+    const numId = typeof b.id === 'number' ? b.id : parseInt(b.id, 10);
+    if (!isNaN(numId) && numId > 30) return false;
+    if (b.logo && (b.logo.includes('placeholder') || b.logo.includes('default'))) return false;
+    return true;
+  });
+
   // Distribute brands across 3 marquee rows using round-robin (mod 3)
   // This guarantees all 3 rows always have equal items even if only some logos exist
-  const row1 = activeBrands.filter((_, idx) => idx % 3 === 0);
-  const row2 = activeBrands.filter((_, idx) => idx % 3 === 1);
-  const row3 = activeBrands.filter((_, idx) => idx % 3 === 2);
+  const row1 = validBrands.filter((_, idx) => idx % 3 === 0);
+  const row2 = validBrands.filter((_, idx) => idx % 3 === 1);
+  const row3 = validBrands.filter((_, idx) => idx % 3 === 2);
 
   // Helper to multiply items for seamless infinite scrolling marquee
   const multiply = (arr) => {
@@ -38,10 +46,10 @@ export default function PartnersMarquee() {
   };
 
   return (
-    <section className="bg-fb-teal overflow-hidden relative flex flex-col justify-center py-14 sm:py-20">
+    <section className="bg-fb-teal overflow-hidden relative flex flex-col justify-center min-h-screen py-20 sm:py-28 z-20">
       {/* Subtle Ambient Radial Lighting Flares */}
       <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-emerald-500/10 rounded-full blur-[130px] pointer-events-none" 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[450px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" 
         aria-hidden="true"
       />
 
