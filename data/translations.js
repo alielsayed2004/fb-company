@@ -111,6 +111,7 @@ export const translations = {
       cta: {
         eyebrow: "Strategic Partnership",
         title: "Partner with Egypt's Premier Franchise Sourcing & Asset Management Firm",
+        subtitle: "Whether you are expanding a corporate retail footprint or seeking high-yield commercial real estate holdings, our team delivers execution certainty.",
         desc: "Whether you are expanding a corporate retail footprint or seeking high-yield commercial real estate holdings, our team delivers execution certainty.",
         btn: "Schedule a Consultation"
       },

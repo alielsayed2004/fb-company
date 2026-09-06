@@ -84,7 +84,7 @@ export default function FranchiseSourcing() {
     <div className="flex flex-col min-h-screen">
       
       {/* Hero */}
-      <section className="bg-fb-teal text-fb-white py-24 px-6 relative overflow-hidden flex flex-col justify-center min-h-screen">
+      <section className="bg-fb-teal text-fb-white py-20 md:py-24 px-4 sm:px-6 relative overflow-hidden flex flex-col justify-center min-h-[80vh] md:min-h-screen">
         {/* Background Video */}
         <video
           autoPlay

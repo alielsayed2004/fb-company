@@ -141,7 +141,7 @@ export default function TenantPartnershipSection() {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2 overflow-x-auto max-w-full pb-2 sm:pb-0 sm:flex-wrap scrollbar-none -mx-2 px-2">
               {categories.map((cat) => {
                 const isSelected = activeCategory === cat.id;
                 return (

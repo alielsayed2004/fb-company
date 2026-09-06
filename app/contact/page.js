@@ -44,6 +44,7 @@ function ContactFormInner() {
   const { contactInfo } = useData();
 
   useEffect(() => {
+    const param = searchParams.get('interest');
     if (param === 'consultation' || (typeof window !== 'undefined' && (window.location.hash === '#consultation-form' || window.location.hash === '#contact-form'))) {
       const el = document.getElementById('consultation-form');
       if (el) {

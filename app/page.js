@@ -210,7 +210,7 @@ export default function Home() {
         >
           <span className="eyebrow text-fb-green font-bold block mb-4 tracking-[0.25em]">{t('home.eyebrow')}</span>
 
-          <h1 className="text-fb-bg-light tracking-tight flex justify-center flex-wrap gap-x-4 mb-2">
+          <h1 className="text-fb-bg-light tracking-tight flex justify-center flex-wrap gap-x-2 sm:gap-x-3 mb-2">
             {heroWords.map((word, idx) => (
               <motion.span
                 key={idx}
@@ -229,7 +229,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5, ease: corporateEase }}
-            className="text-fb-bg-light/80 text-sm md:text-lg max-w-2xl mx-auto font-light leading-relaxed mb-6"
+            className="text-fb-bg-light/80 text-sm sm:text-base md:text-lg max-w-2xl mx-auto font-light leading-relaxed mb-6 px-2"
           >
             {t('home.subheadline')}
           </motion.p>
@@ -238,29 +238,29 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7, ease: corporateEase }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4 max-w-sm sm:max-w-none mx-auto w-full"
           >
-            <button
-              type="button"
-              onClick={() => setIsProfileModalOpen(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rtl:space-x-reverse bg-transparent hover:bg-fb-bg-light/10 text-fb-bg-light border border-fb-bg-light/30 font-bold px-8 py-4 rounded-xl text-sm transition-all duration-300 cursor-pointer shadow-sm hover:border-fb-green/40 hover:-translate-y-0.5"
-            >
-              <FileText size={16} className="text-fb-green shrink-0" />
-              <span>{t('common.companyProfile')}</span>
-            </button>
             <Link
               href="/contact?interest=consultation#consultation-form"
-              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-8 py-4 rounded-xl text-sm transition-all duration-300 shadow-lg hover:shadow-fb-green/20 hover:-translate-y-0.5"
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl text-sm transition-all duration-300 shadow-lg hover:shadow-fb-green/20 hover:-translate-y-0.5 active:scale-98"
             >
               <span>{t('common.bookConsultation')}</span>
               <ArrowRight size={16} className={locale === 'ar' ? 'rotate-180' : ''} />
             </Link>
+            <button
+              type="button"
+              onClick={() => setIsProfileModalOpen(true)}
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rtl:space-x-reverse bg-white/5 hover:bg-fb-bg-light/10 text-fb-bg-light border border-fb-bg-light/25 font-bold px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl text-sm transition-all duration-300 cursor-pointer shadow-sm hover:border-fb-green/40 hover:-translate-y-0.5 active:scale-98"
+            >
+              <FileText size={16} className="text-fb-green shrink-0" />
+              <span>{t('common.companyProfile')}</span>
+            </button>
           </motion.div>
         </motion.div>
       </section>
 
       {/* 2. SUCCESS NUMBERS BAND (Statement on Left + 2x2 Square Grid on Right with Brand Light Background) */}
-      <section className="min-h-screen bg-fb-bg-light border-y border-fb-teal/10 py-20 md:py-28 px-6 flex flex-col justify-center relative overflow-hidden z-20">
+      <section className="bg-fb-bg-light border-y border-fb-teal/10 py-14 sm:py-20 md:py-28 px-4 sm:px-6 flex flex-col justify-center relative overflow-hidden z-20">
         {/* Subtle Ambient Radial Glow */}
         <div
           className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[350px] bg-fb-green/5 rounded-full blur-[100px] pointer-events-none"
