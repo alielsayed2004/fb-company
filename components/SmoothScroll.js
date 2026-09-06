@@ -1,42 +1,5 @@
-'use client';
-
-import { useEffect } from 'react';
-import Lenis from 'lenis';
-
 export default function SmoothScroll() {
-  useEffect(() => {
-    // On mobile touchscreens, native 120Hz iOS/Android ProMotion scrolling is zero-latency.
-    // Lenis is optimized for desktop trackpad and mouse wheel inertia.
-    if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
-      return;
-    }
-
-    // High-performance, responsive 120 FPS Inertia Smooth Scroll for desktop
-    const lenis = new Lenis({
-      duration: 0.85,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Clean exponential deceleration
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1.0,
-      infinite: false,
-    });
-
-    let rafId;
-    function raf(time) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
-
-    window.__lenis = lenis;
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-      delete window.__lenis;
-    };
-  }, []);
-
+  // Native 60 FPS hardware scrolling without virtual scroll hijacking
   return null;
 }
+

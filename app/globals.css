@@ -22,30 +22,10 @@
 }
 
 /* ─────────────────────────────────────────────────────────────
-   LENIS ULTRA-SMOOTH 120 FPS SCROLLING SYSTEM
+   NATIVE 60 FPS ULTRA-RESPONSIVE HARDWARE SCROLLING
    ───────────────────────────────────────────────────────────── */
-html.lenis, html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-smooth iframe {
-  pointer-events: none;
-}
-
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
