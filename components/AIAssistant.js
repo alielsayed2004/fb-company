@@ -319,23 +319,19 @@ export default function AIAssistant() {
             className="fixed bottom-6 right-6 rtl:right-auto rtl:left-6 z-50"
           >
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
               onClick={() => setIsOpen(true)}
               aria-label={isAr ? 'فتح المساعد الذكي' : 'Open AI Assistant'}
-              className="relative group flex items-center gap-2.5 px-4 py-3 bg-[#071315]/90 hover:bg-[#071315] text-white rounded-full border border-white/10 hover:border-fb-green/40 shadow-[0_12px_40px_rgba(0,0,0,0.5),0_0_20px_rgba(83,183,121,0.15)] backdrop-blur-2xl transition-all cursor-pointer"
+              className="relative group w-14 h-14 bg-[#071315]/95 hover:bg-[#071315] text-white rounded-full border border-white/15 hover:border-fb-green/60 shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_25px_rgba(83,183,121,0.25)] backdrop-blur-2xl transition-all flex items-center justify-center cursor-pointer"
             >
               {/* Status Indicator */}
-              <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute top-0 right-0 rtl:right-auto rtl:left-0 flex h-3.5 w-3.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-fb-green opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-fb-green" />
+                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-fb-green border-2 border-[#071315]" />
               </span>
 
-              <span className="text-xs font-semibold tracking-wide text-white/95">
-                {isAr ? 'مساعد F.B' : 'F.B Advisor'}
-              </span>
-
-              <Sparkles size={14} className="text-fb-green opacity-80 group-hover:rotate-12 transition-transform" />
+              <Bot size={24} strokeWidth={1.8} className="text-fb-green group-hover:scale-110 transition-transform" />
             </motion.button>
           </motion.div>
         )}
