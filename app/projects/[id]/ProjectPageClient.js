@@ -1,8 +1,13 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowLeft, MapPin, Calendar, Layout, Maximize2, Users, ArrowUpRight, TrendingUp, Camera, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  ArrowLeft, MapPin, Calendar, Layout, Maximize2, Users, 
+  ArrowUpRight, TrendingUp, Camera, ChevronDown, X, 
+  ChevronLeft, ChevronRight, ImageIcon
+} from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 
@@ -11,6 +16,33 @@ export default function ProjectPageClient({ project: initialProject }) {
   const { projects } = useData();
 
   const project = (projects && projects.find(p => p.id === initialProject?.id)) || initialProject;
+
+  // Active Lightbox image index (null if closed)
+  const [activeImageIndex, setActiveImageIndex] = useState(null);
+
+  // Combine server initial gallery and context gallery (deduplicated)
+  const allGalleryItems = Array.from(new Set([
+    ...(initialProject?.gallery || []),
+    ...(project?.gallery || [])
+  ]));
+
+  // Keyboard navigation for Lightbox
+  useEffect(() => {
+    if (activeImageIndex === null) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setActiveImageIndex(null);
+      if (e.key === 'ArrowRight') {
+        setActiveImageIndex((prev) => (prev + 1) % allGalleryItems.length);
+      }
+      if (e.key === 'ArrowLeft') {
+        setActiveImageIndex((prev) => (prev - 1 + allGalleryItems.length) % allGalleryItems.length);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeImageIndex, allGalleryItems.length]);
 
   if (!project) {
     return (
@@ -24,16 +56,7 @@ export default function ProjectPageClient({ project: initialProject }) {
     );
   }
 
-  const mockGalleryColors = [
-    "from-slate-700 to-teal-900",
-    "from-teal-900 to-emerald-950",
-    "from-zinc-800 to-slate-950",
-    "from-teal-800 to-cyan-950"
-  ];
-
-  const galleryItems = project.gallery && project.gallery.length > 0 ? project.gallery : [];
-
-  // Smart dynamic grid layout helper based on image count
+  // Dynamic grid layout helper based on image count
   const getGridClass = (count) => {
     if (count === 1) return "grid-cols-1";
     if (count === 2) return "grid-cols-1 sm:grid-cols-2";
@@ -114,8 +137,8 @@ export default function ProjectPageClient({ project: initialProject }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link href="/#portfolio" className="inline-flex items-center space-x-2 text-fb-green hover:text-white bg-fb-black/30 hover:bg-fb-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-xs font-bold uppercase tracking-wider transition-all">
-              <ArrowLeft size={14} className="mr-1.5 ml-1.5" />
+            <Link href="/#portfolio" className="inline-flex items-center space-x-2 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/30 hover:bg-fb-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-xs font-bold uppercase tracking-wider transition-all">
+              <ArrowLeft size={14} className="mr-1.5 ml-1.5 rtl:rotate-180" />
               <span>{t('projectDetails.backToDevelopments')}</span>
             </Link>
           </motion.div>
@@ -127,7 +150,7 @@ export default function ProjectPageClient({ project: initialProject }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="flex items-center space-x-3 justify-start flex-wrap gap-y-2"
+            className="flex items-center space-x-3 rtl:space-x-reverse justify-start flex-wrap gap-y-2"
           >
             <span className="bg-fb-green text-fb-teal text-xs font-extrabold px-3.5 py-1 rounded-md tracking-wider uppercase shadow-md">
               {project.status === 'Operational' ? (locale === 'ar' ? 'تشغيل ممتاز' : 'Operational') : (locale === 'ar' ? 'تحت الإنشاء' : project.status)}
@@ -232,38 +255,61 @@ export default function ProjectPageClient({ project: initialProject }) {
 
             {/* Smart Project Gallery */}
             <motion.div variants={itemVariants} className="space-y-4">
-              <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs flex items-center gap-2">
-                <Camera size={16} className="text-fb-green" />
-                <span>{t('projectDetails.visualDoc')} ({galleryItems.length > 0 ? galleryItems.length : 4})</span>
-              </h4>
+              <div className="flex items-center justify-between">
+                <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs flex items-center gap-2">
+                  <Camera size={16} className="text-fb-green" />
+                  <span>{t('projectDetails.visualDoc')} ({allGalleryItems.length})</span>
+                </h4>
+                {allGalleryItems.length > 0 && (
+                  <span className="text-[11px] text-slate-400 font-medium">
+                    {locale === 'ar' ? 'اضغط لتكبير الصورة' : 'Click to expand image'}
+                  </span>
+                )}
+              </div>
 
-              {galleryItems.length > 0 ? (
-                /* Smart Dynamic Layout based on image count */
-                <div className={`grid ${getGridClass(galleryItems.length)} gap-4`}>
-                  {galleryItems.map((imgSrc, index) => (
+              {allGalleryItems.length > 0 ? (
+                /* Interactive Dynamic Layout based on image count */
+                <div className={`grid ${getGridClass(allGalleryItems.length)} gap-4`}>
+                  {allGalleryItems.map((imgSrc, index) => (
                     <div
                       key={index}
-                      className="h-56 sm:h-64 rounded-2xl overflow-hidden border border-fb-teal/10 shadow-sm hover:scale-[1.01] transition-all duration-300 relative group bg-fb-teal/5"
+                      onClick={() => setActiveImageIndex(index)}
+                      className="h-56 sm:h-64 rounded-2xl overflow-hidden border border-fb-teal/10 shadow-sm hover:scale-[1.01] hover:border-fb-green/40 hover:shadow-lg transition-all duration-300 relative group bg-fb-teal/5 cursor-pointer"
                     >
                       <img
                         src={imgSrc}
                         alt={`${getField(project, 'name')} Photo ${index + 1}`}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
                       />
+                      <div className="absolute inset-0 bg-fb-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span className="bg-fb-black/70 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-white/20">
+                          <Maximize2 size={13} className="text-fb-green" />
+                          <span>{locale === 'ar' ? 'عرض' : 'View'}</span>
+                        </span>
+                      </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                /* Mockup fallback if no custom gallery photos added yet */
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {mockGalleryColors.map((colorClass, index) => (
-                    <div
-                      key={index}
-                      className={`h-48 bg-gradient-to-br ${colorClass} rounded-2xl flex items-center justify-center text-fb-white/20 text-xs font-bold border border-fb-teal/5 shadow-sm hover:scale-[1.01] transition-transform duration-300`}
-                    >
-                      {locale === 'ar' ? `[كاميرا أصول المشروع ${index + 1}]` : `[Asset Camera View ${index + 1}]`}
-                    </div>
-                  ))}
+                /* User-friendly guidance placeholder when no photos yet */
+                <div className="bg-fb-bg-light/90 border border-dashed border-fb-teal/20 rounded-3xl p-8 sm:p-12 text-center space-y-3">
+                  <div className="w-14 h-14 rounded-2xl bg-fb-teal/5 flex items-center justify-center mx-auto text-fb-green border border-fb-teal/10">
+                    <ImageIcon size={28} />
+                  </div>
+                  <h5 className="text-fb-teal font-extrabold text-base">
+                    {locale === 'ar' ? 'معرض صور المشروع' : 'Project Photo Gallery'}
+                  </h5>
+                  <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+                    {locale === 'ar' 
+                      ? `يمكنك إضافة الصور الخاصة بهذا المشروع بوضعها في المجلد:\npublic/projects/${project.id}/` 
+                      : `You can add photos for this project by dropping them into:\npublic/projects/${project.id}/`}
+                  </p>
+                  <div className="pt-2">
+                    <code className="text-[11px] bg-fb-teal/5 text-fb-teal px-3 py-1.5 rounded-md font-mono border border-fb-teal/10 inline-block direction-ltr">
+                      public/projects/{project.id}/
+                    </code>
+                  </div>
                 </div>
               )}
             </motion.div>
@@ -344,10 +390,10 @@ export default function ProjectPageClient({ project: initialProject }) {
               </p>
               <Link
                 href={`/contact?interest=sourcing&project=${project.id}`}
-                className="w-full flex items-center justify-center space-x-2 bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold py-3.5 rounded-lg text-xs transition-colors shadow-md uppercase tracking-wider z-10 relative"
+                className="w-full flex items-center justify-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold py-3.5 rounded-lg text-xs transition-colors shadow-md uppercase tracking-wider z-10 relative"
               >
                 <span>{t('projectDetails.consultBtn')}</span>
-                <ArrowUpRight size={14} className="ml-1 mr-1" />
+                <ArrowUpRight size={14} className="ml-1 mr-1 rtl:rotate-90" />
               </Link>
             </motion.div>
 
@@ -355,6 +401,101 @@ export default function ProjectPageClient({ project: initialProject }) {
           
         </motion.div>
       </section>
+
+      {/* 3. FULLSCREEN LIGHTBOX MODAL */}
+      <AnimatePresence>
+        {activeImageIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-between p-4 md:p-8"
+            onClick={() => setActiveImageIndex(null)}
+          >
+            {/* Top Bar */}
+            <div 
+              className="w-full flex items-center justify-between text-white/80 z-10 pb-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-xs sm:text-sm font-medium tracking-wide">
+                <span>{getField(project, 'name')}</span>
+                <span className="mx-2 text-white/30">•</span>
+                <span className="text-fb-green font-mono">{activeImageIndex + 1} / {allGalleryItems.length}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveImageIndex(null)}
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10"
+                aria-label="Close"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Main Image Stage */}
+            <div 
+              className="relative flex-1 w-full flex items-center justify-center overflow-hidden my-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {allGalleryItems.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => setActiveImageIndex((prev) => (prev - 1 + allGalleryItems.length) % allGalleryItems.length)}
+                  className="absolute left-2 md:left-6 z-20 w-12 h-12 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all cursor-pointer hover:scale-110"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+              )}
+
+              <motion.img
+                key={activeImageIndex}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.25 }}
+                src={allGalleryItems[activeImageIndex]}
+                alt={`${getField(project, 'name')} - Photo ${activeImageIndex + 1}`}
+                className="max-h-[82vh] max-w-[92vw] object-contain rounded-xl shadow-2xl select-none"
+              />
+
+              {allGalleryItems.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => setActiveImageIndex((prev) => (prev + 1) % allGalleryItems.length)}
+                  className="absolute right-2 md:right-6 z-20 w-12 h-12 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all cursor-pointer hover:scale-110"
+                  aria-label="Next image"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              )}
+            </div>
+
+            {/* Bottom Thumbnail Strip (if multiple images) */}
+            {allGalleryItems.length > 1 && (
+              <div 
+                className="flex items-center gap-2 pt-4 overflow-x-auto max-w-full px-4 z-10"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {allGalleryItems.map((thumb, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition-all shrink-0 cursor-pointer ${
+                      idx === activeImageIndex ? 'border-fb-green scale-105 opacity-100 shadow-md' : 'border-white/20 opacity-50 hover:opacity-80'
+                    }`}
+                  >
+                    <img src={thumb} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }

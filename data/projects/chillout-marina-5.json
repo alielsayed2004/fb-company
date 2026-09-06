@@ -1,0 +1,41 @@
+{
+  "id": "chillout-marina-5",
+  "name": "Chillout Hub – Marina 5",
+  "name_ar": "شيل أوت هب – مارينا 5",
+  "city": "North Coast",
+  "city_ar": "الساحل الشمالي",
+  "location": "Alexandria-Matrouh Road, In Front of Rotana Hotel, Marina 5",
+  "location_ar": "طريق الإسكندرية مطروح، أمام فندق روتانا، مارينا 5",
+  "status": "Operational",
+  "coverColor": "from-teal-900 to-slate-900",
+  "video": "/projects/chillout-marina-5/video.mp4",
+  "coverImage": "/projects/chillout-marina-5/cover.jpg",
+  "gallery": [],
+  "overview": "A premium seasonal and year-round gateway commercial hub servicing the elite coastal corridor of Marina 5, directly facing the Rotana Hotel gates.",
+  "overview_ar": "مركز تجاري وبوابة ساحلية راقية تخدم الممر الساحلي لمارينا 5، ويواجه مباشرة بوابات فندق روتانا لخدمة الزوار على مدار العام وفي موسم الصيف.",
+  "metrics": {
+    "landArea": "9,200 SQM",
+    "numBrands": "8",
+    "occupancyRate": "98%",
+    "openingYear": "2022"
+  },
+  "brands": [
+    "McDonald's",
+    "Spinneys",
+    "Burger Republic",
+    "TBS",
+    "Shashlik",
+    "Sultan",
+    "Al Koftageya",
+    "El Ezaby Pharmacy"
+  ],
+  "coordinates": { "x": 33, "y": 12 },
+  "mapInfo": {
+    "road": "Alex-Matrouh Coastal Rd (KM 105)",
+    "road_ar": "طريق إسكندرية - مطروح الساحلي (كم 105)",
+    "catchment": "300,000+ weekly summer tourists",
+    "catchment_ar": "أكثر من 300,000 سائح أسبوعياً في الصيف",
+    "peakHours": "12:00 PM - 3:00 AM",
+    "peakHours_ar": "12:00 ظهراً - 3:00 صباحاً"
+  }
+}

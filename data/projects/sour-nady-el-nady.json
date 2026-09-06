@@ -1,0 +1,39 @@
+{
+  "id": "sour-nady-el-nady",
+  "name": "Sour Nady El Nady",
+  "name_ar": "سور نادي النادي",
+  "city": "Sheraton",
+  "city_ar": "شيراتون",
+  "location": "Sheraton Area, Heliopolis, Cairo",
+  "location_ar": "منطقة شيراتون، مصر الجديدة، القاهرة",
+  "status": "Operational",
+  "coverColor": "from-teal-950 to-neutral-900",
+  "video": "/projects/sour-nady-el-nady/video.mp4",
+  "coverImage": "/projects/sour-nady-el-nady/cover.jpg",
+  "gallery": [],
+  "overview": "An urban commercial strip border development on the walls of Nady El Nady in Sheraton, providing dedicated brand options to high-income local catchments.",
+  "overview_ar": "شريط تجاري متطور على سور نادي النادي في منطقة شيراتون بمصر الجديدة، يوفر خيارات تجارية حصرية ومستهدفة للفئات السكنية ذات الدخل المرتفع.",
+  "metrics": {
+    "landArea": "3,800 SQM",
+    "numBrands": "6",
+    "occupancyRate": "100%",
+    "openingYear": "2024"
+  },
+  "brands": [
+    "McDonald's",
+    "TBS",
+    "El Ezaby Pharmacy",
+    "Burger Republic",
+    "Nine Two Nine",
+    "Cilantro"
+  ],
+  "coordinates": { "x": 52, "y": 22 },
+  "mapInfo": {
+    "road": "Nady El Nady Access Road",
+    "road_ar": "طريق الوصول لنادي النادي",
+    "catchment": "70,000+ local urban population",
+    "catchment_ar": "أكثر من 70,000 نسمة من السكان المحليين",
+    "peakHours": "4:00 PM - 11:00 PM",
+    "peakHours_ar": "4:00 عصراً - 11:00 مساءً"
+  }
+}

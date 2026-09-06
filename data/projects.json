@@ -9,8 +9,11 @@
     "location_ar": "ممر مركز البنوك الخدمي، مدينة العاشر من رمضان",
     "status": "Operational",
     "coverColor": "from-teal-800 to-teal-950",
-    "video": "/projects/Main Banks Service Corridor/Main Banks Service Corridor.mp4",
-    "coverImage": "/projects/Main Banks Service Corridor/Artboard 3.jpg",
+    "video": "/projects/chillout-10th-of-ramadan-banks/video.mp4",
+    "coverImage": "/projects/chillout-10th-of-ramadan-banks/Artboard 3.jpg",
+    "gallery": [
+      "/projects/chillout-10th-of-ramadan-banks/Artboard 3.jpg"
+    ],
     "overview": "A flagship multi-service fuel and commercial asset located in the dense industrial and banking core of 10th of Ramadan City, hosting a premium selection of national and international retail and F&B brands.",
     "overview_ar": "مشروع وقود وأصول تجارية رائد يقع في قلب المنطقة الصناعية والمصرفية لمدينة العاشر من رمضان، ويضم مجموعة ممتازة من العلامات التجارية ومحلات التجزئة والمطاعم الوطنية والعالمية.",
     "metrics": {
@@ -49,7 +52,9 @@
     "location_ar": "جنوب الأكاديمية، محور مصطفى كامل، القاهرة الجديدة",
     "status": "Operational",
     "coverColor": "from-slate-800 to-teal-900",
-    "video": "/projects/Mostafa Kamel Axis/video.mp4",
+    "video": "/projects/chillout-mostafa-kamel/video.mp4",
+    "coverImage": "/projects/chillout-mostafa-kamel/cover.jpg",
+    "gallery": [],
     "overview": "A high-traffic fuel station plaza situated along the vital Mostafa Kamel Axis in New Cairo, serving the premium residential catchment of South Academy and adjacent districts.",
     "overview_ar": "مجمع تجاري ومحطة وقود ذو حركة مرور كثيفة يقع على محور مصطفى كامل الحيوي في القاهرة الجديدة، ويخدم التجمع السكني الراقي لجنوب الأكاديمية والمناطق المجاورة.",
     "metrics": {
@@ -86,7 +91,9 @@
     "location_ar": "طريق الإسكندرية مطروح، أمام فندق روتانا، مارينا 5",
     "status": "Operational",
     "coverColor": "from-teal-900 to-slate-900",
-    "video": "/projects/Marina 5/video.mp4",
+    "video": "/projects/chillout-marina-5/video.mp4",
+    "coverImage": "/projects/chillout-marina-5/cover.jpg",
+    "gallery": [],
     "overview": "A premium seasonal and year-round gateway commercial hub servicing the elite coastal corridor of Marina 5, directly facing the Rotana Hotel gates.",
     "overview_ar": "مركز تجاري وبوابة ساحلية راقية تخدم الممر الساحلي لمارينا 5، ويواجه مباشرة بوابات فندق روتانا لخدمة الزوار على مدار العام وفي موسم الصيف.",
     "metrics": {
@@ -125,8 +132,11 @@
     "location_ar": "بجوار نادي الرواد، مدينة العاشر من رمضان",
     "status": "Operational",
     "coverColor": "from-zinc-800 to-teal-950",
-    "video": "/projects/Al-Rowad Club/Al-Rowad Club.mp4",
-    "coverImage": "/projects/Al-Rowad Club/Artboard 4.jpg",
+    "video": "/projects/chillout-10th-of-ramadan-alrowad/video.mp4",
+    "coverImage": "/projects/chillout-10th-of-ramadan-alrowad/Artboard 4.jpg",
+    "gallery": [
+      "/projects/chillout-10th-of-ramadan-alrowad/Artboard 4.jpg"
+    ],
     "overview": "Strategically positioned adjacent to the high-traffic Al-Rowad Club, this development captures local families, sports club visitors, and regional commuters daily.",
     "overview_ar": "موقع إستراتيجياً بجوار نادي الرواد الرياضي ذو الإقبال الجماهيري الواسع، يخدم العائلات المحلية، وزوار النادي الرياضي، والمسافرين يومياً بشكل ممتاز.",
     "metrics": {
@@ -162,7 +172,9 @@
     "location_ar": "منطقة شيراتون، مصر الجديدة، القاهرة",
     "status": "Operational",
     "coverColor": "from-teal-950 to-neutral-900",
-    "video": "/projects/Sour Nady El Nady/video.mp4",
+    "video": "/projects/sour-nady-el-nady/video.mp4",
+    "coverImage": "/projects/sour-nady-el-nady/cover.jpg",
+    "gallery": [],
     "overview": "An urban commercial strip border development on the walls of Nady El Nady in Sheraton, providing dedicated brand options to high-income local catchments.",
     "overview_ar": "شريط تجاري متطور على سور نادي النادي في منطقة شيراتون بمصر الجديدة، يوفر خيارات تجارية حصرية ومستهدفة للفئات السكنية ذات الدخل المرتفع.",
     "metrics": {
@@ -199,7 +211,9 @@
     "location_ar": "محيط نادي العبور، مدينة العبور",
     "status": "Operational",
     "coverColor": "from-emerald-950 to-teal-950",
-    "video": "/projects/Sour Nady El Obour/video.mp4",
+    "video": "/projects/sour-nady-el-obour/video.mp4",
+    "coverImage": "/projects/sour-nady-el-obour/cover.jpg",
+    "gallery": [],
     "overview": "A commercial perimeter leasing layout executed around the Obour City Club wall, delivering premium retail and F&B anchors to a growing suburban residential city.",
     "overview_ar": "مخطط تأجير تجاري على سور نادي العبور، يوفر علامات تجارية مميزة ومحلات تجزئة تخدم التجمع السكني المتنامي لضواحي مدينة العبور.",
     "metrics": {
@@ -225,7 +239,6 @@
       "peakHours_ar": "12:00 ظهراً - 10:00 مساءً"
     }
   },
-
   {
     "id": "el-salam-plaza-mall",
     "name": "El Salam Plaza Mall",
@@ -236,7 +249,9 @@
     "location_ar": "ممر طريق السلام الرئيسي، القاهرة",
     "status": "Under Construction",
     "coverColor": "from-teal-950 to-slate-950",
-    "video": "/projects/Suez Road Corridor/video.mp4",
+    "video": "/projects/el-salam-plaza-mall/video.mp4",
+    "coverImage": "/projects/el-salam-plaza-mall/cover.jpg",
+    "gallery": [],
     "overview": "A flagship commercial shopping mall and retail plaza development located along the high-density El Salam corridor in Cairo, anchoring top-tier retail and F&B brands.",
     "overview_ar": "مركز تسوق ومول تجاري رائد يقع على ممر طريق السلام الحيوي ذي الكثافة العالية بالقاهرة، ويضم نخبة من كبرى العلامات التجارية ومحلات التجزئة والمطاعم.",
     "metrics": {

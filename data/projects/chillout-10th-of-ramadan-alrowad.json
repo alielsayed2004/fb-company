@@ -1,0 +1,40 @@
+{
+  "id": "chillout-10th-of-ramadan-alrowad",
+  "name": "Chillout Hub – 10th of Ramadan (Al-Rowad Club)",
+  "name_ar": "شيل أوت هب – العاشر من رمضان (نادي الرواد)",
+  "city": "10th of Ramadan City",
+  "city_ar": "مدينة العاشر من رمضان",
+  "location": "Next to Al-Rowad Club, 10th of Ramadan City",
+  "location_ar": "بجوار نادي الرواد، مدينة العاشر من رمضان",
+  "status": "Operational",
+  "coverColor": "from-zinc-800 to-teal-950",
+  "video": "/projects/chillout-10th-of-ramadan-alrowad/video.mp4",
+  "coverImage": "/projects/chillout-10th-of-ramadan-alrowad/Artboard 4.jpg",
+  "gallery": [
+    "/projects/chillout-10th-of-ramadan-alrowad/Artboard 4.jpg"
+  ],
+  "overview": "Strategically positioned adjacent to the high-traffic Al-Rowad Club, this development captures local families, sports club visitors, and regional commuters daily.",
+  "overview_ar": "موقع إستراتيجياً بجوار نادي الرواد الرياضي ذو الإقبال الجماهيري الواسع، يخدم العائلات المحلية، وزوار النادي الرياضي، والمسافرين يومياً بشكل ممتاز.",
+  "metrics": {
+    "landArea": "4,900 SQM",
+    "numBrands": "5",
+    "occupancyRate": "100%",
+    "openingYear": "2023"
+  },
+  "brands": [
+    "Bazooka",
+    "El Ezaby Pharmacy",
+    "Othaim Market",
+    "Hunger Station",
+    "Sultan"
+  ],
+  "coordinates": { "x": 58, "y": 17 },
+  "mapInfo": {
+    "road": "Al-Rowad Club Main Road",
+    "road_ar": "الطريق الرئيسي لنادي الرواد",
+    "catchment": "40,000+ local sports club footfall",
+    "catchment_ar": "أكثر من 40,000 زائر محلي للنادي",
+    "peakHours": "3:00 PM - 10:00 PM",
+    "peakHours_ar": "3:00 عصراً - 10:00 مساءً"
+  }
+}

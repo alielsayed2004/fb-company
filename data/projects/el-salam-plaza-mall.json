@@ -1,0 +1,37 @@
+{
+  "id": "el-salam-plaza-mall",
+  "name": "El Salam Plaza Mall",
+  "name_ar": "مول السلام بلازا",
+  "city": "El Salam",
+  "city_ar": "مدينة السلام",
+  "location": "El Salam Main Transit Corridor, Cairo",
+  "location_ar": "ممر طريق السلام الرئيسي، القاهرة",
+  "status": "Under Construction",
+  "coverColor": "from-teal-950 to-slate-950",
+  "video": "/projects/el-salam-plaza-mall/video.mp4",
+  "coverImage": "/projects/el-salam-plaza-mall/cover.jpg",
+  "gallery": [],
+  "overview": "A flagship commercial shopping mall and retail plaza development located along the high-density El Salam corridor in Cairo, anchoring top-tier retail and F&B brands.",
+  "overview_ar": "مركز تسوق ومول تجاري رائد يقع على ممر طريق السلام الحيوي ذي الكثافة العالية بالقاهرة، ويضم نخبة من كبرى العلامات التجارية ومحلات التجزئة والمطاعم.",
+  "metrics": {
+    "landArea": "6,200 SQM",
+    "numBrands": "4",
+    "occupancyRate": "Allocating",
+    "openingYear": "2026"
+  },
+  "brands": [
+    "McDonald's",
+    "El Ezaby Pharmacy",
+    "TBS",
+    "Cilantro"
+  ],
+  "coordinates": { "x": 58, "y": 23 },
+  "mapInfo": {
+    "road": "El Salam Transit Corridor",
+    "road_ar": "ممر طريق السلام الرئيسي",
+    "catchment": "180,000+ daily commuter vehicle flows",
+    "catchment_ar": "أكثر من 180,000 سيارة للمسافرين يومياً",
+    "peakHours": "Finalizing Allocations",
+    "peakHours_ar": "في مرحلة التخصيص النهائي"
+  }
+}

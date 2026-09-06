@@ -1,0 +1,38 @@
+{
+  "id": "sour-nady-el-obour",
+  "name": "Sour Nady El Obour",
+  "name_ar": "سور نادي العبور",
+  "city": "Obour City",
+  "city_ar": "مدينة العبور",
+  "location": "Obour Club Perimeter, Obour City",
+  "location_ar": "محيط نادي العبور، مدينة العبور",
+  "status": "Operational",
+  "coverColor": "from-emerald-950 to-teal-950",
+  "video": "/projects/sour-nady-el-obour/video.mp4",
+  "coverImage": "/projects/sour-nady-el-obour/cover.jpg",
+  "gallery": [],
+  "overview": "A commercial perimeter leasing layout executed around the Obour City Club wall, delivering premium retail and F&B anchors to a growing suburban residential city.",
+  "overview_ar": "مخطط تأجير تجاري على سور نادي العبور، يوفر علامات تجارية مميزة ومحلات تجزئة تخدم التجمع السكني المتنامي لضواحي مدينة العبور.",
+  "metrics": {
+    "landArea": "4,200 SQM",
+    "numBrands": "5",
+    "occupancyRate": "96%",
+    "openingYear": "2023"
+  },
+  "brands": [
+    "Carrefour",
+    "Papa John's",
+    "El Ezaby Pharmacy",
+    "Al Koftageya",
+    "Bazooka"
+  ],
+  "coordinates": { "x": 55, "y": 18 },
+  "mapInfo": {
+    "road": "Obour Club Main Axis",
+    "road_ar": "المحور الرئيسي لنادي العبور",
+    "catchment": "50,000+ local residents & club members",
+    "catchment_ar": "أكثر من 50,000 من السكان المحليين وأعضاء النادي",
+    "peakHours": "12:00 PM - 10:00 PM",
+    "peakHours_ar": "12:00 ظهراً - 10:00 مساءً"
+  }
+}

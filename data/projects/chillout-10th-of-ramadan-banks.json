@@ -1,0 +1,43 @@
+{
+  "id": "chillout-10th-of-ramadan-banks",
+  "name": "Chillout Hub – 10th of Ramadan (Banks Service Center)",
+  "name_ar": "شيل أوت هب – العاشر من رمضان (مركز خدمات البنوك)",
+  "city": "10th of Ramadan City",
+  "city_ar": "مدينة العاشر من رمضان",
+  "location": "Banks Service Center Corridor, 10th of Ramadan City",
+  "location_ar": "ممر مركز البنوك الخدمي، مدينة العاشر من رمضان",
+  "status": "Operational",
+  "coverColor": "from-teal-800 to-teal-950",
+  "video": "/projects/chillout-10th-of-ramadan-banks/video.mp4",
+  "coverImage": "/projects/chillout-10th-of-ramadan-banks/Artboard 3.jpg",
+  "gallery": [
+    "/projects/chillout-10th-of-ramadan-banks/Artboard 3.jpg"
+  ],
+  "overview": "A flagship multi-service fuel and commercial asset located in the dense industrial and banking core of 10th of Ramadan City, hosting a premium selection of national and international retail and F&B brands.",
+  "overview_ar": "مشروع وقود وأصول تجارية رائد يقع في قلب المنطقة الصناعية والمصرفية لمدينة العاشر من رمضان، ويضم مجموعة ممتازة من العلامات التجارية ومحلات التجزئة والمطاعم الوطنية والعالمية.",
+  "metrics": {
+    "landArea": "7,200 SQM",
+    "numBrands": "8",
+    "occupancyRate": "100%",
+    "openingYear": "2023"
+  },
+  "brands": [
+    "McDonald's",
+    "El Ezaby Pharmacy",
+    "Bazooka",
+    "Cilantro",
+    "TBS",
+    "Nine Two Nine",
+    "Othaim Market",
+    "Papa John's"
+  ],
+  "coordinates": { "x": 57, "y": 16 },
+  "mapInfo": {
+    "road": "Main Banks Service Corridor",
+    "road_ar": "ممر البنوك الخدمي الرئيسي",
+    "catchment": "120,000+ daily vehicles & employees",
+    "catchment_ar": "أكثر من 120,000 موظف ومركبة يومياً",
+    "peakHours": "8:00 AM - 9:00 PM",
+    "peakHours_ar": "8:00 صباحاً - 9:00 مساءً"
+  }
+}

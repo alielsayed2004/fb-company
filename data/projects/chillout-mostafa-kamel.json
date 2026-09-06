@@ -1,0 +1,39 @@
+{
+  "id": "chillout-mostafa-kamel",
+  "name": "Chillout Hub – Mostafa Kamel Axis",
+  "name_ar": "شيل أوت هب – محور مصطفى كامل",
+  "city": "New Cairo",
+  "city_ar": "القاهرة الجديدة",
+  "location": "South of the Academy, Mostafa Kamel Axis, New Cairo",
+  "location_ar": "جنوب الأكاديمية، محور مصطفى كامل، القاهرة الجديدة",
+  "status": "Operational",
+  "coverColor": "from-slate-800 to-teal-900",
+  "video": "/projects/chillout-mostafa-kamel/video.mp4",
+  "coverImage": "/projects/chillout-mostafa-kamel/cover.jpg",
+  "gallery": [],
+  "overview": "A high-traffic fuel station plaza situated along the vital Mostafa Kamel Axis in New Cairo, serving the premium residential catchment of South Academy and adjacent districts.",
+  "overview_ar": "مجمع تجاري ومحطة وقود ذو حركة مرور كثيفة يقع على محور مصطفى كامل الحيوي في القاهرة الجديدة، ويخدم التجمع السكني الراقي لجنوب الأكاديمية والمناطق المجاورة.",
+  "metrics": {
+    "landArea": "5,400 SQM",
+    "numBrands": "6",
+    "occupancyRate": "100%",
+    "openingYear": "2024"
+  },
+  "brands": [
+    "Carrefour",
+    "Papa John's",
+    "El Ezaby Pharmacy",
+    "Burger Republic",
+    "Nine Two Nine",
+    "Cilantro"
+  ],
+  "coordinates": { "x": 54, "y": 24 },
+  "mapInfo": {
+    "road": "Mostafa Kamel Axis",
+    "road_ar": "محور مصطفى كامل",
+    "catchment": "85,000+ local residents in 1.5km radius",
+    "catchment_ar": "أكثر من 85,000 نسمة في محيط 1.5 كم",
+    "peakHours": "10:00 AM - 11:00 PM",
+    "peakHours_ar": "10:00 صباحاً - 11:00 مساءً"
+  }
+}
