@@ -6,7 +6,9 @@
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "push": "git config core.quotepath false && git add . && git commit -m 'update site assets and projects' && git push origin main",
+    "sync": "node scripts/auto-sync.js"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",
