@@ -11,10 +11,10 @@ export default function PartnersMarquee() {
 
   const activeBrands = (brands && brands.length > 0) ? brands : defaultBrands;
 
-  // Filter to only brands with real verified logo files (1.png to 30.png)
+  // Filter to only brands with real verified logo files (1.png to 54.png)
   const validBrands = activeBrands.filter((b) => {
     const numId = typeof b.id === 'number' ? b.id : parseInt(b.id, 10);
-    if (!isNaN(numId) && numId > 30) return false;
+    if (!isNaN(numId) && numId > 54) return false;
     if (b.logo && (b.logo.includes('placeholder') || b.logo.includes('default'))) return false;
     return true;
   });

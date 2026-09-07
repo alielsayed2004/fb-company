@@ -122,7 +122,7 @@ export const defaultBlogsAr = [
   }
 ];
 
-export const defaultBrands = Array.from({ length: 52 }, (_, i) => ({
+export const defaultBrands = Array.from({ length: 54 }, (_, i) => ({
   id: i + 1,
   name: `Brand Partner #${i + 1}`,
   logoUrl: `/logos/${i + 1}.png`
@@ -196,10 +196,25 @@ export function DataProvider({ children }) {
           if (lsBlogsAr) setBlogsAr(JSON.parse(lsBlogsAr));
         }
 
-        if (idbBrands) setBrands(idbBrands);
-        else {
+        let loadedBrands = idbBrands;
+        if (!loadedBrands) {
           const lsBrands = localStorage.getItem('fb_brands');
-          if (lsBrands) setBrands(JSON.parse(lsBrands));
+          if (lsBrands) {
+            try { loadedBrands = JSON.parse(lsBrands); } catch (e) {}
+          }
+        }
+        if (Array.isArray(loadedBrands) && loadedBrands.length > 0) {
+          const existingIds = new Set(loadedBrands.map(b => b.id));
+          const missingDefaults = defaultBrands.filter(b => !existingIds.has(b.id));
+          if (missingDefaults.length > 0) {
+            const combined = [...loadedBrands, ...missingDefaults];
+            setBrands(combined);
+            await setStoredData('fb_brands', combined);
+          } else {
+            setBrands(loadedBrands);
+          }
+        } else {
+          setBrands(defaultBrands);
         }
 
         if (idbCounters) {
