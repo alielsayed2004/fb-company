@@ -95,15 +95,6 @@ export default function InteractiveEarthFocus() {
     }
   };
 
-  const captionVariants = {
-    hidden: { opacity: 0, y: 8 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, delay: 1.1, ease: 'easeOut' }
-    }
-  };
-
   return (
     <motion.div
       ref={containerRef}
@@ -114,7 +105,7 @@ export default function InteractiveEarthFocus() {
       onPointerMove={handlePointerMove}
       onPointerEnter={() => setIsHovered(true)}
       onPointerLeave={handlePointerLeave}
-      className="relative w-full max-w-[500px] mx-auto flex flex-col items-center justify-center select-none cursor-default group"
+      className="relative w-full max-w-[620px] mx-auto flex flex-col items-center justify-center select-none cursor-default group"
       style={{ perspective: 1200 }}
       role="img"
       aria-label={isAr
@@ -123,7 +114,7 @@ export default function InteractiveEarthFocus() {
       }
     >
       {/* 3D Visual Stage Canvas */}
-      <div className="relative w-full max-w-[440px] aspect-square flex items-center justify-center">
+      <div className="relative w-full max-w-[540px] md:max-w-[560px] aspect-square flex items-center justify-center">
 
         {/* LAYER 1: Pure Transparent 3D Globe with Matte Institutional Aesthetic */}
         <motion.div
@@ -139,22 +130,22 @@ export default function InteractiveEarthFocus() {
           className="relative w-full h-full flex items-center justify-center pointer-events-none"
         >
           {/* Subtle Ambient Behind-Globe Soft Glow */}
-          <div className="absolute w-[320px] h-[320px] rounded-full bg-[#53B379]/15 blur-3xl pointer-events-none -z-10" />
+          <div className="absolute w-[400px] sm:w-[460px] h-[400px] sm:h-[460px] rounded-full bg-[#53B379]/15 blur-3xl pointer-events-none -z-10" />
 
           {/* Standalone 3D Matte Earth Visual Asset (User-Provided Transparent Cut) */}
-          <div className="relative w-[380px] sm:w-[440px] aspect-[565/510] drop-shadow-[0_20px_35px_rgba(0,37,38,0.18)]">
+          <div className="relative w-[440px] sm:w-[500px] md:w-[550px] aspect-[565/510] drop-shadow-[0_22px_42px_rgba(0,37,38,0.22)]">
             <Image
               src="/images/earth-egypt-focus-cropped.png"
               alt="F.B Company Global Perspective with Strategic Focus on Egypt"
               fill
               priority
-              sizes="(max-width: 768px) 100vw, 440px"
+              sizes="(max-width: 768px) 100vw, 550px"
               className="object-contain object-center transition-transform duration-700"
             />
           </div>
 
           {/* Cast Ground Shadow Under Globe */}
-          <div className="absolute -bottom-2 w-[280px] sm:w-[320px] h-[24px] bg-[#002526]/18 blur-xl rounded-[100%] pointer-events-none -z-10" />
+          <div className="absolute -bottom-3 w-[340px] sm:w-[420px] h-[28px] bg-[#002526]/18 blur-xl rounded-[100%] pointer-events-none -z-10" />
 
           {/* LAYER 2: Overlay Geometric Orbit Lines & Planetary Coordinate Network */}
           <motion.div
@@ -228,20 +219,20 @@ export default function InteractiveEarthFocus() {
             >
               {/* Outer Pulse Wave (Ring 3) */}
               <motion.div
-                className="absolute w-20 sm:w-24 h-20 sm:h-24 rounded-full border border-fb-green/35 pointer-events-none"
+                className="absolute w-22 sm:w-28 h-22 sm:h-28 rounded-full border border-fb-green/35 pointer-events-none"
                 animate={shouldReduceMotion ? {} : { scale: [0.85, 1.45, 0.85], opacity: [0.45, 0.05, 0.45] }}
                 transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
               />
 
               {/* Middle Precision Ring (Ring 2) */}
               <motion.div
-                className="absolute w-12 sm:w-14 h-12 sm:h-14 rounded-full border border-[#8BD7AE]/70 pointer-events-none"
+                className="absolute w-14 sm:w-16 h-14 sm:h-16 rounded-full border border-[#8BD7AE]/70 pointer-events-none"
                 animate={shouldReduceMotion ? {} : { scale: isHovered ? [1, 1.25, 1] : [0.9, 1.15, 0.9], opacity: [0.75, 0.35, 0.75] }}
                 transition={{ duration: isHovered ? 1.8 : 2.6, repeat: Infinity, ease: 'easeInOut' }}
               />
 
               {/* Inner Focus Reticle (Ring 1) */}
-              <div className="absolute w-6 h-6 rounded-full border border-white/90 shadow-[0_0_12px_rgba(139,215,174,0.7)]" />
+              <div className="absolute w-6.5 h-6.5 rounded-full border border-white/90 shadow-[0_0_12px_rgba(139,215,174,0.7)]" />
 
               {/* Core Beacon Center (Egypt Pinpoint) */}
               <div className="relative w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_8px_#FFFFFF]">
@@ -252,26 +243,6 @@ export default function InteractiveEarthFocus() {
 
         </motion.div>
       </div>
-
-      {/* LAYER 4: Refined Institutional State Caption */}
-      <motion.div
-        variants={captionVariants}
-        className="relative z-20 pt-2 flex items-center justify-center gap-3 text-center"
-      >
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-fb-teal/10 shadow-xs">
-          <span className="w-2 h-2 rounded-full bg-fb-green animate-pulse shrink-0" />
-          <span className="text-xs font-mono font-bold tracking-wider text-fb-teal uppercase transition-all duration-300">
-            {isHovered
-              ? (isAr ? 'محور التركيز الاستراتيجي — جمهورية مصر العربية' : 'STRATEGIC FOCUS — EGYPT CORRIDORS')
-              : (isAr ? 'محور التركيز الاستراتيجي' : 'STRATEGIC FOCUS')
-            }
-          </span>
-          <span className="text-[10px] font-mono text-fb-teal/40 hidden sm:inline">|</span>
-          <span className="text-[10px] font-mono text-fb-teal/60 hidden sm:inline">
-            {isAr ? 'ذكاء إدارة الأصول وتوفير المواقع' : 'LOCATION INTELLIGENCE'}
-          </span>
-        </div>
-      </motion.div>
 
     </motion.div>
   );
