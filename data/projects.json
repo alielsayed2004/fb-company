@@ -1,47 +1,5 @@
 [
   {
-    "id": "project-1788785510962",
-    "name": "Golden Gate Hub",
-    "name_ar": "مشروع تجاري جديد",
-    "status": "Operational",
-    "city": "Cairo",
-    "city_ar": "القاهرة",
-    "location": "Prime Commercial Axis",
-    "location_ar": "المحور التجاري الرئيسي",
-    "coverColor": "from-teal-800 to-teal-950",
-    "overview": "Overview description for the new commercial project...",
-    "overview_ar": "وصف ونظرة عامة للمشروع التجاري الجديد...",
-    "video": "/videos/hero-bg.mp4",
-    "coverImage": "/company/logo.png",
-    "gallery": [],
-    "brands": [
-      "McDonald's",
-      "El Ezaby Pharmacy",
-      "TBS",
-      "Cilantro",
-      "Dunkin'"
-    ],
-    "metrics": {
-      "landArea": "5,000 SQM",
-      "gla": "3,500 SQM",
-      "numBrands": 5,
-      "occupancyRate": "100%",
-      "openingYear": "2026"
-    },
-    "mapInfo": {
-      "road": "Main Highway",
-      "road_ar": "الطريق الرئيسي",
-      "catchment": "100,000+ Vehicles/day",
-      "catchment_ar": "100,000+ مركبة يومياً",
-      "peakHours": "4:00 PM - 11:00 PM",
-      "peakHours_ar": "4:00 مساءً - 11:00 مساءً"
-    },
-    "coordinates": {
-      "x": 50,
-      "y": 30
-    }
-  },
-  {
     "id": "chillout-10th-of-ramadan-banks",
     "name": "Chillout Hub – 10th of Ramadan (Banks Service Center)",
     "name_ar": "شيل أوت هب – العاشر من رمضان (مركز خدمات البنوك)",

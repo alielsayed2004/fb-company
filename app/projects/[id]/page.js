@@ -168,8 +168,16 @@ export default async function ProjectPage({ params }) {
     ]
     : existingBrands;
 
+  // Auto-discover video in folder if exists
+  const projectDir = path.join(process.cwd(), 'public', 'projects', resolvedParams.id);
+  let resolvedVideo = currentProject.video;
+  if (fs.existsSync(path.join(projectDir, 'video.mp4'))) {
+    resolvedVideo = `/projects/${resolvedParams.id}/video.mp4`;
+  }
+
   const finalProject = {
     ...currentProject,
+    video: resolvedVideo || currentProject.video,
     brands: mergedBrands,
     gallery: mergedGallery
   };

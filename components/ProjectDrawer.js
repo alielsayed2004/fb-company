@@ -90,17 +90,15 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
               <div className={`relative h-80 md:h-96 bg-gradient-to-br ${project.coverColor || 'from-teal-800 to-teal-950'} flex flex-col justify-end p-8 text-fb-white overflow-hidden border-b border-fb-teal/20`}>
                 {/* Background Video */}
                 <video
-                  key={project.id}
+                  key={project.video || '/videos/hero-bg.mp4'}
+                  src={project.video || '/videos/hero-bg.mp4'}
                   autoPlay
                   loop
                   muted
                   playsInline
                   poster={project.coverImage || `/projects/${project.id}/cover.jpg`}
                   className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none z-0"
-                >
-                  {project.video && <source src={project.video} type="video/mp4" />}
-                  <source src="/videos/hero-bg.mp4" type="video/mp4" />
-                </video>
+                />
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-fb-teal/90 via-fb-teal/40 to-fb-teal/50 mix-blend-multiply z-0 pointer-events-none" />
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -20,6 +20,8 @@ export default function ProjectPageClient({ project: initialProject }) {
   const clientProject = (projects && projects.find(p => p.id === initialProject?.id));
   const project = clientProject ? {
     ...clientProject,
+    video: clientProject.video || initialProject?.video,
+    coverImage: clientProject.coverImage || initialProject?.coverImage,
     brands: (initialProject?.brands && initialProject.brands.some(b => typeof b === 'object' && b.logo))
       ? [
           ...initialProject.brands.filter(b => typeof b === 'object' && b.logo),
@@ -30,6 +32,23 @@ export default function ProjectPageClient({ project: initialProject }) {
         ]
       : (clientProject.brands || initialProject?.brands || [])
   } : initialProject;
+
+  const activeVideo = (project?.video && project.video.trim() !== '') 
+    ? project.video 
+    : (initialProject?.video || '/videos/hero-bg.mp4');
+
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    }
+  }, [activeVideo]);
 
   // Active Lightbox image index (null if closed)
   const [activeImageIndex, setActiveImageIndex] = useState(null);
@@ -128,17 +147,16 @@ export default function ProjectPageClient({ project: initialProject }) {
       <section className={`relative min-h-screen flex flex-col justify-between pt-28 pb-8 md:pb-12 bg-gradient-to-br ${project.coverColor || 'from-teal-800 to-teal-950'} text-fb-white overflow-hidden border-b border-fb-teal/20`}>
         {/* Background Video */}
         <video
-          key={project.id}
+          ref={videoRef}
+          key={activeVideo}
+          src={activeVideo}
           autoPlay
           loop
           muted
           playsInline
           poster={project.coverImage || `/projects/${project.id}/cover.jpg`}
           className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none z-0 scale-105 transition-transform duration-1000"
-        >
-          {project.video && <source src={project.video} type="video/mp4" />}
-          <source src="/videos/hero-bg.mp4" type="video/mp4" />
-        </video>
+        />
         {/* Dark Overlay to protect text contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-fb-teal/90 via-fb-teal/50 to-fb-teal/60 mix-blend-multiply z-0 pointer-events-none" />
 
