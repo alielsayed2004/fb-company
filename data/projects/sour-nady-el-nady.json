@@ -9,8 +9,10 @@
   "status": "Operational",
   "coverColor": "from-teal-950 to-neutral-900",
   "video": "/projects/sour-nady-el-nady/video.mp4",
-  "coverImage": "/projects/sour-nady-el-nady/cover.jpg",
-  "gallery": [],
+  "coverImage": "/projects/sour-nady-el-nady/cover.png",
+  "gallery": [
+    "/projects/sour-nady-el-nady/cover.png"
+  ],
   "overview": "An urban commercial strip border development on the walls of Nady El Nady in Sheraton, providing dedicated brand options to high-income local catchments.",
   "overview_ar": "شريط تجاري متطور على سور نادي النادي في منطقة شيراتون بمصر الجديدة، يوفر خيارات تجارية حصرية ومستهدفة للفئات السكنية ذات الدخل المرتفع.",
   "metrics": {

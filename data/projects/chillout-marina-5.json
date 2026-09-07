@@ -9,8 +9,14 @@
   "status": "Operational",
   "coverColor": "from-teal-900 to-slate-900",
   "video": "/projects/chillout-marina-5/video.mp4",
-  "coverImage": "/projects/chillout-marina-5/cover.jpg",
-  "gallery": [],
+  "coverImage": "/projects/chillout-marina-5/cover.png",
+  "gallery": [
+    "/projects/chillout-marina-5/1.png",
+    "/projects/chillout-marina-5/2.png",
+    "/projects/chillout-marina-5/3.png",
+    "/projects/chillout-marina-5/IMG_7685.jpeg",
+    "/projects/chillout-marina-5/cover.png"
+  ],
   "overview": "A premium seasonal and year-round gateway commercial hub servicing the elite coastal corridor of Marina 5, directly facing the Rotana Hotel gates.",
   "overview_ar": "مركز تجاري وبوابة ساحلية راقية تخدم الممر الساحلي لمارينا 5، ويواجه مباشرة بوابات فندق روتانا لخدمة الزوار على مدار العام وفي موسم الصيف.",
   "metrics": {
