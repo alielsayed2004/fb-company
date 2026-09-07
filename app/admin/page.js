@@ -451,21 +451,21 @@ export default function AdminPage() {
   // ==========================================
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4 relative overflow-hidden" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-        {/* Background glow effects */}
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-fb-teal/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="min-h-screen bg-fb-bg-light text-fb-teal flex items-center justify-center p-4 relative overflow-hidden" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+        {/* Background decorative glows */}
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-fb-teal/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-fb-green/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="w-full max-w-md bg-slate-900/90 border border-slate-800/80 rounded-3xl p-8 backdrop-blur-xl shadow-2xl relative z-10">
+        <div className="w-full max-w-md bg-white border border-fb-teal/10 rounded-3xl p-8 shadow-xl relative z-10">
           <div className="text-center space-y-4 mb-8">
-            <div className="w-16 h-16 mx-auto rounded-2xl bg-fb-teal/10 border border-fb-teal/30 flex items-center justify-center text-fb-green shadow-inner">
+            <div className="w-16 h-16 mx-auto rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green shadow-xs">
               <ShieldCheck size={32} />
             </div>
             <div>
-              <div className="text-2xl font-black tracking-tight text-white">
+              <div className="text-2xl font-black tracking-tight text-fb-teal">
                 {locale === 'ar' ? 'لوحة التحكم الإدارية المستقلة' : 'Executive Admin Dashboard'}
               </div>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-slate-500 mt-1 font-medium">
                 F.B Company for Asset Management & Franchises
               </p>
             </div>
@@ -473,7 +473,7 @@ export default function AdminPage() {
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
                 {locale === 'ar' ? 'رمز الدخول الأمني (Security PIN)' : 'Security PIN'}
               </label>
               <div className="relative">
@@ -487,18 +487,18 @@ export default function AdminPage() {
                   placeholder="••••"
                   autoFocus
                   maxLength={10}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-2xl px-5 py-4 text-center text-2xl tracking-[0.4em] font-mono text-fb-green placeholder-slate-600 focus:outline-none focus:border-fb-green transition-colors"
+                  className="w-full bg-fb-bg-light/60 border border-fb-teal/20 rounded-2xl px-5 py-4 text-center text-2xl tracking-[0.4em] font-mono text-fb-teal placeholder-slate-400 focus:outline-none focus:border-fb-green focus:bg-white transition-all shadow-xs"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPin(!showPin)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors p-1"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-fb-teal transition-colors p-1"
                 >
                   <Eye size={18} />
                 </button>
               </div>
               {pinError && (
-                <p className="text-xs text-red-400 mt-2 text-center font-medium">
+                <p className="text-xs text-red-600 mt-2 text-center font-bold">
                   {pinError}
                 </p>
               )}
@@ -506,21 +506,21 @@ export default function AdminPage() {
 
             <button
               type="submit"
-              className="w-full bg-fb-green text-fb-teal font-extrabold py-4 px-6 rounded-2xl shadow-lg hover:shadow-fb-green/20 hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm cursor-pointer"
+              className="w-full bg-fb-teal text-fb-green hover:bg-fb-teal-light font-black py-4 px-6 rounded-2xl shadow-md hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm cursor-pointer"
             >
               <Lock size={16} />
               <span>{locale === 'ar' ? 'تسجيل الدخول الآمن' : 'Authenticate & Enter'}</span>
             </button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
+          <div className="mt-8 pt-6 border-t border-fb-teal/10 flex items-center justify-between text-xs text-slate-500 font-medium">
             <Link href="/" className="hover:text-fb-green flex items-center gap-1.5 transition-colors">
               <ArrowLeft size={14} className={locale === 'ar' ? 'rotate-180' : ''} />
               <span>{locale === 'ar' ? 'العودة للموقع الرئيسي' : 'Return to Website'}</span>
             </Link>
             <button
               onClick={() => setLocale(locale === 'ar' ? 'en' : 'ar')}
-              className="hover:text-slate-300 font-semibold transition-colors cursor-pointer"
+              className="hover:text-fb-teal font-bold transition-colors cursor-pointer"
             >
               {locale === 'ar' ? 'English' : 'العربية'}
             </button>
@@ -531,27 +531,27 @@ export default function AdminPage() {
   }
 
   // ==========================================
-  // VIEW 2: FULL EXECUTIVE DASHBOARD INTERFACE
+  // VIEW 2: FULL EXECUTIVE DASHBOARD INTERFACE (LIGHT BRAND THEME)
   // ==========================================
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-lama" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-fb-bg-light text-fb-black flex flex-col font-lama" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       {/* TOP EXECUTIVE BAR */}
-      <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800/80 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-fb-teal/10 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4 shadow-xs">
         {/* Left: Brand & Status */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-fb-teal flex items-center justify-center text-fb-green font-black text-lg border border-fb-green/30 shadow-sm">
+          <div className="w-10 h-10 rounded-xl bg-fb-teal flex items-center justify-center text-fb-green font-black text-lg border border-fb-green/30 shadow-xs">
             FB
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-base font-extrabold text-white">
+              <span className="text-base font-extrabold text-fb-teal">
                 {locale === 'ar' ? 'لوحة الإدارة الشاملة' : 'Executive Control Center'}
               </span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                 LIVE DISK SYNC
               </span>
             </div>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-500 font-medium">
               F.B for Asset Management & Franchise Location Sourcing
             </p>
           </div>
@@ -563,10 +563,10 @@ export default function AdminPage() {
           <button
             onClick={loadFreshDataFromDisk}
             disabled={isRefreshing}
-            className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border border-slate-700"
+            className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-fb-teal text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border border-fb-teal/15 shadow-xs"
             title={locale === 'ar' ? 'إعادة تحميل من ملفات السيرفر' : 'Reload from disk files'}
           >
-            <RefreshCw size={14} className={isRefreshing ? 'animate-spin text-fb-green' : ''} />
+            <RefreshCw size={14} className={isRefreshing ? 'animate-spin text-fb-green' : 'text-fb-teal'} />
             <span>{locale === 'ar' ? 'تحديث من السيرفر' : 'Fetch Disk'}</span>
           </button>
 
@@ -574,7 +574,7 @@ export default function AdminPage() {
           <button
             onClick={handleSaveAll}
             disabled={isSaving}
-            className="px-4 py-2 rounded-xl bg-fb-green text-fb-teal hover:brightness-110 active:scale-95 text-xs font-black flex items-center gap-2 transition-all cursor-pointer shadow-md shadow-fb-green/10"
+            className="px-4 py-2 rounded-xl bg-fb-green text-fb-teal hover:brightness-105 active:scale-95 text-xs font-black flex items-center gap-2 transition-all cursor-pointer shadow-sm shadow-fb-green/20"
           >
             {isSaving ? <Loader2 size={15} className="animate-spin" /> : <GitBranch size={15} />}
             <span>{isSaving ? (locale === 'ar' ? 'جاري المزامنة...' : 'Syncing...') : (locale === 'ar' ? 'حفظ ومزامنة فورية مع GitHub' : 'Save & Push to GitHub')}</span>
@@ -583,7 +583,7 @@ export default function AdminPage() {
           {/* Language Switcher */}
           <button
             onClick={() => setLocale(locale === 'ar' ? 'en' : 'ar')}
-            className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-colors cursor-pointer"
+            className="px-3 py-2 rounded-xl bg-white hover:bg-slate-50 text-fb-teal text-xs font-bold border border-fb-teal/15 shadow-xs transition-colors cursor-pointer"
           >
             {locale === 'ar' ? 'English' : 'عربي'}
           </button>
@@ -592,7 +592,7 @@ export default function AdminPage() {
           <Link
             href="/"
             target="_blank"
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+            className="p-2 rounded-xl bg-white hover:bg-slate-50 text-fb-teal border border-fb-teal/15 shadow-xs transition-colors"
             title={locale === 'ar' ? 'معاينة الموقع الرئيسي' : 'View Live Site'}
           >
             <ExternalLink size={16} />
@@ -601,7 +601,7 @@ export default function AdminPage() {
           {/* Logout */}
           <button
             onClick={handleLogout}
-            className="p-2 rounded-xl bg-red-950/40 hover:bg-red-900/60 text-red-300 border border-red-800/40 transition-colors cursor-pointer"
+            className="p-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 shadow-xs transition-colors cursor-pointer"
             title={locale === 'ar' ? 'تسجيل الخروج' : 'Logout'}
           >
             <LogOut size={16} />
@@ -618,16 +618,16 @@ export default function AdminPage() {
             exit={{ opacity: 0, y: -20 }}
             className={`px-6 py-3 text-xs font-bold flex items-center justify-between border-b ${
               statusMessage.type === 'success'
-                ? 'bg-emerald-950/80 text-emerald-200 border-emerald-800/60'
+                ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
                 : statusMessage.type === 'error'
-                ? 'bg-red-950/80 text-red-200 border-red-800/60'
+                ? 'bg-red-50 text-red-800 border-red-200'
                 : statusMessage.type === 'warning'
-                ? 'bg-amber-950/80 text-amber-200 border-amber-800/60'
-                : 'bg-blue-950/80 text-blue-200 border-blue-800/60'
+                ? 'bg-amber-50 text-amber-800 border-amber-200'
+                : 'bg-teal-50 text-fb-teal border-fb-teal/20'
             }`}
           >
             <div className="flex items-center gap-2 max-w-5xl mx-auto w-full">
-              {statusMessage.type === 'success' ? <CheckCircle2 size={16} /> : <AlertTriangle size={16} />}
+              {statusMessage.type === 'success' ? <CheckCircle2 size={16} className="text-emerald-600" /> : <AlertTriangle size={16} className="text-amber-600" />}
               <span>{statusMessage.text}</span>
             </div>
           </motion.div>
@@ -637,18 +637,18 @@ export default function AdminPage() {
       {/* DASHBOARD BODY CONTAINER */}
       <div className="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
         {/* NAVIGATION TABS */}
-        <div className="flex items-center gap-2 border-b border-slate-800 pb-4 overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-2 border-b border-fb-teal/10 pb-4 overflow-x-auto scrollbar-none">
           <button
             onClick={() => setActiveTab('projects')}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
               activeTab === 'projects'
-                ? 'bg-fb-green text-fb-teal shadow-md'
-                : 'bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-fb-teal text-fb-green shadow-sm'
+                : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-fb-teal border border-fb-teal/10 shadow-xs'
             }`}
           >
             <Building2 size={16} />
             <span>{locale === 'ar' ? 'المشاريع والأصول' : 'Projects & Assets'}</span>
-            <span className="px-1.5 py-0.5 rounded-md text-[10px] font-mono bg-black/20">
+            <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-mono ${activeTab === 'projects' ? 'bg-black/20 text-fb-green' : 'bg-fb-teal/5 text-fb-teal'}`}>
               {editableProjects.length}
             </span>
           </button>
@@ -657,13 +657,13 @@ export default function AdminPage() {
             onClick={() => setActiveTab('brands')}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
               activeTab === 'brands'
-                ? 'bg-fb-green text-fb-teal shadow-md'
-                : 'bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-fb-teal text-fb-green shadow-sm'
+                : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-fb-teal border border-fb-teal/10 shadow-xs'
             }`}
           >
             <Tag size={16} />
             <span>{locale === 'ar' ? 'العلامات التجارية والشركاء' : 'Brands & Covenants'}</span>
-            <span className="px-1.5 py-0.5 rounded-md text-[10px] font-mono bg-black/20">
+            <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-mono ${activeTab === 'brands' ? 'bg-black/20 text-fb-green' : 'bg-fb-teal/5 text-fb-teal'}`}>
               {editableBrands.length}
             </span>
           </button>
@@ -672,8 +672,8 @@ export default function AdminPage() {
             onClick={() => setActiveTab('blogs')}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
               activeTab === 'blogs'
-                ? 'bg-fb-green text-fb-teal shadow-md'
-                : 'bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-fb-teal text-fb-green shadow-sm'
+                : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-fb-teal border border-fb-teal/10 shadow-xs'
             }`}
           >
             <Newspaper size={16} />
@@ -684,8 +684,8 @@ export default function AdminPage() {
             onClick={() => setActiveTab('company')}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
               activeTab === 'company'
-                ? 'bg-fb-green text-fb-teal shadow-md'
-                : 'bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-fb-teal text-fb-green shadow-sm'
+                : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-fb-teal border border-fb-teal/10 shadow-xs'
             }`}
           >
             <BarChart3 size={16} />
@@ -699,22 +699,22 @@ export default function AdminPage() {
         {activeTab === 'projects' && (
           <div className="space-y-6">
             {/* Toolbar */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-fb-teal/10 shadow-xs">
               <div className="relative w-full sm:w-80">
-                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={locale === 'ar' ? 'بحث عن مشروع بالاسم أو المعرف...' : 'Search projects by name or ID...'}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-fb-green"
+                  className="w-full bg-fb-bg-light/60 border border-fb-teal/15 rounded-xl pl-10 pr-4 py-2 text-xs text-fb-teal placeholder-slate-400 focus:outline-none focus:border-fb-green focus:bg-white transition-colors"
                 />
               </div>
 
               <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
                 <button
                   onClick={handleAddProject}
-                  className="px-4 py-2.5 rounded-xl bg-fb-teal text-fb-green border border-fb-green/30 hover:bg-fb-teal/80 text-xs font-black flex items-center gap-2 transition-all cursor-pointer shadow-sm"
+                  className="px-4 py-2.5 rounded-xl bg-fb-teal text-fb-green hover:bg-fb-teal-light text-xs font-black flex items-center gap-2 transition-all cursor-pointer shadow-xs"
                 >
                   <Plus size={16} />
                   <span>{locale === 'ar' ? 'إضافة مشروع جديد' : 'Add New Project'}</span>
@@ -732,20 +732,20 @@ export default function AdminPage() {
                 return (
                   <div
                     key={proj.id || idx}
-                    className="bg-slate-900/70 border border-slate-800/80 rounded-2xl overflow-hidden transition-all duration-200 shadow-sm"
+                    className="bg-white border border-fb-teal/10 rounded-2xl overflow-hidden shadow-xs hover:border-fb-teal/25 transition-all duration-200"
                   >
                     {/* Project Header Row */}
-                    <div className="p-4 flex flex-wrap items-center justify-between gap-4 bg-slate-900/40 hover:bg-slate-800/40 transition-colors">
+                    <div className="p-4 flex flex-wrap items-center justify-between gap-4 bg-white hover:bg-slate-50/70 transition-colors">
                       <div
                         onClick={() => setExpandedProjectId(isExpanded ? null : proj.id)}
                         className="flex items-center gap-4 cursor-pointer flex-1 min-w-[240px]"
                       >
                         {/* Thumbnail */}
-                        <div className="w-14 h-14 rounded-xl bg-slate-800 border border-slate-700/60 overflow-hidden shrink-0 relative">
+                        <div className="w-14 h-14 rounded-xl bg-fb-bg-light border border-fb-teal/10 overflow-hidden shrink-0 relative">
                           {proj.coverImage ? (
                             <img src={proj.coverImage} alt={proj.name} className="w-full h-full object-cover" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-slate-600">
+                            <div className="w-full h-full flex items-center justify-center text-slate-400">
                               <Building2 size={20} />
                             </div>
                           )}
@@ -754,15 +754,15 @@ export default function AdminPage() {
                         {/* Title & Meta */}
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-bold text-white hover:text-fb-green transition-colors">
+                            <span className="text-sm font-extrabold text-fb-teal hover:text-fb-green transition-colors">
                               {pTitle}
                             </span>
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-fb-teal/20 text-fb-green border border-fb-teal/30">
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-fb-teal/5 text-fb-teal border border-fb-teal/15 font-bold">
                               {proj.status || 'Operational'}
                             </span>
                           </div>
-                          <p className="text-xs text-slate-400 mt-0.5">
-                            📍 {pCity} • ID: <span className="font-mono text-slate-500">{proj.id}</span>
+                          <p className="text-xs text-slate-500 mt-0.5 font-medium">
+                            📍 {pCity} • ID: <span className="font-mono text-slate-400">{proj.id}</span>
                           </p>
                         </div>
                       </div>
@@ -772,7 +772,7 @@ export default function AdminPage() {
                         {/* Direct Delete Project */}
                         <button
                           onClick={() => handleDeleteProject(idx)}
-                          className="px-3 py-1.5 rounded-xl bg-red-950/40 hover:bg-red-900/80 text-red-300 border border-red-800/50 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                          className="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
                           title={locale === 'ar' ? 'حذف المشروع نهائياً' : 'Delete project permanently'}
                         >
                           <Trash2 size={14} />
@@ -782,7 +782,7 @@ export default function AdminPage() {
                         {/* Toggle Expand / Edit */}
                         <button
                           onClick={() => setExpandedProjectId(isExpanded ? null : proj.id)}
-                          className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
+                          className="px-3.5 py-1.5 rounded-xl bg-fb-bg-light hover:bg-slate-200 text-fb-teal text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border border-fb-teal/10"
                         >
                           <span>{isExpanded ? (locale === 'ar' ? 'إغلاق' : 'Close') : (locale === 'ar' ? 'تعديل' : 'Edit')}</span>
                           {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -797,111 +797,111 @@ export default function AdminPage() {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="border-t border-slate-800 p-6 bg-slate-950/40 space-y-6"
+                          className="border-t border-fb-teal/10 p-6 bg-slate-50/50 space-y-6"
                         >
                           {/* Basic Info */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold text-slate-300">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold text-fb-teal">
                             <div>
-                              <label className="block mb-1.5 text-slate-400">Project Name (English)</label>
+                              <label className="block mb-1.5 text-slate-600 font-extrabold">Project Name (English)</label>
                               <input
                                 type="text"
                                 value={proj.name || ''}
                                 onChange={(e) => handleProjectChange(idx, 'name', e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-fb-green"
+                                className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal focus:outline-none focus:border-fb-green shadow-xs"
                               />
                             </div>
                             <div>
-                              <label className="block mb-1.5 text-slate-400">اسم المشروع (عربي)</label>
+                              <label className="block mb-1.5 text-slate-600 font-extrabold">اسم المشروع (عربي)</label>
                               <input
                                 type="text"
                                 value={proj.name_ar || ''}
                                 onChange={(e) => handleProjectChange(idx, 'name_ar', e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-fb-green text-right"
+                                className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal focus:outline-none focus:border-fb-green text-right shadow-xs"
                               />
                             </div>
                             <div>
-                              <label className="block mb-1.5 text-slate-400">City (English)</label>
+                              <label className="block mb-1.5 text-slate-600 font-extrabold">City (English)</label>
                               <input
                                 type="text"
                                 value={proj.city || ''}
                                 onChange={(e) => handleProjectChange(idx, 'city', e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-fb-green"
+                                className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal focus:outline-none focus:border-fb-green shadow-xs"
                               />
                             </div>
                             <div>
-                              <label className="block mb-1.5 text-slate-400">المدينة (عربي)</label>
+                              <label className="block mb-1.5 text-slate-600 font-extrabold">المدينة (عربي)</label>
                               <input
                                 type="text"
                                 value={proj.city_ar || ''}
                                 onChange={(e) => handleProjectChange(idx, 'city_ar', e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-fb-green text-right"
+                                className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal focus:outline-none focus:border-fb-green text-right shadow-xs"
                               />
                             </div>
                             <div>
-                              <label className="block mb-1.5 text-slate-400">Location (English)</label>
+                              <label className="block mb-1.5 text-slate-600 font-extrabold">Location (English)</label>
                               <input
                                 type="text"
                                 value={proj.location || ''}
                                 onChange={(e) => handleProjectChange(idx, 'location', e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-fb-green"
+                                className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal focus:outline-none focus:border-fb-green shadow-xs"
                               />
                             </div>
                             <div>
-                              <label className="block mb-1.5 text-slate-400">الموقع بالتفصيل (عربي)</label>
+                              <label className="block mb-1.5 text-slate-600 font-extrabold">الموقع بالتفصيل (عربي)</label>
                               <input
                                 type="text"
                                 value={proj.location_ar || ''}
                                 onChange={(e) => handleProjectChange(idx, 'location_ar', e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-fb-green text-right"
+                                className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal focus:outline-none focus:border-fb-green text-right shadow-xs"
                               />
                             </div>
                           </div>
 
                           {/* Metrics Grid */}
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-bold text-slate-300">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-bold text-fb-teal">
                             <div>
-                              <label className="block mb-1.5 text-slate-400">Land Area (مساحة الأرض)</label>
+                              <label className="block mb-1.5 text-slate-600 font-extrabold">Land Area (مساحة الأرض)</label>
                               <input
                                 type="text"
                                 value={proj.metrics?.landArea || ''}
                                 onChange={(e) => handleMetricChange(idx, 'landArea', e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white"
+                                className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal shadow-xs"
                               />
                             </div>
                             <div>
-                              <label className="block mb-1.5 text-slate-400">Num of Brands (عدد البراندات)</label>
+                              <label className="block mb-1.5 text-slate-600 font-extrabold">Num of Brands (عدد البراندات)</label>
                               <input
                                 type="text"
                                 value={proj.metrics?.numBrands || ''}
                                 onChange={(e) => handleMetricChange(idx, 'numBrands', e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white"
+                                className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal shadow-xs"
                               />
                             </div>
                             <div>
-                              <label className="block mb-1.5 text-slate-400">Occupancy Rate (نسبة الإشغال)</label>
+                              <label className="block mb-1.5 text-slate-600 font-extrabold">Occupancy Rate (نسبة الإشغال)</label>
                               <input
                                 type="text"
                                 value={proj.metrics?.occupancyRate || '100%'}
                                 onChange={(e) => handleMetricChange(idx, 'occupancyRate', e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white"
+                                className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal shadow-xs"
                               />
                             </div>
                             <div>
-                              <label className="block mb-1.5 text-slate-400">Opening Year (سنة الافتتاح)</label>
+                              <label className="block mb-1.5 text-slate-600 font-extrabold">Opening Year (سنة الافتتاح)</label>
                               <input
                                 type="text"
                                 value={proj.metrics?.openingYear || ''}
                                 onChange={(e) => handleMetricChange(idx, 'openingYear', e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white"
+                                className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal shadow-xs"
                               />
                             </div>
                           </div>
 
                           {/* Media: Video & Cover Image */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs font-bold text-slate-300">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs font-bold text-fb-teal">
                             {/* Video */}
-                            <div className="space-y-2 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
-                              <label className="flex items-center gap-1.5 text-slate-300">
+                            <div className="space-y-2 bg-white p-4 rounded-xl border border-fb-teal/10 shadow-xs">
+                              <label className="flex items-center gap-1.5 text-fb-teal font-extrabold">
                                 <Video size={14} className="text-fb-green" />
                                 <span>Hero Video File or URL</span>
                               </label>
@@ -910,13 +910,13 @@ export default function AdminPage() {
                                 value={proj.video || ''}
                                 onChange={(e) => handleProjectChange(idx, 'video', e.target.value)}
                                 placeholder="/projects/chillout-10th-of-ramadan-banks/video.mp4"
-                                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white font-mono"
+                                className="w-full bg-fb-bg-light/60 border border-fb-teal/15 rounded-xl p-2.5 text-xs text-fb-teal font-mono"
                               />
                             </div>
 
                             {/* Cover Image */}
-                            <div className="space-y-2 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
-                              <label className="flex items-center gap-1.5 text-slate-300">
+                            <div className="space-y-2 bg-white p-4 rounded-xl border border-fb-teal/10 shadow-xs">
+                              <label className="flex items-center gap-1.5 text-fb-teal font-extrabold">
                                 <ImageIcon size={14} className="text-fb-green" />
                                 <span>Cover Image URL or Upload</span>
                               </label>
@@ -926,9 +926,9 @@ export default function AdminPage() {
                                   value={proj.coverImage || ''}
                                   onChange={(e) => handleProjectChange(idx, 'coverImage', e.target.value)}
                                   placeholder="/projects/.../cover.jpg"
-                                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white font-mono"
+                                  className="w-full bg-fb-bg-light/60 border border-fb-teal/15 rounded-xl p-2.5 text-xs text-fb-teal font-mono"
                                 />
-                                <label className="shrink-0 bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-xl flex items-center gap-1 cursor-pointer transition-colors">
+                                <label className="shrink-0 bg-fb-teal hover:bg-fb-teal-light text-fb-green px-3 py-2 rounded-xl flex items-center gap-1 cursor-pointer transition-colors shadow-xs">
                                   <Upload size={14} />
                                   <input
                                     type="file"
@@ -942,13 +942,13 @@ export default function AdminPage() {
                           </div>
 
                           {/* Gallery Images */}
-                          <div className="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                          <div className="space-y-3 bg-white p-4 rounded-xl border border-fb-teal/10 shadow-xs">
                             <div className="flex items-center justify-between">
-                              <label className="flex items-center gap-1.5 text-xs font-bold text-slate-300">
+                              <label className="flex items-center gap-1.5 text-xs font-extrabold text-fb-teal">
                                 <Camera size={14} className="text-fb-green" />
                                 <span>Gallery Images ({proj.gallery?.length || 0})</span>
                               </label>
-                              <label className="bg-fb-teal text-fb-green border border-fb-green/30 hover:bg-fb-teal/80 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-all">
+                              <label className="bg-fb-teal text-fb-green hover:bg-fb-teal-light px-3 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 cursor-pointer transition-all shadow-xs">
                                 <Plus size={14} />
                                 <span>Add Gallery Photos</span>
                                 <input
@@ -964,12 +964,12 @@ export default function AdminPage() {
                             {/* Gallery Grid */}
                             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
                               {(proj.gallery || []).map((imgUrl, imgIdx) => (
-                                <div key={imgIdx} className="relative group aspect-square rounded-xl bg-slate-950 border border-slate-800 overflow-hidden">
+                                <div key={imgIdx} className="relative group aspect-square rounded-xl bg-fb-bg-light border border-fb-teal/15 overflow-hidden">
                                   <img src={imgUrl} alt={`gallery-${imgIdx}`} className="w-full h-full object-cover" />
                                   <button
                                     type="button"
                                     onClick={() => handleRemoveGalleryImage(idx, imgIdx)}
-                                    className="absolute top-1.5 right-1.5 bg-red-600/90 text-white p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700 cursor-pointer"
+                                    className="absolute top-1.5 right-1.5 bg-red-600 text-white p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700 cursor-pointer shadow-xs"
                                     title="Remove photo"
                                   >
                                     <Trash2 size={12} />
@@ -980,21 +980,21 @@ export default function AdminPage() {
                           </div>
 
                           {/* Brands / Covenants Active */}
-                          <div className="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
-                            <label className="block text-xs font-bold text-slate-300">
+                          <div className="space-y-3 bg-white p-4 rounded-xl border border-fb-teal/10 shadow-xs">
+                            <label className="block text-xs font-extrabold text-fb-teal">
                               Active Brands / Covenants ({proj.brands?.length || 0})
                             </label>
                             <div className="flex flex-wrap gap-2">
                               {(proj.brands || []).map((b, bIdx) => (
                                 <span
                                   key={bIdx}
-                                  className="bg-slate-800 text-slate-200 border border-slate-700 px-3 py-1 rounded-xl text-xs flex items-center gap-1.5"
+                                  className="bg-fb-bg-light text-fb-teal border border-fb-teal/15 px-3 py-1 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-xs"
                                 >
                                   <span>{b}</span>
                                   <button
                                     type="button"
                                     onClick={() => handleRemoveBrandFromProject(idx, bIdx)}
-                                    className="text-slate-400 hover:text-red-400 cursor-pointer"
+                                    className="text-slate-400 hover:text-red-600 cursor-pointer"
                                   >
                                     ✕
                                   </button>
@@ -1006,7 +1006,7 @@ export default function AdminPage() {
                                 type="text"
                                 placeholder="Add brand name..."
                                 id={`new-brand-input-${idx}`}
-                                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"
+                                className="w-full bg-fb-bg-light/60 border border-fb-teal/20 rounded-xl px-3 py-2 text-xs text-fb-teal"
                                 onKeyDown={(e) => {
                                   if (e.key === 'Enter') {
                                     e.preventDefault();
@@ -1024,7 +1024,7 @@ export default function AdminPage() {
                                     input.value = '';
                                   }
                                 }}
-                                className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold cursor-pointer"
+                                className="px-3 py-2 bg-fb-teal hover:bg-fb-teal-light text-fb-green rounded-xl text-xs font-black cursor-pointer shadow-xs"
                               >
                                 Add
                               </button>
@@ -1045,23 +1045,23 @@ export default function AdminPage() {
         {/* ======================================================== */}
         {activeTab === 'brands' && (
           <div className="space-y-6">
-            <div className="flex items-center justify-between bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
-              <div className="text-sm font-bold text-white">
+            <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-fb-teal/10 shadow-xs">
+              <div className="text-sm font-extrabold text-fb-teal">
                 {locale === 'ar' ? 'العلامات التجارية الشريكة (Marquee & Partners)' : 'Partner Brands (Marquee & Partners)'}
               </div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {editableBrands.map((brand, bIdx) => (
-                <div key={bIdx} className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 flex flex-col items-center justify-center text-center relative group">
-                  <div className="w-16 h-16 rounded-xl bg-slate-950 border border-slate-800 p-2 flex items-center justify-center mb-2">
+                <div key={bIdx} className="bg-white border border-fb-teal/10 rounded-2xl p-4 flex flex-col items-center justify-center text-center relative group shadow-xs hover:shadow-sm transition-shadow">
+                  <div className="w-16 h-16 rounded-xl bg-fb-bg-light/80 border border-fb-teal/10 p-2 flex items-center justify-center mb-2">
                     {brand.logoUrl ? (
                       <img src={brand.logoUrl} alt={brand.name} className="max-h-full max-w-full object-contain" />
                     ) : (
-                      <Tag size={20} className="text-slate-600" />
+                      <Tag size={20} className="text-slate-400" />
                     )}
                   </div>
-                  <span className="text-xs font-bold text-white line-clamp-1">{brand.name}</span>
+                  <span className="text-xs font-bold text-fb-teal line-clamp-1">{brand.name}</span>
                   <span className="text-[10px] text-slate-500 line-clamp-1">{brand.category || 'Retail'}</span>
                 </div>
               ))}
@@ -1074,11 +1074,11 @@ export default function AdminPage() {
         {/* ======================================================== */}
         {activeTab === 'blogs' && (
           <div className="space-y-6">
-            <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
-              <div className="text-sm font-bold text-white mb-2">
+            <div className="bg-white p-4 rounded-2xl border border-fb-teal/10 shadow-xs">
+              <div className="text-sm font-extrabold text-fb-teal mb-1">
                 {locale === 'ar' ? 'المقالات والتقارير الصحفية' : 'News, Articles & Research'}
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 font-medium">
                 {locale === 'ar' ? 'إجمالي المقالات المنشورة: ' : 'Total Published Articles: '}
                 {editableBlogsEn.length} (English) / {editableBlogsAr.length} (العربية)
               </p>
@@ -1086,13 +1086,13 @@ export default function AdminPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {editableBlogsEn.map((blog, idx) => (
-                <div key={idx} className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 space-y-2">
-                  <div className="flex items-center justify-between text-[11px] text-slate-400">
+                <div key={idx} className="bg-white border border-fb-teal/10 rounded-2xl p-4 space-y-2 shadow-xs">
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 font-medium">
                     <span>{blog.date}</span>
-                    <span className="px-2 py-0.5 rounded-md bg-fb-teal/20 text-fb-green border border-fb-teal/30">{blog.category}</span>
+                    <span className="px-2 py-0.5 rounded-md bg-fb-teal/5 text-fb-teal border border-fb-teal/15 font-bold">{blog.category}</span>
                   </div>
-                  <div className="text-xs font-bold text-white">{blog.title}</div>
-                  <p className="text-[11px] text-slate-400 line-clamp-2">{blog.excerpt}</p>
+                  <div className="text-xs font-bold text-fb-teal">{blog.title}</div>
+                  <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">{blog.excerpt}</p>
                 </div>
               ))}
             </div>
@@ -1105,20 +1105,20 @@ export default function AdminPage() {
         {activeTab === 'company' && (
           <div className="space-y-6">
             {/* Impact Counters */}
-            <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 space-y-4">
-              <div className="text-sm font-bold text-white flex items-center gap-2">
+            <div className="bg-white p-6 rounded-2xl border border-fb-teal/10 space-y-4 shadow-xs">
+              <div className="text-sm font-extrabold text-fb-teal flex items-center gap-2">
                 <BarChart3 size={16} className="text-fb-green" />
                 <span>{locale === 'ar' ? 'أرقام وإحصائيات النجاح (Impact Numbers)' : 'Impact Numbers'}</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 {Object.entries(editableCounters).map(([key, val]) => (
-                  <div key={key} className="bg-slate-950 p-4 rounded-xl border border-slate-800">
-                    <label className="block text-[11px] font-mono text-slate-400 uppercase mb-1">{key}</label>
+                  <div key={key} className="bg-fb-bg-light/60 p-4 rounded-xl border border-fb-teal/10 shadow-xs">
+                    <label className="block text-[11px] font-mono text-slate-600 uppercase mb-1 font-bold">{key}</label>
                     <input
                       type="text"
                       value={val || ''}
                       onChange={(e) => setEditableCounters({ ...editableCounters, [key]: e.target.value })}
-                      className="w-full bg-transparent border-b border-slate-700 py-1 text-sm font-black text-fb-green focus:outline-none focus:border-fb-green"
+                      className="w-full bg-transparent border-b border-fb-teal/20 py-1 text-sm font-black text-fb-teal focus:outline-none focus:border-fb-green"
                     />
                   </div>
                 ))}
@@ -1126,37 +1126,37 @@ export default function AdminPage() {
             </div>
 
             {/* Contact Details */}
-            <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 space-y-4">
-              <div className="text-sm font-bold text-white flex items-center gap-2">
+            <div className="bg-white p-6 rounded-2xl border border-fb-teal/10 space-y-4 shadow-xs">
+              <div className="text-sm font-extrabold text-fb-teal flex items-center gap-2">
                 <Phone size={16} className="text-fb-green" />
                 <span>{locale === 'ar' ? 'بيانات التواصل والمقر' : 'Headquarters & Contact Details'}</span>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold text-fb-teal">
                 <div>
-                  <label className="block text-slate-400 mb-1">Email</label>
+                  <label className="block text-slate-600 mb-1">Email</label>
                   <input
                     type="text"
                     value={editableContact.email || ''}
                     onChange={(e) => setEditableContact({ ...editableContact, email: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white"
+                    className="w-full bg-fb-bg-light/60 border border-fb-teal/20 rounded-xl p-3 text-fb-teal"
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-400 mb-1">Phone</label>
+                  <label className="block text-slate-600 mb-1">Phone</label>
                   <input
                     type="text"
                     value={editableContact.phone || ''}
                     onChange={(e) => setEditableContact({ ...editableContact, phone: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white font-mono"
+                    className="w-full bg-fb-bg-light/60 border border-fb-teal/20 rounded-xl p-3 text-fb-teal font-mono"
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-slate-400 mb-1">Address (العنوان)</label>
+                  <label className="block text-slate-600 mb-1">Address (العنوان)</label>
                   <input
                     type="text"
                     value={editableContact.address_ar || editableContact.address || ''}
                     onChange={(e) => setEditableContact({ ...editableContact, address_ar: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white"
+                    className="w-full bg-fb-bg-light/60 border border-fb-teal/20 rounded-xl p-3 text-fb-teal"
                   />
                 </div>
               </div>
