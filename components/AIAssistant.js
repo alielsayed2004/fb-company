@@ -9,10 +9,15 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
+import { usePathname } from 'next/navigation';
 import projectsData from '@/data/projects.json';
 import Link from 'next/link';
 
 export default function AIAssistant() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);

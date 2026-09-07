@@ -20,26 +20,28 @@ const sanitizeArabicName = (data) => {
     .replace(/Chillout(?!\s*Hub)/g, 'Chillout Hub');
   const parsed = JSON.parse(jsonStr);
   if (Array.isArray(parsed)) {
-    return parsed.map((p) => {
-      if (p.id === 'chillout-suez-road-corridor' || p.id === 'el-salam-plaza-mall' || p.name_ar === 'السلام بلازا' || p.name_ar === 'مول السلام بلازا') {
-        return {
-          ...p,
-          id: 'el-salam-plaza-mall',
-          name: 'El Salam Plaza Mall',
-          name_ar: 'مول السلام بلازا',
-          city: 'El Salam',
-          city_ar: 'مدينة السلام',
-          location: 'El Salam Main Transit Corridor, Cairo',
-          location_ar: 'ممر طريق السلام الرئيسي، القاهرة',
-          mapInfo: {
-            ...(p.mapInfo || {}),
-            road: 'El Salam Transit Corridor',
-            road_ar: 'ممر طريق السلام الرئيسي'
-          }
-        };
-      }
-      return p;
-    });
+    return parsed
+      .filter((p) => p && p.id !== 'project-1788785510962' && p.name !== 'Golden Gate Hub' && p.name_ar !== 'مركز جولدن جيت')
+      .map((p) => {
+        if (p.id === 'chillout-suez-road-corridor' || p.id === 'el-salam-plaza-mall' || p.name_ar === 'السلام بلازا' || p.name_ar === 'مول السلام بلازا') {
+          return {
+            ...p,
+            id: 'el-salam-plaza-mall',
+            name: 'El Salam Plaza Mall',
+            name_ar: 'مول السلام بلازا',
+            city: 'El Salam',
+            city_ar: 'مدينة السلام',
+            location: 'El Salam Main Transit Corridor, Cairo',
+            location_ar: 'ممر طريق السلام الرئيسي، القاهرة',
+            mapInfo: {
+              ...(p.mapInfo || {}),
+              road: 'El Salam Transit Corridor',
+              road_ar: 'ممر طريق السلام الرئيسي'
+            }
+          };
+        }
+        return p;
+      });
   }
   return parsed;
 };

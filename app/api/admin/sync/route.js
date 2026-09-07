@@ -232,6 +232,17 @@ export async function POST(req) {
       // Write master projects file: data/projects.json
       const masterProjectsFile = path.join(dataDir, 'projects.json');
       fs.writeFileSync(masterProjectsFile, JSON.stringify(cleanedProjects, null, 2), 'utf8');
+
+      // Delete any project files that were removed from the array
+      const activeIds = new Set(cleanedProjects.map(p => `${p.id}.json`));
+      if (fs.existsSync(projectsSubDir)) {
+        const existingFiles = fs.readdirSync(projectsSubDir).filter(f => f.endsWith('.json'));
+        for (const f of existingFiles) {
+          if (!activeIds.has(f)) {
+            try { fs.unlinkSync(path.join(projectsSubDir, f)); } catch (e) {}
+          }
+        }
+      }
     }
 
     // 2. Save blogs to data/blogs.json

@@ -13,6 +13,10 @@ export default function Navbar() {
   const { locale, toggleLanguage, t } = useLanguage();
   const isAr = locale === 'ar';
 
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {

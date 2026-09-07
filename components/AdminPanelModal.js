@@ -287,10 +287,36 @@ export default function AdminPanelModal() {
     setEditableProjects([newProj, ...editableProjects]);
   };
 
-  const handleDeleteProject = (idx) => {
-    if (confirm(locale === 'ar' ? 'هل أنت تأكد من حذف هذا المشروع؟' : 'Are you sure you want to delete this project?')) {
+  const handleDeleteProject = async (idx) => {
+    const targetProj = editableProjects[idx];
+    if (!targetProj) return;
+    const pName = locale === 'ar' ? (targetProj.name_ar || targetProj.name) : targetProj.name;
+    if (confirm(locale === 'ar' ? `هل أنت متأكد من حذف مشروع "${pName}" نهائياً؟` : `Are you sure you want to permanently delete "${pName}"?`)) {
       const updated = editableProjects.filter((_, i) => i !== idx);
       setEditableProjects(updated);
+      saveProjects(updated);
+
+      try {
+        const res = await fetch('/api/admin/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            projects: updated,
+            blogsEn: editableBlogsEn,
+            blogsAr: editableBlogsAr,
+            brands: editableBrands,
+            counters: editableCounters,
+            contactInfo: editableContact
+          })
+        });
+        const data = await res.json();
+        if (data && data.success) {
+          setSaveSuccessMsg(locale === 'ar' ? `✅ تم حذف مشروع "${pName}" نهائياً من ملفات المشروع و GitHub!` : `✅ Project "${pName}" deleted and synced to GitHub!`);
+          setTimeout(() => setSaveSuccessMsg(''), 4000);
+        }
+      } catch (err) {
+        console.warn('Sync on delete error:', err);
+      }
     }
   };
 

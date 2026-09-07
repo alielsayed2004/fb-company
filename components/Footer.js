@@ -1,11 +1,16 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Mail, Phone, MapPin, Lock } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
   const currentYear = new Date().getFullYear();
   const { locale, t } = useLanguage();
   const { setIsPasscodeOpen, contactInfo } = useData();
@@ -168,14 +173,15 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 pt-8 pb-10 border-t border-fb-teal/10 flex flex-col md:flex-row justify-between items-center text-xs text-slate-600 gap-4">
         <div className="flex items-center gap-2">
           <p>{t('footer.rights').replace('2026', currentYear)}</p>
-          <button
-            onClick={() => setIsPasscodeOpen(true)}
-            className="opacity-20 hover:opacity-100 text-fb-teal p-1 rounded transition-opacity cursor-pointer"
-            title="Admin Portal"
-            aria-label="Secret Portal"
+          <Link
+            href="/admin"
+            className="opacity-30 hover:opacity-100 text-fb-teal flex items-center gap-1 text-[11px] font-semibold transition-all px-2 py-0.5 rounded-md bg-fb-teal/5 hover:bg-fb-teal/15 hover:text-fb-green ml-1"
+            title="Executive Admin Dashboard"
+            aria-label="Admin Dashboard"
           >
             <Lock size={12} />
-          </button>
+            <span>Admin</span>
+          </Link>
         </div>
         <div className="flex items-center gap-6">
           <a href="#" className="hover:text-fb-green transition-colors">{t('footer.privacy')}</a>
