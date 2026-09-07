@@ -1,8 +1,21 @@
 import React from 'react';
+import { getBrandLogoUrl } from '@/lib/brandLogos';
 
 export default function BrandLogo({ name, className = "h-8 w-auto text-fb-bg-light/80 fill-current" }) {
   // Normalize brand name for matching
-  const normalized = name.toLowerCase().trim();
+  const normalized = (name || '').toLowerCase().trim();
+
+  // If a real verified PNG logo exists, use it directly!
+  const realLogoUrl = getBrandLogoUrl(normalized);
+  if (realLogoUrl) {
+    return (
+      <img
+        src={realLogoUrl}
+        alt={name || 'Brand Logo'}
+        className="max-h-full max-w-full w-auto h-auto object-contain brightness-0 invert opacity-90 transition-all duration-300 pointer-events-none"
+      />
+    );
+  }
 
   // Return stylized SVG path layouts for the top brands
   switch (normalized) {

@@ -11,6 +11,7 @@ import {
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 import BrandLogo from '@/components/BrandLogo';
+import { getBrandLogoUrl } from '@/lib/brandLogos';
 
 export default function ProjectPageClient({ project: initialProject }) {
   const { locale, t } = useLanguage();
@@ -394,7 +395,8 @@ export default function ProjectPageClient({ project: initialProject }) {
                     const isImagePath = rawStr.startsWith('/') || rawStr.startsWith('http') || /\.(png|jpg|jpeg|svg|webp|gif)$/i.test(rawStr);
 
                     const rawName = isObj ? (brandItem.name || '') : (!isImagePath ? rawStr : '');
-                    const logo = isObj ? (brandItem.logo || brandItem.logoUrl) : (isImagePath ? rawStr : null);
+                    const autoMatchedLogo = getBrandLogoUrl(rawName);
+                    const logo = isObj ? (brandItem.logo || brandItem.logoUrl || autoMatchedLogo) : (isImagePath ? rawStr : autoMatchedLogo);
 
                     // Ignore purely numeric names (like 1, 2, ١, ٢, etc.) so we don't display ugly numbers
                     const isNumeric = /^[\d\u0660-\u0669\s\-_.]+$/.test(rawName.trim());
