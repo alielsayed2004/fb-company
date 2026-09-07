@@ -11,7 +11,7 @@ import {
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 import BrandLogo from '@/components/BrandLogo';
-import { getBrandLogoUrl } from '@/lib/brandLogos';
+import { getBrandLogoUrl, getOptimalBentoSpans, LOGO_RATIO_MAP } from '@/lib/brandLogos';
 
 export default function ProjectPageClient({ project: initialProject }) {
   const { locale, t } = useLanguage();
@@ -33,6 +33,7 @@ export default function ProjectPageClient({ project: initialProject }) {
 
   // Active Lightbox image index (null if closed)
   const [activeImageIndex, setActiveImageIndex] = useState(null);
+  const [clientRatios, setClientRatios] = useState({});
 
   // Combine server initial gallery and context gallery (deduplicated)
   const allGalleryItems = Array.from(new Set([
@@ -387,9 +388,9 @@ export default function ProjectPageClient({ project: initialProject }) {
                   </span>
                 </div>
 
-                {/* Rich Bento Logo Grid (Clean, Centered, Premium Showcase) */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {project.brands.map((brandItem, bIdx) => {
+                {/* Dynamic Bento Logo Grid (Flexible Width/Height Adaptation) */}
+                {(() => {
+                  const processedBrands = (project.brands || []).map((brandItem, bIdx) => {
                     const isObj = typeof brandItem === 'object' && brandItem !== null;
                     const rawStr = !isObj ? String(brandItem || '').trim() : '';
                     const isImagePath = rawStr.startsWith('/') || rawStr.startsWith('http') || /\.(png|jpg|jpeg|svg|webp|gif)$/i.test(rawStr);
@@ -398,42 +399,70 @@ export default function ProjectPageClient({ project: initialProject }) {
                     const autoMatchedLogo = getBrandLogoUrl(rawName);
                     const logo = isObj ? (brandItem.logo || brandItem.logoUrl || autoMatchedLogo) : (isImagePath ? rawStr : autoMatchedLogo);
 
-                    // Ignore purely numeric names (like 1, 2, ١, ٢, etc.) so we don't display ugly numbers
+                    const initialRatio = (isObj && brandItem.ratio)
+                      ? brandItem.ratio
+                      : (logo && LOGO_RATIO_MAP[logo] ? LOGO_RATIO_MAP[logo] : 1.1);
+
+                    const finalRatio = clientRatios[bIdx] || initialRatio;
+
                     const isNumeric = /^[\d\u0660-\u0669\s\-_.]+$/.test(rawName.trim());
                     const cleanName = isNumeric ? '' : rawName;
 
-                    return (
-                      <div 
-                        key={bIdx}
-                        className="group relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl bg-fb-teal hover:bg-fb-teal-light border border-white/10 hover:border-fb-green/60 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-24 sm:h-28 cursor-pointer overflow-hidden"
-                        title={cleanName || `Partner ${bIdx + 1}`}
-                      >
-                        {/* Ambient glow on hover */}
-                        <div className="absolute inset-0 bg-fb-green/0 group-hover:bg-fb-green/10 transition-colors duration-300 pointer-events-none" />
+                    return { rawName, cleanName, logo, ratio: finalRatio, bIdx };
+                  });
 
-                        {/* Centered Large Logo Container */}
-                        <div className="w-full h-full flex items-center justify-center relative z-10 px-1">
-                          {logo ? (
-                            <img 
-                              src={logo} 
-                              alt={cleanName || `Brand Logo ${bIdx + 1}`} 
-                              className="max-h-16 sm:max-h-20 max-w-[90%] w-auto h-auto object-contain brightness-0 invert opacity-95 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 drop-shadow-sm"
-                            />
-                          ) : cleanName ? (
-                            <div className="flex flex-col items-center justify-center space-y-1 w-full">
-                              <BrandLogo name={cleanName} className="h-10 sm:h-12 max-w-[90%] w-auto text-white fill-current group-hover:scale-110 transition-all duration-300" />
-                              <span className="text-[10px] font-bold text-fb-bg-light/80 group-hover:text-white truncate max-w-full">
-                                {cleanName}
-                              </span>
+                  const bentoSpans = getOptimalBentoSpans(processedBrands);
+
+                  return (
+                    <div className="grid grid-cols-6 gap-2.5 sm:gap-3">
+                      {processedBrands.map((item, idx) => {
+                        const span = bentoSpans[idx] || 2;
+                        const isWide = span >= 3;
+                        const colSpanClass = span === 6 ? 'col-span-6' : span === 4 ? 'col-span-4' : span === 3 ? 'col-span-3' : 'col-span-2';
+
+                        return (
+                          <div 
+                            key={idx}
+                            className={`group relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl bg-fb-teal hover:bg-fb-teal-light border border-white/10 hover:border-fb-green/60 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${colSpanClass} min-h-[92px] sm:min-h-[102px] cursor-pointer overflow-hidden`}
+                            title={item.cleanName || `Partner ${idx + 1}`}
+                          >
+                            {/* Ambient glow on hover */}
+                            <div className="absolute inset-0 bg-fb-green/0 group-hover:bg-fb-green/10 transition-colors duration-300 pointer-events-none" />
+
+                            {/* Centered Large Logo Container */}
+                            <div className="w-full h-full flex items-center justify-center relative z-10 px-2">
+                              {item.logo ? (
+                                <img 
+                                  src={item.logo} 
+                                  alt={item.cleanName || `Brand Logo ${idx + 1}`} 
+                                  onLoad={(e) => {
+                                    const { naturalWidth, naturalHeight } = e.currentTarget;
+                                    if (naturalWidth && naturalHeight) {
+                                      const r = Number((naturalWidth / naturalHeight).toFixed(2));
+                                      if (Math.abs(r - item.ratio) > 0.35) {
+                                        setClientRatios(prev => ({ ...prev, [idx]: r }));
+                                      }
+                                    }
+                                  }}
+                                  className={`${span >= 4 ? 'max-h-14 sm:max-h-16 max-w-[90%]' : span === 3 ? 'max-h-14 sm:max-h-16 max-w-[86%]' : 'max-h-16 sm:max-h-18 max-w-[82%]'} w-auto h-auto object-contain brightness-0 invert opacity-95 group-hover:opacity-100 group-hover:scale-108 transition-all duration-300 drop-shadow-sm`}
+                                />
+                              ) : item.cleanName ? (
+                                <div className="flex flex-col items-center justify-center space-y-1 w-full">
+                                  <BrandLogo name={item.cleanName} className="h-10 sm:h-12 max-w-[90%] w-auto text-white fill-current group-hover:scale-110 transition-all duration-300" />
+                                  <span className="text-[11px] font-bold text-white/90 group-hover:text-white truncate max-w-full text-center tracking-wide">
+                                    {item.cleanName}
+                                  </span>
+                                </div>
+                              ) : (
+                                <div className="w-2 h-2 rounded-full bg-fb-green/40" />
+                              )}
                             </div>
-                          ) : (
-                            <div className="w-2 h-2 rounded-full bg-fb-green/40" />
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
               </motion.div>
             )}
 

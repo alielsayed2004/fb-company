@@ -9,6 +9,24 @@ export async function generateStaticParams() {
   }));
 }
 
+// Helper to read PNG dimensions quickly from header
+function getPngDimensions(filePath) {
+  try {
+    const buf = Buffer.alloc(24);
+    const fd = fs.openSync(filePath, 'r');
+    fs.readSync(fd, buf, 0, 24, 0);
+    fs.closeSync(fd);
+    if (buf.toString('ascii', 1, 4) === 'PNG') {
+      const width = buf.readUInt32BE(16);
+      const height = buf.readUInt32BE(20);
+      if (width > 0 && height > 0) {
+        return { width, height, ratio: Number((width / height).toFixed(2)) };
+      }
+    }
+  } catch (e) {}
+  return null;
+}
+
 // Helper to auto-discover brand logos in public/projects/[id]/logos/ or public/projects/[id]/brands/
 function getDiscoveredBrandLogos(projectId) {
   try {
@@ -29,9 +47,12 @@ function getDiscoveredBrandLogos(projectId) {
               const rawName = path.basename(entry.name, path.extname(entry.name));
               const cleanName = rawName.replace(/[-_]/g, ' ').trim();
               const subDir = dir.endsWith('brands') ? 'brands' : 'logos';
+              const fullPath = path.join(dir, entry.name);
+              const dims = ext === '.png' ? getPngDimensions(fullPath) : null;
               discovered.push({
                 name: cleanName,
-                logo: `/projects/${projectId}/${subDir}/${entry.name}`
+                logo: `/projects/${projectId}/${subDir}/${entry.name}`,
+                ratio: dims ? dims.ratio : 1.2
               });
             }
           }
