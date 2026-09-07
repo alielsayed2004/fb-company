@@ -12,25 +12,25 @@ function saveBase64Media(dataUri, targetDir, baseFilename) {
     return dataUri;
   }
   try {
-    const matches = dataUri.match(/^data:([A-Za-z0-9-+/]+);base64,(.+)$/);
-    if (!matches || matches.length !== 3) return dataUri;
+    const commaIndex = dataUri.indexOf(',');
+    if (commaIndex === -1) return dataUri;
 
-    const mime = matches[1];
-    const base64Data = matches[2];
+    const meta = dataUri.substring(0, commaIndex);
+    const base64Data = dataUri.substring(commaIndex + 1);
     const buffer = Buffer.from(base64Data, 'base64');
 
-    let ext = '.png';
-    if (mime.includes('jpeg') || mime.includes('jpg')) ext = '.jpg';
-    else if (mime.includes('webp')) ext = '.webp';
-    else if (mime.includes('svg')) ext = '.svg';
-    else if (mime.includes('mp4')) ext = '.mp4';
-    else if (mime.includes('webm')) ext = '.webm';
+    let ext = '.jpg';
+    if (meta.includes('png')) ext = '.png';
+    else if (meta.includes('webp')) ext = '.webp';
+    else if (meta.includes('svg')) ext = '.svg';
+    else if (meta.includes('mp4')) ext = '.mp4';
+    else if (meta.includes('webm')) ext = '.webm';
 
     if (!fs.existsSync(targetDir)) {
       fs.mkdirSync(targetDir, { recursive: true });
     }
 
-    const filename = `${baseFilename}${ext}`;
+    const filename = `${baseFilename}-${Date.now()}${ext}`;
     const filePath = path.join(targetDir, filename);
     fs.writeFileSync(filePath, buffer);
 
@@ -43,11 +43,16 @@ function saveBase64Media(dataUri, targetDir, baseFilename) {
   }
 }
 
-// GET: Fetch latest data directly from the filesystem
+// GET: Fetch latest data directly from the filesystem & auto-discover disk images
 export async function GET() {
   try {
-    const dataDir = path.join(process.cwd(), 'data');
+    const rootDir = process.cwd();
+    const dataDir = path.join(rootDir, 'data');
     const projectsFile = path.join(dataDir, 'projects.json');
+    const projectsSubDir = path.join(dataDir, 'projects');
+    const publicProjectsDir = path.join(rootDir, 'public', 'projects');
+    const imageExts = new Set(['.jpg', '.jpeg', '.png', '.webp', '.svg', '.avif']);
+
     let projects = [];
 
     if (fs.existsSync(projectsFile)) {
@@ -57,7 +62,6 @@ export async function GET() {
     }
 
     // Also check for individual project files in data/projects/*.json
-    const projectsSubDir = path.join(dataDir, 'projects');
     if (fs.existsSync(projectsSubDir)) {
       const files = fs.readdirSync(projectsSubDir).filter(f => f.endsWith('.json'));
       const individualProjects = [];
@@ -78,6 +82,37 @@ export async function GET() {
         projects = Array.from(idMap.values());
       }
     }
+
+    // Auto-discover images and valid covers for every project folder
+    projects = projects.map((p) => {
+      const pDir = path.join(publicProjectsDir, p.id);
+      if (!fs.existsSync(pDir)) return p;
+
+      const diskFiles = fs.readdirSync(pDir, { withFileTypes: true })
+        .filter(f => f.isFile() && imageExts.has(path.extname(f.name).toLowerCase()))
+        .map(f => f.name);
+
+      let coverImage = p.coverImage;
+      const currentCoverPath = coverImage ? path.join(rootDir, 'public', coverImage.replace(/^\//, '')) : '';
+      if (!coverImage || !fs.existsSync(currentCoverPath)) {
+        if (diskFiles.includes('cover.png')) coverImage = `/projects/${p.id}/cover.png`;
+        else if (diskFiles.includes('cover.jpg')) coverImage = `/projects/${p.id}/cover.jpg`;
+        else if (diskFiles.includes('Artboard 3.jpg')) coverImage = `/projects/${p.id}/Artboard 3.jpg`;
+        else if (diskFiles.includes('Artboard 4.jpg')) coverImage = `/projects/${p.id}/Artboard 4.jpg`;
+        else if (diskFiles.length > 0) coverImage = `/projects/${p.id}/${diskFiles[0]}`;
+      }
+
+      // Merge and deduplicate gallery
+      const existingGallery = Array.isArray(p.gallery) ? p.gallery : [];
+      const diskGallery = diskFiles.map(f => `/projects/${p.id}/${f}`);
+      const mergedGallery = Array.from(new Set([...existingGallery, ...diskGallery]));
+
+      return {
+        ...p,
+        coverImage: coverImage || p.coverImage,
+        gallery: mergedGallery
+      };
+    });
 
     let blogsEn = [];
     let blogsAr = [];
@@ -133,6 +168,7 @@ export async function POST(req) {
     const dataDir = path.join(rootDir, 'data');
     const projectsSubDir = path.join(dataDir, 'projects');
     const publicProjectsDir = path.join(rootDir, 'public', 'projects');
+    const imageExts = new Set(['.jpg', '.jpeg', '.png', '.webp', '.svg', '.avif']);
 
     if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
     if (!fs.existsSync(projectsSubDir)) fs.mkdirSync(projectsSubDir, { recursive: true });
@@ -165,10 +201,18 @@ export async function POST(req) {
         let gallery = Array.isArray(proj.gallery) ? proj.gallery : [];
         gallery = gallery.map((item, gIdx) => {
           if (typeof item === 'string' && item.startsWith('data:')) {
-            return saveBase64Media(item, projPublicDir, `gallery-${Date.now()}-${gIdx}`);
+            return saveBase64Media(item, projPublicDir, `gallery-${gIdx}`);
           }
           return item;
         });
+
+        // Also check if any existing physical images in folder should be maintained in gallery
+        if (fs.existsSync(projPublicDir)) {
+          const diskFiles = fs.readdirSync(projPublicDir, { withFileTypes: true })
+            .filter(f => f.isFile() && imageExts.has(path.extname(f.name).toLowerCase()))
+            .map(f => `/projects/${projId}/${f.name}`);
+          gallery = Array.from(new Set([...gallery, ...diskFiles]));
+        }
 
         const cleanedProject = {
           ...proj,
@@ -219,7 +263,6 @@ export async function POST(req) {
     // 5. Automatic Git Commit & Push
     let gitResult = { synced: false, message: 'Git not run' };
     try {
-      // Check status
       const { stdout: statusOut } = await execPromise('git status --porcelain', { cwd: rootDir });
       if (statusOut && statusOut.trim().length > 0) {
         await execPromise('git add data/ public/projects/ public/logos/', { cwd: rootDir });

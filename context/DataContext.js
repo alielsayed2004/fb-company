@@ -249,6 +249,27 @@ export function DataProvider({ children }) {
         };
         setContactInfo(mergedContact);
         await setStoredData('fb_contact_info', mergedContact);
+
+        // Seamlessly sync with latest machine project files & discovered images
+        try {
+          const syncRes = await fetch('/api/admin/sync');
+          if (syncRes.ok) {
+            const syncData = await syncRes.json();
+            if (syncData && syncData.success && Array.isArray(syncData.projects) && syncData.projects.length > 0) {
+              const cleanSyncProjects = sanitizeArabicName(syncData.projects);
+              setProjects(cleanSyncProjects);
+              await setStoredData('fb_projects', cleanSyncProjects);
+              try { localStorage.setItem('fb_projects', JSON.stringify(cleanSyncProjects)); } catch (e) {}
+            }
+            if (syncData && syncData.success && Array.isArray(syncData.brands) && syncData.brands.length > 0) {
+              setBrands(syncData.brands);
+              await setStoredData('fb_brands', syncData.brands);
+              try { localStorage.setItem('fb_brands', JSON.stringify(syncData.brands)); } catch (e) {}
+            }
+          }
+        } catch (syncErr) {
+          // Sync api offline or client-only fallback
+        }
       } catch (e) {
         console.error('Failed to load storage data', e);
       } finally {
