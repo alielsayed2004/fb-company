@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
+import BrandLogo from '@/components/BrandLogo';
 
 export default function ProjectPageClient({ project: initialProject }) {
   const { locale, t } = useLanguage();
@@ -362,18 +363,51 @@ export default function ProjectPageClient({ project: initialProject }) {
             {project.brands && project.brands.length > 0 && (
               <motion.div 
                 variants={itemVariants}
-                className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-3xl p-6 shadow-[0_8px_30px_rgba(0,59,60,0.05)] space-y-4"
+                className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-3xl p-5 sm:p-6 shadow-[0_8px_30px_rgba(0,59,60,0.05)] space-y-4"
               >
-                <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs border-b border-fb-teal/5 pb-3">{t('projectDetails.securedCovenants')} ({project.brands.length})</h4>
-                <div className="flex flex-wrap gap-2">
-                  {project.brands.map((brand) => (
-                    <span 
-                      key={brand}
-                      className="bg-fb-bg-light/50 text-fb-teal text-xs font-semibold px-3 py-1.5 rounded-lg border border-fb-teal/5 hover:border-fb-green/30 transition-colors"
-                    >
-                      {brand}
-                    </span>
-                  ))}
+                <div className="flex items-center justify-between border-b border-fb-teal/10 pb-3">
+                  <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">
+                    {t('projectDetails.securedCovenants')} ({project.brands.length})
+                  </h4>
+                  <span className="text-[10px] text-emerald-700 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                    {locale === 'ar' ? 'علامات مؤكدة' : 'Secured Brands'}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2.5">
+                  {project.brands.map((brandItem, bIdx) => {
+                    const isObj = typeof brandItem === 'object' && brandItem !== null;
+                    const rawStr = !isObj ? String(brandItem || '').trim() : '';
+                    const isImagePath = rawStr.startsWith('/') || rawStr.startsWith('http') || /\.(png|jpg|jpeg|svg|webp|gif)$/i.test(rawStr);
+
+                    const name = isObj ? brandItem.name : (!isImagePath ? rawStr : '');
+                    const logo = isObj ? (brandItem.logo || brandItem.logoUrl) : (isImagePath ? rawStr : null);
+
+                    return (
+                      <div 
+                        key={bIdx}
+                        className="group relative flex items-center gap-2.5 p-2.5 rounded-2xl bg-fb-teal hover:bg-[#032e29] border border-white/10 hover:border-emerald-400/40 shadow-xs hover:shadow-md transition-all duration-300 min-h-[58px] text-start overflow-hidden"
+                        title={name || `Brand ${bIdx + 1}`}
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0 p-1.5 border border-white/5 group-hover:border-emerald-400/30 transition-colors">
+                          {logo ? (
+                            <img 
+                              src={logo} 
+                              alt={name || `Brand Logo ${bIdx + 1}`} 
+                              className="max-h-7 max-w-7 w-auto h-auto object-contain brightness-0 invert opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                            />
+                          ) : (
+                            <BrandLogo name={name} className="w-6 h-6 text-white fill-current group-hover:scale-105 transition-all duration-300" />
+                          )}
+                        </div>
+                        {name && (
+                          <span className="text-xs font-bold text-white/90 group-hover:text-emerald-200 leading-snug line-clamp-2 transition-colors">
+                            {name}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </motion.div>
             )}
