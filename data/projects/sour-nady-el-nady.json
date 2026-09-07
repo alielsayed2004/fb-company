@@ -27,7 +27,10 @@
     "Nine Two Nine",
     "Cilantro"
   ],
-  "coordinates": { "x": 52, "y": 22 },
+  "coordinates": {
+    "x": 52,
+    "y": 22
+  },
   "mapInfo": {
     "road": "Nady El Nady Access Road",
     "road_ar": "طريق الوصول لنادي النادي",

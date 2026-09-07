@@ -26,7 +26,10 @@
     "Al Koftageya",
     "Bazooka"
   ],
-  "coordinates": { "x": 55, "y": 18 },
+  "coordinates": {
+    "x": 55,
+    "y": 18
+  },
   "mapInfo": {
     "road": "Obour Club Main Axis",
     "road_ar": "المحور الرئيسي لنادي العبور",

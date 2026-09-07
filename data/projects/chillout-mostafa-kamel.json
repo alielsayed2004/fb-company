@@ -27,7 +27,10 @@
     "Nine Two Nine",
     "Cilantro"
   ],
-  "coordinates": { "x": 54, "y": 24 },
+  "coordinates": {
+    "x": 54,
+    "y": 24
+  },
   "mapInfo": {
     "road": "Mostafa Kamel Axis",
     "road_ar": "محور مصطفى كامل",

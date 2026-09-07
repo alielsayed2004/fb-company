@@ -1,0 +1,272 @@
+[
+  {
+    "id": 1,
+    "name": "Brand Partner #1",
+    "logoUrl": "/logos/1.png"
+  },
+  {
+    "id": 2,
+    "name": "Brand Partner #2",
+    "logoUrl": "/logos/2.png"
+  },
+  {
+    "id": 3,
+    "name": "Brand Partner #3",
+    "logoUrl": "/logos/3.png"
+  },
+  {
+    "id": 4,
+    "name": "Brand Partner #4",
+    "logoUrl": "/logos/4.png"
+  },
+  {
+    "id": 5,
+    "name": "Brand Partner #5",
+    "logoUrl": "/logos/5.png"
+  },
+  {
+    "id": 6,
+    "name": "Brand Partner #6",
+    "logoUrl": "/logos/6.png"
+  },
+  {
+    "id": 7,
+    "name": "Brand Partner #7",
+    "logoUrl": "/logos/7.png"
+  },
+  {
+    "id": 8,
+    "name": "Brand Partner #8",
+    "logoUrl": "/logos/8.png"
+  },
+  {
+    "id": 10,
+    "name": "Brand Partner #10",
+    "logoUrl": "/logos/10.png"
+  },
+  {
+    "id": 11,
+    "name": "Brand Partner #11",
+    "logoUrl": "/logos/11.png"
+  },
+  {
+    "id": 12,
+    "name": "Brand Partner #12",
+    "logoUrl": "/logos/12.png"
+  },
+  {
+    "id": 13,
+    "name": "Brand Partner #13",
+    "logoUrl": "/logos/13.png"
+  },
+  {
+    "id": 14,
+    "name": "Brand Partner #14",
+    "logoUrl": "/logos/14.png"
+  },
+  {
+    "id": 16,
+    "name": "Brand Partner #16",
+    "logoUrl": "/logos/16.png"
+  },
+  {
+    "id": 19,
+    "name": "Brand Partner #19",
+    "logoUrl": "/logos/19.png"
+  },
+  {
+    "id": 21,
+    "name": "Brand Partner #21",
+    "logoUrl": "/logos/21.png"
+  },
+  {
+    "id": 22,
+    "name": "Brand Partner #22",
+    "logoUrl": "/logos/22.png"
+  },
+  {
+    "id": 23,
+    "name": "Brand Partner #23",
+    "logoUrl": "/logos/23.png"
+  },
+  {
+    "id": 24,
+    "name": "Brand Partner #24",
+    "logoUrl": "/logos/24.png"
+  },
+  {
+    "id": 25,
+    "name": "Brand Partner #25",
+    "logoUrl": "/logos/25.png"
+  },
+  {
+    "id": 26,
+    "name": "Brand Partner #26",
+    "logoUrl": "/logos/26.png"
+  },
+  {
+    "id": 27,
+    "name": "Brand Partner #27",
+    "logoUrl": "/logos/27.png"
+  },
+  {
+    "id": 28,
+    "name": "Brand Partner #28",
+    "logoUrl": "/logos/28.png"
+  },
+  {
+    "id": 29,
+    "name": "Brand Partner #29",
+    "logoUrl": "/logos/29.png"
+  },
+  {
+    "id": 30,
+    "name": "Brand Partner #30",
+    "logoUrl": "/logos/30.png"
+  },
+  {
+    "id": 31,
+    "name": "Brand Partner #31",
+    "logoUrl": "/logos/31.png"
+  },
+  {
+    "id": 32,
+    "name": "Brand Partner #32",
+    "logoUrl": "/logos/32.png"
+  },
+  {
+    "id": 33,
+    "name": "Brand Partner #33",
+    "logoUrl": "/logos/33.png"
+  },
+  {
+    "id": 34,
+    "name": "Brand Partner #34",
+    "logoUrl": "/logos/34.png"
+  },
+  {
+    "id": 35,
+    "name": "Brand Partner #35",
+    "logoUrl": "/logos/35.png"
+  },
+  {
+    "id": 37,
+    "name": "Brand Partner #37",
+    "logoUrl": "/logos/37.png"
+  },
+  {
+    "id": 38,
+    "name": "Brand Partner #38",
+    "logoUrl": "/logos/38.png"
+  },
+  {
+    "id": 39,
+    "name": "Brand Partner #39",
+    "logoUrl": "/logos/39.png"
+  },
+  {
+    "id": 40,
+    "name": "Brand Partner #40",
+    "logoUrl": "/logos/40.png"
+  },
+  {
+    "id": 41,
+    "name": "Brand Partner #41",
+    "logoUrl": "/logos/41.png"
+  },
+  {
+    "id": 42,
+    "name": "Brand Partner #42",
+    "logoUrl": "/logos/42.png"
+  },
+  {
+    "id": 43,
+    "name": "Brand Partner #43",
+    "logoUrl": "/logos/43.png"
+  },
+  {
+    "id": 44,
+    "name": "Brand Partner #44",
+    "logoUrl": "/logos/44.png"
+  },
+  {
+    "id": 45,
+    "name": "Brand Partner #45",
+    "logoUrl": "/logos/45.png"
+  },
+  {
+    "id": 46,
+    "name": "Brand Partner #46",
+    "logoUrl": "/logos/46.png"
+  },
+  {
+    "id": 47,
+    "name": "Brand Partner #47",
+    "logoUrl": "/logos/47.png"
+  },
+  {
+    "id": 48,
+    "name": "Brand Partner #48",
+    "logoUrl": "/logos/48.png"
+  },
+  {
+    "id": 49,
+    "name": "Brand Partner #49",
+    "logoUrl": "/logos/49.png"
+  },
+  {
+    "id": 50,
+    "name": "Brand Partner #50",
+    "logoUrl": "/logos/50.png"
+  },
+  {
+    "id": 51,
+    "name": "Brand Partner #51",
+    "logoUrl": "/logos/51.png"
+  },
+  {
+    "id": 52,
+    "name": "Brand Partner #52",
+    "logoUrl": "/logos/52.png"
+  },
+  {
+    "id": 9,
+    "name": "Brand Partner #9",
+    "logoUrl": "/logos/9.png"
+  },
+  {
+    "id": 15,
+    "name": "Brand Partner #15",
+    "logoUrl": "/logos/15.png"
+  },
+  {
+    "id": 17,
+    "name": "Brand Partner #17",
+    "logoUrl": "/logos/17.png"
+  },
+  {
+    "id": 18,
+    "name": "Brand Partner #18",
+    "logoUrl": "/logos/18.png"
+  },
+  {
+    "id": 20,
+    "name": "Brand Partner #20",
+    "logoUrl": "/logos/20.png"
+  },
+  {
+    "id": 36,
+    "name": "Brand Partner #36",
+    "logoUrl": "/logos/36.png"
+  },
+  {
+    "id": 53,
+    "name": "Brand Partner #53",
+    "logoUrl": "/logos/53.png"
+  },
+  {
+    "id": 54,
+    "name": "Brand Partner #54",
+    "logoUrl": "/logos/54.png"
+  }
+]

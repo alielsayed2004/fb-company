@@ -28,7 +28,10 @@
     "Hunger Station",
     "Sultan"
   ],
-  "coordinates": { "x": 58, "y": 17 },
+  "coordinates": {
+    "x": 58,
+    "y": 17
+  },
   "mapInfo": {
     "road": "Al-Rowad Club Main Road",
     "road_ar": "الطريق الرئيسي لنادي الرواد",

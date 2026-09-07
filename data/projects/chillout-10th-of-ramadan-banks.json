@@ -31,7 +31,10 @@
     "Othaim Market",
     "Papa John's"
   ],
-  "coordinates": { "x": 57, "y": 16 },
+  "coordinates": {
+    "x": 57,
+    "y": 16
+  },
   "mapInfo": {
     "road": "Main Banks Service Corridor",
     "road_ar": "ممر البنوك الخدمي الرئيسي",

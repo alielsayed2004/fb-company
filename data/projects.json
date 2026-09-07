@@ -32,7 +32,10 @@
       "Othaim Market",
       "Papa John's"
     ],
-    "coordinates": { "x": 57, "y": 16 },
+    "coordinates": {
+      "x": 57,
+      "y": 16
+    },
     "mapInfo": {
       "road": "Main Banks Service Corridor",
       "road_ar": "ممر البنوك الخدمي الرئيسي",
@@ -71,7 +74,10 @@
       "Nine Two Nine",
       "Cilantro"
     ],
-    "coordinates": { "x": 54, "y": 24 },
+    "coordinates": {
+      "x": 54,
+      "y": 24
+    },
     "mapInfo": {
       "road": "Mostafa Kamel Axis",
       "road_ar": "محور مصطفى كامل",
@@ -112,7 +118,10 @@
       "Al Koftageya",
       "El Ezaby Pharmacy"
     ],
-    "coordinates": { "x": 33, "y": 12 },
+    "coordinates": {
+      "x": 33,
+      "y": 12
+    },
     "mapInfo": {
       "road": "Alex-Matrouh Coastal Rd (KM 105)",
       "road_ar": "طريق إسكندرية - مطروح الساحلي (كم 105)",
@@ -152,7 +161,10 @@
       "Hunger Station",
       "Sultan"
     ],
-    "coordinates": { "x": 58, "y": 17 },
+    "coordinates": {
+      "x": 58,
+      "y": 17
+    },
     "mapInfo": {
       "road": "Al-Rowad Club Main Road",
       "road_ar": "الطريق الرئيسي لنادي الرواد",
@@ -191,7 +203,10 @@
       "Nine Two Nine",
       "Cilantro"
     ],
-    "coordinates": { "x": 52, "y": 22 },
+    "coordinates": {
+      "x": 52,
+      "y": 22
+    },
     "mapInfo": {
       "road": "Nady El Nady Access Road",
       "road_ar": "طريق الوصول لنادي النادي",
@@ -229,7 +244,10 @@
       "Al Koftageya",
       "Bazooka"
     ],
-    "coordinates": { "x": 55, "y": 18 },
+    "coordinates": {
+      "x": 55,
+      "y": 18
+    },
     "mapInfo": {
       "road": "Obour Club Main Axis",
       "road_ar": "المحور الرئيسي لنادي العبور",
@@ -266,7 +284,10 @@
       "TBS",
       "Cilantro"
     ],
-    "coordinates": { "x": 58, "y": 23 },
+    "coordinates": {
+      "x": 58,
+      "y": 23
+    },
     "mapInfo": {
       "road": "El Salam Transit Corridor",
       "road_ar": "ممر طريق السلام الرئيسي",

@@ -29,7 +29,10 @@
     "Al Koftageya",
     "El Ezaby Pharmacy"
   ],
-  "coordinates": { "x": 33, "y": 12 },
+  "coordinates": {
+    "x": 33,
+    "y": 12
+  },
   "mapInfo": {
     "road": "Alex-Matrouh Coastal Rd (KM 105)",
     "road_ar": "طريق إسكندرية - مطروح الساحلي (كم 105)",

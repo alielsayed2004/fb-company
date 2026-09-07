@@ -25,7 +25,10 @@
     "TBS",
     "Cilantro"
   ],
-  "coordinates": { "x": 58, "y": 23 },
+  "coordinates": {
+    "x": 58,
+    "y": 23
+  },
   "mapInfo": {
     "road": "El Salam Transit Corridor",
     "road_ar": "ممر طريق السلام الرئيسي",
