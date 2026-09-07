@@ -16,7 +16,19 @@ export default function ProjectPageClient({ project: initialProject }) {
   const { locale, t } = useLanguage();
   const { projects } = useData();
 
-  const project = (projects && projects.find(p => p.id === initialProject?.id)) || initialProject;
+  const clientProject = (projects && projects.find(p => p.id === initialProject?.id));
+  const project = clientProject ? {
+    ...clientProject,
+    brands: (initialProject?.brands && initialProject.brands.some(b => typeof b === 'object' && b.logo))
+      ? [
+          ...initialProject.brands.filter(b => typeof b === 'object' && b.logo),
+          ...(clientProject.brands || []).filter(cb => {
+            const cbName = typeof cb === 'object' ? cb.name : String(cb || '');
+            return !initialProject.brands.some(ib => (typeof ib === 'object' ? ib.name : String(ib)).toLowerCase() === cbName.toLowerCase());
+          })
+        ]
+      : (clientProject.brands || initialProject?.brands || [])
+  } : initialProject;
 
   // Active Lightbox image index (null if closed)
   const [activeImageIndex, setActiveImageIndex] = useState(null);
