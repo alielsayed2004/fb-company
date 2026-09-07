@@ -444,7 +444,7 @@ export default function ProjectPageClient({ project: initialProject }) {
                                       }
                                     }
                                   }}
-                                  className={`${span >= 4 ? 'max-h-14 sm:max-h-16 max-w-[90%]' : span === 3 ? 'max-h-14 sm:max-h-16 max-w-[86%]' : 'max-h-16 sm:max-h-18 max-w-[82%]'} w-auto h-auto object-contain brightness-0 invert opacity-95 group-hover:opacity-100 group-hover:scale-108 transition-all duration-300 drop-shadow-sm`}
+                                  className={`${span >= 4 ? 'max-h-14 sm:max-h-16 max-w-[90%]' : span === 3 ? 'max-h-14 sm:max-h-16 max-w-[86%]' : 'max-h-16 sm:max-h-18 max-w-[82%]'} w-auto h-auto object-contain group-hover:scale-108 transition-all duration-300 drop-shadow-sm`}
                                 />
                               ) : item.cleanName ? (
                                 <div className="flex flex-col items-center justify-center space-y-1 w-full">

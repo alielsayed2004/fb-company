@@ -23,7 +23,7 @@ function getPngDimensions(filePath) {
         return { width, height, ratio: Number((width / height).toFixed(2)) };
       }
     }
-  } catch (e) {}
+  } catch (e) { }
   return null;
 }
 
@@ -39,22 +39,27 @@ function getDiscoveredBrandLogos(projectId) {
 
     for (const dir of candidates) {
       if (fs.existsSync(dir)) {
-        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        const arabicToWestern = s => s.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+        const entries = fs.readdirSync(dir, { withFileTypes: true })
+          .filter(e => e.isFile() && imageExts.has(path.extname(e.name).toLowerCase()))
+          .sort((a, b) => {
+            const normA = arabicToWestern(a.name);
+            const normB = arabicToWestern(b.name);
+            return normA.localeCompare(normB, undefined, { numeric: true });
+          });
         for (const entry of entries) {
-          if (entry.isFile()) {
-            const ext = path.extname(entry.name).toLowerCase();
-            if (imageExts.has(ext)) {
-              const rawName = path.basename(entry.name, path.extname(entry.name));
-              const cleanName = rawName.replace(/[-_]/g, ' ').trim();
-              const subDir = dir.endsWith('brands') ? 'brands' : 'logos';
-              const fullPath = path.join(dir, entry.name);
-              const dims = ext === '.png' ? getPngDimensions(fullPath) : null;
-              discovered.push({
-                name: cleanName,
-                logo: `/projects/${projectId}/${subDir}/${entry.name}`,
-                ratio: dims ? dims.ratio : 1.2
-              });
-            }
+          const ext = path.extname(entry.name).toLowerCase();
+          if (imageExts.has(ext)) {
+            const rawName = path.basename(entry.name, path.extname(entry.name));
+            const cleanName = rawName.replace(/[-_]/g, ' ').trim();
+            const subDir = dir.endsWith('brands') ? 'brands' : 'logos';
+            const fullPath = path.join(dir, entry.name);
+            const dims = ext === '.png' ? getPngDimensions(fullPath) : null;
+            discovered.push({
+              name: cleanName,
+              logo: `/projects/${projectId}/${subDir}/${encodeURIComponent(entry.name)}`,
+              ratio: dims ? dims.ratio : 1.2
+            });
           }
         }
       }
@@ -155,12 +160,12 @@ export default async function ProjectPage({ params }) {
   const existingBrands = currentProject.brands || [];
   const mergedBrands = discoveredBrandLogos.length > 0
     ? [
-        ...discoveredBrandLogos,
-        ...existingBrands.filter(b => {
-          const bName = typeof b === 'object' ? (b.name || '') : String(b || '');
-          return !discoveredBrandLogos.some(d => d.name.toLowerCase() === bName.toLowerCase());
-        })
-      ]
+      ...discoveredBrandLogos,
+      ...existingBrands.filter(b => {
+        const bName = typeof b === 'object' ? (b.name || '') : String(b || '');
+        return !discoveredBrandLogos.some(d => d.name.toLowerCase() === bName.toLowerCase());
+      })
+    ]
     : existingBrands;
 
   const finalProject = {

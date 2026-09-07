@@ -12,7 +12,7 @@ export default function BrandLogo({ name, className = "h-8 w-auto text-fb-bg-lig
       <img
         src={realLogoUrl}
         alt={name || 'Brand Logo'}
-        className="max-h-full max-w-full w-auto h-auto object-contain brightness-0 invert opacity-90 transition-all duration-300 pointer-events-none"
+        className="max-h-full max-w-full w-auto h-auto object-contain transition-all duration-300 pointer-events-none"
       />
     );
   }
