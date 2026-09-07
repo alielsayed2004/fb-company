@@ -405,29 +405,29 @@ export default function ProjectPageClient({ project: initialProject }) {
                     return (
                       <div 
                         key={bIdx}
-                        className="group relative flex flex-col items-center justify-center p-3 rounded-2xl bg-gradient-to-br from-[#064e3b] via-[#043d2e] to-[#022c22] border border-emerald-500/20 hover:border-emerald-400/60 shadow-[0_4px_16px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_30px_rgba(16,185,129,0.25)] hover:-translate-y-1 transition-all duration-300 h-20 sm:h-24 cursor-pointer overflow-hidden"
+                        className="group relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl bg-fb-teal hover:bg-fb-teal-light border border-white/10 hover:border-fb-green/60 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-24 sm:h-28 cursor-pointer overflow-hidden"
                         title={cleanName || `Partner ${bIdx + 1}`}
                       >
                         {/* Ambient glow on hover */}
-                        <div className="absolute inset-0 bg-emerald-400/0 group-hover:bg-emerald-400/5 transition-colors duration-300 pointer-events-none" />
+                        <div className="absolute inset-0 bg-fb-green/0 group-hover:bg-fb-green/10 transition-colors duration-300 pointer-events-none" />
 
-                        {/* Centered Logo Container */}
-                        <div className="w-full h-full flex items-center justify-center relative z-10 px-2">
+                        {/* Centered Large Logo Container */}
+                        <div className="w-full h-full flex items-center justify-center relative z-10 px-1">
                           {logo ? (
                             <img 
                               src={logo} 
                               alt={cleanName || `Brand Logo ${bIdx + 1}`} 
-                              className="max-h-12 sm:max-h-14 max-w-[85%] w-auto h-auto object-contain brightness-0 invert opacity-85 group-hover:opacity-100 group-hover:scale-108 transition-all duration-300"
+                              className="max-h-16 sm:max-h-20 max-w-[90%] w-auto h-auto object-contain brightness-0 invert opacity-95 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 drop-shadow-sm"
                             />
                           ) : cleanName ? (
                             <div className="flex flex-col items-center justify-center space-y-1 w-full">
-                              <BrandLogo name={cleanName} className="h-8 max-w-[85%] w-auto text-white fill-current group-hover:scale-105 transition-all duration-300" />
-                              <span className="text-[10px] font-bold text-emerald-100/70 group-hover:text-white truncate max-w-full">
+                              <BrandLogo name={cleanName} className="h-10 sm:h-12 max-w-[90%] w-auto text-white fill-current group-hover:scale-110 transition-all duration-300" />
+                              <span className="text-[10px] font-bold text-fb-bg-light/80 group-hover:text-white truncate max-w-full">
                                 {cleanName}
                               </span>
                             </div>
                           ) : (
-                            <div className="w-2 h-2 rounded-full bg-emerald-400/40" />
+                            <div className="w-2 h-2 rounded-full bg-fb-green/40" />
                           )}
                         </div>
                       </div>
