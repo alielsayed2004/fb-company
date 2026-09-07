@@ -382,41 +382,52 @@ export default function ProjectPageClient({ project: initialProject }) {
                     {t('projectDetails.securedCovenants')} ({project.brands.length})
                   </h4>
                   <span className="text-[10px] text-emerald-700 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
-                    {locale === 'ar' ? 'علامات مؤكدة' : 'Secured Brands'}
+                    {locale === 'ar' ? 'العلامات التجارية' : 'Secured Brands'}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2.5">
+                {/* Rich Bento Logo Grid (Clean, Centered, Premium Showcase) */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {project.brands.map((brandItem, bIdx) => {
                     const isObj = typeof brandItem === 'object' && brandItem !== null;
                     const rawStr = !isObj ? String(brandItem || '').trim() : '';
                     const isImagePath = rawStr.startsWith('/') || rawStr.startsWith('http') || /\.(png|jpg|jpeg|svg|webp|gif)$/i.test(rawStr);
 
-                    const name = isObj ? brandItem.name : (!isImagePath ? rawStr : '');
+                    const rawName = isObj ? (brandItem.name || '') : (!isImagePath ? rawStr : '');
                     const logo = isObj ? (brandItem.logo || brandItem.logoUrl) : (isImagePath ? rawStr : null);
+
+                    // Ignore purely numeric names (like 1, 2, ١, ٢, etc.) so we don't display ugly numbers
+                    const isNumeric = /^[\d\u0660-\u0669\s\-_.]+$/.test(rawName.trim());
+                    const cleanName = isNumeric ? '' : rawName;
 
                     return (
                       <div 
                         key={bIdx}
-                        className="group relative flex items-center gap-2.5 p-2.5 rounded-2xl bg-fb-teal hover:bg-[#032e29] border border-white/10 hover:border-emerald-400/40 shadow-xs hover:shadow-md transition-all duration-300 min-h-[58px] text-start overflow-hidden"
-                        title={name || `Brand ${bIdx + 1}`}
+                        className="group relative flex flex-col items-center justify-center p-3 rounded-2xl bg-gradient-to-br from-[#064e3b] via-[#043d2e] to-[#022c22] border border-emerald-500/20 hover:border-emerald-400/60 shadow-[0_4px_16px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_30px_rgba(16,185,129,0.25)] hover:-translate-y-1 transition-all duration-300 h-20 sm:h-24 cursor-pointer overflow-hidden"
+                        title={cleanName || `Partner ${bIdx + 1}`}
                       >
-                        <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0 p-1.5 border border-white/5 group-hover:border-emerald-400/30 transition-colors">
+                        {/* Ambient glow on hover */}
+                        <div className="absolute inset-0 bg-emerald-400/0 group-hover:bg-emerald-400/5 transition-colors duration-300 pointer-events-none" />
+
+                        {/* Centered Logo Container */}
+                        <div className="w-full h-full flex items-center justify-center relative z-10 px-2">
                           {logo ? (
                             <img 
                               src={logo} 
-                              alt={name || `Brand Logo ${bIdx + 1}`} 
-                              className="max-h-7 max-w-7 w-auto h-auto object-contain brightness-0 invert opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                              alt={cleanName || `Brand Logo ${bIdx + 1}`} 
+                              className="max-h-12 sm:max-h-14 max-w-[85%] w-auto h-auto object-contain brightness-0 invert opacity-85 group-hover:opacity-100 group-hover:scale-108 transition-all duration-300"
                             />
+                          ) : cleanName ? (
+                            <div className="flex flex-col items-center justify-center space-y-1 w-full">
+                              <BrandLogo name={cleanName} className="h-8 max-w-[85%] w-auto text-white fill-current group-hover:scale-105 transition-all duration-300" />
+                              <span className="text-[10px] font-bold text-emerald-100/70 group-hover:text-white truncate max-w-full">
+                                {cleanName}
+                              </span>
+                            </div>
                           ) : (
-                            <BrandLogo name={name} className="w-6 h-6 text-white fill-current group-hover:scale-105 transition-all duration-300" />
+                            <div className="w-2 h-2 rounded-full bg-emerald-400/40" />
                           )}
                         </div>
-                        {name && (
-                          <span className="text-xs font-bold text-white/90 group-hover:text-emerald-200 leading-snug line-clamp-2 transition-colors">
-                            {name}
-                          </span>
-                        )}
                       </div>
                     );
                   })}
