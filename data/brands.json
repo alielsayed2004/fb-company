@@ -40,6 +40,11 @@
     "logoUrl": "/logos/8.png"
   },
   {
+    "id": 9,
+    "name": "Brand Partner #9",
+    "logoUrl": "/logos/9.png"
+  },
+  {
     "id": 10,
     "name": "Brand Partner #10",
     "logoUrl": "/logos/10.png"
@@ -65,14 +70,34 @@
     "logoUrl": "/logos/14.png"
   },
   {
+    "id": 15,
+    "name": "Brand Partner #15",
+    "logoUrl": "/logos/15.png"
+  },
+  {
     "id": 16,
     "name": "Brand Partner #16",
     "logoUrl": "/logos/16.png"
   },
   {
+    "id": 17,
+    "name": "Brand Partner #17",
+    "logoUrl": "/logos/17.png"
+  },
+  {
+    "id": 18,
+    "name": "Brand Partner #18",
+    "logoUrl": "/logos/18.png"
+  },
+  {
     "id": 19,
     "name": "Brand Partner #19",
     "logoUrl": "/logos/19.png"
+  },
+  {
+    "id": 20,
+    "name": "Brand Partner #20",
+    "logoUrl": "/logos/20.png"
   },
   {
     "id": 21,
@@ -148,6 +173,11 @@
     "id": 35,
     "name": "Brand Partner #35",
     "logoUrl": "/logos/35.png"
+  },
+  {
+    "id": 36,
+    "name": "Brand Partner #36",
+    "logoUrl": "/logos/36.png"
   },
   {
     "id": 37,
@@ -228,36 +258,6 @@
     "id": 52,
     "name": "Brand Partner #52",
     "logoUrl": "/logos/52.png"
-  },
-  {
-    "id": 9,
-    "name": "Brand Partner #9",
-    "logoUrl": "/logos/9.png"
-  },
-  {
-    "id": 15,
-    "name": "Brand Partner #15",
-    "logoUrl": "/logos/15.png"
-  },
-  {
-    "id": 17,
-    "name": "Brand Partner #17",
-    "logoUrl": "/logos/17.png"
-  },
-  {
-    "id": 18,
-    "name": "Brand Partner #18",
-    "logoUrl": "/logos/18.png"
-  },
-  {
-    "id": 20,
-    "name": "Brand Partner #20",
-    "logoUrl": "/logos/20.png"
-  },
-  {
-    "id": 36,
-    "name": "Brand Partner #36",
-    "logoUrl": "/logos/36.png"
   },
   {
     "id": 53,
