@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Lock, KeyRound, Save, Plus, Trash2, Download, RotateCcw, Building2, Newspaper, Tag, BarChart3, CheckCircle2, Phone, Mail, MapPin, Globe, Upload, Video, Image as ImageIcon, Camera } from 'lucide-react';
+import { X, Lock, KeyRound, Save, Plus, Trash2, Download, RotateCcw, Building2, Newspaper, Tag, BarChart3, CheckCircle2, Phone, Mail, MapPin, Globe, Upload, Video, Image as ImageIcon, Camera, Loader2, RefreshCw, GitBranch } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -78,6 +78,45 @@ export default function AdminPanelModal() {
   const [editableContact, setEditableContact] = useState(contactInfo);
 
   const [saveSuccessMsg, setSaveSuccessMsg] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Pull freshest project data directly from the machine files
+  const loadFreshDataFromDisk = async () => {
+    setIsRefreshing(true);
+    try {
+      const res = await fetch('/api/admin/sync');
+      const data = await res.json();
+      if (data.success) {
+        if (Array.isArray(data.projects) && data.projects.length > 0) {
+          setEditableProjects(data.projects);
+          saveProjects(data.projects);
+        }
+        if (Array.isArray(data.blogsEn) && data.blogsEn.length > 0) {
+          setEditableBlogsEn(data.blogsEn);
+        }
+        if (Array.isArray(data.blogsAr) && data.blogsAr.length > 0) {
+          setEditableBlogsAr(data.blogsAr);
+        }
+        if (Array.isArray(data.brands) && data.brands.length > 0) {
+          setEditableBrands(data.brands);
+          saveBrands(data.brands);
+        }
+        if (data.counters) {
+          setEditableCounters(data.counters);
+          saveCounters(data.counters);
+        }
+        if (data.contactInfo) {
+          setEditableContact(data.contactInfo);
+          saveContactInfo(data.contactInfo);
+        }
+      }
+    } catch (e) {
+      console.warn('Could not load fresh disk data:', e);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   // Handle Passcode Unlock
   const handlePasscodeSubmit = (e) => {
@@ -93,6 +132,7 @@ export default function AdminPanelModal() {
       setEditableCounters({ ...counters });
       setEditableContact({ ...contactInfo });
       setIsAdminOpen(true);
+      loadFreshDataFromDisk();
     } else {
       setPasscodeError(locale === 'ar' ? 'رمز الدخول غير صحيح! حاول مرة أخرى.' : 'Incorrect passcode! Please try again.');
     }
@@ -320,15 +360,72 @@ export default function AdminPanelModal() {
     }
   };
 
-  // Save All Changes
-  const handleSaveAll = () => {
-    saveProjects(editableProjects);
-    saveBlogs(editableBlogsEn, editableBlogsAr);
-    saveBrands(editableBrands);
-    saveCounters(editableCounters);
-    saveContactInfo(editableContact);
-    setSaveSuccessMsg(locale === 'ar' ? 'تم ضغط وحفظ كافة الصور والتعديلات بنجاح وتفعيلها بالموقع!' : 'Images compressed & all changes saved successfully!');
-    setTimeout(() => setSaveSuccessMsg(''), 4000);
+  // Save All Changes directly to machine files and sync to GitHub
+  const handleSaveAll = async () => {
+    setIsSaving(true);
+    setSaveSuccessMsg('');
+    try {
+      const res = await fetch('/api/admin/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projects: editableProjects,
+          blogsEn: editableBlogsEn,
+          blogsAr: editableBlogsAr,
+          brands: editableBrands,
+          counters: editableCounters,
+          contactInfo: editableContact
+        })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        if (data.projects && Array.isArray(data.projects)) {
+          setEditableProjects(data.projects);
+          saveProjects(data.projects);
+        } else {
+          saveProjects(editableProjects);
+        }
+        saveBlogs(editableBlogsEn, editableBlogsAr);
+        saveBrands(editableBrands);
+        saveCounters(editableCounters);
+        saveContactInfo(editableContact);
+
+        if (data.git && data.git.synced) {
+          setSaveSuccessMsg(
+            locale === 'ar'
+              ? '✅ تم حفظ التعديلات في ملفات المشروع ورفعها وتحديثها على GitHub فوراً بنجاح!'
+              : '✅ Changes saved to project files & pushed to GitHub main successfully!'
+          );
+        } else {
+          setSaveSuccessMsg(
+            locale === 'ar'
+              ? '✅ تم حفظ التعديلات والملفات في الجهاز بنجاح!'
+              : '✅ Changes saved to machine project files successfully!'
+          );
+        }
+      } else {
+        // Fallback local save if server error
+        saveProjects(editableProjects);
+        saveBlogs(editableBlogsEn, editableBlogsAr);
+        saveBrands(editableBrands);
+        saveCounters(editableCounters);
+        saveContactInfo(editableContact);
+        setSaveSuccessMsg(locale === 'ar' ? 'تم الحفظ محلياً بنجاح!' : 'Saved locally!');
+      }
+    } catch (err) {
+      console.error('Save error:', err);
+      // Fallback local save
+      saveProjects(editableProjects);
+      saveBlogs(editableBlogsEn, editableBlogsAr);
+      saveBrands(editableBrands);
+      saveCounters(editableCounters);
+      saveContactInfo(editableContact);
+      setSaveSuccessMsg(locale === 'ar' ? 'تم حفظ التعديلات في المتصفح!' : 'Saved in browser!');
+    } finally {
+      setIsSaving(false);
+      setTimeout(() => setSaveSuccessMsg(''), 5000);
+    }
   };
 
   // Export JSON Backup
@@ -474,11 +571,31 @@ export default function AdminPanelModal() {
 
                 <div className="flex items-center space-x-3">
                   <button
-                    onClick={handleSaveAll}
-                    className="flex items-center space-x-2 bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-md transition-colors"
+                    onClick={loadFreshDataFromDisk}
+                    disabled={isRefreshing || isSaving}
+                    title={locale === 'ar' ? 'سحب البيانات فوراً من ملفات الجهاز' : 'Pull fresh data from machine files'}
+                    className="flex items-center space-x-2 bg-fb-white/10 hover:bg-fb-white/20 disabled:opacity-50 text-fb-white font-bold px-3.5 py-2.5 rounded-xl text-xs transition-all border border-fb-white/15"
                   >
-                    <Save size={16} />
-                    <span>{locale === 'ar' ? 'حفظ التغيرات' : 'Save Changes'}</span>
+                    <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
+                    <span>{locale === 'ar' ? 'سحب من ملفات الجهاز' : 'Sync from Files'}</span>
+                  </button>
+
+                  <button
+                    onClick={handleSaveAll}
+                    disabled={isSaving}
+                    className="flex items-center space-x-2 bg-fb-green hover:bg-fb-green-hover disabled:opacity-75 text-fb-teal font-extrabold px-4 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-md transition-all cursor-pointer"
+                  >
+                    {isSaving ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        <span>{locale === 'ar' ? 'جاري الحفظ والرفع لـ GitHub...' : 'Saving & Pushing to GitHub...'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <GitBranch size={16} />
+                        <span>{locale === 'ar' ? 'حفظ وتحديث GitHub فوراً' : 'Save & Push GitHub'}</span>
+                      </>
+                    )}
                   </button>
 
                   <button
