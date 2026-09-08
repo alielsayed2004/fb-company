@@ -63,42 +63,57 @@ body {
   color: var(--fb-green-accent);
 }
 
-/* Heading Sizes */
+/* Heading Sizes with Responsive Mobile Balancing */
 h1 {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 1.15;
+  font-size: clamp(1.85rem, 5.5vw, 4.5rem);
+  line-height: 1.18;
   font-weight: 700;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 h2 {
-  font-size: clamp(2rem, 4vw, 3rem);
-  line-height: 1.25;
+  font-size: clamp(1.4rem, 4.2vw, 2.75rem);
+  line-height: 1.22;
   font-weight: 600;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+h3 {
+  font-size: clamp(1.15rem, 3.4vw, 2.15rem);
+  line-height: 1.26;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 p {
   line-height: 1.65;
+  overflow-wrap: break-word;
 }
 
 /* RTL Typography & Arabic Text Spacing */
 [dir="rtl"] h1 {
-  line-height: 1.35;
+  line-height: 1.22;
   letter-spacing: normal;
+  text-wrap: balance;
 }
 
 [dir="rtl"] h2 {
-  line-height: 1.35;
+  line-height: 1.24;
   letter-spacing: normal;
+  text-wrap: balance;
 }
 
 [dir="rtl"] h3,
 [dir="rtl"] h4 {
-  line-height: 1.45;
+  line-height: 1.28;
   letter-spacing: normal;
+  text-wrap: balance;
 }
 
 [dir="rtl"] p {
-  line-height: 1.8;
+  line-height: 1.7;
   letter-spacing: normal;
 }
 
@@ -221,5 +236,25 @@ p {
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE SAFE AREA & VIEWPORT OPTIMIZATIONS
+   ───────────────────────────────────────────────────────────── */
+.safe-pb {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+}
+
+.safe-pt {
+  padding-top: max(1rem, env(safe-area-inset-top, 0px));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-left,
+  .animate-marquee-right,
+  .animate-ticker,
+  .animate-float {
+    animation: none !important;
+  }
 }
 

@@ -30,6 +30,17 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   const navLinks = [
     { nameKey: 'nav.home', href: '/' },
     { nameKey: 'nav.assetManagement', href: '/asset-management' },
@@ -42,8 +53,8 @@ export default function Navbar() {
     <>
       <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 pointer-events-none ${
         isScrolled 
-          ? 'bg-fb-teal/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-none border-b border-white/10 md:border-transparent py-3 md:py-5 shadow-lg md:shadow-none' 
-          : 'bg-transparent py-4 md:py-5'
+          ? 'bg-fb-teal/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-none border-b border-white/10 md:border-transparent pt-[calc(0.75rem+env(safe-area-inset-top,0px))] pb-3 md:py-5 shadow-lg md:shadow-none' 
+          : 'bg-transparent pt-[calc(1rem+env(safe-area-inset-top,0px))] pb-4 md:py-5'
       }`}>
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 flex justify-between items-center">
           {/* Left Side: Logo / Brand Name (Always visible on mobile, hides on desktop scroll) */}
@@ -120,11 +131,14 @@ export default function Navbar() {
 
       {/* Mobile Drawer Navigation */}
       <div
-        className={`fixed inset-y-0 right-0 rtl:right-auto rtl:left-0 w-80 max-w-[85vw] bg-fb-teal shadow-2xl z-40 transform transition-transform duration-300 ease-in-out md:hidden ${
-          isOpen ? 'translate-x-0' : (isAr ? '-translate-x-full' : 'translate-x-full')
+        className={`fixed inset-y-0 right-0 rtl:right-auto rtl:left-0 w-80 max-w-[85vw] bg-fb-teal shadow-2xl z-40 transform transition-all duration-300 ease-in-out md:hidden ${
+          isOpen 
+            ? 'translate-x-0 opacity-100 visible' 
+            : (isAr ? '-translate-x-full opacity-0 invisible pointer-events-none' : 'translate-x-full opacity-0 invisible pointer-events-none')
         }`}
+        aria-hidden={!isOpen}
       >
-        <div className="h-full flex flex-col justify-between p-6 sm:p-8 pt-20">
+        <div className="h-full flex flex-col justify-between p-6 sm:p-8 pt-[calc(5rem+env(safe-area-inset-top,0px))] pb-[calc(2rem+env(safe-area-inset-bottom,0px))] overflow-y-auto">
           <div className="flex flex-col space-y-5">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;

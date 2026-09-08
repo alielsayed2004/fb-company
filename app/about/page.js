@@ -131,7 +131,7 @@ export default function About() {
     <div className="flex flex-col min-h-screen relative bg-fb-bg-light">
       
       {/* 1. HERO SECTION */}
-      <section className="bg-fb-teal text-fb-white py-24 px-6 relative overflow-hidden flex flex-col justify-center min-h-screen">
+      <section className="bg-fb-teal text-fb-white py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden flex flex-col justify-center min-h-[65dvh] md:min-h-screen">
         {/* Background Video (Optional) */}
         <video
           autoPlay
@@ -182,10 +182,10 @@ export default function About() {
               hidden: { opacity: 0, y: 18 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: corporateEase } }
             }}
-            className="!text-fb-bg-light max-w-2xl font-extrabold leading-snug tracking-tight text-xl sm:text-2xl md:text-[1.85rem] lg:text-[2.05rem]"
+            className="!text-fb-bg-light max-w-2xl font-extrabold leading-snug tracking-tight text-xl sm:text-2xl md:text-[1.85rem] lg:text-[2.05rem] text-balance"
           >
             {t('about.title1')}
-            <br />
+            <br className="hidden sm:inline" />{" "}
             {t('about.title2')}
           </motion.h1>
           <motion.p 
@@ -201,7 +201,7 @@ export default function About() {
       </section>
 
       {/* 2. STATS SECTION (Large Numeric Statistics) */}
-      <section className="py-20 bg-fb-bg-light border-y border-fb-bg-light relative">
+      <section className="py-12 sm:py-20 bg-fb-bg-light border-y border-fb-bg-light relative">
         <div className="absolute inset-0 opacity-20 grid-bg-white pointer-events-none" />
         
         <motion.div 
@@ -209,16 +209,16 @@ export default function About() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
-          className="max-w-7xl mx-auto px-6 relative z-10"
+          className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10"
         >
-          <div className="text-center mb-16 space-y-3">
+          <div className="text-center mb-10 sm:mb-16 space-y-2.5 sm:space-y-3">
             <span className="eyebrow">{locale === 'ar' ? 'مؤشرات الأداء المؤسسي' : 'Key Metrics'}</span>
-            <h2 className="text-fb-teal font-extrabold tracking-tight text-3xl md:text-4xl">{t('about.metricsTitle')}</h2>
+            <h2 className="text-fb-teal font-extrabold tracking-tight text-2xl sm:text-3xl md:text-4xl text-balance">{t('about.metricsTitle')}</h2>
           </div>
 
           <motion.div 
             variants={containerVariants}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8"
           >
             {[
               { label: t('about.metrics.sqm'), value: counters?.sqm || "500,000+", icon: <Layers strokeWidth={1.5} className="text-fb-green" size={24} /> },
@@ -229,11 +229,11 @@ export default function About() {
               <motion.div 
                 key={idx} 
                 variants={itemVariants}
-                className="bg-fb-bg-light/90 border border-fb-teal/15 p-8 rounded-3xl text-center space-y-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300 relative group overflow-hidden"
+                className="bg-fb-bg-light/90 border border-fb-teal/15 p-5 sm:p-8 rounded-2xl sm:rounded-3xl text-center space-y-3 sm:space-y-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300 relative group overflow-hidden"
               >
                 <div className="absolute top-0 left-0 w-1.5 h-full bg-fb-teal group-hover:bg-fb-green transition-colors animate-pulse" />
-                <div className="p-3 bg-fb-teal/5 border border-fb-teal/10 rounded-xl inline-block group-hover:bg-fb-green/10 transition-colors">{stat.icon}</div>
-                <div className="text-4xl md:text-5xl font-extrabold text-slate-900 font-mono tracking-tight block">
+                <div className="p-2.5 sm:p-3 bg-fb-teal/5 border border-fb-teal/10 rounded-xl inline-block group-hover:bg-fb-green/10 transition-colors">{stat.icon}</div>
+                <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 font-mono tracking-tight block">
                   <Counter value={stat.value} />
                 </div>
                 <p className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-700">{stat.label}</p>
@@ -244,11 +244,11 @@ export default function About() {
       </section>
 
       {/* 3. CORE VALUES SECTION */}
-      <section className="py-24 bg-fb-bg-light/40 border-b border-fb-teal/5">
-        <div className="max-w-7xl mx-auto px-6 space-y-16">
-          <div className="text-center space-y-3">
+      <section className="py-12 sm:py-20 md:py-24 bg-fb-bg-light/40 border-b border-fb-teal/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8 sm:space-y-16">
+          <div className="text-center space-y-2.5 sm:space-y-3">
             <span className="eyebrow">{t('about.valuesSubtitle')}</span>
-            <h2 className="text-fb-teal font-extrabold tracking-tight text-3xl md:text-4xl">{t('about.valuesTitle')}</h2>
+            <h2 className="text-fb-teal font-extrabold tracking-tight text-2xl sm:text-3xl md:text-4xl text-balance">{t('about.valuesTitle')}</h2>
           </div>
 
           <motion.div 
@@ -256,13 +256,13 @@ export default function About() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8"
           >
             {values.map((val, idx) => (
               <motion.div 
                 key={idx} 
                 variants={itemVariants}
-                className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-3xl p-8 flex flex-col justify-start items-center text-center shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300 group min-h-[300px] space-y-6 relative overflow-hidden"
+                className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-2xl sm:rounded-3xl p-5 sm:p-8 flex flex-col justify-start items-center text-center shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300 group min-h-[230px] sm:min-h-[300px] space-y-4 sm:space-y-6 relative overflow-hidden"
               >
                 {/* Large Background Overlay Watermark Icon */}
                 <div className="absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none">
@@ -270,13 +270,13 @@ export default function About() {
                 </div>
 
                 {/* Standardized Static Frosted Icon Container */}
-                <div className="w-16 h-16 flex items-center justify-center bg-fb-teal/5 border border-fb-teal/10 rounded-2xl p-4 text-fb-green group-hover:bg-fb-green/10 group-hover:border-fb-green/30 transition-colors duration-300 relative z-10">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-fb-teal/5 border border-fb-teal/10 rounded-2xl p-3 sm:p-4 text-fb-green group-hover:bg-fb-green/10 group-hover:border-fb-green/30 transition-colors duration-300 relative z-10">
                   {val.icon}
                 </div>
 
-                <div className="space-y-3 w-full relative z-10">
-                  <h4 className="font-extrabold text-fb-teal text-lg md:text-xl tracking-tight leading-snug">{val.title}</h4>
-                  <p className="text-slate-700 text-sm leading-relaxed">{val.desc}</p>
+                <div className="space-y-2 sm:space-y-3 w-full relative z-10">
+                  <h4 className="font-extrabold text-fb-teal text-base sm:text-lg md:text-xl tracking-tight leading-snug">{val.title}</h4>
+                  <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">{val.desc}</p>
                 </div>
               </motion.div>
             ))}

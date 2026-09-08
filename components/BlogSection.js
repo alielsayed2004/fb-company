@@ -15,19 +15,19 @@ export default function BlogSection() {
   const articles = locale === 'ar' ? blogsAr : blogsEn;
 
   return (
-    <section className="py-24 bg-fb-bg-light border-t border-fb-bg-light" id="blog">
-      <div className="max-w-7xl mx-auto px-6 space-y-12">
+    <section className="py-12 sm:py-20 md:py-24 bg-fb-bg-light border-t border-fb-bg-light" id="blog">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8 sm:space-y-12">
         
         {/* Title Block */}
-        <div className="text-center space-y-3 max-w-4xl mx-auto">
+        <div className="text-center space-y-2.5 sm:space-y-3 max-w-4xl mx-auto">
           <span className="eyebrow text-fb-green block">{t('home.blog.eyebrow')}</span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-fb-teal tracking-tight whitespace-normal sm:whitespace-nowrap">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-fb-teal tracking-tight text-balance">
             {t('home.blog.title')}
           </h2>
         </div>
 
         {/* 4 Columns Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 pt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 md:gap-10 pt-2 sm:pt-4">
           {articles.map((article) => (
             <motion.div
               key={article.id}
@@ -36,7 +36,7 @@ export default function BlogSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: article.id * 0.1 }}
-              className="flex flex-col justify-between group cursor-pointer space-y-6 bg-fb-bg-light/90 p-6 sm:p-7 rounded-3xl border border-fb-teal/15 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300"
+              className="flex flex-col justify-between group cursor-pointer space-y-4 sm:space-y-6 bg-fb-bg-light/90 p-5 sm:p-7 rounded-2xl sm:rounded-3xl border border-fb-teal/15 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300"
             >
               {/* Top Text Content */}
               <div className="space-y-3">

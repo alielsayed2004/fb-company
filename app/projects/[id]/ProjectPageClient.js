@@ -126,25 +126,39 @@ export default function ProjectPageClient({ project: initialProject }) {
 
   const renderProjectTitle = (rawName) => {
     if (!rawName) return '';
-    const match = rawName.match(/^(.*?)\s*(\(.*?\))\s*$/);
-    if (match) {
-      const mainTitle = match[1];
-      const subtitle = match[2];
+    // Prevent orphan trailing numbers across any string (e.g. "Marina 5" -> "Marina\u00A05")
+    const cleanStr = rawName.replace(/(\S+)\s+(\d+)\b/g, '$1\u00A0$2');
+    
+    // Check for subtitle in parentheses
+    const parenMatch = cleanStr.match(/^(.*?)\s*(\(.*?\))\s*$/);
+    if (parenMatch) {
       return (
         <>
-          <span className="block">{mainTitle}</span>
-          <span className="block">{subtitle}</span>
+          <span className="block">{parenMatch[1]}</span>
+          <span className="block text-[0.85em] opacity-90">{parenMatch[2]}</span>
         </>
       );
     }
-    return rawName;
+    
+    // Check for "Hub – Branch/Location" dash pattern so semantic groups stay intact
+    const dashMatch = cleanStr.match(/^(.*?)\s*([–\-])\s*(.*)$/);
+    if (dashMatch) {
+      return (
+        <>
+          <span className="inline-block">{dashMatch[1]} {dashMatch[2]}</span>{' '}
+          <span className="inline-block">{dashMatch[3]}</span>
+        </>
+      );
+    }
+    
+    return cleanStr;
   };
 
   return (
     <div className="flex flex-col min-h-screen bg-fb-bg-light">
       
       {/* 1. FULLSCREEN HERO HEADER */}
-      <section className={`relative min-h-screen flex flex-col justify-between pt-28 pb-8 md:pb-12 bg-gradient-to-br ${project.coverColor || 'from-teal-800 to-teal-950'} text-fb-white overflow-hidden border-b border-fb-teal/20`}>
+      <section className={`relative min-h-[100dvh] flex flex-col justify-between pt-24 sm:pt-28 pb-10 md:pb-12 bg-gradient-to-br ${project.coverColor || 'from-teal-800 to-teal-950'} text-fb-white overflow-hidden border-b border-fb-teal/20`}>
         {/* Background Video */}
         <video
           ref={videoRef}
@@ -164,32 +178,32 @@ export default function ProjectPageClient({ project: initialProject }) {
         <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:20px_20px] z-0" />
         
         {/* Top bar inside hero: Back link */}
-        <div className="max-w-6xl mx-auto px-6 relative z-10 w-full">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 w-full">
           <motion.div
             initial={{ opacity: 0, x: locale === 'ar' ? 15 : -15 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link href="/#portfolio" className="inline-flex items-center space-x-2 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/30 hover:bg-fb-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-xs font-bold uppercase tracking-wider transition-all">
-              <ArrowLeft size={14} className="mr-1.5 ml-1.5 rtl:rotate-180" />
+            <Link href="/#portfolio" className="inline-flex items-center space-x-1.5 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/35 hover:bg-fb-black/55 backdrop-blur-md px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/15 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all">
+              <ArrowLeft size={13} className="mr-1.5 ml-1.5 rtl:rotate-180" />
               <span>{t('projectDetails.backToDevelopments')}</span>
             </Link>
           </motion.div>
         </div>
 
         {/* Main Content inside hero */}
-        <div className="max-w-6xl mx-auto px-6 relative z-10 space-y-4 w-full text-start my-auto py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 space-y-3 sm:space-y-4 w-full text-start my-auto py-8 sm:py-12">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="flex items-center space-x-3 rtl:space-x-reverse justify-start flex-wrap gap-y-2"
+            className="flex items-center space-x-2.5 rtl:space-x-reverse justify-start flex-wrap gap-y-2"
           >
-            <span className="bg-fb-green text-fb-teal text-xs font-extrabold px-3.5 py-1 rounded-md tracking-wider uppercase shadow-md">
+            <span className="bg-fb-green text-fb-teal text-[11px] sm:text-xs font-extrabold px-3 py-1 rounded-md tracking-wider uppercase shadow-md">
               {project.status === 'Operational' ? (locale === 'ar' ? 'تشغيل ممتاز' : 'Operational') : (locale === 'ar' ? 'تحت الإنشاء' : project.status)}
             </span>
-            <span className="text-sm text-fb-bg-light/90 font-medium flex items-center bg-white/10 backdrop-blur-md px-3 py-1 rounded-md border border-white/10">
-              <MapPin size={14} className="mr-1.5 ml-1.5 text-fb-green shrink-0" />
+            <span className="text-xs sm:text-sm text-fb-bg-light/90 font-medium flex items-center bg-white/10 backdrop-blur-md px-3 py-1 rounded-md border border-white/10">
+              <MapPin size={13} className="mr-1.5 ml-1.5 text-fb-green shrink-0" />
               {getField(project, 'city')}
             </span>
           </motion.div>
@@ -198,7 +212,7 @@ export default function ProjectPageClient({ project: initialProject }) {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.7, ease: "easeOut" }}
-            className="text-fb-white font-extrabold tracking-tight text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.15] max-w-5xl drop-shadow-lg select-none [hyphens:none]"
+            className="text-fb-white font-extrabold tracking-tight text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.18] max-w-5xl drop-shadow-lg select-none [hyphens:none] [text-wrap:balance]"
           >
             {renderProjectTitle(getField(project, 'name'))}
           </motion.h1>
@@ -207,22 +221,22 @@ export default function ProjectPageClient({ project: initialProject }) {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-sm md:text-lg text-fb-bg-light/90 max-w-2xl font-medium leading-relaxed drop-shadow"
+            className="text-xs sm:text-base md:text-lg text-fb-bg-light/90 max-w-2xl font-medium leading-relaxed drop-shadow"
           >
             {getField(project, 'location')}
           </motion.p>
         </div>
 
         {/* Bottom Hero Anchor / Scroll Indicator */}
-        <div className="max-w-6xl mx-auto px-6 relative z-10 w-full flex items-center justify-between pb-2">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 w-full flex items-center justify-between pb-2">
           <div className="hidden sm:flex items-center space-x-4 rtl:space-x-reverse text-xs text-white/60 font-mono">
             <span>{project.metrics?.landArea}</span>
             <span>•</span>
             <span>{project.metrics?.numBrands || project.brands?.length} {locale === 'ar' ? 'علامات' : 'Brands'}</span>
           </div>
 
-          {/* Centered Explore Details Indicator */}
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-0 flex justify-center">
+          {/* Centered Explore Details Indicator with safe-area-inset */}
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:bottom-2 flex justify-center z-20">
             <motion.button
               type="button"
               onClick={() => {
@@ -231,10 +245,10 @@ export default function ProjectPageClient({ project: initialProject }) {
               }}
               animate={{ y: [0, 5, 0] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-              className="flex items-center space-x-2 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/35 hover:bg-fb-black/60 backdrop-blur-md px-5 py-2 rounded-full border border-fb-green/30 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-lg"
+              className="flex items-center space-x-2 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/40 hover:bg-fb-black/60 backdrop-blur-md px-4 py-2 sm:px-5 sm:py-2 rounded-full border border-fb-green/30 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-lg"
             >
               <span>{locale === 'ar' ? 'تفاصيل المشروع' : 'Explore Details'}</span>
-              <ChevronDown size={15} className="text-fb-green" />
+              <ChevronDown size={14} className="text-fb-green" />
             </motion.button>
           </div>
 

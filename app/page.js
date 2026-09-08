@@ -159,7 +159,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen relative bg-fb-bg-light">
 
       {/* 1. HERO SECTION (Signature Centered Experience with 3D Parallax) */}
-      <section ref={heroRef} className="relative h-screen bg-fb-teal flex flex-col justify-center items-center overflow-hidden px-6">
+      <section ref={heroRef} className="relative min-h-[100dvh] h-[100dvh] bg-fb-teal flex flex-col justify-center items-center overflow-hidden px-4 sm:px-6">
         {/* Background Video Layer with Parallax Depth */}
         <motion.div
           style={{ y: heroBgY, willChange: 'transform' }}
@@ -244,122 +244,122 @@ export default function Home() {
       </section>
 
       {/* 2. SUCCESS NUMBERS BAND (Statement on Left + 2x2 Square Grid on Right with Brand Light Background) */}
-      <section className="bg-fb-bg-light border-y border-fb-teal/10 py-14 sm:py-20 md:py-28 px-4 sm:px-6 flex flex-col justify-center relative overflow-hidden z-20">
+      <section className="bg-fb-bg-light border-y border-fb-teal/10 py-10 sm:py-16 md:py-24 px-4 sm:px-6 flex flex-col justify-center relative overflow-hidden z-20">
         {/* Subtle Ambient Radial Glow */}
         <div
           className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[350px] bg-fb-green/5 rounded-full blur-[100px] pointer-events-none"
           aria-hidden="true"
         />
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative z-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center relative z-10">
 
           {/* Left Column: Authoritative Institutional Statement */}
-          <div className="lg:col-span-5 space-y-6 text-start">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-fb-teal/5 border border-fb-teal/10 text-fb-green text-xs font-bold uppercase tracking-widest">
+          <div className="lg:col-span-5 space-y-4 sm:space-y-6 text-start">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fb-teal/5 border border-fb-teal/10 text-fb-green text-xs font-bold uppercase tracking-widest">
               <BarChart4 size={14} />
               <span>{locale === 'ar' ? 'مؤشرات الأداء المؤسسي' : 'PROVEN TRACK RECORD'}</span>
             </div>
 
-            <h2 className="text-fb-teal font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-tight">
+            <h2 className="text-fb-teal font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight leading-tight text-balance">
               {locale === 'ar'
                 ? 'أرقام وحقائق تعكس حجم انتشارنا وريادة أصولنا'
                 : 'Delivering Scale, Precision, and Sustained Value Across Egypt.'}
             </h2>
 
-            <p className="text-fb-black/75 text-sm md:text-base font-normal leading-relaxed">
+            <p className="text-fb-black/75 text-xs sm:text-sm md:text-base font-normal leading-relaxed">
               {locale === 'ar'
                 ? 'نرتكز على الدراسات الميدانية لحركة المرور وتأمين الشراكات مع كبرى العلامات التجارية لتحقيق استقرار تشغيلي كامل وعوائد استثمارية قياسية.'
                 : 'Our data-backed sourcing frameworks and long-term asset management consistently guarantee 100% occupancy across premium arterial corridors.'}
             </p>
 
-            <div className="pt-2 flex items-center gap-3 text-xs font-semibold text-fb-green tracking-wide">
-              <ShieldCheck size={18} className="shrink-0" />
+            <div className="pt-1 sm:pt-2 flex items-center gap-2 sm:gap-3 text-xs font-semibold text-fb-green tracking-wide">
+              <ShieldCheck size={16} className="shrink-0 sm:w-[18px] sm:h-[18px]" />
               <span>{locale === 'ar' ? 'بيانات وإحصاءات معتمدة ومحدثة دورياً' : 'Audited and verified institutional metrics'}</span>
             </div>
           </div>
 
           {/* Right Column: 2x2 Balanced Metric Cards matching Page Background with Distinct Borders */}
-          <div className="lg:col-span-7 grid grid-cols-2 gap-4 sm:gap-6">
+          <div className="lg:col-span-7 grid grid-cols-2 gap-3.5 sm:gap-6">
 
             {/* Card 1: SQM Managed */}
-            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-3xl p-6 sm:p-8 flex flex-col justify-between min-h-[180px] sm:min-h-[205px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
+            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-2xl sm:rounded-3xl p-4 sm:p-7 flex flex-col justify-between min-h-[140px] sm:min-h-[195px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
               {/* Large Background Overlay Watermark Icon */}
-              <Building2 size={115} className="absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
+              <Building2 size={85} className="sm:w-[115px] sm:h-[115px] absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
 
               <div className="flex items-center justify-between relative z-10">
-                <div className="w-11 h-11 rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
-                  <Building2 size={20} />
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
+                  <Building2 size={18} className="sm:w-5 sm:h-5" />
                 </div>
-                <span className="text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">01</span>
+                <span className="text-[11px] sm:text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">01</span>
               </div>
-              <div className="space-y-1 relative z-10 pt-4">
-                <div className="text-fb-teal font-black text-3xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
+              <div className="space-y-0.5 sm:space-y-1 relative z-10 pt-3 sm:pt-4">
+                <div className="text-fb-teal font-black text-2xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
                   <Counter value={counters?.sqm || "500,000+"} />
                 </div>
-                <div className="text-xs sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
+                <div className="text-[11px] sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
                   {t('home.counters.sqm')}
                 </div>
               </div>
             </div>
 
             {/* Card 2: Occupancy Rate */}
-            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-3xl p-6 sm:p-8 flex flex-col justify-between min-h-[180px] sm:min-h-[205px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
+            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-2xl sm:rounded-3xl p-4 sm:p-7 flex flex-col justify-between min-h-[140px] sm:min-h-[195px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
               {/* Large Background Overlay Watermark Icon */}
-              <TrendingUp size={115} className="absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
+              <TrendingUp size={85} className="sm:w-[115px] sm:h-[115px] absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
 
               <div className="flex items-center justify-between relative z-10">
-                <div className="w-11 h-11 rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
-                  <TrendingUp size={20} />
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
+                  <TrendingUp size={18} className="sm:w-5 sm:h-5" />
                 </div>
-                <span className="text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">02</span>
+                <span className="text-[11px] sm:text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">02</span>
               </div>
-              <div className="space-y-1 relative z-10 pt-4">
-                <div className="text-fb-teal font-black text-3xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
+              <div className="space-y-0.5 sm:space-y-1 relative z-10 pt-3 sm:pt-4">
+                <div className="text-fb-teal font-black text-2xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
                   <Counter value={counters?.occupancy || "100%"} />
                 </div>
-                <div className="text-xs sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
+                <div className="text-[11px] sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
                   {t('home.counters.occupancy')}
                 </div>
               </div>
             </div>
 
             {/* Card 3: Brand Partners */}
-            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-3xl p-6 sm:p-8 flex flex-col justify-between min-h-[180px] sm:min-h-[205px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
+            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-2xl sm:rounded-3xl p-4 sm:p-7 flex flex-col justify-between min-h-[140px] sm:min-h-[195px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
               {/* Large Background Overlay Watermark Icon */}
-              <Store size={115} className="absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
+              <Store size={85} className="sm:w-[115px] sm:h-[115px] absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
 
               <div className="flex items-center justify-between relative z-10">
-                <div className="w-11 h-11 rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
-                  <Store size={20} />
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
+                  <Store size={18} className="sm:w-5 sm:h-5" />
                 </div>
-                <span className="text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">03</span>
+                <span className="text-[11px] sm:text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">03</span>
               </div>
-              <div className="space-y-1 relative z-10 pt-4">
-                <div className="text-fb-teal font-black text-3xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
+              <div className="space-y-0.5 sm:space-y-1 relative z-10 pt-3 sm:pt-4">
+                <div className="text-fb-teal font-black text-2xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
                   <Counter value={counters?.brands || "200+"} />
                 </div>
-                <div className="text-xs sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
+                <div className="text-[11px] sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
                   {t('home.counters.brands')}
                 </div>
               </div>
             </div>
 
             {/* Card 4: Commercial Projects */}
-            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-3xl p-6 sm:p-8 flex flex-col justify-between min-h-[180px] sm:min-h-[205px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
+            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-2xl sm:rounded-3xl p-4 sm:p-7 flex flex-col justify-between min-h-[140px] sm:min-h-[195px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
               {/* Large Background Overlay Watermark Icon */}
-              <Fuel size={115} className="absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
+              <Fuel size={85} className="sm:w-[115px] sm:h-[115px] absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
 
               <div className="flex items-center justify-between relative z-10">
-                <div className="w-11 h-11 rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
-                  <Fuel size={20} />
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
+                  <Fuel size={18} className="sm:w-5 sm:h-5" />
                 </div>
-                <span className="text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">04</span>
+                <span className="text-[11px] sm:text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">04</span>
               </div>
-              <div className="space-y-1 relative z-10 pt-4">
-                <div className="text-fb-teal font-black text-3xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
+              <div className="space-y-0.5 sm:space-y-1 relative z-10 pt-3 sm:pt-4">
+                <div className="text-fb-teal font-black text-2xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
                   <Counter value={counters?.gas || "8+"} />
                 </div>
-                <div className="text-xs sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
+                <div className="text-[11px] sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
                   {t('home.counters.gas')}
                 </div>
               </div>
@@ -374,19 +374,19 @@ export default function Home() {
       <PartnersMarquee />
 
       {/* 4. ABOUT F.B COMPANY (Split Screen + Radar Scan Visual) */}
-      <section className="py-24 bg-fb-bg-light">
+      <section className="py-12 sm:py-20 md:py-24 bg-fb-bg-light">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
+          className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
         >
           {/* Left Text */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <span className="eyebrow">{t('home.about.eyebrow')}</span>
-            <h2 className="text-fb-teal font-bold">{t('home.about.title')}</h2>
-            <div className="text-fb-black/80 text-sm md:text-base leading-relaxed space-y-4">
+            <h2 className="text-fb-teal font-bold text-2xl sm:text-3xl md:text-4xl text-balance">{t('home.about.title')}</h2>
+            <div className="text-fb-black/80 text-xs sm:text-sm md:text-base leading-relaxed space-y-3 sm:space-y-4">
               <p>
                 {t('home.about.p1')}
               </p>
@@ -394,7 +394,7 @@ export default function Home() {
                 {t('home.about.p2')}
               </p>
             </div>
-            <div className="pt-2">
+            <div className="pt-1 sm:pt-2">
               <Link
                 href="/about"
                 className="inline-flex items-center space-x-1.5 text-fb-teal font-bold text-xs uppercase tracking-wider hover:text-fb-green transition-colors"
@@ -413,38 +413,50 @@ export default function Home() {
       </section>
 
       {/* 5. WHY F.B COMPANY (Institutional Strengths) */}
-      <section className="py-24 bg-fb-bg-light/30 border-t border-fb-teal/5">
+      <section id="why-fb" className="py-12 sm:py-20 md:py-24 bg-fb-bg-light/30 border-t border-fb-teal/5">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
-          className="max-w-7xl mx-auto px-6 space-y-12"
+          className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8 sm:space-y-12"
         >
-          <div className="text-center space-y-4">
+          <div className="text-center space-y-3 sm:space-y-4 max-w-4xl mx-auto">
             <span className="eyebrow">{t('home.usp.eyebrow')}</span>
-            <h2 className="text-fb-teal font-bold">{t('home.usp.title')}</h2>
+            <h2 className="text-fb-teal font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-balance leading-snug">
+              {locale === 'ar' ? (
+                <>
+                  <span className="inline-block whitespace-nowrap">دقة التحليلات الميدانية</span>
+                  <span className="text-fb-green mx-1.5 sm:mx-2">•</span>
+                  <span className="inline-block whitespace-nowrap">انضباط الحيازة</span>
+                  <span className="text-fb-green mx-1.5 sm:mx-2">•</span>
+                  <span className="inline-block whitespace-nowrap">استدامة العوائد</span>
+                </>
+              ) : (
+                t('home.usp.title')
+              )}
+            </h2>
           </div>
 
           <motion.div
             variants={containerVariants}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
           >
             {usps.map((usp, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="bg-fb-bg-light/90 border border-fb-teal/15 p-6 sm:p-7 rounded-3xl space-y-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300 group relative overflow-hidden flex flex-col justify-between"
+                className="bg-fb-bg-light/90 border border-fb-teal/15 p-5 sm:p-7 rounded-2xl sm:rounded-3xl space-y-3 sm:space-y-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300 group relative overflow-hidden flex flex-col justify-between"
               >
                 {/* Large Background Overlay Watermark Icon */}
                 <div className="absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none">
                   {usp.watermark}
                 </div>
 
-                <div className="space-y-4 relative z-10">
-                  <div className="p-3 rounded-xl bg-fb-teal/5 border border-fb-teal/10 text-fb-green group-hover:bg-fb-green/10 transition-colors inline-block">{usp.icon}</div>
-                  <h4 className="font-bold text-fb-teal text-base">{usp.title}</h4>
-                  <p className="text-slate-700 text-xs md:text-sm leading-relaxed">{usp.desc}</p>
+                <div className="space-y-3 sm:space-y-4 relative z-10">
+                  <div className="p-2.5 sm:p-3 rounded-xl bg-fb-teal/5 border border-fb-teal/10 text-fb-green group-hover:bg-fb-green/10 transition-colors inline-block">{usp.icon}</div>
+                  <h4 className="font-bold text-fb-teal text-base leading-snug">{usp.title}</h4>
+                  <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">{usp.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -453,11 +465,11 @@ export default function Home() {
       </section>
 
       {/* 6. HOW WE CREATE VALUE (Timeline) */}
-      <section className="py-24 bg-fb-bg-light border-b border-fb-bg-light">
-        <div className="max-w-7xl mx-auto px-6 space-y-16">
-          <div className="text-center space-y-4">
+      <section id="methodology" className="py-12 sm:py-20 md:py-24 bg-fb-bg-light border-b border-fb-bg-light">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8 sm:space-y-14">
+          <div className="text-center space-y-2.5 sm:space-y-4 max-w-2xl mx-auto">
             <span className="eyebrow">{t('home.methodology.eyebrow')}</span>
-            <h2 className="text-fb-teal font-bold">{t('home.methodology.title')}</h2>
+            <h2 className="text-fb-teal font-bold text-2xl sm:text-3xl md:text-4xl text-balance leading-snug">{t('home.methodology.title')}</h2>
           </div>
 
           <motion.div
@@ -465,7 +477,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative"
           >
             {/* Timeline horizontal background bar */}
             <div className="hidden lg:block absolute top-10 left-[12%] right-[12%] h-0.5 bg-fb-teal/10 z-0" />
@@ -474,16 +486,16 @@ export default function Home() {
               <motion.div
                 key={item.step}
                 variants={itemVariants}
-                className="flex flex-col items-center text-center space-y-4 relative z-10"
+                className="flex flex-col items-center text-center space-y-3 sm:space-y-4 relative z-10"
               >
-                <div className="w-14 h-14 rounded-2xl bg-fb-teal text-fb-bg-light flex items-center justify-center border border-fb-green/20 shadow-md">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-fb-teal text-fb-bg-light flex items-center justify-center border border-fb-green/20 shadow-md">
                   {item.icon}
                 </div>
                 <div className="space-y-1">
                   <span className="text-fb-green text-xs font-bold uppercase tracking-widest">{locale === 'ar' ? `الخطوة ${item.step}` : `Step ${item.step}`}</span>
-                  <h4 className="font-bold text-fb-teal text-lg">{item.name}</h4>
+                  <h4 className="font-bold text-fb-teal text-base sm:text-lg">{item.name}</h4>
                 </div>
-                <p className="text-slate-700 text-xs md:text-sm leading-relaxed max-w-xs">{item.desc}</p>
+                <p className="text-slate-700 text-xs sm:text-sm leading-relaxed max-w-xs">{item.desc}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -503,20 +515,20 @@ export default function Home() {
       <BlogSection />
 
       {/* 11. FINAL CONSULTATION CTA */}
-      <section className="bg-fb-teal text-fb-bg-light py-28 flex flex-col justify-center items-center px-6 relative overflow-hidden border-t border-fb-bg-light/10">
+      <section className="bg-fb-teal text-fb-bg-light py-16 sm:py-24 md:py-28 flex flex-col justify-center items-center px-4 sm:px-6 relative overflow-hidden border-t border-fb-bg-light/10">
         <div className="absolute inset-0 opacity-10 grid-bg-overlay" />
 
-        <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
-          <h2 className="text-fb-bg-light font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-[3.1rem] tracking-tight leading-snug max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8 relative z-10">
+          <h2 className="text-fb-bg-light font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-[3.1rem] tracking-tight leading-snug max-w-4xl mx-auto text-balance">
             {t('home.cta.title')}
           </h2>
-          <p className="text-fb-bg-light/75 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+          <p className="text-fb-bg-light/75 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">
             {t('home.cta.subtitle')}
           </p>
-          <div className="pt-4">
+          <div className="pt-2 sm:pt-4">
             <Link
               href="/contact?interest=consultation"
-              className="inline-flex items-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-10 py-4.5 rounded-2xl text-sm transition-all shadow-xl hover:shadow-fb-green/20 hover:scale-105"
+              className="inline-flex items-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-8 py-3.5 sm:px-10 sm:py-4.5 rounded-2xl text-sm transition-all shadow-xl hover:shadow-fb-green/20 hover:scale-105"
             >
               <span>{t('common.bookConsultation')}</span>
               <ArrowRight size={16} className="ml-1.5 mr-1.5 rtl:rotate-180" />

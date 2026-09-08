@@ -29,16 +29,16 @@ export default function PortfolioTimeline() {
   };
 
   return (
-    <section className="py-24 bg-fb-bg-light/50 text-fb-teal border-b border-fb-teal/5 relative overflow-hidden" id="portfolio">
+    <section className="py-12 sm:py-20 md:py-24 bg-fb-bg-light/50 text-fb-teal border-b border-fb-teal/5 relative overflow-hidden" id="portfolio">
       <div className="absolute inset-0 opacity-10 grid-bg-white pointer-events-none" />
       
-      <div className="max-w-5xl mx-auto px-6 space-y-16 relative z-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-8 sm:space-y-14 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center space-y-3">
+        <div className="text-center space-y-2.5 sm:space-y-3">
           <span className="eyebrow text-fb-green font-bold">{t('home.timeline.eyebrow')}</span>
-          <h2 className="text-fb-teal font-extrabold tracking-tight text-3xl md:text-4xl lg:text-5xl">{t('home.timeline.title')}</h2>
-          <p className="text-fb-teal/65 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+          <h2 className="text-fb-teal font-extrabold tracking-tight text-2xl sm:text-4xl md:text-5xl text-balance">{t('home.timeline.title')}</h2>
+          <p className="text-fb-teal/65 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">
             {t('home.timeline.desc')}
           </p>
         </div>

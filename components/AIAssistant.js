@@ -321,22 +321,22 @@ export default function AIAssistant() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.15 }}
-            className="fixed bottom-6 right-6 rtl:right-auto rtl:left-6 z-50"
+            className="fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] sm:bottom-6 right-4 sm:right-6 rtl:right-auto rtl:left-4 sm:rtl:left-6 z-40"
           >
             <motion.button
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.92 }}
               onClick={() => setIsOpen(true)}
               aria-label={isAr ? 'فتح المساعد الذكي' : 'Open AI Assistant'}
-              className="relative group w-14 h-14 bg-[#071315]/95 hover:bg-[#071315] text-white rounded-full border border-white/15 hover:border-fb-green/60 shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_25px_rgba(83,183,121,0.25)] backdrop-blur-2xl transition-all flex items-center justify-center cursor-pointer"
+              className="relative group w-[52px] h-[52px] sm:w-14 sm:h-14 bg-[#071315]/95 hover:bg-[#071315] text-white rounded-full border border-white/15 hover:border-fb-green/60 shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_25px_rgba(83,183,121,0.25)] backdrop-blur-2xl transition-all flex items-center justify-center cursor-pointer"
             >
               {/* Status Indicator */}
-              <span className="absolute top-0 right-0 rtl:right-auto rtl:left-0 flex h-3.5 w-3.5">
+              <span className="absolute top-0 right-0 rtl:right-auto rtl:left-0 flex h-3 w-3 sm:h-3.5 sm:w-3.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-fb-green opacity-75" />
-                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-fb-green border-2 border-[#071315]" />
+                <span className="relative inline-flex rounded-full h-3 w-3 sm:h-3.5 sm:w-3.5 bg-fb-green border-2 border-[#071315]" />
               </span>
 
-              <Bot size={24} strokeWidth={1.8} className="text-fb-green group-hover:scale-110 transition-transform" />
+              <Bot size={22} strokeWidth={1.8} className="text-fb-green group-hover:scale-110 transition-transform sm:w-6 sm:h-6" />
             </motion.button>
           </motion.div>
         )}
@@ -350,7 +350,7 @@ export default function AIAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 15, scale: 0.98 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-6 right-4 md:right-6 rtl:right-auto rtl:left-4 md:rtl:left-6 z-50 w-[calc(100vw-2rem)] sm:w-[420px] h-[600px] max-h-[85vh] bg-[#071315]/95 backdrop-blur-3xl border border-white/[0.08] rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.7),0_0_1px_1px_rgba(255,255,255,0.06)] flex flex-col overflow-hidden text-start"
+            className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:bottom-6 right-3 sm:right-6 rtl:right-auto rtl:left-3 sm:rtl:left-6 z-50 w-[calc(100vw-1.5rem)] sm:w-[420px] h-[580px] max-h-[82dvh] bg-[#071315]/95 backdrop-blur-3xl border border-white/[0.08] rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.7),0_0_1px_1px_rgba(255,255,255,0.06)] flex flex-col overflow-hidden text-start"
           >
             {/* Minimal Header */}
             <div className="px-5 py-4 bg-white/[0.02] border-b border-white/[0.06] flex items-center justify-between">

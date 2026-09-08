@@ -97,7 +97,7 @@ function ContactFormInner() {
   };
 
   return (
-    <div id="consultation-form" className="bg-fb-bg-light/40 border border-fb-teal/5 p-8 md:p-10 rounded-2xl shadow-sm scroll-mt-24">
+    <div id="consultation-form" className="bg-fb-bg-light/40 border border-fb-teal/5 p-5 sm:p-8 md:p-10 rounded-2xl shadow-sm scroll-mt-24">
       <h3 className="text-fb-teal font-bold text-xl mb-6">{locale === 'ar' ? 'إرسال رسالة' : 'Send a Message'}</h3>
 
       {status === 'success' ? (
@@ -212,7 +212,7 @@ export default function Contact() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero */}
-      <section className="bg-fb-teal text-fb-white py-24 px-6 relative overflow-hidden flex flex-col justify-center min-h-screen">
+      <section className="bg-fb-teal text-fb-white py-14 sm:py-20 md:py-24 px-4 sm:px-6 relative overflow-hidden flex flex-col justify-center min-h-[45dvh] sm:min-h-[55dvh] md:min-h-screen">
         {/* Background Video (Optional) */}
         <video
           autoPlay
@@ -234,12 +234,12 @@ export default function Contact() {
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="max-w-5xl mx-auto z-10 relative space-y-4 w-full text-start"
+          className="max-w-5xl mx-auto z-10 relative space-y-3 sm:space-y-4 w-full text-start"
         >
           <motion.span variants={itemVariants} className="eyebrow text-fb-green font-bold block text-xs tracking-wider">
             {locale === 'ar' ? 'مكتب الاستشارات والاتصال' : 'Consultation Desk'}
           </motion.span>
-          <motion.h1 variants={itemVariants} className="text-fb-white max-w-2xl leading-snug font-extrabold text-2xl sm:text-3xl lg:text-[2.25rem]">
+          <motion.h1 variants={itemVariants} className="text-fb-white max-w-2xl leading-snug font-extrabold text-2xl sm:text-3xl lg:text-[2.25rem] [text-wrap:balance]">
             {locale === 'ar' ? 'تواصل مع فريقنا المالي والتنفيذي' : 'Connect with Our Team'}
           </motion.h1>
           <motion.p variants={itemVariants} className="text-fb-bg-light/85 text-xs sm:text-sm md:text-[15px] leading-relaxed max-w-lg">
@@ -249,13 +249,13 @@ export default function Contact() {
       </section>
 
       {/* Main Grid */}
-      <section className="py-20 bg-fb-bg-light border-b border-fb-bg-light flex-grow">
+      <section className="py-12 sm:py-20 bg-fb-bg-light border-b border-fb-bg-light flex-grow">
         <motion.div 
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
           variants={containerVariants}
-          className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12"
+          className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12"
         >
           
           {/* Info Block (LHS) */}

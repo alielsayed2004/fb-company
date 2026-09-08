@@ -105,7 +105,7 @@ export default function InteractiveEarthFocus() {
       onPointerMove={handlePointerMove}
       onPointerEnter={() => setIsHovered(true)}
       onPointerLeave={handlePointerLeave}
-      className="relative w-full max-w-[620px] mx-auto flex flex-col items-center justify-center select-none cursor-default group"
+      className="relative w-full max-w-[620px] mx-auto flex flex-col items-center justify-center select-none cursor-default group overflow-hidden sm:overflow-visible"
       style={{ perspective: 1200 }}
       role="img"
       aria-label={isAr
@@ -130,10 +130,10 @@ export default function InteractiveEarthFocus() {
           className="relative w-full h-full flex items-center justify-center pointer-events-none"
         >
           {/* Subtle Ambient Behind-Globe Soft Glow */}
-          <div className="absolute w-[400px] sm:w-[460px] h-[400px] sm:h-[460px] rounded-full bg-[#53B379]/15 blur-3xl pointer-events-none -z-10" />
+          <div className="absolute w-[240px] xs:w-[280px] sm:w-[460px] h-[240px] xs:h-[280px] sm:h-[460px] rounded-full bg-[#53B379]/15 blur-2xl sm:blur-3xl pointer-events-none -z-10" />
 
           {/* Standalone 3D Matte Earth Visual Asset (User-Provided Transparent Cut) */}
-          <div className="relative w-[440px] sm:w-[500px] md:w-[550px] aspect-[565/510] drop-shadow-[0_22px_42px_rgba(0,37,38,0.22)]">
+          <div className="relative w-[260px] xs:w-[300px] sm:w-[500px] md:w-[550px] max-w-full aspect-[565/510] drop-shadow-[0_22px_42px_rgba(0,37,38,0.22)]">
             <Image
               src="/images/earth-egypt-focus-cropped.png"
               alt="F.B Company Global Perspective with Strategic Focus on Egypt"
@@ -145,7 +145,7 @@ export default function InteractiveEarthFocus() {
           </div>
 
           {/* Cast Ground Shadow Under Globe */}
-          <div className="absolute -bottom-3 w-[340px] sm:w-[420px] h-[28px] bg-[#002526]/18 blur-xl rounded-[100%] pointer-events-none -z-10" />
+          <div className="absolute -bottom-3 w-[220px] xs:w-[260px] sm:w-[420px] max-w-full h-[28px] bg-[#002526]/18 blur-xl rounded-[100%] pointer-events-none -z-10" />
 
           {/* LAYER 2: Overlay Geometric Orbit Lines & Planetary Coordinate Network */}
           <motion.div

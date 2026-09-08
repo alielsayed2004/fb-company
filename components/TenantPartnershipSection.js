@@ -74,22 +74,22 @@ export default function TenantPartnershipSection() {
   );
 
   return (
-    <section className="py-24 bg-fb-bg-light border-b border-fb-teal/5 relative overflow-hidden">
+    <section className="py-12 sm:py-20 md:py-24 bg-fb-bg-light border-b border-fb-teal/5 relative overflow-hidden">
       
-      <div className="max-w-7xl mx-auto px-6 space-y-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8 sm:space-y-14 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center space-y-4 max-w-5xl mx-auto">
+        <div className="text-center space-y-3 sm:space-y-4 max-w-5xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-fb-green/10 border border-fb-green/20 text-fb-green text-xs font-bold uppercase tracking-widest">
             <Sparkles size={13} />
             <span>{isAr ? 'بيئة استثمار وتأجير نموذجية' : 'PREMIER TENANT ECOSYSTEM'}</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] font-extrabold text-fb-teal tracking-tight leading-snug md:whitespace-nowrap">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] font-extrabold text-fb-teal tracking-tight leading-snug text-balance">
             {isAr ? 'حلول تأجير مصممة لنمو وازدهار كبرى العلامات' : 'Engineered for Scale, Built for Brand Longevity'}
           </h2>
 
-          <p className="text-fb-black/70 text-sm sm:text-base leading-relaxed max-w-3xl mx-auto">
+          <p className="text-fb-black/70 text-xs sm:text-sm md:text-base leading-relaxed max-w-3xl mx-auto">
             {isAr
               ? 'نوفر لكبرى العلامات التجارية بيئة تشغيلية متكاملة تضمن أعلى معدلات الوصول للعملاء وعوائد تشغيلية قياسية في كل مشروع.'
               : 'Empowering regional & global operators with turnkey commercial real estate, pre-approved licenses, and sustained traffic catchments.'}
@@ -97,11 +97,11 @@ export default function TenantPartnershipSection() {
         </div>
 
         {/* 4 Pillars of Tenant Partnership Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {pillars.map((p, idx) => (
             <div
               key={idx}
-              className="bg-fb-bg-light/90 border border-fb-teal/15 p-6 sm:p-7 rounded-3xl space-y-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
+              className="bg-fb-bg-light/90 border border-fb-teal/15 p-5 sm:p-7 rounded-2xl sm:rounded-3xl space-y-3 sm:space-y-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
             >
               {/* Large Background Overlay Watermark Icon */}
               <div className="absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none">
@@ -128,12 +128,12 @@ export default function TenantPartnershipSection() {
         </div>
 
         {/* Category Matrix Filter & Brand Showcase */}
-        <div className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-3xl p-6 md:p-10 shadow-[0_8px_30px_rgba(0,59,60,0.05)] space-y-8">
+        <div className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 shadow-[0_8px_30px_rgba(0,59,60,0.05)] space-y-6 sm:space-y-8 overflow-hidden">
           
           {/* Category Filter Pills */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-fb-teal/10 pb-6">
             <div>
-              <h3 className="text-xl font-extrabold text-fb-teal">
+              <h3 className="text-lg sm:text-xl font-extrabold text-fb-teal">
                 {isAr ? 'مزيج العلامات التجارية في مشروعاتنا' : 'Curated Brand Partner Mix'}
               </h3>
               <p className="text-xs text-fb-black/60">
@@ -141,7 +141,7 @@ export default function TenantPartnershipSection() {
               </p>
             </div>
 
-            <div className="flex items-center gap-2 overflow-x-auto max-w-full pb-2 sm:pb-0 sm:flex-wrap scrollbar-none -mx-2 px-2">
+            <div className="flex items-center gap-2 overflow-x-auto max-w-full pb-2 sm:pb-0 sm:flex-wrap scrollbar-none">
               {categories.map((cat) => {
                 const isSelected = activeCategory === cat.id;
                 return (
