@@ -37,7 +37,18 @@ export default function ProjectPageClient({ project: initialProject }) {
     ? project.video 
     : (initialProject?.video || '/videos/hero-bg.mp4');
 
+  const [videoSrc, setVideoSrc] = useState(activeVideo);
   const videoRef = useRef(null);
+
+  useEffect(() => {
+    setVideoSrc(activeVideo);
+  }, [activeVideo]);
+
+  const handleVideoError = () => {
+    if (videoSrc !== '/videos/hero-bg.mp4') {
+      setVideoSrc('/videos/hero-bg.mp4');
+    }
+  };
 
   useEffect(() => {
     if (videoRef.current) {
@@ -48,7 +59,7 @@ export default function ProjectPageClient({ project: initialProject }) {
         playPromise.catch(() => {});
       }
     }
-  }, [activeVideo]);
+  }, [videoSrc]);
 
   // Active Lightbox image index (null if closed)
   const [activeImageIndex, setActiveImageIndex] = useState(null);
@@ -162,12 +173,13 @@ export default function ProjectPageClient({ project: initialProject }) {
         {/* Background Video */}
         <video
           ref={videoRef}
-          key={activeVideo}
-          src={activeVideo}
+          key={videoSrc}
+          src={videoSrc}
           autoPlay
           loop
           muted
           playsInline
+          onError={handleVideoError}
           poster={project.coverImage || `/projects/${project.id}/cover.jpg`}
           className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none z-0 scale-105 transition-transform duration-1000"
         />

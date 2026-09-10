@@ -168,16 +168,18 @@ export default async function ProjectPage({ params }) {
     ]
     : existingBrands;
 
-  // Auto-discover video in folder if exists
+  // Auto-discover video in folder if exists, or fallback to corporate background video
   const projectDir = path.join(process.cwd(), 'public', 'projects', resolvedParams.id);
   let resolvedVideo = currentProject.video;
   if (fs.existsSync(path.join(projectDir, 'video.mp4'))) {
     resolvedVideo = `/projects/${resolvedParams.id}/video.mp4`;
+  } else if (!resolvedVideo || !fs.existsSync(path.join(process.cwd(), 'public', resolvedVideo))) {
+    resolvedVideo = '/videos/hero-bg.mp4';
   }
 
   const finalProject = {
     ...currentProject,
-    video: resolvedVideo || currentProject.video,
+    video: resolvedVideo,
     brands: mergedBrands,
     gallery: mergedGallery
   };

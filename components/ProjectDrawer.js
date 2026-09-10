@@ -96,6 +96,14 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                   loop
                   muted
                   playsInline
+                  onError={(e) => {
+                    const videoEl = e.currentTarget;
+                    if (!videoEl.dataset.fallbackTried && videoEl.src !== '/videos/hero-bg.mp4') {
+                      videoEl.dataset.fallbackTried = 'true';
+                      videoEl.src = '/videos/hero-bg.mp4';
+                      videoEl.play().catch(() => {});
+                    }
+                  }}
                   poster={project.coverImage || `/projects/${project.id}/cover.jpg`}
                   className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none z-0"
                 />
