@@ -27,7 +27,7 @@ export default function BlogSection() {
         </div>
 
         {/* 4 Columns Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 md:gap-10 pt-2 sm:pt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-6 pt-2 sm:pt-4">
           {articles.map((article) => (
             <motion.div
               key={article.id}
@@ -36,23 +36,23 @@ export default function BlogSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: article.id * 0.1 }}
-              className="flex flex-col justify-between group cursor-pointer space-y-4 sm:space-y-6 bg-fb-bg-light/90 p-5 sm:p-7 rounded-2xl sm:rounded-3xl border border-fb-teal/15 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300"
+              className="flex flex-col justify-between group cursor-pointer space-y-4 sm:space-y-5 bg-fb-bg-light/90 p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-fb-teal/15 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300"
             >
               {/* Top Text Content */}
-              <div className="space-y-3">
+              <div className="space-y-2.5 sm:space-y-3">
                 <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-fb-green bg-fb-green/10 px-2.5 py-1 rounded">
                   {article.category}
                 </span>
-                <h3 className="text-base md:text-lg font-extrabold text-fb-teal leading-snug group-hover:text-fb-green transition-colors duration-300">
+                <h3 className="!text-[15px] sm:!text-base lg:!text-[17px] font-extrabold text-fb-teal leading-snug group-hover:text-fb-green transition-colors duration-300">
                   {article.title}
                 </h3>
-                <p className="text-xs md:text-sm text-fb-black/70 leading-relaxed line-clamp-3">
+                <p className="text-xs sm:text-[13px] text-fb-black/70 leading-relaxed line-clamp-3">
                   {article.excerpt}
                 </p>
               </div>
 
               {/* Bottom Date & Action */}
-              <div className="space-y-3 pt-4">
+              <div className="space-y-3 pt-3">
                 <div className="flex items-center justify-between text-xs font-semibold text-fb-black/40 font-mono">
                   <span>{article.date}</span>
                   <span className="text-fb-green text-[11px] font-bold group-hover:translate-x-1 transition-transform flex items-center">
