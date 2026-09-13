@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { commitFilesToGitHub, verifyGitHubToken } from '@/lib/githubSync';
+import { commitFilesToGitHub, verifyGitHubToken, resolveToken } from '@/lib/githubSync';
 
 const execPromise = promisify(exec);
 
@@ -72,9 +72,19 @@ export async function GET(req) {
 
     // Token verification helper endpoint
     if (action === 'verify-token') {
-      const token = req.headers.get('x-github-token') || process.env.GITHUB_TOKEN || searchParams.get('token');
+      const token = resolveToken(req.headers.get('x-github-token') || searchParams.get('token'));
       const result = await verifyGitHubToken(token);
       return NextResponse.json(result);
+    }
+
+    // Auto-provision token to local client session
+    if (action === 'get-token') {
+      const isLocalhost = req.headers.get('host')?.includes('localhost') || req.headers.get('host')?.includes('127.0.0.1');
+      const token = process.env.GITHUB_TOKEN || '';
+      if (token && isLocalhost) {
+        return NextResponse.json({ success: true, token });
+      }
+      return NextResponse.json({ success: false });
     }
 
     const rootDir = process.cwd();
@@ -197,12 +207,11 @@ export async function POST(req) {
     const body = await req.json();
     const { projects, blogsEn, blogsAr, brands, counters, contactInfo } = body;
 
-    const githubToken = (
+    const githubToken = resolveToken(
       req.headers.get('x-github-token') ||
       process.env.GITHUB_TOKEN ||
-      body.githubToken ||
-      ''
-    ).trim();
+      body.githubToken
+    );
 
     const isFsWritable = checkIsFsWritable();
     const rootDir = process.cwd();
@@ -316,13 +325,38 @@ export async function POST(req) {
         const masterProjectsFile = path.join(dataDir, 'projects.json');
         fs.writeFileSync(masterProjectsFile, JSON.stringify(cleanedProjects, null, 2), 'utf8');
 
-        // Delete removed project json files locally
-        const activeIds = new Set(cleanedProjects.map(p => `${p.id}.json`));
+        // Delete removed project json files locally and on GitHub
+        const activeFileNames = new Set(cleanedProjects.map(p => `${p.id}.json`));
         if (fs.existsSync(projectsSubDir)) {
           const existingFiles = fs.readdirSync(projectsSubDir).filter(f => f.endsWith('.json'));
           for (const f of existingFiles) {
-            if (!activeIds.has(f)) {
-              try { fs.unlinkSync(path.join(projectsSubDir, f)); } catch (e) {}
+            if (!activeFileNames.has(f)) {
+              deletedFilesForGitHub.push(`data/projects/${f}`);
+              if (isFsWritable) {
+                try { fs.unlinkSync(path.join(projectsSubDir, f)); } catch (e) {}
+              }
+            }
+          }
+        }
+
+        // Delete removed project directories and assets locally and on GitHub
+        const activeProjIds = new Set(cleanedProjects.map(p => p.id));
+        if (fs.existsSync(publicProjectsDir)) {
+          const existingDirs = fs.readdirSync(publicProjectsDir, { withFileTypes: true })
+            .filter(d => d.isDirectory())
+            .map(d => d.name);
+          for (const dirName of existingDirs) {
+            if (!activeProjIds.has(dirName)) {
+              const fullDir = path.join(publicProjectsDir, dirName);
+              try {
+                const innerFiles = fs.readdirSync(fullDir);
+                for (const ifile of innerFiles) {
+                  deletedFilesForGitHub.push(`public/projects/${dirName}/${ifile}`);
+                }
+                if (isFsWritable) {
+                  fs.rmSync(fullDir, { recursive: true, force: true });
+                }
+              } catch (e) {}
             }
           }
         }

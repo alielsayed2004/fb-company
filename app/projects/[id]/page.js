@@ -150,11 +150,10 @@ export default async function ProjectPage({ params }) {
   // Auto-discover brand logos in folder
   const discoveredBrandLogos = getDiscoveredBrandLogos(resolvedParams.id);
 
-  // Combine predefined gallery and discovered images (deduplicated)
-  const mergedGallery = Array.from(new Set([
-    ...(currentProject.gallery || []),
-    ...discoveredImages
-  ]));
+  // Respect user's explicit gallery list. Only discover if gallery is null/undefined
+  const mergedGallery = Array.isArray(currentProject.gallery)
+    ? currentProject.gallery
+    : discoveredImages;
 
   // Combine predefined brands with discovered brand logos
   const existingBrands = currentProject.brands || [];

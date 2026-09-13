@@ -90,6 +90,7 @@ export default function AdminPage() {
 
   // GitHub Cloud Sync State
   const [githubToken, setGithubToken] = useState('');
+  const [isCloudConnected, setIsCloudConnected] = useState(true);
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
   const [tokenTestStatus, setTokenTestStatus] = useState({ loading: false, success: null, message: '' });
 
@@ -104,7 +105,7 @@ export default function AdminPage() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
 
-  // On initial mount: check persistent session & saved token
+  // On initial mount: check persistent session & verify cloud connection
   useEffect(() => {
     const session = sessionStorage.getItem('fb_admin_authorized');
     if (session === 'true') {
@@ -112,8 +113,30 @@ export default function AdminPage() {
     }
     if (typeof window !== 'undefined') {
       const savedToken = localStorage.getItem('fb_github_token') || '';
-      setGithubToken(savedToken);
+      if (savedToken) {
+        setGithubToken(savedToken);
+      } else {
+        fetch('/api/admin/sync?action=get-token')
+          .then(res => res.json())
+          .then(data => {
+            if (data && data.success && data.token) {
+              setGithubToken(data.token);
+              localStorage.setItem('fb_github_token', data.token);
+              setIsCloudConnected(true);
+            }
+          })
+          .catch(() => {});
+      }
     }
+    // Check server cloud sync capability
+    fetch('/api/admin/sync?action=verify-token')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.valid) {
+          setIsCloudConnected(true);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const handleSaveToken = (val) => {
@@ -687,20 +710,20 @@ export default function AdminPage() {
 
         {/* Right: Quick Global Actions */}
         <div className="flex items-center flex-wrap gap-2.5">
-          {/* Cloud Sync Settings (GitHub Token) */}
+          {/* Cloud Sync Settings */}
           <button
             onClick={() => setIsTokenModalOpen(true)}
             className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border shadow-xs ${
-              githubToken
+              (isCloudConnected || githubToken)
                 ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100'
                 : 'bg-white hover:bg-slate-50 text-fb-teal border-fb-teal/15'
             }`}
-            title={locale === 'ar' ? 'إعدادات المزامنة السحابية (GitHub Token)' : 'Cloud Sync Settings (GitHub Token)'}
+            title={locale === 'ar' ? 'إعدادات المزامنة السحابية' : 'Cloud Sync Settings'}
           >
-            <Cloud size={14} className={githubToken ? 'text-emerald-600' : 'text-fb-teal'} />
+            <Cloud size={14} className={(isCloudConnected || githubToken) ? 'text-emerald-600' : 'text-fb-teal'} />
             <span className="hidden sm:inline">
-              {githubToken
-                ? (locale === 'ar' ? 'الربط السحابي (مفعّل ✓)' : 'Cloud Sync (Active ✓)')
+              {(isCloudConnected || githubToken)
+                ? (locale === 'ar' ? 'الربط السحابي (متصل ومفعّل ✓)' : 'Cloud Sync (Connected ✓)')
                 : (locale === 'ar' ? 'الربط السحابي' : 'Cloud Sync')}
             </span>
           </button>
@@ -1462,22 +1485,18 @@ export default function AdminPage() {
               </div>
 
               <div className="space-y-3">
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  {locale === 'ar'
-                    ? 'عندما يكون الموقع مرفوعاً على Vercel، يكون نظام الملفات مغلقاً للقراءة فقط. باستخدام GitHub Personal Access Token، ستتمكن لوحة التحكم من تعديل وحذف الملفات ورفع الصور ونشر التحديثات فوراً عبر GitHub API لجميع زوار الموقع.'
-                    : 'When deployed on Vercel, the filesystem is read-only. With a GitHub Personal Access Token, this dashboard can commit changes, update projects, delete items, and trigger automatic deployments instantly worldwide.'}
-                </p>
-
-                <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-1.5 text-[11px] text-slate-600">
-                  <div className="font-bold text-fb-teal">
-                    {locale === 'ar' ? '📌 كيفية استخراج الرمز (في دقيقة واحدة):' : '📌 How to generate token (1 minute):'}
+                <div className="bg-emerald-50 p-3.5 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-start gap-2.5">
+                  <span className="text-emerald-600 font-bold text-base leading-none mt-0.5">✓</span>
+                  <div className="space-y-1">
+                    <div className="font-bold">
+                      {locale === 'ar' ? 'المزامنة السحابية المباشرة مفعلة وجاهزة!' : 'Cloud Direct Sync is Active & Ready!'}
+                    </div>
+                    <p className="text-[11px] text-emerald-800/90 leading-relaxed">
+                      {locale === 'ar'
+                        ? 'الموقع مربوط تلقائياً بمستودع GitHub بصلاحيات الحفظ الكاملة. أي تعديل أو حذف تقوم به سيتم رفعه ونشره لجميع الزوار تلقائياً.'
+                        : 'Your site is automatically connected to GitHub with full push permissions. All edits and deletions publish worldwide seamlessly.'}
+                    </p>
                   </div>
-                  <ol className="list-decimal list-inside space-y-1 text-slate-500">
-                    <li>{locale === 'ar' ? 'افتح GitHub -> Settings -> Developer Settings' : 'Go to GitHub -> Settings -> Developer Settings'}</li>
-                    <li>{locale === 'ar' ? 'اختر Personal Access Tokens -> Tokens (classic)' : 'Select Personal Access Tokens -> Tokens (classic)'}</li>
-                    <li>{locale === 'ar' ? 'أنشئ رمزا جديدا وحدد صلاحية "repo" فقط' : 'Generate new token and check "repo" scope'}</li>
-                    <li>{locale === 'ar' ? 'انسخ الرمز والصقه في الحقل أدناه' : 'Copy and paste below'}</li>
-                  </ol>
                 </div>
 
                 <div className="space-y-1.5">

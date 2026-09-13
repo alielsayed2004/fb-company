@@ -181,33 +181,61 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                 </div>
 
                 {/* Tenant Directory */}
-                <div className="space-y-3">
-                  <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">{t('home.caseStudy.parameters')}</h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {project.brands.map((brand) => (
-                      <div
-                        key={brand}
-                        className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-2xl px-4 py-3 flex flex-col items-center justify-center text-center space-y-1.5 font-bold text-xs text-fb-teal shadow-xs hover:border-fb-green hover:shadow-sm transition-all min-h-20"
-                      >
-                        <BrandLogo name={brand} className="h-6 w-auto text-fb-teal/70 fill-current" />
-                        <span className="text-[11px] text-fb-teal/80 font-bold">{brand}</span>
-                      </div>
-                    ))}
+                {Array.isArray(project.brands) && project.brands.length > 0 && (
+                  <div className="space-y-3">
+                    <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">{t('home.caseStudy.parameters')}</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {project.brands.map((brand, bIdx) => {
+                        const brandName = typeof brand === 'object' ? (brand.name || '') : String(brand || '');
+                        const brandLogo = typeof brand === 'object' ? brand.logo : null;
+                        return (
+                          <div
+                            key={brandName || bIdx}
+                            className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-2xl px-4 py-3 flex flex-col items-center justify-center text-center space-y-1.5 font-bold text-xs text-fb-teal shadow-xs hover:border-fb-green hover:shadow-sm transition-all min-h-20"
+                          >
+                            {brandLogo ? (
+                              <img src={brandLogo} alt={brandName} className="h-7 w-auto object-contain" />
+                            ) : (
+                              <BrandLogo name={brandName} className="h-6 w-auto text-fb-teal/70 fill-current" />
+                            )}
+                            <span className="text-[11px] text-fb-teal/80 font-bold">{brandName}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Horizontal Project Gallery */}
                 <div className="space-y-3">
                   <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">{t('projectDetails.visualDoc')}</h4>
                   <div className={`flex space-x-4 ${locale === 'ar' ? 'space-x-reverse' : ''} overflow-x-auto pb-3 snap-x scrollbar-thin scrollbar-thumb-fb-teal`}>
-                    {mockGalleryColors.map((colorClass, index) => (
-                      <div
-                        key={index}
-                        className={`flex-none w-64 h-36 bg-gradient-to-br ${colorClass} rounded-2xl snap-start flex items-center justify-center text-fb-white/30 text-xs font-bold`}
-                      >
-                        {locale === 'ar' ? `[عرض المشروع ${index + 1}]` : `[Project View ${index + 1}]`}
-                      </div>
-                    ))}
+                    {Array.isArray(project.gallery) && project.gallery.length > 0 ? (
+                      project.gallery.map((imgSrc, index) => (
+                        <div
+                          key={index}
+                          className="flex-none w-64 h-36 relative rounded-2xl overflow-hidden border border-fb-teal/20 snap-start bg-fb-bg-light shadow-xs group"
+                        >
+                          <img
+                            src={imgSrc}
+                            alt={`${getField(project, 'name')} - ${index + 1}`}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={(e) => {
+                              e.currentTarget.parentElement.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      ))
+                    ) : (
+                      mockGalleryColors.map((colorClass, index) => (
+                        <div
+                          key={index}
+                          className={`flex-none w-64 h-36 bg-gradient-to-br ${colorClass} rounded-2xl snap-start flex items-center justify-center text-fb-white/30 text-xs font-bold`}
+                        >
+                          {locale === 'ar' ? `[عرض المشروع ${index + 1}]` : `[Project View ${index + 1}]`}
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
 
