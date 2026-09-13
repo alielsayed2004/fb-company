@@ -205,16 +205,8 @@ export function DataProvider({ children }) {
             try { loadedBrands = JSON.parse(lsBrands); } catch (e) {}
           }
         }
-        if (Array.isArray(loadedBrands) && loadedBrands.length > 0) {
-          const existingIds = new Set(loadedBrands.map(b => b.id));
-          const missingDefaults = defaultBrands.filter(b => !existingIds.has(b.id));
-          if (missingDefaults.length > 0) {
-            const combined = [...loadedBrands, ...missingDefaults];
-            setBrands(combined);
-            await setStoredData('fb_brands', combined);
-          } else {
-            setBrands(loadedBrands);
-          }
+        if (Array.isArray(loadedBrands)) {
+          setBrands(loadedBrands);
         } else {
           setBrands(defaultBrands);
         }
@@ -252,25 +244,28 @@ export function DataProvider({ children }) {
         setContactInfo(mergedContact);
         await setStoredData('fb_contact_info', mergedContact);
 
-        // Seamlessly sync with latest machine project files & discovered images
-        try {
-          const syncRes = await fetch('/api/admin/sync');
-          if (syncRes.ok) {
-            const syncData = await syncRes.json();
-            if (syncData && syncData.success && Array.isArray(syncData.projects) && syncData.projects.length > 0) {
-              const cleanSyncProjects = sanitizeArabicName(syncData.projects);
-              setProjects(cleanSyncProjects);
-              await setStoredData('fb_projects', cleanSyncProjects);
-              try { localStorage.setItem('fb_projects', JSON.stringify(cleanSyncProjects)); } catch (e) {}
+        // Fetch from server ONLY if client has no custom local data yet (first-time visitor)
+        const hasLocalCustomData = idbProjects || localStorage.getItem('fb_projects');
+        if (!hasLocalCustomData) {
+          try {
+            const syncRes = await fetch('/api/admin/sync');
+            if (syncRes.ok) {
+              const syncData = await syncRes.json();
+              if (syncData && syncData.success && Array.isArray(syncData.projects) && syncData.projects.length > 0) {
+                const cleanSyncProjects = sanitizeArabicName(syncData.projects);
+                setProjects(cleanSyncProjects);
+                await setStoredData('fb_projects', cleanSyncProjects);
+                try { localStorage.setItem('fb_projects', JSON.stringify(cleanSyncProjects)); } catch (e) {}
+              }
+              if (syncData && syncData.success && Array.isArray(syncData.brands) && syncData.brands.length > 0) {
+                setBrands(syncData.brands);
+                await setStoredData('fb_brands', syncData.brands);
+                try { localStorage.setItem('fb_brands', JSON.stringify(syncData.brands)); } catch (e) {}
+              }
             }
-            if (syncData && syncData.success && Array.isArray(syncData.brands) && syncData.brands.length > 0) {
-              setBrands(syncData.brands);
-              await setStoredData('fb_brands', syncData.brands);
-              try { localStorage.setItem('fb_brands', JSON.stringify(syncData.brands)); } catch (e) {}
-            }
+          } catch (syncErr) {
+            // Sync api offline or client-only fallback
           }
-        } catch (syncErr) {
-          // Sync api offline or client-only fallback
         }
       } catch (e) {
         console.error('Failed to load storage data', e);
@@ -327,6 +322,49 @@ export function DataProvider({ children }) {
     } catch (e) {}
   };
 
+  const refreshFromServer = async () => {
+    try {
+      const syncRes = await fetch('/api/admin/sync');
+      if (syncRes.ok) {
+        const syncData = await syncRes.json();
+        if (syncData && syncData.success) {
+          if (Array.isArray(syncData.projects) && syncData.projects.length > 0) {
+            const cleanSyncProjects = sanitizeArabicName(syncData.projects);
+            setProjects(cleanSyncProjects);
+            await setStoredData('fb_projects', cleanSyncProjects);
+            try { localStorage.setItem('fb_projects', JSON.stringify(cleanSyncProjects)); } catch (e) {}
+          }
+          if (Array.isArray(syncData.brands)) {
+            setBrands(syncData.brands);
+            await setStoredData('fb_brands', syncData.brands);
+            try { localStorage.setItem('fb_brands', JSON.stringify(syncData.brands)); } catch (e) {}
+          }
+          if (Array.isArray(syncData.blogsEn)) {
+            setBlogsEn(syncData.blogsEn);
+            await setStoredData('fb_blogs_en', syncData.blogsEn);
+          }
+          if (Array.isArray(syncData.blogsAr)) {
+            setBlogsAr(syncData.blogsAr);
+            await setStoredData('fb_blogs_ar', syncData.blogsAr);
+          }
+          if (syncData.counters) {
+            setCounters(syncData.counters);
+            await setStoredData('fb_counters', syncData.counters);
+          }
+          if (syncData.contactInfo) {
+            setContactInfo(syncData.contactInfo);
+            await setStoredData('fb_contact_info', syncData.contactInfo);
+          }
+          return { success: true, data: syncData };
+        }
+      }
+      return { success: false, message: 'Server returned error or invalid data' };
+    } catch (err) {
+      console.error('refreshFromServer error:', err);
+      return { success: false, message: err.message };
+    }
+  };
+
   const resetToDefault = async () => {
     const cleanDefaultProjects = sanitizeArabicName(defaultProjects);
     setProjects(cleanDefaultProjects);
@@ -358,6 +396,7 @@ export function DataProvider({ children }) {
         saveBrands,
         saveCounters,
         saveContactInfo,
+        refreshFromServer,
         resetToDefault,
         isAdminOpen,
         setIsAdminOpen,

@@ -8,7 +8,8 @@ import {
   Newspaper, Tag, BarChart3, CheckCircle2, Phone, Mail, MapPin,
   Globe, Upload, Video, Image as ImageIcon, Camera, Loader2,
   RefreshCw, GitBranch, ArrowLeft, Eye, ExternalLink, LogOut,
-  Search, ChevronDown, ChevronUp, AlertTriangle, ShieldCheck
+  Search, ChevronDown, ChevronUp, AlertTriangle, ShieldCheck,
+  Cloud, Key, X, Check, Settings
 } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -62,7 +63,8 @@ export default function AdminPage() {
     saveBlogs,
     saveBrands,
     saveCounters,
-    saveContactInfo
+    saveContactInfo,
+    refreshFromServer
   } = useData();
 
   const { locale, setLocale } = useLanguage();
@@ -86,18 +88,74 @@ export default function AdminPage() {
   const [editableCounters, setEditableCounters] = useState({});
   const [editableContact, setEditableContact] = useState({});
 
+  // GitHub Cloud Sync State
+  const [githubToken, setGithubToken] = useState('');
+  const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
+  const [tokenTestStatus, setTokenTestStatus] = useState({ loading: false, success: null, message: '' });
+
+  // Brand Management States
+  const [isAddingBrand, setIsAddingBrand] = useState(false);
+  const [newBrandName, setNewBrandName] = useState('');
+  const [newBrandCategory, setNewBrandCategory] = useState('');
+  const [newBrandLogo, setNewBrandLogo] = useState('');
+
   // Sync / Action Status
   const [isSaving, setIsSaving] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
 
-  // On initial mount: check persistent session
+  // On initial mount: check persistent session & saved token
   useEffect(() => {
     const session = sessionStorage.getItem('fb_admin_authorized');
     if (session === 'true') {
       setIsAuthenticated(true);
     }
+    if (typeof window !== 'undefined') {
+      const savedToken = localStorage.getItem('fb_github_token') || '';
+      setGithubToken(savedToken);
+    }
   }, []);
+
+  const handleSaveToken = (val) => {
+    const clean = val.trim();
+    setGithubToken(clean);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('fb_github_token', clean);
+    }
+    setTokenTestStatus({ loading: false, success: null, message: '' });
+  };
+
+  const handleTestToken = async (tok) => {
+    const t = (tok !== undefined ? tok : githubToken).trim();
+    if (!t) {
+      setTokenTestStatus({ loading: false, success: false, message: locale === 'ar' ? 'يرجى إدخال رمز Token' : 'Please enter a token' });
+      return;
+    }
+    setTokenTestStatus({ loading: true, success: null, message: locale === 'ar' ? 'جاري التحقق مع مستودع GitHub...' : 'Verifying with GitHub repo...' });
+    try {
+      const res = await fetch(`/api/admin/sync?action=verify-token`, {
+        headers: { 'x-github-token': t }
+      });
+      const data = await res.json();
+      if (data.valid) {
+        setTokenTestStatus({
+          loading: false,
+          success: true,
+          message: locale === 'ar'
+            ? `✅ متصل بنجاح مع مستودع ${data.repoName} (صلاحيات الكتابة متوفرة)`
+            : `✅ Successfully connected to ${data.repoName} (write permissions confirmed)`
+        });
+      } else {
+        setTokenTestStatus({
+          loading: false,
+          success: false,
+          message: `❌ ${data.message || 'فشل الاتصال'}`
+        });
+      }
+    } catch (e) {
+      setTokenTestStatus({ loading: false, success: false, message: `❌ ${e.message}` });
+    }
+  };
 
   // Synchronize local editable state with DataContext
   useEffect(() => {
@@ -210,9 +268,13 @@ export default function AdminPage() {
         contactInfo: editableContact
       };
 
+      const token = (typeof window !== 'undefined' ? localStorage.getItem('fb_github_token') : '') || githubToken;
       const res = await fetch('/api/admin/sync', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'x-github-token': token } : {})
+        },
         body: JSON.stringify(payload)
       });
 
@@ -222,15 +284,23 @@ export default function AdminPage() {
         setStatusMessage({
           type: 'success',
           text: locale === 'ar'
-            ? '✅ تم حفظ جميع التعديلات بنجاح في ملفات المشروع ورُفعت إلى GitHub تلقائياً!'
-            : '✅ All changes saved to project files & pushed to GitHub successfully!'
+            ? `✅ ${result.message || 'تم حفظ جميع التعديلات بنجاح ورُفعت إلى GitHub تلقائياً!'}`
+            : `✅ ${result.message || 'All changes saved to project files & pushed to GitHub successfully!'}`
+        });
+      } else if (result.requiresToken) {
+        setIsTokenModalOpen(true);
+        setStatusMessage({
+          type: 'warning',
+          text: locale === 'ar'
+            ? '⚠️ الموقع يعمل على استضافة سحابية (Vercel). للحفظ والمزامنة المباشرة، يرجى إدخال GitHub Token في النافذة المفتوحة.'
+            : '⚠️ Live cloud deployment detected. Please enter your GitHub Token to enable cloud syncing.'
         });
       } else {
         setStatusMessage({
           type: 'warning',
           text: locale === 'ar'
-            ? `⚠️ تم الحفظ محلياً ولكن حدث تنبيه في المزامنة: ${result.message}`
-            : `⚠️ Saved locally, sync note: ${result.message}`
+            ? `⚠️ تم الحفظ محلياً: ${result.message || result.error || 'تنبيه في المزامنة'}`
+            : `⚠️ Saved locally: ${result.message || result.error || 'Sync warning'}`
         });
       }
     } catch (err) {
@@ -332,9 +402,13 @@ export default function AdminPage() {
     });
 
     try {
+      const token = (typeof window !== 'undefined' ? localStorage.getItem('fb_github_token') : '') || githubToken;
       const res = await fetch('/api/admin/sync', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'x-github-token': token } : {})
+        },
         body: JSON.stringify({
           projects: updated,
           blogsEn: editableBlogsEn,
@@ -348,7 +422,18 @@ export default function AdminPage() {
       if (data && data.success) {
         setStatusMessage({
           type: 'success',
-          text: locale === 'ar' ? `✅ تم حذف مشروع "${projName}" بنجاح ولم يعد موجوداً!` : `✅ Project "${projName}" deleted successfully!`
+          text: locale === 'ar' ? `✅ تم حذف مشروع "${projName}" بنجاح وتحديث الملفات!` : `✅ Project "${projName}" deleted successfully!`
+        });
+      } else if (data && data.requiresToken) {
+        setIsTokenModalOpen(true);
+        setStatusMessage({
+          type: 'warning',
+          text: locale === 'ar' ? 'تم الحذف محلياً؛ يرجى ربط رمز GitHub Token لتأكيد الحذف على النت مباشرة.' : 'Deleted locally; configure GitHub Token to sync cloud.'
+        });
+      } else {
+        setStatusMessage({
+          type: 'warning',
+          text: locale === 'ar' ? `⚠️ تم الحذف محلياً: ${data.message || data.error || ''}` : `⚠️ Deleted locally: ${data.message || data.error || ''}`
         });
       }
     } catch (e) {
@@ -360,6 +445,49 @@ export default function AdminPage() {
     }
 
     setTimeout(() => setStatusMessage({ type: '', text: '' }), 5000);
+  };
+
+  // Brand Management Handlers
+  const handleAddBrand = () => {
+    if (!newBrandName.trim()) return;
+    const newBrand = {
+      id: `brand-${Date.now()}`,
+      name: newBrandName.trim(),
+      category: newBrandCategory.trim() || 'Retail',
+      logoUrl: newBrandLogo || ''
+    };
+    const updated = [...editableBrands, newBrand];
+    setEditableBrands(updated);
+    saveBrands(updated);
+    setNewBrandName('');
+    setNewBrandCategory('');
+    setNewBrandLogo('');
+    setIsAddingBrand(false);
+    setStatusMessage({
+      type: 'success',
+      text: locale === 'ar'
+        ? `تمت إضافة براند "${newBrand.name}"! اضغط "حفظ ومزامنة" لنشر التغيير.`
+        : `Added brand "${newBrand.name}"! Click Save & Push to publish.`
+    });
+  };
+
+  const handleDeleteBrand = (bIdx) => {
+    const targetBrand = editableBrands[bIdx];
+    if (!targetBrand) return;
+    const confirmMsg = locale === 'ar'
+      ? `هل أنت متأكد من حذف براند "${targetBrand.name}" نهائياً من الموقع؟`
+      : `Are you sure you want to delete "${targetBrand.name}"?`;
+    if (!confirm(confirmMsg)) return;
+
+    const updated = editableBrands.filter((_, i) => i !== bIdx);
+    setEditableBrands(updated);
+    saveBrands(updated);
+    setStatusMessage({
+      type: 'info',
+      text: locale === 'ar'
+        ? `تم حذف "${targetBrand.name}". اضغط "حفظ ومزامنة" لتأكيد النشر.`
+        : `Deleted "${targetBrand.name}". Click Save & Push to publish.`
+    });
   };
 
   // Image & Video File Upload Handlers
@@ -559,15 +687,51 @@ export default function AdminPage() {
 
         {/* Right: Quick Global Actions */}
         <div className="flex items-center flex-wrap gap-2.5">
-          {/* Refresh from disk */}
+          {/* Cloud Sync Settings (GitHub Token) */}
           <button
-            onClick={loadFreshDataFromDisk}
+            onClick={() => setIsTokenModalOpen(true)}
+            className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border shadow-xs ${
+              githubToken
+                ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100'
+                : 'bg-white hover:bg-slate-50 text-fb-teal border-fb-teal/15'
+            }`}
+            title={locale === 'ar' ? 'إعدادات المزامنة السحابية (GitHub Token)' : 'Cloud Sync Settings (GitHub Token)'}
+          >
+            <Cloud size={14} className={githubToken ? 'text-emerald-600' : 'text-fb-teal'} />
+            <span className="hidden sm:inline">
+              {githubToken
+                ? (locale === 'ar' ? 'الربط السحابي (مفعّل ✓)' : 'Cloud Sync (Active ✓)')
+                : (locale === 'ar' ? 'الربط السحابي' : 'Cloud Sync')}
+            </span>
+          </button>
+
+          {/* Refresh from server */}
+          <button
+            onClick={async () => {
+              setIsRefreshing(true);
+              const res = await refreshFromServer();
+              setIsRefreshing(false);
+              if (res.success) {
+                setStatusMessage({
+                  type: 'success',
+                  text: locale === 'ar' ? 'تم جلب أحدث البيانات بنجاح من السيرفر!' : 'Loaded latest data successfully from server!'
+                });
+                if (res.data?.projects) setEditableProjects(res.data.projects);
+                if (res.data?.brands) setEditableBrands(res.data.brands);
+              } else {
+                setStatusMessage({
+                  type: 'error',
+                  text: locale === 'ar' ? 'تعذر جلب البيانات من السيرفر' : 'Failed to load data from server'
+                });
+              }
+              setTimeout(() => setStatusMessage({ type: '', text: '' }), 4000);
+            }}
             disabled={isRefreshing}
             className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-fb-teal text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border border-fb-teal/15 shadow-xs"
-            title={locale === 'ar' ? 'إعادة تحميل من ملفات السيرفر' : 'Reload from disk files'}
+            title={locale === 'ar' ? 'إعادة تحميل من ملفات السيرفر' : 'Reload from server files'}
           >
             <RefreshCw size={14} className={isRefreshing ? 'animate-spin text-fb-green' : 'text-fb-teal'} />
-            <span>{locale === 'ar' ? 'تحديث من السيرفر' : 'Fetch Disk'}</span>
+            <span>{locale === 'ar' ? 'تحديث من السيرفر' : 'Fetch Server'}</span>
           </button>
 
           {/* Master Save & Push to GitHub */}
@@ -1045,15 +1209,115 @@ export default function AdminPage() {
         {/* ======================================================== */}
         {activeTab === 'brands' && (
           <div className="space-y-6">
-            <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-fb-teal/10 shadow-xs">
-              <div className="text-sm font-extrabold text-fb-teal">
-                {locale === 'ar' ? 'العلامات التجارية الشريكة (Marquee & Partners)' : 'Partner Brands (Marquee & Partners)'}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-fb-teal/10 shadow-xs">
+              <div>
+                <div className="text-sm font-extrabold text-fb-teal">
+                  {locale === 'ar' ? 'العلامات التجارية الشريكة (Marquee & Partners)' : 'Partner Brands (Marquee & Partners)'}
+                </div>
+                <div className="text-xs text-slate-500 font-medium">
+                  {locale === 'ar' ? `إجمالي البراندات الحالية: ${editableBrands.length}` : `Total Brands: ${editableBrands.length}`}
+                </div>
               </div>
+
+              <button
+                onClick={() => setIsAddingBrand(!isAddingBrand)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-fb-teal text-fb-green hover:bg-fb-teal/90 text-xs font-bold transition-all shadow-xs cursor-pointer self-start sm:self-auto"
+              >
+                <Plus size={15} />
+                <span>{locale === 'ar' ? 'إضافة علامة تجارية' : 'Add Brand'}</span>
+              </button>
             </div>
+
+            {/* Add Brand Inline Form */}
+            {isAddingBrand && (
+              <div className="bg-fb-teal/5 border border-fb-teal/15 rounded-2xl p-5 space-y-4">
+                <div className="text-xs font-extrabold text-fb-teal">
+                  {locale === 'ar' ? 'إضافة علامة تجارية جديدة' : 'Add New Partner Brand'}
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-bold text-fb-teal mb-1">
+                      {locale === 'ar' ? 'اسم البراند' : 'Brand Name'} *
+                    </label>
+                    <input
+                      type="text"
+                      value={newBrandName}
+                      onChange={(e) => setNewBrandName(e.target.value)}
+                      placeholder="e.g. Starbucks, McDonald's"
+                      className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-fb-teal/15 focus:outline-hidden focus:border-fb-green font-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-fb-teal mb-1">
+                      {locale === 'ar' ? 'التصنيف / القطاع' : 'Category'}
+                    </label>
+                    <input
+                      type="text"
+                      value={newBrandCategory}
+                      onChange={(e) => setNewBrandCategory(e.target.value)}
+                      placeholder="e.g. F&B, Retail, Pharmacy"
+                      className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-fb-teal/15 focus:outline-hidden focus:border-fb-green font-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-fb-teal mb-1">
+                      {locale === 'ar' ? 'الشعار (Logo)' : 'Logo Image'}
+                    </label>
+                    <label className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-white border border-fb-teal/15 hover:border-fb-green text-xs font-bold text-slate-700 cursor-pointer transition-colors">
+                      <Upload size={14} className="text-fb-green" />
+                      <span className="truncate">{newBrandLogo ? (locale === 'ar' ? 'تم اختيار الشعار ✓' : 'Logo Selected ✓') : (locale === 'ar' ? 'رفع صورة الشعار' : 'Upload Logo')}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const compressed = await compressImage(file, 400, 0.85);
+                            if (compressed) setNewBrandLogo(compressed);
+                          }
+                        }}
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 pt-2">
+                  <button
+                    onClick={handleAddBrand}
+                    className="px-4 py-2 rounded-xl bg-fb-green text-fb-teal text-xs font-bold hover:brightness-105 transition-all shadow-xs cursor-pointer"
+                  >
+                    {locale === 'ar' ? 'حفظ البراند في القائمة' : 'Save Brand to List'}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsAddingBrand(false);
+                      setNewBrandName('');
+                      setNewBrandCategory('');
+                      setNewBrandLogo('');
+                    }}
+                    className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-50 transition-all cursor-pointer"
+                  >
+                    {locale === 'ar' ? 'إلغاء' : 'Cancel'}
+                  </button>
+                </div>
+              </div>
+            )}
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {editableBrands.map((brand, bIdx) => (
                 <div key={bIdx} className="bg-white border border-fb-teal/10 rounded-2xl p-4 flex flex-col items-center justify-center text-center relative group shadow-xs hover:shadow-sm transition-shadow">
+                  {/* Delete Brand Button */}
+                  <button
+                    onClick={() => handleDeleteBrand(bIdx)}
+                    className="absolute top-2 right-2 rtl:left-2 rtl:right-auto w-6 h-6 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all cursor-pointer shadow-xs"
+                    title={locale === 'ar' ? `حذف ${brand.name}` : `Delete ${brand.name}`}
+                  >
+                    <Trash2 size={12} />
+                  </button>
+
                   <div className="w-16 h-16 rounded-xl bg-fb-bg-light/80 border border-fb-teal/10 p-2 flex items-center justify-center mb-2">
                     {brand.logoUrl ? (
                       <img src={brand.logoUrl} alt={brand.name} className="max-h-full max-w-full object-contain" />
@@ -1164,6 +1428,115 @@ export default function AdminPage() {
           </div>
         )}
       </div>
+
+      {/* GITHUB CLOUD SYNC SETTINGS MODAL */}
+      <AnimatePresence>
+        {isTokenModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-fb-teal/15 space-y-5"
+            >
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-teal">
+                    <Cloud size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-extrabold text-sm sm:text-base text-fb-teal">
+                      {locale === 'ar' ? 'إعدادات المزامنة السحابية (GitHub Cloud Sync)' : 'GitHub Cloud Sync Settings'}
+                    </h3>
+                    <p className="text-[11px] text-slate-500">
+                      {locale === 'ar' ? 'لتمكين الحفظ والتعديل المباشر عندما يكون الموقع مفتوحاً على الإنترنت (Vercel)' : 'Enables direct live edits when the site is deployed online'}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsTokenModalOpen(false)}
+                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center cursor-pointer transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {locale === 'ar'
+                    ? 'عندما يكون الموقع مرفوعاً على Vercel، يكون نظام الملفات مغلقاً للقراءة فقط. باستخدام GitHub Personal Access Token، ستتمكن لوحة التحكم من تعديل وحذف الملفات ورفع الصور ونشر التحديثات فوراً عبر GitHub API لجميع زوار الموقع.'
+                    : 'When deployed on Vercel, the filesystem is read-only. With a GitHub Personal Access Token, this dashboard can commit changes, update projects, delete items, and trigger automatic deployments instantly worldwide.'}
+                </p>
+
+                <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-1.5 text-[11px] text-slate-600">
+                  <div className="font-bold text-fb-teal">
+                    {locale === 'ar' ? '📌 كيفية استخراج الرمز (في دقيقة واحدة):' : '📌 How to generate token (1 minute):'}
+                  </div>
+                  <ol className="list-decimal list-inside space-y-1 text-slate-500">
+                    <li>{locale === 'ar' ? 'افتح GitHub -> Settings -> Developer Settings' : 'Go to GitHub -> Settings -> Developer Settings'}</li>
+                    <li>{locale === 'ar' ? 'اختر Personal Access Tokens -> Tokens (classic)' : 'Select Personal Access Tokens -> Tokens (classic)'}</li>
+                    <li>{locale === 'ar' ? 'أنشئ رمزا جديدا وحدد صلاحية "repo" فقط' : 'Generate new token and check "repo" scope'}</li>
+                    <li>{locale === 'ar' ? 'انسخ الرمز والصقه في الحقل أدناه' : 'Copy and paste below'}</li>
+                  </ol>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-bold text-fb-teal">
+                    GitHub Personal Access Token (PAT)
+                  </label>
+                  <input
+                    type="password"
+                    value={githubToken}
+                    onChange={(e) => handleSaveToken(e.target.value)}
+                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                    className="w-full px-3.5 py-2.5 text-xs font-mono rounded-xl bg-slate-50 border border-slate-300 focus:outline-hidden focus:border-fb-green focus:bg-white"
+                  />
+                </div>
+
+                {tokenTestStatus.message && (
+                  <div className={`p-2.5 rounded-xl text-xs font-bold flex items-center gap-2 ${
+                    tokenTestStatus.success === true
+                      ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                      : tokenTestStatus.success === false
+                      ? 'bg-red-50 text-red-800 border border-red-200'
+                      : 'bg-slate-100 text-slate-700'
+                  }`}>
+                    {tokenTestStatus.loading && <Loader2 size={14} className="animate-spin text-fb-teal" />}
+                    <span>{tokenTestStatus.message}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between pt-2">
+                <button
+                  onClick={() => handleTestToken(githubToken)}
+                  disabled={tokenTestStatus.loading}
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+                >
+                  {tokenTestStatus.loading ? <Loader2 size={13} className="animate-spin" /> : <Key size={13} />}
+                  <span>{locale === 'ar' ? 'اختبار الاتصال' : 'Test Connection'}</span>
+                </button>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      handleSaveToken(githubToken);
+                      setIsTokenModalOpen(false);
+                      setStatusMessage({
+                        type: 'success',
+                        text: locale === 'ar' ? 'تم حفظ رمز GitHub بنجاح!' : 'GitHub token saved successfully!'
+                      });
+                    }}
+                    className="px-5 py-2 rounded-xl bg-fb-teal text-fb-green hover:bg-fb-teal/90 text-xs font-extrabold transition-all shadow-xs cursor-pointer"
+                  >
+                    {locale === 'ar' ? 'تأكيد وحفظ' : 'Save & Close'}
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
