@@ -17,6 +17,7 @@ export default function Footer() {
 
   const navLinks = [
     { nameKey: 'nav.home', href: '/' },
+    { nameKey: 'nav.portfolio', href: '/portfolio' },
     { nameKey: 'nav.assetManagement', href: '/asset-management' },
     { nameKey: 'nav.franchiseSourcing', href: '/franchise-sourcing' },
     { nameKey: 'nav.aboutUs', href: '/about' },

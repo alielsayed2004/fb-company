@@ -2,6 +2,7 @@ export const translations = {
   en: {
     nav: {
       home: "Home",
+      portfolio: "Portfolio",
       assetManagement: "Asset Management",
       franchiseSourcing: "Franchise Sourcing",
       aboutUs: "About Us",
@@ -283,6 +284,7 @@ export const translations = {
   ar: {
     nav: {
       home: "الرئيسية",
+      portfolio: "محفظة المشاريع",
       assetManagement: "إدارة وحيازة الأصول",
       franchiseSourcing: "توفير المواقع والتأجير التجاري",
       aboutUs: "عن الشركة",
