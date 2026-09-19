@@ -90,7 +90,7 @@ export default function AdminPage() {
 
   // GitHub Cloud Sync State
   const [githubToken, setGithubToken] = useState('');
-  const [isCloudConnected, setIsCloudConnected] = useState(true);
+  const [isCloudConnected, setIsCloudConnected] = useState(false);
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
   const [tokenTestStatus, setTokenTestStatus] = useState({ loading: false, success: null, message: '' });
 
@@ -111,47 +111,69 @@ export default function AdminPage() {
     if (session === 'true') {
       setIsAuthenticated(true);
     }
-    if (typeof window !== 'undefined') {
-      const savedToken = localStorage.getItem('fb_github_token') || '';
-      if (savedToken) {
-        setGithubToken(savedToken);
-      } else {
-        fetch('/api/admin/sync?action=get-token')
-          .then(res => res.json())
-          .then(data => {
-            if (data && data.success && data.token) {
-              setGithubToken(data.token);
-              localStorage.setItem('fb_github_token', data.token);
-              setIsCloudConnected(true);
+
+    async function initAndVerifyCloud() {
+      let activeTok = '';
+      if (typeof window !== 'undefined') {
+        activeTok = localStorage.getItem('fb_github_token') || '';
+      }
+      if (!activeTok) {
+        try {
+          const res = await fetch('/api/admin/sync?action=get-token');
+          const data = await res.json();
+          if (data && data.success && data.token) {
+            activeTok = data.token;
+            setGithubToken(activeTok);
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('fb_github_token', activeTok);
             }
-          })
-          .catch(() => {});
+          }
+        } catch (e) {}
+      } else {
+        setGithubToken(activeTok);
+      }
+
+      if (activeTok) {
+        try {
+          const verifyRes = await fetch('/api/admin/sync?action=verify-token', {
+            headers: { 'x-github-token': activeTok }
+          });
+          const verifyData = await verifyRes.json();
+          setIsCloudConnected(Boolean(verifyData && verifyData.valid));
+        } catch (e) {
+          setIsCloudConnected(false);
+        }
+      } else {
+        setIsCloudConnected(false);
       }
     }
-    // Check server cloud sync capability
-    fetch('/api/admin/sync?action=verify-token')
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.valid) {
-          setIsCloudConnected(true);
-        }
-      })
-      .catch(() => {});
+
+    initAndVerifyCloud();
   }, []);
 
-  const handleSaveToken = (val) => {
+  const handleSaveToken = async (val) => {
     const clean = val.trim();
     setGithubToken(clean);
     if (typeof window !== 'undefined') {
       localStorage.setItem('fb_github_token', clean);
     }
     setTokenTestStatus({ loading: false, success: null, message: '' });
+    if (clean) {
+      try {
+        await fetch('/api/admin/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'save-token', token: clean })
+        });
+      } catch (e) {}
+    }
   };
 
   const handleTestToken = async (tok) => {
     const t = (tok !== undefined ? tok : githubToken).trim();
     if (!t) {
       setTokenTestStatus({ loading: false, success: false, message: locale === 'ar' ? 'يرجى إدخال رمز Token' : 'Please enter a token' });
+      setIsCloudConnected(false);
       return;
     }
     setTokenTestStatus({ loading: true, success: null, message: locale === 'ar' ? 'جاري التحقق مع مستودع GitHub...' : 'Verifying with GitHub repo...' });
@@ -165,18 +187,22 @@ export default function AdminPage() {
           loading: false,
           success: true,
           message: locale === 'ar'
-            ? `✅ متصل بنجاح مع مستودع ${data.repoName} (صلاحيات الكتابة متوفرة)`
+            ? `✅ متصل بنجاح مع مستودع ${data.repoName} (صلاحيات الرفع متوفرة)`
             : `✅ Successfully connected to ${data.repoName} (write permissions confirmed)`
         });
+        setIsCloudConnected(true);
+        handleSaveToken(t);
       } else {
         setTokenTestStatus({
           loading: false,
           success: false,
-          message: `❌ ${data.message || 'فشل الاتصال'}`
+          message: `❌ ${data.message || (locale === 'ar' ? 'رمز غير صالح أو منتهي الصلاحية' : 'Invalid or expired token')}`
         });
+        setIsCloudConnected(false);
       }
     } catch (e) {
       setTokenTestStatus({ loading: false, success: false, message: `❌ ${e.message}` });
+      setIsCloudConnected(false);
     }
   };
 
@@ -714,17 +740,17 @@ export default function AdminPage() {
           <button
             onClick={() => setIsTokenModalOpen(true)}
             className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border shadow-xs ${
-              (isCloudConnected || githubToken)
+              isCloudConnected
                 ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100'
-                : 'bg-white hover:bg-slate-50 text-fb-teal border-fb-teal/15'
+                : 'bg-amber-50 text-amber-900 border-amber-300 hover:bg-amber-100'
             }`}
             title={locale === 'ar' ? 'إعدادات المزامنة السحابية' : 'Cloud Sync Settings'}
           >
-            <Cloud size={14} className={(isCloudConnected || githubToken) ? 'text-emerald-600' : 'text-fb-teal'} />
+            <Cloud size={14} className={isCloudConnected ? 'text-emerald-600' : 'text-amber-600'} />
             <span className="hidden sm:inline">
-              {(isCloudConnected || githubToken)
+              {isCloudConnected
                 ? (locale === 'ar' ? 'الربط السحابي (متصل ومفعّل ✓)' : 'Cloud Sync (Connected ✓)')
-                : (locale === 'ar' ? 'الربط السحابي' : 'Cloud Sync')}
+                : (locale === 'ar' ? 'الربط السحابي (بحاجة لتجديد الرمز ⚠️)' : 'Cloud Sync (Token Needed ⚠️)')}
             </span>
           </button>
 
@@ -1485,19 +1511,46 @@ export default function AdminPage() {
               </div>
 
               <div className="space-y-3">
-                <div className="bg-emerald-50 p-3.5 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-start gap-2.5">
-                  <span className="text-emerald-600 font-bold text-base leading-none mt-0.5">✓</span>
-                  <div className="space-y-1">
-                    <div className="font-bold">
-                      {locale === 'ar' ? 'المزامنة السحابية المباشرة مفعلة وجاهزة!' : 'Cloud Direct Sync is Active & Ready!'}
+                {isCloudConnected ? (
+                  <div className="bg-emerald-50 p-3.5 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-start gap-2.5">
+                    <span className="text-emerald-600 font-bold text-base leading-none mt-0.5">✓</span>
+                    <div className="space-y-1">
+                      <div className="font-bold">
+                        {locale === 'ar' ? 'المزامنة السحابية المباشرة مفعلة وجاهزة!' : 'Cloud Direct Sync is Active & Ready!'}
+                      </div>
+                      <p className="text-[11px] text-emerald-800/90 leading-relaxed">
+                        {locale === 'ar'
+                          ? 'الموقع مربوط بمستودع GitHub بصلاحيات الحفظ الكاملة. أي تعديل أو حذف تقوم به سيتم رفعه ونشره لجميع الزوار تلقائياً.'
+                          : 'Your site is automatically connected to GitHub with full push permissions. All edits and deletions publish worldwide seamlessly.'}
+                      </p>
                     </div>
-                    <p className="text-[11px] text-emerald-800/90 leading-relaxed">
-                      {locale === 'ar'
-                        ? 'الموقع مربوط تلقائياً بمستودع GitHub بصلاحيات الحفظ الكاملة. أي تعديل أو حذف تقوم به سيتم رفعه ونشره لجميع الزوار تلقائياً.'
-                        : 'Your site is automatically connected to GitHub with full push permissions. All edits and deletions publish worldwide seamlessly.'}
-                    </p>
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-amber-50 p-3.5 rounded-xl border border-amber-200 text-xs text-amber-950 flex items-start gap-2.5">
+                    <span className="text-amber-600 font-bold text-base leading-none mt-0.5">⚠️</span>
+                    <div className="space-y-1.5 w-full">
+                      <div className="font-bold text-amber-900">
+                        {locale === 'ar' ? 'رمز الوصول (GitHub Token) منتهي الصلاحية أو غير متصل' : 'GitHub Token is Expired or Disconnected'}
+                      </div>
+                      <p className="text-[11px] text-amber-800 leading-relaxed">
+                        {locale === 'ar'
+                          ? 'خطوات تجديد الرمز في أقل من دقيقة لتفعيل الرفع التلقائي لـ GitHub و Vercel:'
+                          : 'Follow these quick steps to generate a new token and enable auto-deploy:'}
+                      </p>
+                      <ol className="text-[11px] text-amber-900 list-decimal list-inside space-y-1 bg-white/70 p-2.5 rounded-lg border border-amber-200/60 font-medium">
+                        <li>
+                          {locale === 'ar' ? 'افتح صفحة التوكنز: ' : 'Open GitHub tokens: '}
+                          <a href="https://github.com/settings/tokens" target="_blank" rel="noreferrer" className="underline font-bold text-emerald-800 hover:text-emerald-900">
+                            github.com/settings/tokens
+                          </a>
+                        </li>
+                        <li>{locale === 'ar' ? 'اضغط Generate new token (classic)' : 'Click Generate new token (classic)'}</li>
+                        <li>{locale === 'ar' ? 'اختر صلاحية repo (Full control)' : 'Check "repo" scope (Full control)'}</li>
+                        <li>{locale === 'ar' ? 'انسخ الرمز الجديد الذي يبدأ بـ ghp_ والصقه في الأسفل ثم اضغط "اختبار الاتصال"' : 'Copy new token (starts with ghp_), paste below and click Test'}</li>
+                      </ol>
+                    </div>
+                  </div>
+                )}
 
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-fb-teal">
