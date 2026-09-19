@@ -41,7 +41,7 @@ function parseBase64Data(dataUri) {
 }
 
 // Save base64 to local disk if writable
-function saveBase64MediaLocal(dataUri, targetDir, baseFilename) {
+function saveBase64MediaLocal(dataUri, targetDir, exactFilename) {
   const parsed = parseBase64Data(dataUri);
   if (!parsed) return dataUri;
 
@@ -51,7 +51,7 @@ function saveBase64MediaLocal(dataUri, targetDir, baseFilename) {
       fs.mkdirSync(targetDir, { recursive: true });
     }
 
-    const filename = `${baseFilename}-${Date.now()}${parsed.ext}`;
+    const filename = exactFilename || `file-${Date.now()}${parsed.ext}`;
     const filePath = path.join(targetDir, filename);
     fs.writeFileSync(filePath, buffer);
 
@@ -261,7 +261,7 @@ export async function POST(req) {
               encoding: 'base64'
             });
             if (isFsWritable) {
-              saveBase64MediaLocal(coverImage, projPublicDir, 'cover');
+              saveBase64MediaLocal(coverImage, projPublicDir, fileName);
             }
             coverImage = publicPath;
           }
@@ -280,7 +280,7 @@ export async function POST(req) {
               encoding: 'base64'
             });
             if (isFsWritable) {
-              saveBase64MediaLocal(video, projPublicDir, 'video');
+              saveBase64MediaLocal(video, projPublicDir, fileName);
             }
             video = publicPath;
           }
@@ -300,7 +300,7 @@ export async function POST(req) {
                 encoding: 'base64'
               });
               if (isFsWritable) {
-                saveBase64MediaLocal(item, projPublicDir, `gallery-${gIdx}`);
+                saveBase64MediaLocal(item, projPublicDir, fileName);
               }
               return publicPath;
             }
@@ -409,7 +409,7 @@ export async function POST(req) {
             encoding: 'base64'
           });
           if (isFsWritable) {
-            saveBase64MediaLocal(logoUrl, logosPublicDir, `brand-${brandId}`);
+            saveBase64MediaLocal(logoUrl, logosPublicDir, fileName);
           }
           logoUrl = publicPath;
         }
@@ -470,6 +470,9 @@ export async function POST(req) {
               await execPromise('git add data/ public/projects/ public/logos/', { cwd: rootDir });
               const commitMsg = `Content sync: Update projects & assets from Admin [${new Date().toISOString().slice(0, 19).replace('T', ' ')}]`;
               await execPromise(`git commit -m "${commitMsg}"`, { cwd: rootDir });
+              try {
+                await execPromise('git push origin main', { cwd: rootDir, env: { ...process.env, GIT_TERMINAL_PROMPT: '0' } });
+              } catch (pushErr) {}
             }
           } catch (e) {}
 

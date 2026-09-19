@@ -113,25 +113,25 @@ export default function AdminPage() {
     }
 
     async function initAndVerifyCloud() {
-      let activeTok = '';
-      if (typeof window !== 'undefined') {
+      let serverToken = '';
+      try {
+        const res = await fetch('/api/admin/sync?action=get-token');
+        const data = await res.json();
+        if (data && data.success && data.token) {
+          serverToken = data.token;
+        }
+      } catch (e) {}
+
+      let activeTok = serverToken;
+      if (!activeTok && typeof window !== 'undefined') {
         activeTok = localStorage.getItem('fb_github_token') || '';
       }
-      if (!activeTok) {
-        try {
-          const res = await fetch('/api/admin/sync?action=get-token');
-          const data = await res.json();
-          if (data && data.success && data.token) {
-            activeTok = data.token;
-            setGithubToken(activeTok);
-            if (typeof window !== 'undefined') {
-              localStorage.setItem('fb_github_token', activeTok);
-            }
-          }
-        } catch (e) {}
-      } else {
-        setGithubToken(activeTok);
+
+      if (serverToken && typeof window !== 'undefined') {
+        localStorage.setItem('fb_github_token', serverToken);
       }
+
+      setGithubToken(activeTok || '');
 
       if (activeTok) {
         try {
