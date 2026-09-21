@@ -64,7 +64,7 @@ export default function PortfolioPage() {
       <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] px-4 sm:px-6">
         <video
           ref={videoRef}
-          key="/videos/portfolio.mp4"
+          key="/videos/portfolio.mp4?v=2"
           autoPlay
           loop
           muted
@@ -72,7 +72,7 @@ export default function PortfolioPage() {
           preload="auto"
           className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105"
         >
-          <source src="/videos/portfolio.mp4" type="video/mp4" />
+          <source src="/videos/portfolio.mp4?v=2" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-fb-teal/70 mix-blend-multiply z-0 pointer-events-none" />
         <div className="absolute inset-0 hero-grid-overlay pointer-events-none z-0" />
