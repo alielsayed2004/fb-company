@@ -61,7 +61,7 @@ export default function PortfolioPage() {
     <div className="flex flex-col min-h-screen bg-fb-bg-light">
 
       {/* 1. HERO SECTION */}
-      <section className="bg-fb-teal text-fb-white py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden flex flex-col justify-center min-h-[60dvh] md:min-h-[70dvh]">
+      <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] px-4 sm:px-6">
         <video
           ref={videoRef}
           key="/videos/portfolio.mp4"
