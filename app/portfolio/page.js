@@ -179,7 +179,6 @@ export default function PortfolioPage() {
               {projects.map((project, idx) => {
                 const name = getField(project, 'name');
                 const city = getField(project, 'city');
-                const isOperational = project.status === 'Operational';
 
                 // Cover Image fallback
                 const cover = project.coverImage || (Array.isArray(project.gallery) && project.gallery[0]) || '/company/logo.png';
@@ -201,22 +200,6 @@ export default function PortfolioPage() {
                           }}
                         />
                         <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-
-                        {/* Status Badge */}
-                        <div className="absolute top-3.5 left-3.5 rtl:left-auto rtl:right-3.5 z-10">
-                          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold backdrop-blur-md shadow-xs ${
-                            isOperational
-                              ? 'bg-emerald-500/90 text-white'
-                              : 'bg-amber-500/90 text-white'
-                          }`}>
-                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                            <span>
-                              {isOperational
-                                ? (isAr ? 'تشغيل ممتاز (100%)' : 'Operational (100%)')
-                                : (isAr ? 'قيد التطوير / التسكين' : 'Allocating')}
-                            </span>
-                          </span>
-                        </div>
 
                         {/* Quick City & Road Overlay */}
                         <div className="absolute bottom-3 left-3.5 right-3.5 z-10 text-white space-y-0.5">
