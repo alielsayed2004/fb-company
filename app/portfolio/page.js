@@ -88,18 +88,16 @@ export default function PortfolioPage() {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-fb-green text-xs font-bold uppercase tracking-widest"
           >
             <Building2 size={14} className="text-fb-green" />
-            <span>{isAr ? 'محفظة الأصول والمشاريع التجارية' : 'Commercial Asset Portfolio'}</span>
+            <span>{isAr ? 'محفظة المشاريع' : 'Portfolio'}</span>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, ease: corporateEase }}
-            className="text-fb-bg-light max-w-4xl leading-tight font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-[3.25rem] tracking-tight text-balance"
+            className="text-fb-bg-light max-w-4xl leading-tight font-extrabold text-3xl sm:text-5xl md:text-6xl tracking-tight text-balance"
           >
-            {isAr
-              ? 'مجمعات تجارية ومراكز خدمية رائدة على أهم محاور التنمية في مصر'
-              : 'Institutional Commercial Plazas & Franchise Hubs Across Strategic Corridors'}
+            {isAr ? 'محفظة مشاريعنا' : 'Our Portfolio'}
           </motion.h1>
 
           <motion.p
@@ -109,8 +107,8 @@ export default function PortfolioPage() {
             className="text-fb-bg-light/85 text-xs sm:text-base md:text-lg leading-relaxed max-w-2xl font-light"
           >
             {isAr
-              ? 'نستعرض هنا محفظة الأصول العقارية التجارية المدارة والتي تم تسكين كبرى العلامات التجارية العالمية والوطنية بها بنسبة إشغال كاملة 100% وعوائد مؤسسية مستدامة.'
-              : 'Explore our high-traffic commercial fuel plazas, urban retail perimeters, and specialized travel hubs engineered for 100% occupancy and top-tier retail covenants.'}
+              ? 'نخبة من المشاريع والمجمعات التجارية المدارة في أهم المواقع الحيوية بمصر.'
+              : 'A curated portfolio of prime commercial projects across Egypt.'}
           </motion.p>
         </div>
       </section>
