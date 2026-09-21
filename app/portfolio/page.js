@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { 
-  Building2, MapPin, Search, ArrowRight, 
+  Building2, MapPin, ArrowRight, 
   Store, Fuel, TrendingUp
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -37,10 +37,6 @@ export default function PortfolioPage() {
   const { projects, counters } = useData();
   const isAr = locale === 'ar';
 
-  const [statusFilter, setStatusFilter] = useState('ALL'); // 'ALL', 'Operational', 'Under Construction'
-  const [selectedCity, setSelectedCity] = useState('ALL');
-  const [searchQuery, setSearchQuery] = useState('');
-
   const getField = (obj, field) => {
     if (!obj) return '';
     if (isAr) {
@@ -48,46 +44,6 @@ export default function PortfolioPage() {
     }
     return obj[field] || '';
   };
-
-  // Distinct cities list
-  const availableCities = useMemo(() => {
-    if (!Array.isArray(projects)) return [];
-    const set = new Set();
-    projects.forEach(p => {
-      const c = isAr ? (p.city_ar || p.city) : p.city;
-      if (c) set.add(c);
-    });
-    return Array.from(set);
-  }, [projects, isAr]);
-
-  // Filtered projects list
-  const filteredProjects = useMemo(() => {
-    if (!Array.isArray(projects)) return [];
-    return projects.filter(p => {
-      // Status match
-      if (statusFilter !== 'ALL' && p.status !== statusFilter) {
-        return false;
-      }
-      // City match
-      if (selectedCity !== 'ALL') {
-        const c = isAr ? (p.city_ar || p.city) : p.city;
-        if (c !== selectedCity) return false;
-      }
-      // Search match
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const name = (p.name || '').toLowerCase();
-        const nameAr = (p.name_ar || '').toLowerCase();
-        const loc = (p.location || '').toLowerCase();
-        const locAr = (p.location_ar || '').toLowerCase();
-        const brands = Array.isArray(p.brands) 
-          ? p.brands.map(b => (typeof b === 'object' ? b.name : String(b)).toLowerCase()).join(' ')
-          : '';
-        return name.includes(q) || nameAr.includes(q) || loc.includes(q) || locAr.includes(q) || brands.includes(q);
-      }
-      return true;
-    });
-  }, [projects, statusFilter, selectedCity, searchQuery, isAr]);
 
   return (
     <div className="flex flex-col min-h-screen bg-fb-bg-light">
@@ -189,126 +145,16 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      {/* 3. INTERACTIVE FILTER & SEARCH CONTROLS */}
-      <section className="py-8 sm:py-10 px-4 sm:px-6 bg-fb-bg-light/60 border-b border-fb-teal/10 sticky top-[68px] md:top-[80px] z-30 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto space-y-4">
-          
-          <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3.5 sm:gap-4">
-            
-            {/* Status Pills */}
-            <div className="flex items-center gap-1.5 p-1 bg-white/80 border border-fb-teal/15 rounded-2xl shadow-xs overflow-x-auto">
-              <button
-                onClick={() => setStatusFilter('ALL')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
-                  statusFilter === 'ALL'
-                    ? 'bg-fb-teal text-white shadow-xs'
-                    : 'text-fb-teal/75 hover:text-fb-teal hover:bg-fb-teal/5'
-                }`}
-              >
-                {isAr ? 'كافة المشاريع' : 'All Projects'} ({projects?.length || 0})
-              </button>
-
-              <button
-                onClick={() => setStatusFilter('Operational')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
-                  statusFilter === 'Operational'
-                    ? 'bg-emerald-700 text-white shadow-xs'
-                    : 'text-fb-teal/75 hover:text-fb-teal hover:bg-fb-teal/5'
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>{isAr ? 'أصول تشغيلية (100%)' : 'Operational'}</span>
-              </button>
-
-              <button
-                onClick={() => setStatusFilter('Under Construction')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
-                  statusFilter === 'Under Construction'
-                    ? 'bg-amber-600 text-white shadow-xs'
-                    : 'text-fb-teal/75 hover:text-fb-teal hover:bg-fb-teal/5'
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full bg-amber-300" />
-                <span>{isAr ? 'قيد التطوير والتسكين' : 'Under Development'}</span>
-              </button>
-            </div>
-
-            {/* Search Input Box */}
-            <div className="relative flex-1 max-w-md">
-              <Search size={16} className="absolute left-3.5 rtl:left-auto rtl:right-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={isAr ? 'ابحث باسم المشروع، المدينة، أو علامة تجارية...' : 'Search by project, city, or brand...'}
-                className="w-full pl-9 pr-4 rtl:pl-4 rtl:pr-9 py-2 rounded-2xl bg-white border border-fb-teal/15 text-xs text-fb-teal focus:outline-hidden focus:border-fb-green shadow-xs transition-all"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 font-bold"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* City Pills Row */}
-          {availableCities.length > 0 && (
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
-              <span className="text-slate-400 font-bold px-1 flex items-center gap-1 shrink-0 text-[11px]">
-                <MapPin size={12} className="text-fb-green" />
-                {isAr ? 'المدينة / المحور:' : 'City / Axis:'}
-              </span>
-              <button
-                onClick={() => setSelectedCity('ALL')}
-                className={`px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer shrink-0 border ${
-                  selectedCity === 'ALL'
-                    ? 'bg-fb-teal text-white border-fb-teal shadow-2xs'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-fb-teal/30 hover:bg-slate-50'
-                }`}
-              >
-                {isAr ? 'الكل' : 'All'}
-              </button>
-              {availableCities.map(city => (
-                <button
-                  key={city}
-                  onClick={() => setSelectedCity(city)}
-                  className={`px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer shrink-0 border ${
-                    selectedCity === city
-                      ? 'bg-fb-teal text-white border-fb-teal shadow-2xs'
-                      : 'bg-white text-slate-600 border-slate-200 hover:border-fb-teal/30 hover:bg-slate-50'
-                  }`}
-                >
-                  {city}
-                </button>
-              ))}
-            </div>
-          )}
-
-        </div>
-      </section>
-
-      {/* 4. MAIN PROJECT CARDS GRID */}
+      {/* 3. MAIN PROJECT CARDS GRID */}
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           
-          {filteredProjects.length === 0 ? (
+          {(!projects || projects.length === 0) ? (
             <div className="bg-white rounded-3xl p-12 text-center border border-fb-teal/15 space-y-4 max-w-lg mx-auto shadow-sm">
               <Building2 size={42} className="text-fb-teal/30 mx-auto" />
               <h3 className="font-extrabold text-fb-teal text-lg">
-                {isAr ? 'لا توجد مشاريع مطابقة للبحث' : 'No matching projects found'}
+                {isAr ? 'لا توجد مشاريع متاحة حالياً' : 'No projects available currently'}
               </h3>
-              <p className="text-xs text-slate-500">
-                {isAr ? 'جرّب تغيير فلاتر البحث أو إعادة ضبط المدينة.' : 'Try changing your search terms or clearing the filters.'}
-              </p>
-              <button
-                onClick={() => { setStatusFilter('ALL'); setSelectedCity('ALL'); setSearchQuery(''); }}
-                className="px-5 py-2 rounded-xl bg-fb-teal text-white text-xs font-bold hover:bg-fb-teal/90 transition-all cursor-pointer"
-              >
-                {isAr ? 'إعادة ضبط الفلاتر' : 'Reset Filters'}
-              </button>
             </div>
           ) : (
             <motion.div
@@ -317,7 +163,7 @@ export default function PortfolioPage() {
               animate="visible"
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
             >
-              {filteredProjects.map((project, idx) => {
+              {projects.map((project, idx) => {
                 const name = getField(project, 'name');
                 const city = getField(project, 'city');
                 const location = getField(project, 'location');
