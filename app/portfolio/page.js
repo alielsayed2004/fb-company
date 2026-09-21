@@ -166,8 +166,6 @@ export default function PortfolioPage() {
               {projects.map((project, idx) => {
                 const name = getField(project, 'name');
                 const city = getField(project, 'city');
-                const location = getField(project, 'location');
-                const overview = getField(project, 'overview');
                 const isOperational = project.status === 'Operational';
 
                 // Cover Image fallback
@@ -180,8 +178,7 @@ export default function PortfolioPage() {
                     className="bg-white rounded-3xl border border-fb-teal/15 overflow-hidden flex flex-col justify-between shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_20px_40px_rgba(0,59,60,0.12)] hover:border-fb-green transition-all duration-400 group relative"
                   >
                     {/* Card Top / Visual */}
-                    <div>
-                      <div className="relative aspect-16/10 overflow-hidden bg-fb-teal/10">
+                    <div className="relative aspect-16/10 overflow-hidden bg-fb-teal/10">
                         <img
                           src={cover}
                           alt={name}
@@ -220,21 +217,8 @@ export default function PortfolioPage() {
                         </div>
                       </div>
 
-                      {/* Card Middle: Description & Location */}
-                      <div className="p-5 sm:p-6 space-y-4">
-                        <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
-                          {overview}
-                        </p>
-
-                        <div className="text-[11px] text-fb-teal/80 font-medium flex items-center gap-1.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                          <MapPin size={13} className="text-fb-green shrink-0" />
-                          <span className="truncate">{location}</span>
-                        </div>
-                      </div>
-                    </div>
-
                     {/* Card Footer / CTA */}
-                    <div className="p-5 sm:p-6 pt-0">
+                    <div className="p-4 sm:p-5">
                       <Link
                         href={`/projects/${project.id}`}
                         className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-fb-teal hover:bg-fb-green text-white hover:text-fb-teal font-extrabold text-xs transition-all duration-300 shadow-md group-hover:shadow-lg cursor-pointer"
