@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { 
@@ -36,6 +36,18 @@ export default function PortfolioPage() {
   const { locale, t } = useLanguage();
   const { projects, counters } = useData();
   const isAr = locale === 'ar';
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    }
+  }, []);
 
   const getField = (obj, field) => {
     if (!obj) return '';
@@ -51,11 +63,14 @@ export default function PortfolioPage() {
       {/* 1. HERO SECTION */}
       <section className="bg-fb-teal text-fb-white py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden flex flex-col justify-center min-h-[60dvh] md:min-h-[70dvh]">
         <video
+          ref={videoRef}
+          key="/videos/portfolio.mp4"
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-35 pointer-events-none z-0 scale-105"
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105"
         >
           <source src="/videos/portfolio.mp4" type="video/mp4" />
         </video>
