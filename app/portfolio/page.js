@@ -57,7 +57,7 @@ export default function PortfolioPage() {
           playsInline
           className="absolute inset-0 w-full h-full object-cover opacity-35 pointer-events-none z-0 scale-105"
         >
-          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+          <source src="/videos/portfolio.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-fb-teal/70 mix-blend-multiply z-0 pointer-events-none" />
         <div className="absolute inset-0 hero-grid-overlay pointer-events-none z-0" />
