@@ -7,6 +7,18 @@ import { commitFilesToGitHub, verifyGitHubToken, resolveToken } from '@/lib/gith
 
 const execPromise = promisify(exec);
 
+const SAFE_ID_REGEX = /^[a-zA-Z0-9_-]+$/;
+const SAFE_FILENAME_REGEX = /^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/;
+
+function validateAdminSecret(req) {
+  const adminSecret = process.env.ADMIN_API_SECRET;
+  const providedSecret = req.headers.get('x-admin-secret');
+  if (!adminSecret || !providedSecret || providedSecret !== adminSecret) {
+    return false;
+  }
+  return true;
+}
+
 // Check if running in a writable filesystem (false on Vercel serverless)
 function checkIsFsWritable() {
   try {
@@ -42,6 +54,10 @@ function parseBase64Data(dataUri) {
 
 // Save base64 to local disk if writable
 function saveBase64MediaLocal(dataUri, targetDir, exactFilename) {
+  if (exactFilename && !SAFE_FILENAME_REGEX.test(exactFilename)) {
+    throw new Error(`Invalid filename format: ${exactFilename}`);
+  }
+
   const parsed = parseBase64Data(dataUri);
   if (!parsed) return dataUri;
 
@@ -66,6 +82,14 @@ function saveBase64MediaLocal(dataUri, targetDir, exactFilename) {
 
 // GET: Fetch latest data safely without resurrecting deleted items
 export async function GET(req) {
+  // 1. Strict server-side auth check
+  if (!validateAdminSecret(req)) {
+    return NextResponse.json(
+      { success: false, error: 'Unauthorized: missing or invalid x-admin-secret header' },
+      { status: 401 }
+    );
+  }
+
   try {
     const { searchParams } = new URL(req.url);
     const action = searchParams.get('action');
@@ -75,16 +99,6 @@ export async function GET(req) {
       const token = resolveToken(req.headers.get('x-github-token') || searchParams.get('token'));
       const result = await verifyGitHubToken(token);
       return NextResponse.json(result);
-    }
-
-    // Auto-provision token to local client session
-    if (action === 'get-token') {
-      const isLocalhost = req.headers.get('host')?.includes('localhost') || req.headers.get('host')?.includes('127.0.0.1');
-      const token = process.env.GITHUB_TOKEN || '';
-      if (token && isLocalhost) {
-        return NextResponse.json({ success: true, token });
-      }
-      return NextResponse.json({ success: false });
     }
 
     const rootDir = process.cwd();
@@ -124,8 +138,12 @@ export async function GET(req) {
       }));
     }
 
-    // Enrich covers only if cover is missing or broken (DO NOT forcefully add all disk files to gallery!)
+    // Enrich covers only if cover is missing or broken
     projects = projects.map((p) => {
+      if (!p.id || !SAFE_ID_REGEX.test(String(p.id))) {
+        return p;
+      }
+
       const pDir = path.join(publicProjectsDir, p.id);
       const hasDir = fs.existsSync(pDir);
 
@@ -203,6 +221,14 @@ export async function GET(req) {
 
 // POST: Save all changes directly (Local Filesystem on dev + GitHub Database API on cloud/Vercel)
 export async function POST(req) {
+  // 1. Strict server-side auth check
+  if (!validateAdminSecret(req)) {
+    return NextResponse.json(
+      { success: false, error: 'Unauthorized: missing or invalid x-admin-secret header' },
+      { status: 401 }
+    );
+  }
+
   try {
     const body = await req.json();
 
@@ -225,6 +251,30 @@ export async function POST(req) {
 
     const { projects, blogsEn, blogsAr, brands, counters, contactInfo } = body;
 
+    // Sanitize client-supplied IDs with strict regex whitelist before path construction
+    if (Array.isArray(projects)) {
+      for (const proj of projects) {
+        if (proj.id && !SAFE_ID_REGEX.test(String(proj.id))) {
+          return NextResponse.json(
+            { success: false, error: `Invalid project ID: ${proj.id}. ID must match ^[a-zA-Z0-9_-]+$` },
+            { status: 400 }
+          );
+        }
+      }
+    }
+
+    if (Array.isArray(brands)) {
+      for (const brand of brands) {
+        if (brand.id && !SAFE_ID_REGEX.test(String(brand.id))) {
+          return NextResponse.json(
+            { success: false, error: `Invalid brand ID: ${brand.id}. ID must match ^[a-zA-Z0-9_-]+$` },
+            { status: 400 }
+          );
+        }
+      }
+    }
+
+    // Now safely resolve githubToken (caller is already authenticated)
     const githubToken = resolveToken(
       req.headers.get('x-github-token') ||
       process.env.GITHUB_TOKEN ||
@@ -245,7 +295,11 @@ export async function POST(req) {
     let cleanedProjects = [];
     if (Array.isArray(projects)) {
       cleanedProjects = projects.map((proj, pIdx) => {
-        const projId = proj.id || `project-${Date.now()}-${pIdx}`;
+        const rawProjId = proj.id ? String(proj.id) : `project-${Date.now()}-${pIdx}`;
+        if (!SAFE_ID_REGEX.test(rawProjId)) {
+          throw new Error(`Invalid project ID: ${rawProjId}`);
+        }
+        const projId = rawProjId;
         const projPublicDir = path.join(publicProjectsDir, projId);
 
         // Process cover image
@@ -397,10 +451,15 @@ export async function POST(req) {
     let cleanedBrands = Array.isArray(brands) ? brands : [];
     cleanedBrands = cleanedBrands.map((b, bIdx) => {
       let logoUrl = b.logoUrl;
+      const rawBrandId = b.id ? String(b.id) : `brand-${Date.now()}-${bIdx}`;
+      if (!SAFE_ID_REGEX.test(rawBrandId)) {
+        throw new Error(`Invalid brand ID: ${rawBrandId}`);
+      }
+      const brandId = rawBrandId;
+
       if (logoUrl && logoUrl.startsWith('data:')) {
         const parsed = parseBase64Data(logoUrl);
         if (parsed) {
-          const brandId = b.id || `brand-${Date.now()}-${bIdx}`;
           const fileName = `brand-${brandId}${parsed.ext}`;
           const publicPath = `/logos/${fileName}`;
           filesForGitHub.push({
@@ -414,7 +473,7 @@ export async function POST(req) {
           logoUrl = publicPath;
         }
       }
-      return { ...b, logoUrl };
+      return { ...b, id: brandId, logoUrl };
     });
 
     const brandsContent = JSON.stringify(cleanedBrands, null, 2);
@@ -439,7 +498,7 @@ export async function POST(req) {
     }
 
     // 5. Execution Strategy:
-    // Strategy A: If GitHub Token is provided -> Commit directly to GitHub API (works everywhere including Vercel!)
+    // Strategy A: If GitHub Token is provided -> Commit directly to GitHub API
     if (githubToken) {
       try {
         const commitMsg = `Content sync: Admin updates [${new Date().toISOString().slice(0, 19).replace('T', ' ')}]`;
@@ -462,7 +521,6 @@ export async function POST(req) {
       } catch (apiErr) {
         console.error('GitHub API Commit failed:', apiErr);
         const isBadCreds = apiErr.message && (apiErr.message.includes('401') || apiErr.message.includes('Bad credentials'));
-        // If local disk was writable, local save succeeded 100%!
         if (isFsWritable) {
           try {
             const { stdout: statusOut } = await execPromise('git status --porcelain', { cwd: rootDir });

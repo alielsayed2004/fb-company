@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Mail, Phone, MapPin, Lock } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -31,9 +32,12 @@ export default function Footer() {
         {/* Brand Column (2 Cols) */}
         <div className="md:col-span-2 space-y-3.5 sm:space-y-5 text-start">
           <div className="flex items-center justify-start text-start">
-            <img
+            <Image
               src="/company/logo.png"
               alt="F.B Company"
+              width={180}
+              height={64}
+              sizes="(max-width: 640px) 120px, 180px"
               className="h-11 sm:h-14 md:h-16 w-auto object-contain"
             />
           </div>

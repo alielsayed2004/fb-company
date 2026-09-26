@@ -244,9 +244,12 @@ export function DataProvider({ children }) {
         setContactInfo(mergedContact);
         await setStoredData('fb_contact_info', mergedContact);
 
-        // Always keep client in sync with the server data
+        // Always keep client in sync with the server data if admin secret available
         try {
-          const syncRes = await fetch('/api/admin/sync');
+          const adminSecret = typeof window !== 'undefined' ? sessionStorage.getItem('fb_admin_api_secret') : null;
+          const syncRes = await fetch('/api/admin/sync', {
+            headers: adminSecret ? { 'x-admin-secret': adminSecret } : {}
+          });
           if (syncRes.ok) {
             const syncData = await syncRes.json();
             if (syncData && syncData.success) {
@@ -339,7 +342,10 @@ export function DataProvider({ children }) {
 
   const refreshFromServer = async () => {
     try {
-      const syncRes = await fetch('/api/admin/sync');
+      const adminSecret = typeof window !== 'undefined' ? sessionStorage.getItem('fb_admin_api_secret') : null;
+      const syncRes = await fetch('/api/admin/sync', {
+        headers: adminSecret ? { 'x-admin-secret': adminSecret } : {}
+      });
       if (syncRes.ok) {
         const syncData = await syncRes.json();
         if (syncData && syncData.success) {

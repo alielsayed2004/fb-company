@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData, defaultBrands } from '@/context/DataContext';
@@ -151,10 +152,14 @@ export default function PartnersGrid() {
                   {/* Fixed Uniform Bounding Box */}
                   <div className="h-10 md:h-12 w-full flex items-center justify-center overflow-hidden">
                     {!hasFailed ? (
-                      <img
+                      <Image
                         src={logoSrc}
                         alt={brandDisplayName}
+                        width={120}
+                        height={32}
+                        sizes="120px"
                         loading="lazy"
+                        decoding="async"
                         onError={(e) => handleImageError(e, brand.id)}
                         className="max-h-8 max-w-[120px] w-auto h-auto object-contain brightness-0 invert opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
                       />

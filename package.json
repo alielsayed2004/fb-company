@@ -11,7 +11,9 @@
     "sync": "node scripts/auto-sync.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "framer-motion": "^12.42.2",
+    "jose": "^6.2.12",
     "lenis": "^1.3.26",
     "lucide-react": "^1.25.0",
     "next": "16.2.10",

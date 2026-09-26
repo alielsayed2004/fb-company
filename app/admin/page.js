@@ -71,9 +71,11 @@ export default function AdminPage() {
 
   // Authentication State
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [pinInput, setPinInput] = useState('');
-  const [pinError, setPinError] = useState('');
-  const [showPin, setShowPin] = useState(false);
+  const [password, setPassword] = useState('');
+  const [authError, setAuthError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [adminSecret, setAdminSecret] = useState('');
 
   // Active Tab
   const [activeTab, setActiveTab] = useState('projects'); // 'projects', 'blogs', 'brands', 'company'
@@ -105,38 +107,48 @@ export default function AdminPage() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
 
-  // On initial mount: check persistent session & verify cloud connection
-  useEffect(() => {
-    const session = sessionStorage.getItem('fb_admin_authorized');
-    if (session === 'true') {
-      setIsAuthenticated(true);
-    }
+  // Helper for admin API calls with secret
+  const getAdminSecret = () => {
+    return adminSecret || (typeof window !== 'undefined' ? sessionStorage.getItem('fb_admin_api_secret') : '') || '';
+  };
 
-    async function initAndVerifyCloud() {
-      let serverToken = '';
+  // On initial mount: verify active server session & cloud connection
+  useEffect(() => {
+    async function checkSessionAndVerifyCloud() {
+      let currentSecret = '';
       try {
-        const res = await fetch('/api/admin/sync?action=get-token');
-        const data = await res.json();
-        if (data && data.success && data.token) {
-          serverToken = data.token;
+        const sessionRes = await fetch('/api/admin/login');
+        if (sessionRes.ok) {
+          const sessionData = await sessionRes.json();
+          if (sessionData && sessionData.authenticated) {
+            setIsAuthenticated(true);
+            if (sessionData.adminSecret) {
+              currentSecret = sessionData.adminSecret;
+              setAdminSecret(currentSecret);
+              sessionStorage.setItem('fb_admin_api_secret', currentSecret);
+            }
+          }
         }
       } catch (e) {}
 
-      let activeTok = serverToken;
-      if (!activeTok && typeof window !== 'undefined') {
+      if (!currentSecret && typeof window !== 'undefined') {
+        currentSecret = sessionStorage.getItem('fb_admin_api_secret') || '';
+        if (currentSecret) setAdminSecret(currentSecret);
+      }
+
+      let activeTok = '';
+      if (typeof window !== 'undefined') {
         activeTok = localStorage.getItem('fb_github_token') || '';
       }
-
-      if (serverToken && typeof window !== 'undefined') {
-        localStorage.setItem('fb_github_token', serverToken);
-      }
-
       setGithubToken(activeTok || '');
 
-      if (activeTok) {
+      if (activeTok && currentSecret) {
         try {
           const verifyRes = await fetch('/api/admin/sync?action=verify-token', {
-            headers: { 'x-github-token': activeTok }
+            headers: {
+              'x-github-token': activeTok,
+              'x-admin-secret': currentSecret
+            }
           });
           const verifyData = await verifyRes.json();
           setIsCloudConnected(Boolean(verifyData && verifyData.valid));
@@ -148,7 +160,7 @@ export default function AdminPage() {
       }
     }
 
-    initAndVerifyCloud();
+    checkSessionAndVerifyCloud();
   }, []);
 
   const handleSaveToken = async (val) => {
@@ -160,9 +172,13 @@ export default function AdminPage() {
     setTokenTestStatus({ loading: false, success: null, message: '' });
     if (clean) {
       try {
+        const secret = getAdminSecret();
         await fetch('/api/admin/sync', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(secret ? { 'x-admin-secret': secret } : {})
+          },
           body: JSON.stringify({ action: 'save-token', token: clean })
         });
       } catch (e) {}
@@ -178,8 +194,12 @@ export default function AdminPage() {
     }
     setTokenTestStatus({ loading: true, success: null, message: locale === 'ar' ? 'جاري التحقق مع مستودع GitHub...' : 'Verifying with GitHub repo...' });
     try {
+      const secret = getAdminSecret();
       const res = await fetch(`/api/admin/sync?action=verify-token`, {
-        headers: { 'x-github-token': t }
+        headers: {
+          'x-github-token': t,
+          ...(secret ? { 'x-admin-secret': secret } : {})
+        }
       });
       const data = await res.json();
       if (data.valid) {
@@ -228,30 +248,61 @@ export default function AdminPage() {
     }
   }, [projects, blogsEn, blogsAr, brands, counters, contactInfo]);
 
-  // Handle Login with PIN
-  const handleLogin = (e) => {
+  // Handle Login with Password via server API
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (pinInput.trim() === '1862') {
-      setIsAuthenticated(true);
-      sessionStorage.setItem('fb_admin_authorized', 'true');
-      setPinError('');
-      setPinInput('');
-      loadFreshDataFromDisk();
-    } else {
-      setPinError(locale === 'ar' ? 'رمز الدخول غير صحيح! الرجاء إدخال 1862' : 'Incorrect PIN! Please enter 1862');
+    if (!password) {
+      setAuthError(locale === 'ar' ? 'يرجى إدخال كلمة المرور' : 'Please enter your password');
+      return;
+    }
+    setIsAuthenticating(true);
+    setAuthError('');
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsAuthenticated(true);
+        const secret = data.adminSecret || '';
+        if (secret) {
+          setAdminSecret(secret);
+          sessionStorage.setItem('fb_admin_api_secret', secret);
+        }
+        setPassword('');
+        loadFreshDataFromDisk(secret);
+      } else {
+        setAuthError(data.error || (locale === 'ar' ? 'كلمة المرور غير صحيحة' : 'Invalid password'));
+      }
+    } catch (err) {
+      setAuthError(locale === 'ar' ? 'حدث خطأ في الاتصال بالخادم' : 'Failed to connect to authentication server');
+    } finally {
+      setIsAuthenticating(false);
     }
   };
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('fb_admin_authorized');
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+    } catch (e) {}
+    sessionStorage.removeItem('fb_admin_api_secret');
+    setAdminSecret('');
     setIsAuthenticated(false);
+    if (typeof window !== 'undefined') {
+      window.location.href = '/admin/login';
+    }
   };
 
   // Pull fresh data from disk/server
-  const loadFreshDataFromDisk = async () => {
+  const loadFreshDataFromDisk = async (overrideSecret) => {
     setIsRefreshing(true);
     try {
-      const res = await fetch('/api/admin/sync');
+      const secret = overrideSecret || getAdminSecret();
+      const res = await fetch('/api/admin/sync', {
+        headers: secret ? { 'x-admin-secret': secret } : {}
+      });
       const data = await res.json();
       if (data.success) {
         if (Array.isArray(data.projects) && data.projects.length > 0) {
@@ -318,10 +369,12 @@ export default function AdminPage() {
       };
 
       const token = (typeof window !== 'undefined' ? localStorage.getItem('fb_github_token') : '') || githubToken;
+      const secret = getAdminSecret();
       const res = await fetch('/api/admin/sync', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(secret ? { 'x-admin-secret': secret } : {}),
           ...(token ? { 'x-github-token': token } : {})
         },
         body: JSON.stringify(payload)
@@ -452,10 +505,12 @@ export default function AdminPage() {
 
     try {
       const token = (typeof window !== 'undefined' ? localStorage.getItem('fb_github_token') : '') || githubToken;
+      const secret = getAdminSecret();
       const res = await fetch('/api/admin/sync', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(secret ? { 'x-admin-secret': secret } : {}),
           ...(token ? { 'x-github-token': token } : {})
         },
         body: JSON.stringify({
@@ -651,41 +706,42 @@ export default function AdminPage() {
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
-                {locale === 'ar' ? 'رمز الدخول الأمني (Security PIN)' : 'Security PIN'}
+                {locale === 'ar' ? 'كلمة المرور الإدارية' : 'Admin Password'}
               </label>
               <div className="relative">
                 <input
-                  type={showPin ? 'text' : 'password'}
-                  value={pinInput}
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
                   onChange={(e) => {
-                    setPinInput(e.target.value);
-                    setPinError('');
+                    setPassword(e.target.value);
+                    setAuthError('');
                   }}
-                  placeholder="••••"
+                  placeholder="••••••••"
                   autoFocus
-                  maxLength={10}
-                  className="w-full bg-fb-bg-light/60 border border-fb-teal/20 rounded-2xl px-5 py-4 text-center text-2xl tracking-[0.4em] font-mono text-fb-teal placeholder-slate-400 focus:outline-none focus:border-fb-green focus:bg-white transition-all shadow-xs"
+                  className="w-full bg-fb-bg-light/60 border border-fb-teal/20 rounded-2xl px-5 py-4 text-center text-xl tracking-[0.2em] font-mono text-fb-teal placeholder-slate-400 focus:outline-none focus:border-fb-green focus:bg-white transition-all shadow-xs"
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPin(!showPin)}
+                  onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-fb-teal transition-colors p-1"
+                  aria-label="Toggle password visibility"
                 >
                   <Eye size={18} />
                 </button>
               </div>
-              {pinError && (
+              {authError && (
                 <p className="text-xs text-red-600 mt-2 text-center font-bold">
-                  {pinError}
+                  {authError}
                 </p>
               )}
             </div>
 
             <button
               type="submit"
-              className="w-full bg-fb-teal text-fb-green hover:bg-fb-teal-light font-black py-4 px-6 rounded-2xl shadow-md hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm cursor-pointer"
+              disabled={isAuthenticating}
+              className="w-full bg-fb-teal text-fb-green hover:bg-fb-teal-light disabled:opacity-50 font-black py-4 px-6 rounded-2xl shadow-md hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-sm cursor-pointer"
             >
-              <Lock size={16} />
+              {isAuthenticating ? <Loader2 size={16} className="animate-spin" /> : <Lock size={16} />}
               <span>{locale === 'ar' ? 'تسجيل الدخول الآمن' : 'Authenticate & Enter'}</span>
             </button>
           </form>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Building2, Store, Car, ExternalLink, ShieldCheck, ArrowRight, Layers, Sparkles, TrendingUp } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -143,9 +144,13 @@ export default function EgyptMap({ projects = [], onSelectProject }) {
                 {/* Top Image / Visual Preview Card Header */}
                 <div className="relative h-48 w-full bg-fb-teal overflow-hidden">
                   {proj.coverImage ? (
-                    <img
+                    <Image
                       src={proj.coverImage}
                       alt={getField(proj, 'name')}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 400px"
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (

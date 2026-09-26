@@ -219,8 +219,11 @@ export default function Contact() {
           loop
           muted
           playsInline
+          preload="metadata"
+          poster="/videos/hero-poster.jpg"
           className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none z-0"
         >
+          <source src="/videos/hero-bg-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
           <source src="/videos/contact.mp4" type="video/mp4" />
           <source src="/videos/hero-bg.mp4" type="video/mp4" />
         </video>

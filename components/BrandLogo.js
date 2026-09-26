@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { getBrandLogoUrl } from '@/lib/brandLogos';
 
 export default function BrandLogo({ name, className = "h-8 w-auto text-fb-bg-light/80 fill-current" }) {
@@ -9,9 +10,12 @@ export default function BrandLogo({ name, className = "h-8 w-auto text-fb-bg-lig
   const realLogoUrl = getBrandLogoUrl(normalized);
   if (realLogoUrl) {
     return (
-      <img
+      <Image
         src={realLogoUrl}
         alt={name || 'Brand Logo'}
+        width={96}
+        height={36}
+        sizes="96px"
         className="max-h-full max-w-full w-auto h-auto object-contain transition-all duration-300 pointer-events-none"
       />
     );

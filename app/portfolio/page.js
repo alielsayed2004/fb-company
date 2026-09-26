@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { 
   Building2, MapPin, ArrowRight, 
@@ -191,12 +192,16 @@ export default function PortfolioPage() {
                   >
                     {/* Card Top / Visual */}
                     <div className="relative aspect-16/10 overflow-hidden bg-fb-teal/10">
-                        <img
+                        <Image
                           src={cover}
                           alt={name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                           onError={(e) => {
-                            e.target.style.display = 'none';
+                            e.currentTarget.style.display = 'none';
                           }}
                         />
                         <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />

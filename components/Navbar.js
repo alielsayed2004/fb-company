@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Globe } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -65,9 +66,13 @@ export default function Navbar() {
               : 'opacity-100 translate-x-0 pointer-events-auto'
           }`}>
             <Link href="/" className="flex items-center">
-              <img
+              <Image
                 src="/company/logo.png"
                 alt="F.B Company"
+                width={150}
+                height={48}
+                priority
+                sizes="(max-width: 640px) 100px, 150px"
                 className="h-8 sm:h-10 md:h-12 w-auto object-contain brightness-0 invert drop-shadow-md"
               />
             </Link>

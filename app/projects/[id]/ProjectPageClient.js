@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, MapPin, Calendar, Layout, Maximize2, Users, 
@@ -335,11 +336,14 @@ export default function ProjectPageClient({ project: initialProject }) {
                       onClick={() => setActiveImageIndex(index)}
                       className="h-56 sm:h-64 rounded-2xl overflow-hidden border border-fb-teal/10 shadow-sm hover:scale-[1.01] hover:border-fb-green/40 hover:shadow-lg transition-all duration-300 relative group bg-fb-teal/5 cursor-pointer"
                     >
-                      <img
+                      <Image
                         src={imgSrc}
                         alt={`${getField(project, 'name')} Photo ${index + 1}`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-fb-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <span className="bg-fb-black/70 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-white/20">
@@ -476,9 +480,14 @@ export default function ProjectPageClient({ project: initialProject }) {
                             {/* Centered Large Logo Container */}
                             <div className="w-full h-full flex items-center justify-center relative z-10 px-2">
                               {item.logo ? (
-                                <img 
+                                <Image 
                                   src={item.logo} 
                                   alt={item.cleanName || `Brand Logo ${idx + 1}`} 
+                                  width={160}
+                                  height={60}
+                                  sizes="160px"
+                                  loading="lazy"
+                                  decoding="async"
                                   onLoad={(e) => {
                                     const { naturalWidth, naturalHeight } = e.currentTarget;
                                     if (naturalWidth && naturalHeight) {
@@ -619,7 +628,16 @@ export default function ProjectPageClient({ project: initialProject }) {
                       idx === activeImageIndex ? 'border-fb-green scale-105 opacity-100 shadow-md' : 'border-white/20 opacity-50 hover:opacity-80'
                     }`}
                   >
-                    <img src={thumb} alt="" className="w-full h-full object-cover" />
+                    <Image
+                      src={thumb}
+                      alt=""
+                      width={56}
+                      height={56}
+                      sizes="56px"
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>

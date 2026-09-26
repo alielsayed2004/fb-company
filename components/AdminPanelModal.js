@@ -82,10 +82,13 @@ export default function AdminPanelModal() {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Pull freshest project data directly from the machine files
-  const loadFreshDataFromDisk = async () => {
+  const loadFreshDataFromDisk = async (overrideSecret) => {
     setIsRefreshing(true);
     try {
-      const res = await fetch('/api/admin/sync');
+      const secret = overrideSecret || (typeof window !== 'undefined' ? sessionStorage.getItem('fb_admin_api_secret') : '') || '';
+      const res = await fetch('/api/admin/sync', {
+        headers: secret ? { 'x-admin-secret': secret } : {}
+      });
       const data = await res.json();
       if (data.success) {
         if (Array.isArray(data.projects) && data.projects.length > 0) {
@@ -119,22 +122,35 @@ export default function AdminPanelModal() {
   };
 
   // Handle Passcode Unlock
-  const handlePasscodeSubmit = (e) => {
+  const handlePasscodeSubmit = async (e) => {
     e.preventDefault();
-    if (passcode.trim() === '1862') {
-      setIsPasscodeOpen(false);
-      setPasscode('');
-      setPasscodeError('');
-      setEditableProjects([...projects]);
-      setEditableBlogsEn([...blogsEn]);
-      setEditableBlogsAr([...blogsAr]);
-      setEditableBrands([...brands]);
-      setEditableCounters({ ...counters });
-      setEditableContact({ ...contactInfo });
-      setIsAdminOpen(true);
-      loadFreshDataFromDisk();
-    } else {
-      setPasscodeError(locale === 'ar' ? 'رمز الدخول غير صحيح! حاول مرة أخرى.' : 'Incorrect passcode! Please try again.');
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: passcode })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsPasscodeOpen(false);
+        setPasscode('');
+        setPasscodeError('');
+        if (data.adminSecret) {
+          sessionStorage.setItem('fb_admin_api_secret', data.adminSecret);
+        }
+        setEditableProjects([...projects]);
+        setEditableBlogsEn([...blogsEn]);
+        setEditableBlogsAr([...blogsAr]);
+        setEditableBrands([...brands]);
+        setEditableCounters({ ...counters });
+        setEditableContact({ ...contactInfo });
+        setIsAdminOpen(true);
+        loadFreshDataFromDisk(data.adminSecret);
+      } else {
+        setPasscodeError(data.error || (locale === 'ar' ? 'كلمة المرور غير صحيحة! حاول مرة أخرى.' : 'Incorrect password! Please try again.'));
+      }
+    } catch (err) {
+      setPasscodeError(locale === 'ar' ? 'حدث خطأ في الاتصال بالخادم' : 'Failed to connect to authentication server');
     }
   };
 
@@ -297,9 +313,13 @@ export default function AdminPanelModal() {
       saveProjects(updated);
 
       try {
+        const secret = (typeof window !== 'undefined' ? sessionStorage.getItem('fb_admin_api_secret') : '') || '';
         const res = await fetch('/api/admin/sync', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(secret ? { 'x-admin-secret': secret } : {})
+          },
           body: JSON.stringify({
             projects: updated,
             blogsEn: editableBlogsEn,
@@ -391,9 +411,13 @@ export default function AdminPanelModal() {
     setIsSaving(true);
     setSaveSuccessMsg('');
     try {
+      const secret = (typeof window !== 'undefined' ? sessionStorage.getItem('fb_admin_api_secret') : '') || '';
       const res = await fetch('/api/admin/sync', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(secret ? { 'x-admin-secret': secret } : {})
+        },
         body: JSON.stringify({
           projects: editableProjects,
           blogsEn: editableBlogsEn,

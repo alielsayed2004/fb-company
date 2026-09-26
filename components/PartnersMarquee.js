@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData, defaultBrands } from '@/context/DataContext';
 import { Sparkles } from 'lucide-react';
@@ -73,7 +73,7 @@ export default function PartnersMarquee() {
         <p className="text-emerald-100/70 text-xs sm:text-sm md:text-base max-w-xl mx-auto font-light leading-relaxed">
           {locale === 'ar'
             ? 'شراكات استراتيجية وعلامات تجارية عالمية ومحلية تتوسع عبر مجمعاتنا'
-            : 'Strategic corporate brand partnerships thriving across our commercial developments'}
+            : 'Strategic partnerships & prominent brands powering regional market growth'}
         </p>
       </div>
 
@@ -93,9 +93,14 @@ export default function PartnersMarquee() {
                   key={`m-row1-${item.id}-${idx}`}
                   className="logo-container inline-flex items-center justify-center mx-1.5 shrink-0 group/logo cursor-pointer px-2.5 py-1 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.09] hover:border-emerald-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 h-12 w-[138px] transform-gpu"
                 >
-                  <img
+                  <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
                     alt={item.name || `Partner Logo ${item.id}`}
+                    width={115}
+                    height={32}
+                    sizes="115px"
+                    loading="lazy"
+                    decoding="async"
                     onError={handleImageError}
                     className="max-h-8 max-w-[115px] w-auto h-auto object-contain brightness-0 invert opacity-80 group-hover/logo:opacity-100 group-hover/logo:scale-105 transition-all duration-300 pointer-events-none"
                   />
@@ -112,9 +117,14 @@ export default function PartnersMarquee() {
                   key={`m-row2-${item.id}-${idx}`}
                   className="logo-container inline-flex items-center justify-center mx-1.5 shrink-0 group/logo cursor-pointer px-2.5 py-1 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.09] hover:border-emerald-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 h-12 w-[138px] transform-gpu"
                 >
-                  <img
+                  <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
                     alt={item.name || `Partner Logo ${item.id}`}
+                    width={115}
+                    height={32}
+                    sizes="115px"
+                    loading="lazy"
+                    decoding="async"
                     onError={handleImageError}
                     className="max-h-8 max-w-[115px] w-auto h-auto object-contain brightness-0 invert opacity-80 group-hover/logo:opacity-100 group-hover/logo:scale-105 transition-all duration-300 pointer-events-none"
                   />
@@ -131,9 +141,14 @@ export default function PartnersMarquee() {
                   key={`m-row3-${item.id}-${idx}`}
                   className="logo-container inline-flex items-center justify-center mx-1.5 shrink-0 group/logo cursor-pointer px-2.5 py-1 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.09] hover:border-emerald-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 h-12 w-[138px] transform-gpu"
                 >
-                  <img
+                  <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
                     alt={item.name || `Partner Logo ${item.id}`}
+                    width={115}
+                    height={32}
+                    sizes="115px"
+                    loading="lazy"
+                    decoding="async"
                     onError={handleImageError}
                     className="max-h-8 max-w-[115px] w-auto h-auto object-contain brightness-0 invert opacity-80 group-hover/logo:opacity-100 group-hover/logo:scale-105 transition-all duration-300 pointer-events-none"
                   />
@@ -150,9 +165,14 @@ export default function PartnersMarquee() {
                   key={`m-row4-${item.id}-${idx}`}
                   className="logo-container inline-flex items-center justify-center mx-1.5 shrink-0 group/logo cursor-pointer px-2.5 py-1 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.09] hover:border-emerald-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 h-12 w-[138px] transform-gpu"
                 >
-                  <img
+                  <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
                     alt={item.name || `Partner Logo ${item.id}`}
+                    width={115}
+                    height={32}
+                    sizes="115px"
+                    loading="lazy"
+                    decoding="async"
                     onError={handleImageError}
                     className="max-h-8 max-w-[115px] w-auto h-auto object-contain brightness-0 invert opacity-80 group-hover/logo:opacity-100 group-hover/logo:scale-105 transition-all duration-300 pointer-events-none"
                   />
@@ -169,9 +189,14 @@ export default function PartnersMarquee() {
                   key={`m-row5-${item.id}-${idx}`}
                   className="logo-container inline-flex items-center justify-center mx-1.5 shrink-0 group/logo cursor-pointer px-2.5 py-1 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.09] hover:border-emerald-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 h-12 w-[138px] transform-gpu"
                 >
-                  <img
+                  <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
                     alt={item.name || `Partner Logo ${item.id}`}
+                    width={115}
+                    height={32}
+                    sizes="115px"
+                    loading="lazy"
+                    decoding="async"
                     onError={handleImageError}
                     className="max-h-8 max-w-[115px] w-auto h-auto object-contain brightness-0 invert opacity-80 group-hover/logo:opacity-100 group-hover/logo:scale-105 transition-all duration-300 pointer-events-none"
                   />
@@ -191,9 +216,14 @@ export default function PartnersMarquee() {
                   key={`desk-row1-${item.id}-${idx}`}
                   className="logo-container inline-flex items-center justify-center mx-2 sm:mx-3 shrink-0 group/logo cursor-pointer px-3 py-1.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.09] hover:border-emerald-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 h-14 sm:h-16 w-[150px] sm:w-[180px] transform-gpu"
                 >
-                  <img
+                  <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
                     alt={item.name || `Partner Logo ${item.id}`}
+                    width={155}
+                    height={48}
+                    sizes="(max-width: 640px) 130px, 155px"
+                    loading="lazy"
+                    decoding="async"
                     onError={handleImageError}
                     className="max-h-11 sm:max-h-12 max-w-[130px] sm:max-w-[155px] w-auto h-auto object-contain brightness-0 invert opacity-80 group-hover/logo:opacity-100 group-hover/logo:scale-105 transition-all duration-300 pointer-events-none"
                   />
@@ -211,9 +241,14 @@ export default function PartnersMarquee() {
                     key={`desk-row2-${item.id}-${idx}`}
                     className="logo-container inline-flex items-center justify-center mx-2 sm:mx-3 shrink-0 group/logo cursor-pointer px-3 py-1.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.09] hover:border-emerald-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 h-14 sm:h-16 w-[150px] sm:w-[180px] transform-gpu"
                   >
-                    <img
+                    <Image
                       src={item.logoUrl || `/logos/${item.id}.png`}
                       alt={item.name || `Partner Logo ${item.id}`}
+                      width={155}
+                      height={48}
+                      sizes="(max-width: 640px) 130px, 155px"
+                      loading="lazy"
+                      decoding="async"
                       onError={handleImageError}
                       className="max-h-11 sm:max-h-12 max-w-[130px] sm:max-w-[155px] w-auto h-auto object-contain brightness-0 invert opacity-80 group-hover/logo:opacity-100 group-hover/logo:scale-105 transition-all duration-300 pointer-events-none"
                     />
@@ -232,9 +267,14 @@ export default function PartnersMarquee() {
                     key={`desk-row3-${item.id}-${idx}`}
                     className="logo-container inline-flex items-center justify-center mx-2 sm:mx-3 shrink-0 group/logo cursor-pointer px-3 py-1.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.09] hover:border-emerald-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 h-14 sm:h-16 w-[150px] sm:w-[180px] transform-gpu"
                   >
-                    <img
+                    <Image
                       src={item.logoUrl || `/logos/${item.id}.png`}
                       alt={item.name || `Partner Logo ${item.id}`}
+                      width={155}
+                      height={48}
+                      sizes="(max-width: 640px) 130px, 155px"
+                      loading="lazy"
+                      decoding="async"
                       onError={handleImageError}
                       className="max-h-11 sm:max-h-12 max-w-[130px] sm:max-w-[155px] w-auto h-auto object-contain brightness-0 invert opacity-80 group-hover/logo:opacity-100 group-hover/logo:scale-105 transition-all duration-300 pointer-events-none"
                     />

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, MapPin, Calendar, Layout, Maximize2, Users, ArrowUpRight, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import BrandLogo from './BrandLogo';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -194,7 +195,14 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                             className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-2xl px-4 py-3 flex flex-col items-center justify-center text-center space-y-1.5 font-bold text-xs text-fb-teal shadow-xs hover:border-fb-green hover:shadow-sm transition-all min-h-20"
                           >
                             {brandLogo ? (
-                              <img src={brandLogo} alt={brandName} className="h-7 w-auto object-contain" />
+                              <Image
+                                src={brandLogo}
+                                alt={brandName}
+                                width={80}
+                                height={28}
+                                sizes="80px"
+                                className="h-7 w-auto object-contain"
+                              />
                             ) : (
                               <BrandLogo name={brandName} className="h-6 w-auto text-fb-teal/70 fill-current" />
                             )}
@@ -216,12 +224,18 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                           key={index}
                           className="flex-none w-64 h-36 relative rounded-2xl overflow-hidden border border-fb-teal/20 snap-start bg-fb-bg-light shadow-xs group"
                         >
-                          <img
+                          <Image
                             src={imgSrc}
                             alt={`${getField(project, 'name')} - ${index + 1}`}
+                            fill
+                            sizes="256px"
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             onError={(e) => {
-                              e.currentTarget.parentElement.style.display = 'none';
+                              if (e.currentTarget?.parentElement) {
+                                e.currentTarget.parentElement.style.display = 'none';
+                              }
                             }}
                           />
                         </div>
