@@ -471,44 +471,29 @@ export default function ProjectPageClient({ project: initialProject }) {
                         return (
                           <div 
                             key={idx}
-                            className={`group relative flex flex-col items-center justify-center p-2 sm:p-3.5 rounded-2xl bg-fb-teal hover:bg-fb-teal-light border border-white/10 hover:border-fb-green/60 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${colSpanClass} min-h-[74px] sm:min-h-[98px] cursor-pointer overflow-hidden`}
+                            className={`group relative flex flex-col items-center justify-center rounded-xl sm:rounded-2xl bg-fb-teal hover:bg-fb-teal-light border border-white/10 hover:border-fb-green/60 shadow-xs sm:shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 ${colSpanClass} h-[58px] sm:h-[84px] md:h-[92px] cursor-pointer overflow-hidden p-1.5 sm:p-3`}
                             title={item.cleanName || `Partner ${idx + 1}`}
                           >
                             {/* Ambient glow on hover */}
                             <div className="absolute inset-0 bg-fb-green/0 group-hover:bg-fb-green/10 transition-colors duration-300 pointer-events-none" />
 
                             {/* Centered Large Logo Container */}
-                            <div className="w-full h-full flex items-center justify-center relative z-10 px-1 sm:px-2 py-0.5">
+                            <div className="w-full h-full flex items-center justify-center relative z-10 px-2">
                               {item.logo ? (
                                 <Image 
                                   src={item.logo} 
                                   alt={item.cleanName || `Brand Logo ${idx + 1}`} 
-                                  width={180}
-                                  height={70}
-                                  sizes="(max-width: 640px) 180px, 220px"
+                                  width={160}
+                                  height={160}
+                                  sizes="(max-width: 640px) 140px, 200px"
                                   loading="lazy"
                                   decoding="async"
-                                  onLoad={(e) => {
-                                    const { naturalWidth, naturalHeight } = e.currentTarget;
-                                    if (naturalWidth && naturalHeight) {
-                                      const r = Number((naturalWidth / naturalHeight).toFixed(2));
-                                      if (Math.abs(r - item.ratio) > 0.35) {
-                                        setClientRatios(prev => ({ ...prev, [idx]: r }));
-                                      }
-                                    }
-                                  }}
-                                  className={`${
-                                    span >= 4 
-                                      ? 'h-11 sm:h-14 max-h-[82%] max-w-[92%] sm:max-w-[88%] scale-110 sm:scale-100' 
-                                      : span === 3 
-                                      ? 'h-12 sm:h-15 max-h-[85%] max-w-[90%] sm:max-w-[85%] scale-115 sm:scale-100' 
-                                      : 'h-11 sm:h-13 max-h-[82%] max-w-[88%] sm:max-w-[82%] scale-115 sm:scale-100'
-                                  } w-auto object-contain group-hover:scale-125 sm:group-hover:scale-110 transition-all duration-300 drop-shadow-sm`}
+                                  className="h-[38px] sm:h-[48px] md:h-[54px] w-auto max-w-[85%] object-contain drop-shadow-sm group-hover:scale-110 transition-transform duration-200"
                                 />
                               ) : item.cleanName ? (
-                                <div className="flex flex-col items-center justify-center space-y-1 w-full">
-                                  <BrandLogo name={item.cleanName} className="h-9 sm:h-12 max-w-[90%] w-auto text-white fill-current group-hover:scale-110 transition-all duration-300" />
-                                  <span className="text-[10px] sm:text-[11px] font-bold text-white/90 group-hover:text-white truncate max-w-full text-center tracking-wide">
+                                <div className="flex flex-col items-center justify-center space-y-0.5 w-full">
+                                  <BrandLogo name={item.cleanName} className="h-6 sm:h-8 max-w-[85%] w-auto text-white fill-current" />
+                                  <span className="text-[10px] sm:text-[11px] font-bold text-white/90 truncate max-w-full text-center">
                                     {item.cleanName}
                                   </span>
                                 </div>
