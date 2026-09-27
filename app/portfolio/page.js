@@ -237,61 +237,7 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      {/* 5. STRATEGIC GEOGRAPHIC CORRIDOR HIGHLIGHT */}
-      <section className="bg-fb-teal text-fb-white py-16 sm:py-20 px-4 sm:px-6 relative overflow-hidden border-t border-white/10">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center relative z-10">
-          <div className="space-y-4">
-            <span className="text-fb-green text-xs font-bold uppercase tracking-widest block">
-              {isAr ? 'الانتشار الجغرافي الذكي' : 'Strategic Transit Footprint'}
-            </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
-              {isAr
-                ? 'أصول واقعة على شرايين الحركة الأكثر كثافة في مصر'
-                : 'Positioned Along Egypt\'s Highest-Yielding Transit Arteries'}
-            </h2>
-            <p className="text-white/75 text-xs sm:text-sm leading-relaxed">
-              {isAr
-                ? 'تم اختيار مواقع مشاريعنا بعد دراسات تدفق مروري دقيقة على مدار 24 ساعة، تشمل محور طريق السويس، طريق الإسماعيلية، الطريق الدائري، ومحاور القاهرة الجديدة والساحل الشمالي.'
-                : 'Every asset in our portfolio is acquired following 24-hour directional traffic counts, catchment density modeling, and strict highway zoning compliance.'}
-            </p>
-            <div className="pt-2">
-              <Link
-                href="/contact?interest=portfolio#consultation-form"
-                className="inline-flex items-center gap-2 bg-fb-green text-fb-teal hover:bg-fb-green-hover font-extrabold px-6 py-3 rounded-xl text-xs transition-all shadow-md"
-              >
-                <span>{isAr ? 'طلب استشارة تسكين واستثمار' : 'Inquire for Sourcing Opportunities'}</span>
-                <ArrowRight size={14} className={isAr ? 'rotate-180' : ''} />
-              </Link>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-2 gap-3.5 sm:gap-4">
-            <div className="bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/10">
-              <div className="text-fb-green font-bold text-xs uppercase mb-1">{isAr ? 'العاشر من رمضان' : '10th of Ramadan'}</div>
-              <div className="text-white font-extrabold text-sm sm:text-base">{isAr ? 'مجمع مركز البنوك ونادي الرواد' : 'Banks Core & Al-Rowad Plazas'}</div>
-              <div className="text-[11px] text-white/60 mt-1">{isAr ? '120,000+ مركبة يومياً' : '120,000+ daily vehicles'}</div>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/10">
-              <div className="text-fb-green font-bold text-xs uppercase mb-1">{isAr ? 'القاهرة الجديدة' : 'New Cairo'}</div>
-              <div className="text-white font-extrabold text-sm sm:text-base">{isAr ? 'محور مصطفى كامل جنوب الأكاديمية' : 'Mostafa Kamel Axis Hub'}</div>
-              <div className="text-[11px] text-white/60 mt-1">{isAr ? '85,000+ نسمة في محيط 1.5كم' : '85,000+ local catchment'}</div>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/10">
-              <div className="text-fb-green font-bold text-xs uppercase mb-1">{isAr ? 'الساحل الشمالي' : 'North Coast'}</div>
-              <div className="text-white font-extrabold text-sm sm:text-base">{isAr ? 'شيل أوت مارينا 5 أمام روتانا' : 'Marina 5 Gateway Plaza'}</div>
-              <div className="text-[11px] text-white/60 mt-1">{isAr ? '300,000+ زائر أسبوعياً' : '300,000+ summer flow'}</div>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/10">
-              <div className="text-fb-green font-bold text-xs uppercase mb-1">{isAr ? 'شيراتون والعبور والسلام' : 'Sheraton, Obour & Salam'}</div>
-              <div className="text-white font-extrabold text-sm sm:text-base">{isAr ? 'أسوار النوادي ومول السلام' : 'Club Perimeters & Plazas'}</div>
-              <div className="text-[11px] text-white/60 mt-1">{isAr ? 'تسكين وإشغال مؤسسي كامل' : '100% Institutional Leases'}</div>
-            </div>
-          </div>
-        </div>
-      </section>
 
     </div>
   );
