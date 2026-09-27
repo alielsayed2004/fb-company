@@ -155,16 +155,10 @@ export default async function ProjectPage({ params }) {
     ? currentProject.gallery
     : discoveredImages;
 
-  // Combine predefined brands with discovered brand logos
+  // Use discovered brand logos in project folder if available, otherwise fallback to predefined brands
   const existingBrands = currentProject.brands || [];
   const mergedBrands = discoveredBrandLogos.length > 0
-    ? [
-      ...discoveredBrandLogos,
-      ...existingBrands.filter(b => {
-        const bName = typeof b === 'object' ? (b.name || '') : String(b || '');
-        return !discoveredBrandLogos.some(d => d.name.toLowerCase() === bName.toLowerCase());
-      })
-    ]
+    ? discoveredBrandLogos
     : existingBrands;
 
   // Auto-discover video in folder if exists, or fallback to corporate background video

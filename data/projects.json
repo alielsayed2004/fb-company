@@ -22,19 +22,26 @@
     "overview_ar": "مشروع وقود ومحلات تجارية في قلب المنطقة الصناعية والمصرفية بمدينة العاشر من رمضان، بيجمع مجموعة قوية من العلامات الوطنية والعالمية في مكان واحد.",
     "metrics": {
       "landArea": "7,200 SQM",
-      "numBrands": "8",
+      "numBrands": "15",
       "occupancyRate": "100%",
       "openingYear": "2023"
     },
     "brands": [
+      "El Abd",
+      "Koshary El Khedeiwy",
       "McDonald's",
-      "El Ezaby Pharmacy",
-      "Bazooka",
-      "Cilantro",
-      "TBS",
-      "Nine Two Nine",
+      "Karam El Sham",
+      "Doshka Burger",
       "Othaim Market",
-      "Papa John's"
+      "Max Muscle",
+      "Bazooka",
+      "Oppo",
+      "El Malky",
+      "Remas Land",
+      "Dream 2000",
+      "2B",
+      "Haj Arafa",
+      "El Ezaby Pharmacy"
     ],
     "coordinates": {
       "x": 57,
@@ -66,17 +73,22 @@
     "overview_ar": "محطة وقود ومجمع تجاري على محور مصطفى كامل الحيوي في القاهرة الجديدة، بيخدم يوميًا سكان جنوب الأكاديمية والمناطق المجاورة اللي بتشهد حركة مرور كثيفة على مدار اليوم.",
     "metrics": {
       "landArea": "5,400 SQM",
-      "numBrands": "6",
+      "numBrands": "11",
       "occupancyRate": "100%",
       "openingYear": "2024"
     },
     "brands": [
-      "Carrefour",
-      "Papa John's",
-      "El Ezaby Pharmacy",
-      "Burger Republic",
-      "Nine Two Nine",
-      "Cilantro"
+      "Pizza Party",
+      "Koshary El Tahrir",
+      "Domino's Pizza",
+      "Max Muscle",
+      "Second Cup",
+      "B.Laban",
+      "Bakery Khan",
+      "Buffalo Burger",
+      "Nos Dasta",
+      "Kufta",
+      "Burger Republic"
     ],
     "coordinates": {
       "x": 54,
@@ -119,14 +131,14 @@
       "openingYear": "2022"
     },
     "brands": [
-      "McDonald's",
-      "Spinneys",
-      "Burger Republic",
-      "TBS",
-      "Shashlik",
-      "Sultan",
-      "Al Koftageya",
-      "El Ezaby Pharmacy"
+      "Shrimp Zone",
+      "Shawerma Reem",
+      "Karaz",
+      "Just Smash",
+      "Dina Farms",
+      "Sultana",
+      "Kufta",
+      "Hunger Station"
     ],
     "coordinates": {
       "x": 33,
