@@ -83,7 +83,6 @@ const itemVariants = {
 
 export default function Home() {
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const { locale, t } = useLanguage();
   const { projects, counters } = useData();
   const heroRef = useRef(null);
@@ -234,14 +233,15 @@ export default function Home() {
               <span>{t('common.bookConsultation')}</span>
               <ArrowRight size={16} className={locale === 'ar' ? 'rotate-180' : ''} />
             </Link>
-            <button
-              type="button"
-              onClick={() => setIsProfileModalOpen(true)}
+            <a
+              href="/FB_Company_Profile.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rtl:space-x-reverse bg-white/5 hover:bg-fb-bg-light/10 text-fb-bg-light border border-fb-bg-light/25 font-bold px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl text-sm transition-all duration-300 cursor-pointer shadow-sm hover:border-fb-green/40 hover:-translate-y-0.5 active:scale-98"
             >
               <FileText size={16} className="text-fb-green shrink-0" />
               <span>{t('common.companyProfile')}</span>
-            </button>
+            </a>
           </motion.div>
         </motion.div>
       </section>
@@ -512,7 +512,7 @@ export default function Home() {
       <TenantPartnershipSection />
 
       {/* 9. OFFICIAL COMPANY PROFILE & CORPORATE PRESENTATION */}
-      <CompanyProfile isModalOpen={isProfileModalOpen} setIsModalOpen={setIsProfileModalOpen} />
+      <CompanyProfile />
 
       {/* 10. BLOG / INDUSTRY NEWS SECTION */}
       <BlogSection />
