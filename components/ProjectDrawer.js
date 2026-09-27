@@ -185,28 +185,28 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                 {Array.isArray(project.brands) && project.brands.length > 0 && (
                   <div className="space-y-3">
                     <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">{t('home.caseStudy.parameters')}</h4>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
                       {project.brands.map((brand, bIdx) => {
                         const brandName = typeof brand === 'object' ? (brand.name || '') : String(brand || '');
                         const brandLogo = typeof brand === 'object' ? brand.logo : null;
                         return (
                           <div
                             key={brandName || bIdx}
-                            className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-2xl px-4 py-3 flex flex-col items-center justify-center text-center space-y-1.5 font-bold text-xs text-fb-teal shadow-xs hover:border-fb-green hover:shadow-sm transition-all min-h-20"
+                            className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-2xl px-3 py-2.5 sm:px-4 sm:py-3 flex flex-col items-center justify-center text-center space-y-1.5 font-bold text-xs text-fb-teal shadow-xs hover:border-fb-green hover:shadow-sm transition-all min-h-[74px] sm:min-h-20"
                           >
                             {brandLogo ? (
                               <Image
                                 src={brandLogo}
                                 alt={brandName}
-                                width={80}
-                                height={28}
-                                sizes="80px"
-                                className="h-7 w-auto object-contain"
+                                width={120}
+                                height={45}
+                                sizes="120px"
+                                className="h-8 sm:h-9 max-w-[90%] w-auto object-contain scale-110 sm:scale-100"
                               />
                             ) : (
-                              <BrandLogo name={brandName} className="h-6 w-auto text-fb-teal/70 fill-current" />
+                              <BrandLogo name={brandName} className="h-7 sm:h-7 w-auto text-fb-teal/70 fill-current" />
                             )}
-                            <span className="text-[11px] text-fb-teal/80 font-bold">{brandName}</span>
+                            <span className="text-[10px] sm:text-[11px] text-fb-teal/80 font-bold">{brandName}</span>
                           </div>
                         );
                       })}
