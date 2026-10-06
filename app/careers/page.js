@@ -140,42 +140,86 @@ export default function CareersPage() {
   return (
     <div className="min-h-screen flex flex-col bg-fb-bg-light">
       
-      {/* 1. COMPACT HERO SECTION */}
-      <section className="bg-fb-teal text-white relative pt-24 pb-14 sm:pt-32 sm:pb-20 px-4 sm:px-6 overflow-hidden">
-        {/* Subtle grid and decorative background */}
-        <div className="absolute inset-0 hero-grid-overlay pointer-events-none opacity-20" />
-        <div className="absolute -top-32 -right-32 w-96 h-96 bg-fb-green/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-fb-green/10 rounded-full blur-3xl pointer-events-none" />
+      {/* 1. FULLSCREEN HERO SECTION (PREPARED FOR BACKGROUND VIDEO) */}
+      <section className="bg-fb-teal text-fb-white py-14 sm:py-20 md:py-24 px-4 sm:px-6 relative overflow-hidden flex flex-col justify-center min-h-[100dvh] md:min-h-screen">
+        {/* Background Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster="/videos/hero-poster.jpg"
+          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none z-0"
+        >
+          <source src="/videos/hero-bg-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
+          <source src="/videos/careers.mp4" type="video/mp4" />
+          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+        </video>
+
+        {/* Dark Overlay to protect text contrast */}
+        <div className="absolute inset-0 bg-fb-teal/60 mix-blend-multiply z-0 pointer-events-none" />
+
+        {/* Standardized Hero Grid Overlay */}
+        <div className="absolute inset-0 hero-grid-overlay pointer-events-none z-0" />
+
+        {/* Glowing floating blur objects */}
+        <motion.div 
+          animate={{ x: [0, 20, 0], y: [0, -10, 0] }}
+          transition={{ duration: 10, repeat: Infinity }}
+          className="absolute top-1/3 right-1/4 w-80 h-80 bg-fb-green/10 rounded-full blur-3xl pointer-events-none" 
+        />
 
         <motion.div 
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="max-w-5xl mx-auto relative z-10 text-start space-y-3 sm:space-y-4"
+          className="max-w-5xl mx-auto z-10 relative space-y-4 w-full text-start"
         >
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-fb-green text-xs font-bold tracking-wider uppercase">
-            <Briefcase size={13} className="shrink-0" />
+          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-fb-green text-xs font-bold tracking-wider uppercase">
+            <Briefcase size={14} className="shrink-0" />
             <span>{t('careers.eyebrow')}</span>
           </motion.div>
 
           <motion.h1 
             variants={itemVariants}
-            className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-snug"
+            className="text-fb-white max-w-3xl leading-snug font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-[2.75rem] [text-wrap:balance]"
           >
             {t('careers.title')}
           </motion.h1>
 
           <motion.p 
             variants={itemVariants}
-            className="text-white/80 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl"
+            className="text-fb-bg-light/85 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl"
           >
             {t('careers.subtitle')}
           </motion.p>
         </motion.div>
+
+        {/* Scroll indicator pointing down to application form */}
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden sm:flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors cursor-pointer select-none"
+          onClick={() => {
+            const formSection = document.getElementById('careers-form');
+            if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+          }}
+        >
+          <span className="text-[11px] uppercase tracking-widest font-semibold">{isAr ? 'نموذج التقديم' : 'Application Form'}</span>
+          <div className="w-5 h-9 rounded-full border-2 border-white/30 flex items-start justify-center p-1">
+            <motion.div 
+              animate={{ y: [0, 12, 0] }}
+              transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+              className="w-1.5 h-1.5 rounded-full bg-fb-green"
+            />
+          </div>
+        </motion.div>
       </section>
 
       {/* 2. MAIN APPLICATION SECTION */}
-      <section className="py-10 sm:py-16 px-4 sm:px-6 flex-grow">
+      <section id="careers-form" className="py-12 sm:py-20 px-4 sm:px-6 flex-grow scroll-mt-20">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* SIDEBAR: Institutional Advantages */}
