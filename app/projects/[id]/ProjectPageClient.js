@@ -170,7 +170,7 @@ export default function ProjectPageClient({ project: initialProject }) {
     <div className="flex flex-col min-h-screen bg-fb-bg-light">
       
       {/* 1. FULLSCREEN HERO HEADER */}
-      <section className={`relative min-h-[100dvh] flex flex-col justify-between pt-24 sm:pt-28 pb-10 md:pb-12 bg-gradient-to-br ${project.coverColor || 'from-teal-800 to-teal-950'} text-fb-white overflow-hidden border-b border-fb-teal/20`}>
+      <section className={`relative min-h-[100dvh] min-h-screen shrink-0 flex flex-col justify-between pt-24 sm:pt-28 pb-10 md:pb-12 bg-gradient-to-br ${project.coverColor || 'from-teal-800 to-teal-950'} text-fb-white overflow-hidden border-b border-fb-teal/20`}>
         {/* Background Video */}
         <video
           ref={videoRef}

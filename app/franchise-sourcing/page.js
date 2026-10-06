@@ -97,7 +97,7 @@ export default function FranchiseSourcing() {
     <div className="flex flex-col min-h-screen">
       
       {/* Hero */}
-      <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] px-4 sm:px-6">
+      <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] min-h-screen h-screen shrink-0 px-4 sm:px-6">
         {/* Background Video */}
         <video
           ref={videoRef}

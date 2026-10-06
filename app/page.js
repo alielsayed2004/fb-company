@@ -158,7 +158,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen relative bg-fb-bg-light">
 
       {/* 1. HERO SECTION (Signature Centered Experience with 3D Parallax) */}
-      <section ref={heroRef} className="relative min-h-[100dvh] h-[100dvh] bg-fb-teal flex flex-col justify-center items-center overflow-hidden px-4 sm:px-6">
+      <section ref={heroRef} className="relative min-h-[100dvh] h-[100dvh] min-h-screen h-screen shrink-0 bg-fb-teal flex flex-col justify-center items-center overflow-hidden px-4 sm:px-6">
         {/* Background Video Layer with Parallax Depth */}
         <motion.div
           style={{ y: heroBgY, willChange: 'transform' }}

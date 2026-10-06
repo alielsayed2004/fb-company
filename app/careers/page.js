@@ -153,7 +153,7 @@ export default function CareersPage() {
     <div className="min-h-screen flex flex-col bg-fb-bg-light">
       
       {/* 1. FULLSCREEN HERO SECTION (PREPARED FOR BACKGROUND VIDEO) */}
-      <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] px-4 sm:px-6">
+      <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] min-h-screen h-screen shrink-0 px-4 sm:px-6">
         {/* Background Video */}
         <video
           ref={videoRef}
