@@ -52,7 +52,7 @@ const organizationJsonLd = {
     addressCountry: 'EG',
   },
   telephone: '+201117751967',
-  email: 'info@fbcompany.com',
+  email: 'info@fbassets.com',
   sameAs: [
     'https://www.facebook.com/profile.php?id=61563734981427',
     'https://www.instagram.com/fb_company1/',

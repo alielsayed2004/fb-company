@@ -294,8 +294,8 @@ export default function Contact() {
                 </div>
                 <div className="space-y-0.5 text-start">
                   <h4 className="font-bold text-fb-teal text-sm uppercase tracking-wider">{t('contact.info.email')}</h4>
-                  <a href={`mailto:${contactInfo?.email || 'info@fbcompany.com'}`} className="text-sm text-slate-700 hover:text-fb-green transition-colors block font-medium">
-                    {contactInfo?.email || 'info@fbcompany.com'}
+                  <a href={`mailto:${contactInfo?.email || 'info@fbassets.com'}`} className="text-sm text-slate-700 hover:text-fb-green transition-colors block font-medium">
+                    {contactInfo?.email || 'info@fbassets.com'}
                   </a>
                 </div>
               </div>

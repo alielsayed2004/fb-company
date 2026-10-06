@@ -6,6 +6,7 @@ export const translations = {
       assetManagement: "Asset Management",
       franchiseSourcing: "Franchise Sourcing",
       aboutUs: "About Us",
+      careers: "Careers",
       contactUs: "Contact Us",
       tagline: "From Vision to Value"
     },
@@ -279,6 +280,64 @@ export const translations = {
       similarOpp: "Interested in similar opportunities?",
       similarOppDesc: "Get in touch with our franchise sourcing & asset investment team.",
       bookConsultation: "Book Consultation"
+    },
+    careers: {
+      eyebrow: "Careers & Opportunities",
+      title: "Join the F.B Company Team",
+      subtitle: "We are always seeking ambitious talent to drive commercial asset management and strategic franchise location expansion across Egypt.",
+      badge: "Hiring Portal",
+      formTitle: "Submit Your Application",
+      formSubtitle: "Please complete the form below. Required fields are marked with (*).",
+      personalInfo: "Personal Information",
+      fullName: "Full Name",
+      fullNamePlaceholder: "e.g. Mostafa Ahmed",
+      email: "Email Address",
+      emailPlaceholder: "name@example.com",
+      phone: "Phone Number",
+      phonePlaceholder: "e.g. +20 100 000 0000",
+      jobDetails: "Job Details",
+      department: "Department Applied For",
+      selectDepartment: "Select a department...",
+      deptSales: "Sales",
+      deptOperations: "Operations",
+      deptStaff: "Staff / Administration",
+      deptOther: "Other",
+      experience: "Years of Experience",
+      experiencePlaceholder: "e.g. 3 years, Fresh Graduate...",
+      startDate: "Available Start Date",
+      expectedSalary: "Expected Salary",
+      expectedSalaryPlaceholder: "e.g. 15,000 EGP or Negotiable",
+      documents: "Documents & CV",
+      uploadCv: "Upload Your CV",
+      uploadHint: "Supported: PDF, DOC, DOCX (Max 10MB)",
+      chooseFile: "Choose CV File",
+      fileSelected: "File attached successfully",
+      removeFile: "Remove",
+      consent: "I agree that my data may be used for recruitment purposes only",
+      submit: "Submit Application",
+      submitting: "Submitting Application...",
+      successTitle: "Application Received Successfully",
+      successDesc: "Thank you for applying to F.B Company. Our talent acquisition team will review your CV and get in touch with you shortly.",
+      submitAnother: "Submit Another Application",
+      errorTitle: "Submission Error",
+      errorConsent: "Please agree to the data usage consent to proceed.",
+      errorRequired: "Please complete all required fields (*).",
+      benefitsTitle: "Why Build Your Career at F.B Company?",
+      benefitsSubtitle: "Be part of an institutional powerhouse driving commercial real estate value across Egypt.",
+      benefits: [
+        {
+          title: "Tier-1 Brand Ecosystem",
+          desc: "Collaborate directly with prominent international and regional retail, dining, and mobility brands."
+        },
+        {
+          title: "Merit-Based Growth",
+          desc: "We foster an agile corporate environment where initiative, accuracy, and performance are rewarded."
+        },
+        {
+          title: "Strategic Industry Impact",
+          desc: "Play an active role in transforming urban transit junctions and high-yield commercial real estate corridors."
+        }
+      ]
     }
   },
   ar: {
@@ -288,6 +347,7 @@ export const translations = {
       assetManagement: "إدارة الأصول",
       franchiseSourcing: "توفير المواقع",
       aboutUs: "عن الشركة",
+      careers: "التوظيف",
       contactUs: "تواصل معنا",
       tagline: "من الفكرة إلى القيمة"
     },
@@ -561,6 +621,64 @@ export const translations = {
       similarOpp: "مهتم بفرص مشابهة؟",
       similarOppDesc: "اتواصل مع فريق توفير المواقع وإدارة الأصول عندنا.",
       bookConsultation: "احجز استشارة"
+    },
+    careers: {
+      eyebrow: "فرص العمل والتوظيف",
+      title: "انضم إلى فريق شركة F.B",
+      subtitle: "نبحث دائماً عن الكفاءات الطموحة والمتميزة للمشاركة في قيادة وتطوير سوق إدارة الأصول وتوفير المواقع التجارية في مصر.",
+      badge: "بوابة التوظيف",
+      formTitle: "نموذج التقديم للوظيفة",
+      formSubtitle: "يرجى ملء البيانات المطلوبة بدقة. الحقول الإجبارية موضحة بعلامة (*).",
+      personalInfo: "البيانات الشخصية",
+      fullName: "الاسم الكامل",
+      fullNamePlaceholder: "مثال: مصطفى أحمد",
+      email: "البريد الإلكتروني",
+      emailPlaceholder: "name@example.com",
+      phone: "رقم الهاتف",
+      phonePlaceholder: "مثال: 01000000000",
+      jobDetails: "تفاصيل الوظيفة",
+      department: "القسم المتقدم له",
+      selectDepartment: "اختر القسم المطلوب...",
+      deptSales: "المبيعات",
+      deptOperations: "العمليات",
+      deptStaff: "الموظفين والإدارة",
+      deptOther: "أخرى",
+      experience: "سنوات الخبرة",
+      experiencePlaceholder: "مثال: سنتان، حديث تخرج...",
+      startDate: "متى يمكنك البدء؟",
+      expectedSalary: "الراتب المتوقع",
+      expectedSalaryPlaceholder: "مثال: 15,000 ج.م أو قابل للتفاوض",
+      documents: "المستندات والسيرة الذاتية",
+      uploadCv: "رفع السيرة الذاتية",
+      uploadHint: "الصيغ المدعومة: PDF أو DOC أو DOCX (حد أقصى 10 ميجابايت)",
+      chooseFile: "اختر ملف السيرة الذاتية",
+      fileSelected: "تم إرفاق الملف بنجاح",
+      removeFile: "إلغاء الملف",
+      consent: "أوافق على استخدام بياناتي لأغراض التوظيف فقط",
+      submit: "إرسال طلب التوظيف",
+      submitting: "جاري إرسال الطلب...",
+      successTitle: "تم استلام طلبك بنجاح!",
+      successDesc: "شكراً لاهتمامك بالانضمام إلى فريق F.B Company. سيقوم فريق الموارد البشرية بمراجعة بياناتك والتواصل معك قريباً.",
+      submitAnother: "إرسال طلب آخر",
+      errorTitle: "حدث خطأ أثناء الإرسال",
+      errorConsent: "يرجى الموافقة على استخدام البيانات لأغراض التوظيف لإتمام الطلب.",
+      errorRequired: "يرجى استيفاء جميع الحقول الإجبارية (*).",
+      benefitsTitle: "لماذا تبني مسيرتك المهنية في F.B؟",
+      benefitsSubtitle: "كن شريكاً في نمو مؤسسي يقود سوق إدارة وتطوير الأصول التجارية في مصر.",
+      benefits: [
+        {
+          title: "شراكات مع كبرى العلامات",
+          desc: "فرصة للعمل والتنسيق مع أرقى العلامات التجارية الإقليمية والدولية ومحطات الخدمة الكبرى."
+        },
+        {
+          title: "بيئة مهنية محفزة",
+          desc: "ثقافة عمل قائمة على التقدير، الكفاءة، وفتح مسارات واضحة للترقي والتطور المستمر."
+        },
+        {
+          title: "أثر استراتيجي حقيقي",
+          desc: "مشاركة مباشرة في تطوير واختيار أهم المحاور التجارية والحيوية الأكثر حركة في مصر."
+        }
+      ]
     }
   }
 };

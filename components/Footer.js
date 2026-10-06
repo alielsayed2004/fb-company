@@ -22,6 +22,7 @@ export default function Footer() {
     { nameKey: 'nav.assetManagement', href: '/asset-management' },
     { nameKey: 'nav.franchiseSourcing', href: '/franchise-sourcing' },
     { nameKey: 'nav.aboutUs', href: '/about' },
+    { nameKey: 'nav.careers', href: '/careers' },
     { nameKey: 'nav.contactUs', href: '/contact' }
   ];
 
@@ -153,8 +154,8 @@ export default function Footer() {
               <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center shrink-0 text-fb-green">
                 <Mail size={15} strokeWidth={1.5} className="sm:w-[17px] sm:h-[17px]" />
               </div>
-              <a href={`mailto:${contactInfo?.email || 'info@fbcompany.com'}`} className="hover:text-fb-green font-medium text-slate-700 transition-colors text-start break-all">
-                {contactInfo?.email || 'info@fbcompany.com'}
+              <a href={`mailto:${contactInfo?.email || 'info@fbassets.com'}`} className="hover:text-fb-green font-medium text-slate-700 transition-colors text-start break-all">
+                {contactInfo?.email || 'info@fbassets.com'}
               </a>
             </li>
             <li className="flex items-center gap-2.5 sm:gap-3.5 text-start">

@@ -48,6 +48,7 @@ export default function Navbar() {
     { nameKey: 'nav.assetManagement', href: '/asset-management' },
     { nameKey: 'nav.franchiseSourcing', href: '/franchise-sourcing' },
     { nameKey: 'nav.aboutUs', href: '/about' },
+    { nameKey: 'nav.careers', href: '/careers' },
     { nameKey: 'nav.contactUs', href: '/contact' }
   ];
 
@@ -86,7 +87,7 @@ export default function Navbar() {
                 <Link
                   key={link.nameKey}
                   href={link.href}
-                  className={`text-xs md:text-sm font-medium tracking-wide transition-all duration-300 px-3.5 lg:px-5 py-1.5 rounded-full ${
+                  className={`text-xs lg:text-[13px] xl:text-sm font-medium tracking-wide transition-all duration-300 px-3 lg:px-4 py-1.5 rounded-full ${
                     isActive 
                       ? 'bg-white text-fb-teal shadow-md font-semibold' 
                       : 'text-white/80 hover:text-white hover:bg-white/5'

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ShieldCheck, Target, BarChart4, Cpu, Search, Compass, Shield, TrendingUp, Fuel, Building2, Store, FileText, Download, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Target, BarChart4, Cpu, Search, Compass, Shield, TrendingUp, Fuel, Building2, Store, FileText, Download, CheckCircle2, Briefcase } from 'lucide-react';
 import projectsData from '@/data/projects.json';
 import ProjectDrawer from '@/components/ProjectDrawer';
 import TenantPartnershipSection from '@/components/TenantPartnershipSection';
@@ -528,13 +528,20 @@ export default function Home() {
           <p className="text-fb-bg-light/75 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">
             {t('home.cta.subtitle')}
           </p>
-          <div className="pt-2 sm:pt-4">
+          <div className="pt-2 sm:pt-4 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <Link
               href="/contact?interest=consultation"
               className="inline-flex items-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-8 py-3.5 sm:px-10 sm:py-4.5 rounded-2xl text-sm transition-all shadow-xl hover:shadow-fb-green/20 hover:scale-105"
             >
               <span>{t('common.bookConsultation')}</span>
               <ArrowRight size={16} className="ml-1.5 mr-1.5 rtl:rotate-180" />
+            </Link>
+            <Link
+              href="/careers"
+              className="inline-flex items-center space-x-2 rtl:space-x-reverse bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-7 py-3.5 sm:px-8 sm:py-4.5 rounded-2xl text-sm transition-all hover:scale-105 backdrop-blur-md"
+            >
+              <Briefcase size={16} className="ml-1 mr-1" />
+              <span>{locale === 'ar' ? 'انضم لفريقنا (التوظيف)' : 'Careers & Hiring'}</span>
             </Link>
           </div>
         </div>

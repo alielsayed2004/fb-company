@@ -80,8 +80,8 @@ export default function AIAssistant() {
       const cleanPhone = phone.replace(/[^0-9]/g, '');
       return {
         text: isAr
-          ? `يسعدنا تواصلك المباشر مع فريق الإدارة والاستثمار بشركة F.B Company:\n\n📞 الهاتف المباشر: ${phone}\n💬 خدمة واتساب الفورية: متاحة على مدار الساعة\n✉️ البريد الإلكتروني: ${contactInfo?.email || 'info@fbcompany.com'}\n🏢 المقر: ${contactInfo?.address_ar || 'B165، شارع د. أحمد عكاشة، عمارات البنفسج، القاهرة الجديدة'}\n\nاضغط على الزر أدناه لبدء محادثة واتساب فورية:`
-          : `We welcome you to connect directly with F.B Company's executive team:\n\n📞 Phone: ${phone}\n💬 WhatsApp: 24/7 dedicated investor channel\n✉️ Email: ${contactInfo?.email || 'info@fbcompany.com'}\n🏢 Office: ${contactInfo?.address || 'B165, Dr. Ahmed Okasha St., El Banafseg Buildings, New Cairo, Egypt'}\n\nClick below to start an instant WhatsApp conversation:`,
+          ? `يسعدنا تواصلك المباشر مع فريق الإدارة والاستثمار بشركة F.B Company:\n\n📞 الهاتف المباشر: ${phone}\n💬 خدمة واتساب الفورية: متاحة على مدار الساعة\n✉️ البريد الإلكتروني: ${contactInfo?.email || 'info@fbassets.com'}\n🏢 المقر: ${contactInfo?.address_ar || 'B165، شارع د. أحمد عكاشة، عمارات البنفسج، القاهرة الجديدة'}\n\nاضغط على الزر أدناه لبدء محادثة واتساب فورية:`
+          : `We welcome you to connect directly with F.B Company's executive team:\n\n📞 Phone: ${phone}\n💬 WhatsApp: 24/7 dedicated investor channel\n✉️ Email: ${contactInfo?.email || 'info@fbassets.com'}\n🏢 Office: ${contactInfo?.address || 'B165, Dr. Ahmed Okasha St., El Banafseg Buildings, New Cairo, Egypt'}\n\nClick below to start an instant WhatsApp conversation:`,
         actions: [
           { label: isAr ? '💬 بدء محادثة واتساب' : '💬 Chat on WhatsApp', link: `https://wa.me/${cleanPhone}?text=Hello%20FB%20Company` },
           { label: isAr ? '📞 اتصال هاتفي' : '📞 Call Now', link: `tel:${phone}` }
