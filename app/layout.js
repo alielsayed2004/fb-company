@@ -9,8 +9,32 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { DataProvider } from "@/context/DataContext";
 
 export const metadata = {
-  title: "F.B Company | Asset Management & Franchise Location Sourcing Egypt",
-  description: "Research-driven investment and retail location sourcing strategies built to uncover high-value opportunities others overlook across Egypt.",
+  metadataBase: new URL('https://fbassets.com'),
+  title: "F.B Company | Asset Management & Investment Egypt",
+  description: "Research-led asset management and investment services in Egypt. Explore F.B Company’s approach, services, and opportunities for long-term value.",
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: "F.B Company | Asset Management & Investment Egypt",
+    description: "Research-led asset management and investment services in Egypt. Explore F.B Company’s approach, services, and opportunities for long-term value.",
+    url: '/',
+    siteName: 'F.B Company',
+    images: [
+      {
+        url: '/company/logo.png',
+        width: 800,
+        height: 600,
+      }
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "F.B Company | Asset Management & Investment Egypt",
+    description: "Research-led asset management and investment services in Egypt. Explore F.B Company’s approach, services, and opportunities for long-term value.",
+    images: ['/company/logo.png'],
+  },
   icons: {
     icon: [
       {
@@ -38,12 +62,12 @@ export const viewport = {
 
 const organizationJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'RealEstateAgent',
+  '@type': 'Organization',
   name: 'F.B Company',
   alternateName: 'F.B for Asset Management & Franchise Location Sourcing',
-  url: 'https://fbcompany.com',
-  logo: 'https://fbcompany.com/company/logo.png',
-  description: 'Research-driven investment and retail location sourcing strategies across Egypt.',
+  url: 'https://fbassets.com',
+  logo: 'https://fbassets.com/company/logo.png',
+  description: 'Research-led asset management and investment services in Egypt.',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'B165, Dr. Ahmed Okasha St., El Banafseg Buildings',
