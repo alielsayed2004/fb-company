@@ -640,7 +640,7 @@ export const translations = {
       department: "القسم المتقدم له",
       selectDepartment: "اختر القسم المطلوب...",
       deptSales: "المبيعات",
-      deptOperations: "العمليات",
+      deptOperations: "التشغيل",
       deptStaff: "الموظفين والإدارة",
       deptOther: "أخرى",
       experience: "سنوات الخبرة",

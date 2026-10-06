@@ -58,7 +58,7 @@ export default function CareersPage() {
 
   const departments = [
     { id: 'sales', nameAr: 'المبيعات', nameEn: 'Sales' },
-    { id: 'operations', nameAr: 'العمليات', nameEn: 'Operations' },
+    { id: 'operations', nameAr: 'التشغيل', nameEn: 'Operations' },
     { id: 'staff', nameAr: 'الموظفين والإدارة', nameEn: 'Staff / Administration' },
     { id: 'other', nameAr: 'أخرى', nameEn: 'Other' },
   ];
