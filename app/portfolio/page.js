@@ -75,7 +75,7 @@ export default function PortfolioPage() {
         >
           <source src="/videos/portfolio.mp4?v=2" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-fb-teal/70 mix-blend-multiply z-0 pointer-events-none" />
+        <div className="absolute inset-0 bg-fb-teal/60 mix-blend-multiply z-0 pointer-events-none" />
         <div className="absolute inset-0 hero-grid-overlay pointer-events-none z-0" />
 
         {/* Ambient glowing orbs */}

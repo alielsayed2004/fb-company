@@ -106,10 +106,10 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                     }
                   }}
                   poster={project.coverImage || `/projects/${project.id}/cover.jpg`}
-                  className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none z-0"
+                  className="absolute inset-0 w-full h-full object-cover object-[center_35%] opacity-75 sm:opacity-65 md:opacity-60 pointer-events-none z-0"
                 />
                 {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-fb-teal/90 via-fb-teal/40 to-fb-teal/50 mix-blend-multiply z-0 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-fb-teal/90 via-fb-teal/35 md:via-fb-teal/40 to-fb-teal/40 md:to-fb-teal/50 mix-blend-multiply z-0 pointer-events-none" />
 
                 {/* Tech grid aesthetic overlay */}
                 <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:16px_16px] z-0" />

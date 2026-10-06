@@ -171,9 +171,8 @@ export default function Home() {
             playsInline
             preload="metadata"
             poster="/videos/hero-poster.jpg"
-            className="w-full h-full object-cover opacity-40 scale-105"
+            className="w-full h-full object-cover opacity-50 scale-105"
           >
-            <source src="/videos/hero-bg-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
             <source src="/videos/hero-bg.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-fb-teal/60 mix-blend-multiply pointer-events-none" />

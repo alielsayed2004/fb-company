@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle } from 'lucide-react';
@@ -208,24 +208,35 @@ function ContactFormInner() {
 export default function Contact() {
   const { locale, t } = useLanguage();
   const { contactInfo } = useData();
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    }
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero */}
-      <section className="bg-fb-teal text-fb-white py-14 sm:py-20 md:py-24 px-4 sm:px-6 relative overflow-hidden flex flex-col justify-center min-h-[45dvh] sm:min-h-[55dvh] md:min-h-screen">
-        {/* Background Video (Optional) */}
+      <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] px-4 sm:px-6">
+        {/* Background Video */}
         <video
+          ref={videoRef}
+          key="/videos/contact.mp4"
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
-          poster="/videos/hero-poster.jpg"
-          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none z-0"
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105"
         >
-          <source src="/videos/hero-bg-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
           <source src="/videos/contact.mp4" type="video/mp4" />
-          <source src="/videos/hero-bg.mp4" type="video/mp4" />
         </video>
         {/* Dark Overlay to protect text contrast */}
         <div className="absolute inset-0 bg-fb-teal/60 mix-blend-multiply z-0 pointer-events-none" />

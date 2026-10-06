@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Layers, CheckCircle, Search, Target, Building2, BarChart4, Landmark, ShieldCheck, TrendingUp } from 'lucide-react';
@@ -30,6 +31,18 @@ const itemVariants = {
 
 export default function AssetManagement() {
   const { locale, t } = useLanguage();
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    }
+  }, []);
 
   const steps = [
     { num: "01", icon: <Search strokeWidth={1.5} size={22} />, watermark: <Search size={110} />, title: locale === 'ar' ? "التقييم والتدقيق" : "Assess", desc: locale === 'ar' ? "تدقيق تفصيلي لمقاييس الأصول، واللوائح البلدية، والتدفقات النقدية." : "Detailed audit of asset metrics, municipal regulations, and cash flows." },
@@ -49,17 +62,19 @@ export default function AssetManagement() {
     <div className="flex flex-col min-h-screen">
       
       {/* Hero */}
-      <section className="bg-fb-teal text-fb-white py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden flex flex-col justify-center min-h-[65dvh] md:min-h-screen">
+      <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] px-4 sm:px-6">
         {/* Background Video */}
         <video
+          ref={videoRef}
+          key="/videos/asset-management.mp4"
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none z-0"
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105"
         >
           <source src="/videos/asset-management.mp4" type="video/mp4" />
-          <source src="/projects/Main Banks Service Corridor/Main Banks Service Corridor.mp4" type="video/mp4" />
         </video>
         {/* Dark Overlay to protect text contrast */}
         <div className="absolute inset-0 bg-fb-teal/60 mix-blend-multiply z-0 pointer-events-none" />

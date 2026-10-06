@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Briefcase, 
@@ -55,6 +55,18 @@ export default function CareersPage() {
   const [status, setStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
   const [errorMessage, setErrorMessage] = useState('');
   const fileInputRef = useRef(null);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    }
+  }, []);
 
   const departments = [
     { id: 'sales', nameAr: 'المبيعات', nameEn: 'Sales' },
@@ -141,20 +153,19 @@ export default function CareersPage() {
     <div className="min-h-screen flex flex-col bg-fb-bg-light">
       
       {/* 1. FULLSCREEN HERO SECTION (PREPARED FOR BACKGROUND VIDEO) */}
-      <section className="bg-fb-teal text-fb-white py-14 sm:py-20 md:py-24 px-4 sm:px-6 relative overflow-hidden flex flex-col justify-center min-h-[100dvh] md:min-h-screen">
+      <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] px-4 sm:px-6">
         {/* Background Video */}
         <video
+          ref={videoRef}
+          key="/videos/careers.mp4"
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
-          poster="/videos/hero-poster.jpg"
-          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none z-0"
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105"
         >
-          <source src="/videos/hero-bg-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
           <source src="/videos/careers.mp4" type="video/mp4" />
-          <source src="/videos/hero-bg.mp4" type="video/mp4" />
         </video>
 
         {/* Dark Overlay to protect text contrast */}
@@ -201,7 +212,7 @@ export default function CareersPage() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden sm:flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors cursor-pointer select-none"
+          className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 sm:gap-2 text-white/70 hover:text-white transition-colors cursor-pointer select-none"
           onClick={() => {
             const formSection = document.getElementById('careers-form');
             if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
