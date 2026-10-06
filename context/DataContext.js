@@ -239,10 +239,12 @@ export function DataProvider({ children }) {
         const mergedContact = {
           ...defaultContactInfo,
           ...(storedContact || {}),
+          email: (!storedContact?.email || storedContact.email === 'info@fbcompany.com') ? 'info@fbassets.com' : storedContact.email,
           mapUrl: defaultContactInfo.mapUrl
         };
         setContactInfo(mergedContact);
         await setStoredData('fb_contact_info', mergedContact);
+        try { localStorage.setItem('fb_contact_info', JSON.stringify(mergedContact)); } catch (e) {}
 
         // Always keep client in sync with the server data if admin secret available
         try {
@@ -277,8 +279,13 @@ export function DataProvider({ children }) {
                 await setStoredData('fb_counters', syncData.counters);
               }
               if (syncData.contactInfo) {
-                setContactInfo(syncData.contactInfo);
-                await setStoredData('fb_contact_info', syncData.contactInfo);
+                const cleanContact = {
+                  ...syncData.contactInfo,
+                  email: (!syncData.contactInfo.email || syncData.contactInfo.email === 'info@fbcompany.com') ? 'info@fbassets.com' : syncData.contactInfo.email
+                };
+                setContactInfo(cleanContact);
+                await setStoredData('fb_contact_info', cleanContact);
+                try { localStorage.setItem('fb_contact_info', JSON.stringify(cleanContact)); } catch (e) {}
               }
             }
           }
@@ -333,10 +340,14 @@ export function DataProvider({ children }) {
   };
 
   const saveContactInfo = async (newContact) => {
-    setContactInfo(newContact);
-    await setStoredData('fb_contact_info', newContact);
+    const cleanContact = {
+      ...newContact,
+      email: (!newContact.email || newContact.email === 'info@fbcompany.com') ? 'info@fbassets.com' : newContact.email
+    };
+    setContactInfo(cleanContact);
+    await setStoredData('fb_contact_info', cleanContact);
     try {
-      localStorage.setItem('fb_contact_info', JSON.stringify(newContact));
+      localStorage.setItem('fb_contact_info', JSON.stringify(cleanContact));
     } catch (e) {}
   };
 
@@ -373,8 +384,13 @@ export function DataProvider({ children }) {
             await setStoredData('fb_counters', syncData.counters);
           }
           if (syncData.contactInfo) {
-            setContactInfo(syncData.contactInfo);
-            await setStoredData('fb_contact_info', syncData.contactInfo);
+            const cleanContact = {
+              ...syncData.contactInfo,
+              email: (!syncData.contactInfo.email || syncData.contactInfo.email === 'info@fbcompany.com') ? 'info@fbassets.com' : syncData.contactInfo.email
+            };
+            setContactInfo(cleanContact);
+            await setStoredData('fb_contact_info', cleanContact);
+            try { localStorage.setItem('fb_contact_info', JSON.stringify(cleanContact)); } catch (e) {}
           }
           return { success: true, data: syncData };
         }
