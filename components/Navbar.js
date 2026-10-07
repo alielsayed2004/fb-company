@@ -14,6 +14,10 @@ export default function Navbar() {
   const { locale, toggleLanguage, t } = useLanguage();
   const isAr = locale === 'ar';
 
+  const alternatePath = isAr 
+    ? pathname.replace(/^\/ar/, '') || '/' 
+    : `/ar${pathname === '/' ? '' : pathname}`;
+
   if (pathname?.startsWith('/admin')) {
     return null;
   }
@@ -47,10 +51,17 @@ export default function Navbar() {
     { nameKey: 'nav.portfolio', href: '/portfolio' },
     { nameKey: 'nav.assetManagement', href: '/asset-management' },
     { nameKey: 'nav.franchiseSourcing', href: '/franchise-sourcing' },
+    { nameKey: 'nav.insights', href: '/insights' },
     { nameKey: 'nav.aboutUs', href: '/about' },
     { nameKey: 'nav.careers', href: '/careers' },
     { nameKey: 'nav.contactUs', href: '/contact' }
   ];
+
+  const getLocalizedHref = (href) => {
+    if (!isAr) return href;
+    if (href === '/') return '/ar';
+    return `/ar${href}`;
+  };
 
   return (
     <>
@@ -82,11 +93,12 @@ export default function Navbar() {
           {/* Desktop Central Pill Navigation (Floating, perfectly centered) */}
           <div className="hidden md:flex flex-none items-center backdrop-blur-md border border-white/10 bg-white/10 p-1 rounded-full shadow-lg pointer-events-auto">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const localizedHref = getLocalizedHref(link.href);
+              const isActive = pathname === localizedHref;
               return (
                 <Link
                   key={link.nameKey}
-                  href={link.href}
+                  href={localizedHref}
                   className={`text-xs lg:text-[13px] xl:text-sm font-medium tracking-wide transition-all duration-300 px-3 lg:px-4 py-1.5 rounded-full ${
                     isActive 
                       ? 'bg-white text-fb-teal shadow-md font-semibold' 
@@ -105,15 +117,15 @@ export default function Navbar() {
               ? 'opacity-0 translate-x-12 rtl:-translate-x-12 pointer-events-none' 
               : 'opacity-100 translate-x-0 pointer-events-auto'
           }`}>
-            <div 
-              onClick={toggleLanguage}
+            <Link 
+              href={alternatePath}
               className="flex items-center space-x-2 rtl:space-x-reverse text-white/85 cursor-pointer hover:text-white transition-colors text-sm font-semibold select-none bg-white/5 hover:bg-white/10 px-4 py-1.5 rounded-full border border-white/10 shadow-sm"
             >
               <Globe size={15} className="text-fb-green" />
               <span className={locale === 'en' ? 'text-fb-green font-extrabold' : 'text-white/70'}>ENG</span>
               <span className="text-white/30 text-xs">|</span>
               <span className={locale === 'ar' ? 'text-fb-green font-extrabold' : 'text-white/70'}>العربية</span>
-            </div>
+            </Link>
           </div>
 
           {/* Mobile Hamburger Toggle */}
@@ -148,11 +160,12 @@ export default function Navbar() {
         <div className="h-full flex flex-col justify-between p-6 sm:p-8 pt-[calc(5rem+env(safe-area-inset-top,0px))] pb-[calc(2rem+env(safe-area-inset-bottom,0px))] overflow-y-auto">
           <div className="flex flex-col space-y-5">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const localizedHref = getLocalizedHref(link.href);
+              const isActive = pathname === localizedHref;
               return (
                 <Link
                   key={link.nameKey}
-                  href={link.href}
+                  href={localizedHref}
                   onClick={() => setIsOpen(false)}
                   className={`text-lg font-semibold tracking-wide border-b border-fb-white/10 pb-3 transition-colors ${
                     isActive ? 'text-fb-green' : 'text-fb-white/90'
@@ -166,15 +179,16 @@ export default function Navbar() {
 
           <div className="flex flex-col space-y-6">
             {/* Mobile language switch */}
-            <div 
-              onClick={toggleLanguage}
+            <Link 
+              href={alternatePath}
+              onClick={() => setIsOpen(false)}
               className="flex items-center space-x-2 rtl:space-x-reverse text-white/85 cursor-pointer hover:text-white transition-colors text-sm font-semibold select-none bg-white/5 hover:bg-white/10 px-4 py-2.5 rounded-lg border border-white/10 self-start"
             >
               <Globe size={18} className="text-fb-green" />
               <span className={locale === 'en' ? 'text-fb-green font-extrabold' : 'text-white/70'}>ENG</span>
               <span className="text-white/30">|</span>
               <span className={locale === 'ar' ? 'text-fb-green font-extrabold' : 'text-white/70'}>العربية</span>
-            </div>
+            </Link>
             
             <div className="text-center pt-6">
               <p className="text-xs text-fb-bg-light/40">F.B Company — {t('nav.tagline')}</p>

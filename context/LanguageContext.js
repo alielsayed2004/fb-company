@@ -5,19 +5,20 @@ import { translations } from '@/data/translations';
 
 const LanguageContext = createContext();
 
-export function LanguageProvider({ children }) {
+export function LanguageProvider({ children, initialLocale = 'en' }) {
   const [locale, setLocale] = useState(() => {
     if (typeof window !== 'undefined') {
       const savedLocale = localStorage.getItem('locale');
       if (savedLocale === 'ar' || savedLocale === 'en') {
-        return savedLocale;
+        // If the URL says Arabic but localStorage says English, URL wins for that page.
+        // But for initial load consistency without hydration mismatch, use initialLocale.
+        return initialLocale;
       }
     }
-    return 'en';
+    return initialLocale;
   });
 
   useEffect(() => {
-    // Update HTML attributes when locale changes
     document.documentElement.lang = locale;
     document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
     localStorage.setItem('locale', locale);

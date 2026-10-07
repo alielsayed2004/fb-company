@@ -124,9 +124,25 @@ export const defaultBlogsAr = [
   }
 ];
 
+const brandNamesMap = {
+  1: "Salé Sucré", 2: "McDonald's", 3: "Hardee's", 4: "TBS", 5: "Pizza Hut",
+  6: "Domino's Pizza", 7: "Nine Two Nine (929)", 8: "Circle K", 9: "Spinneys",
+  10: "Tabali", 11: "Carrefour", 12: "KFC", 13: "Master", 14: "Breadfast",
+  15: "Halawany El Abd", 16: "HungerStation", 17: "Papa John's", 18: "Tseppas",
+  19: "Fawzy", 20: "El Ezaby Pharmacy", 21: "Etoile", 22: "Karam El Sham",
+  23: "Buffalo Burger", 24: "Bazooka", 25: "Dream 2000", 26: "Al Kofteya",
+  27: "Al Borg Laboratories", 28: "Second Cup", 29: "2B", 30: "Stuffit",
+  31: "Just Smash", 32: "Shashlik", 33: "Nos Dasta", 34: "Kofta", 35: "Kaizo",
+  36: "Wahmy", 37: "B.Laban", 38: "Osta Rosto", 39: "Dushka Burger",
+  40: "Alfa Laboratories", 41: "Basma Mandi", 42: "Exception", 43: "Fatatry",
+  44: "Remas Land", 45: "Dina Farms Feteera", 46: "TechnoScan", 47: "Ormet Fahmy",
+  48: "Hamsharey", 49: "Burger Republic", 50: "Bakery Khan",
+  51: "Sultana Ice Cream", 52: "Max Muscle", 53: "Pizza Party", 54: "Shawerma Eiram"
+};
+
 export const defaultBrands = Array.from({ length: 54 }, (_, i) => ({
   id: i + 1,
-  name: `Brand Partner #${i + 1}`,
+  name: brandNamesMap[i + 1] || `Brand Partner #${i + 1}`,
   logoUrl: `/logos/${i + 1}.png`
 }));
 

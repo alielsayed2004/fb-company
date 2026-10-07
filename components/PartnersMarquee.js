@@ -95,7 +95,7 @@ export default function PartnersMarquee() {
                 >
                   <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
-                    alt={item.name || `Partner Logo ${item.id}`}
+                    alt={locale === 'ar' ? `شعار ${item.name} – شريك إف بي` : `${item.name} logo – F.B Company brand partner`}
                     width={115}
                     height={32}
                     sizes="115px"
@@ -119,7 +119,7 @@ export default function PartnersMarquee() {
                 >
                   <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
-                    alt={item.name || `Partner Logo ${item.id}`}
+                    alt={locale === 'ar' ? `شعار ${item.name} – شريك إف بي` : `${item.name} logo – F.B Company brand partner`}
                     width={115}
                     height={32}
                     sizes="115px"
@@ -143,7 +143,7 @@ export default function PartnersMarquee() {
                 >
                   <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
-                    alt={item.name || `Partner Logo ${item.id}`}
+                    alt={locale === 'ar' ? `شعار ${item.name} – شريك إف بي` : `${item.name} logo – F.B Company brand partner`}
                     width={115}
                     height={32}
                     sizes="115px"
@@ -167,7 +167,7 @@ export default function PartnersMarquee() {
                 >
                   <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
-                    alt={item.name || `Partner Logo ${item.id}`}
+                    alt={locale === 'ar' ? `شعار ${item.name} – شريك إف بي` : `${item.name} logo – F.B Company brand partner`}
                     width={115}
                     height={32}
                     sizes="115px"
@@ -191,7 +191,7 @@ export default function PartnersMarquee() {
                 >
                   <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
-                    alt={item.name || `Partner Logo ${item.id}`}
+                    alt={locale === 'ar' ? `شعار ${item.name} – شريك إف بي` : `${item.name} logo – F.B Company brand partner`}
                     width={115}
                     height={32}
                     sizes="115px"
@@ -218,7 +218,7 @@ export default function PartnersMarquee() {
                 >
                   <Image
                     src={item.logoUrl || `/logos/${item.id}.png`}
-                    alt={item.name || `Partner Logo ${item.id}`}
+                    alt={locale === 'ar' ? `شعار ${item.name} – شريك إف بي` : `${item.name} logo – F.B Company brand partner`}
                     width={155}
                     height={48}
                     sizes="(max-width: 640px) 130px, 155px"
@@ -243,7 +243,7 @@ export default function PartnersMarquee() {
                   >
                     <Image
                       src={item.logoUrl || `/logos/${item.id}.png`}
-                      alt={item.name || `Partner Logo ${item.id}`}
+                      alt={locale === 'ar' ? `شعار ${item.name} – شريك إف بي` : `${item.name} logo – F.B Company brand partner`}
                       width={155}
                       height={48}
                       sizes="(max-width: 640px) 130px, 155px"
@@ -269,7 +269,7 @@ export default function PartnersMarquee() {
                   >
                     <Image
                       src={item.logoUrl || `/logos/${item.id}.png`}
-                      alt={item.name || `Partner Logo ${item.id}`}
+                      alt={locale === 'ar' ? `شعار ${item.name} – شريك إف بي` : `${item.name} logo – F.B Company brand partner`}
                       width={155}
                       height={48}
                       sizes="(max-width: 640px) 130px, 155px"

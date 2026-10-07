@@ -14,6 +14,7 @@ export default function Footer() {
   }
   const currentYear = new Date().getFullYear();
   const { locale, t } = useLanguage();
+  const isAr = locale === 'ar';
   const { setIsPasscodeOpen, contactInfo } = useData();
 
   const navLinks = [
@@ -21,10 +22,17 @@ export default function Footer() {
     { nameKey: 'nav.portfolio', href: '/portfolio' },
     { nameKey: 'nav.assetManagement', href: '/asset-management' },
     { nameKey: 'nav.franchiseSourcing', href: '/franchise-sourcing' },
+    { nameKey: 'nav.insights', href: '/insights' },
     { nameKey: 'nav.aboutUs', href: '/about' },
     { nameKey: 'nav.careers', href: '/careers' },
     { nameKey: 'nav.contactUs', href: '/contact' }
   ];
+
+  const getLocalizedHref = (href) => {
+    if (!isAr) return href;
+    if (href === '/') return '/ar';
+    return `/ar${href}`;
+  };
 
   return (
     <footer className="bg-fb-bg-light text-fb-teal border-t border-fb-teal/10 pt-10 sm:pt-16 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] sm:pb-12">
@@ -122,7 +130,7 @@ export default function Footer() {
           <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
             {navLinks.map((link) => (
               <li key={link.nameKey}>
-                <Link href={link.href} className="text-slate-700 hover:text-fb-green font-medium transition-colors">
+                <Link href={getLocalizedHref(link.href)} className="text-slate-700 hover:text-fb-green font-medium transition-colors">
                   {t(link.nameKey)}
                 </Link>
               </li>
@@ -190,8 +198,8 @@ export default function Footer() {
           </Link>
         </div>
         <div className="flex items-center gap-4 sm:gap-6">
-          <a href="#" className="hover:text-fb-green transition-colors">{t('footer.privacy')}</a>
-          <a href="#" className="hover:text-fb-green transition-colors">{t('footer.terms')}</a>
+          <Link href={getLocalizedHref('/privacy-policy')} className="hover:text-fb-green transition-colors">{t('footer.privacy')}</Link>
+          <Link href={getLocalizedHref('/terms')} className="hover:text-fb-green transition-colors">{t('footer.terms')}</Link>
         </div>
       </div>
     </footer>
