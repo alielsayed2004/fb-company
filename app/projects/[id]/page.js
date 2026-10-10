@@ -170,9 +170,20 @@ export default async function ProjectPage({ params }) {
     resolvedVideo = '/videos/hero-bg.mp4';
   }
 
+  // Auto-discover cover image in folder if current coverImage is missing or non-existent
+  let resolvedCover = currentProject.coverImage;
+  if (!resolvedCover || !fs.existsSync(path.join(process.cwd(), 'public', resolvedCover))) {
+    if (fs.existsSync(path.join(projectDir, 'cover.jpg'))) {
+      resolvedCover = `/projects/${resolvedParams.id}/cover.jpg`;
+    } else if (fs.existsSync(path.join(projectDir, 'cover.png'))) {
+      resolvedCover = `/projects/${resolvedParams.id}/cover.png`;
+    }
+  }
+
   const finalProject = {
     ...currentProject,
     video: resolvedVideo,
+    coverImage: resolvedCover,
     brands: mergedBrands,
     gallery: mergedGallery
   };

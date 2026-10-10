@@ -23,9 +23,31 @@ const sanitizeArabicName = (data) => {
     return parsed
       .filter((p) => p && p.id !== 'project-1788785510962' && p.name !== 'Golden Gate Hub' && p.name_ar !== 'مركز جولدن جيت')
       .map((p) => {
+        let updated = { ...p };
+        // Sync correct video and coverImage paths for projects to ensure browser caches reflect changes
+        if (updated.id === 'sour-nady-el-obour') {
+          updated.video = '/projects/sour-nady-el-obour/video.mp4';
+          updated.coverImage = '/projects/sour-nady-el-obour/cover.jpg';
+        } else if (updated.id === 'chillout-mostafa-kamel') {
+          updated.video = '/projects/chillout-mostafa-kamel/video.mp4';
+          updated.coverImage = '/projects/chillout-mostafa-kamel/cover.jpg';
+        } else if (updated.id === 'chillout-marina-5') {
+          updated.video = '/projects/chillout-marina-5/video.mp4';
+          updated.coverImage = '/projects/chillout-marina-5/cover.png';
+        } else if (updated.id === 'sour-nady-el-nady') {
+          updated.video = '/projects/sour-nady-el-nady/video.mp4';
+          updated.coverImage = '/projects/sour-nady-el-nady/cover.png';
+        } else if (updated.id === 'chillout-10th-of-ramadan-banks') {
+          updated.video = '/projects/chillout-10th-of-ramadan-banks/video.mp4';
+          updated.coverImage = '/projects/chillout-10th-of-ramadan-banks/Artboard 3.jpg';
+        } else if (updated.id === 'chillout-10th-of-ramadan-alrowad') {
+          updated.video = '/projects/chillout-10th-of-ramadan-alrowad/video.mp4';
+          updated.coverImage = '/projects/chillout-10th-of-ramadan-alrowad/Artboard 4.jpg';
+        }
+
         if (p.id === 'chillout-suez-road-corridor' || p.id === 'el-salam-plaza-mall' || p.name_ar === 'السلام بلازا' || p.name_ar === 'مول السلام بلازا') {
           return {
-            ...p,
+            ...updated,
             id: 'el-salam-plaza-mall',
             name: 'El Salam Plaza Mall',
             name_ar: 'مول السلام بلازا',
@@ -33,14 +55,16 @@ const sanitizeArabicName = (data) => {
             city_ar: 'مدينة السلام',
             location: 'El Salam Main Transit Corridor, Cairo',
             location_ar: 'ممر طريق السلام الرئيسي، القاهرة',
+            video: '/projects/el-salam-plaza-mall/video.mp4',
+            coverImage: '/projects/el-salam-plaza-mall/cover.jpg',
             mapInfo: {
-              ...(p.mapInfo || {}),
+              ...(updated.mapInfo || {}),
               road: 'El Salam Transit Corridor',
               road_ar: 'ممر طريق السلام الرئيسي'
             }
           };
         }
-        return p;
+        return updated;
       });
   }
   return parsed;

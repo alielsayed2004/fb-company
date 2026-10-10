@@ -21,8 +21,12 @@ export default function ProjectPageClient({ project: initialProject }) {
   const clientProject = (projects && projects.find(p => p.id === initialProject?.id));
   const project = clientProject ? {
     ...clientProject,
-    video: clientProject.video || initialProject?.video,
-    coverImage: clientProject.coverImage || initialProject?.coverImage,
+    video: (initialProject?.video && initialProject.video !== '/videos/hero-bg.mp4')
+      ? initialProject.video
+      : (clientProject.video || initialProject?.video),
+    coverImage: (initialProject?.coverImage && !initialProject.coverImage.endsWith('/company/logo.png'))
+      ? initialProject.coverImage
+      : (clientProject.coverImage || initialProject?.coverImage),
     brands: (initialProject?.brands && initialProject.brands.some(b => typeof b === 'object' && b.logo))
       ? [
           ...initialProject.brands.filter(b => typeof b === 'object' && b.logo),

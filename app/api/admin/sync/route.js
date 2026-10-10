@@ -148,15 +148,29 @@ export async function GET(req) {
       const hasDir = fs.existsSync(pDir);
 
       let coverImage = p.coverImage;
-      if (hasDir && (!coverImage || coverImage === '')) {
-        const diskFiles = fs.readdirSync(pDir, { withFileTypes: true })
-          .filter(f => f.isFile() && imageExts.has(path.extname(f.name).toLowerCase()))
-          .map(f => f.name);
+      if (hasDir) {
+        const coverExists = coverImage && fs.existsSync(path.join(process.cwd(), 'public', coverImage));
+        if (!coverExists) {
+          const diskFiles = fs.readdirSync(pDir, { withFileTypes: true })
+            .filter(f => f.isFile() && imageExts.has(path.extname(f.name).toLowerCase()))
+            .map(f => f.name);
 
-        if (diskFiles.includes('cover.png')) coverImage = `/projects/${p.id}/cover.png`;
-        else if (diskFiles.includes('cover.jpg')) coverImage = `/projects/${p.id}/cover.jpg`;
-        else if (diskFiles.includes('Artboard 3.jpg')) coverImage = `/projects/${p.id}/Artboard 3.jpg`;
-        else if (diskFiles.length > 0) coverImage = `/projects/${p.id}/${diskFiles[0]}`;
+          if (diskFiles.includes('cover.jpg')) coverImage = `/projects/${p.id}/cover.jpg`;
+          else if (diskFiles.includes('cover.png')) coverImage = `/projects/${p.id}/cover.png`;
+          else if (diskFiles.includes('Artboard 3.jpg')) coverImage = `/projects/${p.id}/Artboard 3.jpg`;
+          else if (diskFiles.includes('Artboard 4.jpg')) coverImage = `/projects/${p.id}/Artboard 4.jpg`;
+          else if (diskFiles.length > 0) coverImage = `/projects/${p.id}/${diskFiles[0]}`;
+        }
+      }
+
+      let video = p.video;
+      if (hasDir) {
+        const videoExists = video && fs.existsSync(path.join(process.cwd(), 'public', video));
+        if (!videoExists) {
+          if (fs.existsSync(path.join(pDir, 'video.mp4'))) {
+            video = `/projects/${p.id}/video.mp4`;
+          }
+        }
       }
 
       // Respect user's gallery array as-is. If gallery is null/undefined, only then initialize from disk.
@@ -170,6 +184,7 @@ export async function GET(req) {
 
       return {
         ...p,
+        video: video || p.video || '',
         coverImage: coverImage || p.coverImage || '',
         gallery: Array.isArray(gallery) ? gallery : []
       };
