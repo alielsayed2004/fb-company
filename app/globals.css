@@ -1,6 +1,81 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────
+   LAMA SANS COMPLETE FONT FAMILY (ARABIC & LATIN 100-900)
+   ───────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Lama Sans';
+  src: url('/fonts/LamaSans-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lama Sans';
+  src: url('/fonts/LamaSans-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lama Sans';
+  src: url('/fonts/LamaSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lama Sans';
+  src: url('/fonts/LamaSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lama Sans';
+  src: url('/fonts/LamaSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lama Sans';
+  src: url('/fonts/LamaSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lama Sans';
+  src: url('/fonts/LamaSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lama Sans';
+  src: url('/fonts/LamaSans-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lama Sans';
+  src: url('/fonts/LamaSans-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-fb-teal: #003B3C;
   --color-fb-teal-light: #004d4f;
@@ -11,6 +86,7 @@
   --color-fb-white: #FFFFFF;
   
   --font-lama: "Lama Sans", "Outfit", sans-serif;
+  --font-sans: "Lama Sans", "Outfit", sans-serif;
 }
 
 :root {
@@ -34,9 +110,13 @@ html {
 body {
   background-color: var(--fb-bg-light);
   color: var(--fb-black-text);
-  font-family: var(--font-lama);
+  font-family: "Lama Sans", "Outfit", sans-serif;
   overflow-x: hidden;
   will-change: auto;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
 }
 
 /* Custom Scrollbar */
@@ -59,7 +139,7 @@ body {
   font-size: 0.75rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--fb-green-accent);
 }
 
@@ -68,7 +148,7 @@ body {
   h1 {
     font-size: clamp(1.85rem, 5.5vw, 4.5rem);
     line-height: 1.18;
-    font-weight: 700;
+    font-weight: 800;
     text-wrap: balance;
     overflow-wrap: break-word;
   }
@@ -76,7 +156,7 @@ body {
   h2 {
     font-size: clamp(1.4rem, 4.2vw, 2.75rem);
     line-height: 1.22;
-    font-weight: 600;
+    font-weight: 700;
     text-wrap: balance;
     overflow-wrap: break-word;
   }
@@ -84,6 +164,7 @@ body {
   h3 {
     font-size: clamp(1.15rem, 2.5vw, 1.65rem);
     line-height: 1.26;
+    font-weight: 600;
     text-wrap: balance;
     overflow-wrap: break-word;
   }
@@ -94,28 +175,42 @@ body {
   }
 }
 
-/* RTL Typography & Arabic Text Spacing */
+/* RTL Typography & Arabic Text Spacing with Clear Font-Weight Contrast */
+[dir="rtl"], [lang="ar"] {
+  font-family: "Lama Sans", sans-serif;
+}
+
 [dir="rtl"] h1 {
-  line-height: 1.22;
+  font-weight: 800;
+  line-height: 1.25;
   letter-spacing: normal;
   text-wrap: balance;
 }
 
 [dir="rtl"] h2 {
-  line-height: 1.24;
-  letter-spacing: normal;
-  text-wrap: balance;
-}
-
-[dir="rtl"] h3,
-[dir="rtl"] h4 {
+  font-weight: 700;
   line-height: 1.28;
   letter-spacing: normal;
   text-wrap: balance;
 }
 
+[dir="rtl"] h3 {
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: normal;
+  text-wrap: balance;
+}
+
+[dir="rtl"] h4 {
+  font-weight: 600;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-wrap: balance;
+}
+
 [dir="rtl"] p {
-  line-height: 1.7;
+  font-weight: 400;
+  line-height: 1.75;
   letter-spacing: normal;
 }
 

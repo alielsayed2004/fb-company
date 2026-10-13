@@ -192,7 +192,10 @@ export default function PortfolioPage() {
                     className="bg-white rounded-3xl border border-fb-teal/15 overflow-hidden flex flex-col justify-between shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_20px_40px_rgba(0,59,60,0.12)] hover:border-fb-green transition-all duration-400 group relative"
                   >
                     {/* Card Top / Visual */}
-                    <div className="relative aspect-16/10 overflow-hidden bg-fb-teal/10">
+                    <div 
+                      onClick={() => setSelectedProject(project)}
+                      className="relative aspect-16/10 overflow-hidden bg-fb-teal/10 cursor-pointer"
+                    >
                         <Image
                           src={cover}
                           alt={name}

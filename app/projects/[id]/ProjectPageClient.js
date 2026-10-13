@@ -201,7 +201,7 @@ export default function ProjectPageClient({ project: initialProject }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link href="/#portfolio" className="inline-flex items-center space-x-1.5 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/35 hover:bg-fb-black/55 backdrop-blur-md px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/15 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all">
+            <Link href={locale === 'ar' ? '/ar/#portfolio' : '/#portfolio'} className="inline-flex items-center space-x-1.5 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/35 hover:bg-fb-black/55 backdrop-blur-md px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/15 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all">
               <ArrowLeft size={13} className="mr-1.5 ml-1.5 rtl:rotate-180" />
               <span>{t('projectDetails.backToDevelopments')}</span>
             </Link>

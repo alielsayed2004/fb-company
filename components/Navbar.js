@@ -77,7 +77,7 @@ export default function Navbar() {
               ? 'md:opacity-0 md:-translate-x-12 rtl:md:translate-x-12 md:pointer-events-none opacity-100 pointer-events-auto' 
               : 'opacity-100 translate-x-0 pointer-events-auto'
           }`}>
-            <Link href="/" className="flex items-center">
+            <Link href={isAr ? '/ar' : '/'} className="flex items-center">
               <Image
                 src="/company/logo.png"
                 alt="F.B Company"

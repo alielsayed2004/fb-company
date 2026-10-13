@@ -285,14 +285,24 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                     <h5 className="font-bold text-fb-white text-sm md:text-base">{t('projectDetails.similarOpp')}</h5>
                     <p className="text-xs text-fb-bg-light/75">{t('projectDetails.similarOppDesc')}</p>
                   </div>
-                  <Link
-                    href={`/contact?interest=sourcing&project=${project.id}`}
-                    onClick={onClose}
-                    className="flex items-center space-x-1.5 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-4 py-2.5 rounded-xl text-xs transition-colors shrink-0 shadow-md"
-                  >
-                    <span>{t('projectDetails.bookConsultation')}</span>
-                    <ArrowUpRight size={14} className="shrink-0" />
-                  </Link>
+                  <div className="flex items-center gap-2.5 shrink-0 flex-wrap">
+                    <Link
+                      href={`/projects/${project.id}`}
+                      onClick={onClose}
+                      className="flex items-center space-x-1.5 rtl:space-x-reverse bg-white/10 hover:bg-white/20 text-white font-bold px-3.5 py-2.5 rounded-xl text-xs transition-colors shadow-sm"
+                    >
+                      <span>{locale === 'ar' ? 'صفحة المشروع' : 'Full Page'}</span>
+                      <ArrowUpRight size={13} className="shrink-0" />
+                    </Link>
+                    <Link
+                      href={`/contact?interest=sourcing&project=${project.id}`}
+                      onClick={onClose}
+                      className="flex items-center space-x-1.5 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-4 py-2.5 rounded-xl text-xs transition-colors shrink-0 shadow-md"
+                    >
+                      <span>{t('projectDetails.bookConsultation')}</span>
+                      <ArrowUpRight size={14} className="shrink-0" />
+                    </Link>
+                  </div>
                 </div>
 
               </div>

@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useMemo, useRef, useEffect } from 'react';
-import Link from 'next/link';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { 
@@ -10,18 +9,9 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
+import ProjectDrawer from '@/components/ProjectDrawer';
 
 const corporateEase = [0.22, 1, 0.36, 1];
-
-const slugMap = {
-  'chillout-10th-of-ramadan-banks': '10th-of-ramadan-chillout-station',
-  'chillout-mostafa-kamel': 'mostafa-kamel-axis-new-cairo',
-  'chillout-marina-5': 'marina-5-north-coast',
-  'chillout-10th-of-ramadan-alrowad': 'al-rowad-club-10th-of-ramadan',
-  'sour-nady-el-nady': 'sour-nady-el-nady-sheraton',
-  'sour-nady-el-obour': 'sour-nady-el-obour',
-  'el-salam-plaza-mall': 'el-salam-plaza-mall'
-};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -48,6 +38,7 @@ export default function PortfolioPage() {
   const { projects, counters } = useData();
   const isAr = locale === 'ar';
   const videoRef = useRef(null);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -201,7 +192,10 @@ export default function PortfolioPage() {
                     className="bg-white rounded-3xl border border-fb-teal/15 overflow-hidden flex flex-col justify-between shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_20px_40px_rgba(0,59,60,0.12)] hover:border-fb-green transition-all duration-400 group relative"
                   >
                     {/* Card Top / Visual */}
-                    <div className="relative aspect-16/10 overflow-hidden bg-fb-teal/10">
+                    <div 
+                      onClick={() => setSelectedProject(project)}
+                      className="relative aspect-16/10 overflow-hidden bg-fb-teal/10 cursor-pointer"
+                    >
                         <Image
                           src={cover}
                           alt={name}
@@ -230,13 +224,14 @@ export default function PortfolioPage() {
 
                     {/* Card Footer / CTA */}
                     <div className="p-4 sm:p-5">
-                      <Link
-                        href={`/ar/portfolio/${slugMap[project.id] || project.id}`}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedProject(project)}
                         className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-fb-teal hover:bg-fb-green text-white hover:text-fb-teal font-extrabold text-xs transition-all duration-300 shadow-md group-hover:shadow-lg cursor-pointer"
                       >
                         <span>{isAr ? 'استعراض تفاصيل المشروع والمعرض' : 'View Full Details & Gallery'}</span>
                         <ArrowRight size={14} className={isAr ? 'rotate-180' : ''} />
-                      </Link>
+                      </button>
                     </div>
                   </motion.div>
                 );
@@ -247,7 +242,7 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-
+      <ProjectDrawer project={selectedProject} onClose={() => setSelectedProject(null)} />
 
     </div>
   );

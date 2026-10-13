@@ -8,11 +8,12 @@ import { MapPin, Layers, CheckCircle, ArrowUpRight, Camera, ChevronDown } from '
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 
-export default function PortfolioTimeline() {
+export default function PortfolioTimeline({ projects: propProjects, onSelectProject }) {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const prefersReducedMotion = useReducedMotion();
   const { locale, t } = useLanguage();
-  const { projects: projectsData } = useData();
+  const { projects: contextProjects } = useData();
+  const projectsData = propProjects && propProjects.length > 0 ? propProjects : (contextProjects || []);
 
   const getBusinessLineTag = (idx) => {
     return idx % 2 === 0 ? t('nav.assetManagement') : t('nav.franchiseSourcing');
@@ -191,15 +192,29 @@ export default function PortfolioTimeline() {
                             </span>
                           </div>
 
-                          {/* Link Button */}
-                          <div className="absolute bottom-6 right-6 rtl:right-auto rtl:left-6 z-20">
-                            <Link
-                              href={`/projects/${project.id}`}
-                              className="inline-flex items-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-4 py-2.5 rounded-xl text-xs transition-colors shadow-lg uppercase tracking-wider"
-                            >
-                              <span>{t('common.openCaseStudy')}</span>
-                              <ArrowUpRight size={14} className="shrink-0" />
-                            </Link>
+                          {/* Link / Drawer Trigger Button */}
+                          <div className="absolute bottom-6 right-6 rtl:right-auto rtl:left-6 z-20 flex items-center gap-2">
+                            {onSelectProject ? (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onSelectProject(project);
+                                }}
+                                className="inline-flex items-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-4 py-2.5 rounded-xl text-xs transition-colors shadow-lg uppercase tracking-wider cursor-pointer"
+                              >
+                                <span>{t('common.openCaseStudy')}</span>
+                                <ArrowUpRight size={14} className="shrink-0" />
+                              </button>
+                            ) : (
+                              <Link
+                                href={`/projects/${project.id}`}
+                                className="inline-flex items-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-4 py-2.5 rounded-xl text-xs transition-colors shadow-lg uppercase tracking-wider"
+                              >
+                                <span>{t('common.openCaseStudy')}</span>
+                                <ArrowUpRight size={14} className="shrink-0" />
+                              </Link>
+                            )}
                           </div>
 
                         </div>

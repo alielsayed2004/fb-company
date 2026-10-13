@@ -1,17 +1,19 @@
-export default function Terms() {
+export default function TermsAr() {
   return (
-    <div className="pt-32 pb-24 px-4 sm:px-6 max-w-4xl mx-auto min-h-screen">
-      <h1 className="text-3xl sm:text-4xl font-extrabold text-fb-teal mb-8">Terms of Service</h1>
+    <div className="pt-32 pb-24 px-4 sm:px-6 max-w-4xl mx-auto min-h-screen text-start">
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-fb-teal mb-8">الشروط والأحكام</h1>
       <div className="space-y-6 text-slate-700 leading-relaxed text-sm sm:text-base">
-        <p><strong>Last Updated:</strong> October 2026</p>
-        <p>Welcome to F.B Company. By accessing our website, you agree to be bound by these Terms of Service.</p>
-        <h2 className="text-xl font-bold text-fb-teal">1. Use of Our Services</h2>
-        <p>F.B Company provides asset management and franchise location sourcing services. The content on our website is for informational purposes only and does not constitute financial or legal advice.</p>
-        <h2 className="text-xl font-bold text-fb-teal">2. Intellectual Property</h2>
-        <p>All content, branding, and materials on this website are the property of F.B Company and may not be used without our explicit permission.</p>
-        <h2 className="text-xl font-bold text-fb-teal">3. Contact Information</h2>
-        <p>If you have any questions or concerns regarding these terms, please contact us at:</p>
-        <p>F.B Company<br/>B165, Dr. Ahmed Okasha St., El Banafseg Buildings<br/>New Cairo, Egypt<br/>Email: info@fbassets.com</p>
+        <p><strong>آخر تحديث:</strong> أكتوبر 2026</p>
+        <p>مرحباً بكم في شركة إف بي (F.B Company). يُعد دخولك إلى هذا الموقع واستخدامه موافقة صريحة منك على الالتزام ببنود هذه الشروط والأحكام القانونية.</p>
+        <h2 className="text-xl font-bold text-fb-teal">١. طبيعة الخدمات المقدمة</h2>
+        <p>تقدم شركة إف بي حلول إدارة الأصول التجارية وتسكين العلامات التجارية والاستشارات الاستثمارية في جمهورية مصر العربية. المواد والمعلومات المنشورة على الموقع مخصصة لأغراض التعريف والتواصل المؤسسي، وتخضع الاتفاقات التعاقدية لعقود رسمية منفصلة.</p>
+        <h2 className="text-xl font-bold text-fb-teal">٢. الملكية الفكرية</h2>
+        <p>جميع محتويات الموقع، بما في ذلك العلامات التجارية، والشعارات، والنصوص، والصور، والرسوم البيانية، والبيانات، هي ملكية حصرية لشركة إف بي ومحمية بموجب قوانين الملكية الفكرية المعمول بها.</p>
+        <h2 className="text-xl font-bold text-fb-teal">٣. حدود المسؤولية</h2>
+        <p>تبذل الشركة أقصى جهدها لضمان دقة وتحديث كافة البيانات المعروضة، ولا تتحمل أي مسؤولية قانونية عن أي استخدام غير مصرح به أو تفسير خارج السياق للأرقام والتقديرات الاستثمارية الاسترشادية.</p>
+        <h2 className="text-xl font-bold text-fb-teal">٤. معلومات التواصل</h2>
+        <p>لأي استفسارات قانونية أو تنظيمية بخصوص هذه الشروط، يُرجى التواصل معنا:</p>
+        <p className="font-semibold text-fb-teal">شركة إف بي للاستثمار وإدارة الأصول<br/>عمارة B165، شارع د. أحمد عكاشة، عمارات البنفسج<br/>القاهرة الجديدة، مصر<br/>البريد الإلكتروني: info@fbassets.com</p>
       </div>
     </div>
   );
