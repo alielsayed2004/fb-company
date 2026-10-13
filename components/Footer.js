@@ -22,7 +22,6 @@ export default function Footer() {
     { nameKey: 'nav.portfolio', href: '/portfolio' },
     { nameKey: 'nav.assetManagement', href: '/asset-management' },
     { nameKey: 'nav.franchiseSourcing', href: '/franchise-sourcing' },
-    { nameKey: 'nav.insights', href: '/insights' },
     { nameKey: 'nav.aboutUs', href: '/about' },
     { nameKey: 'nav.careers', href: '/careers' },
     { nameKey: 'nav.contactUs', href: '/contact' }
