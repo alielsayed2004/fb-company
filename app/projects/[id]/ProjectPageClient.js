@@ -11,8 +11,6 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
-import BrandLogo from '@/components/BrandLogo';
-import { getBrandLogoUrl, getOptimalBentoSpans, LOGO_RATIO_MAP } from '@/lib/brandLogos';
 
 export default function ProjectPageClient({ project: initialProject }) {
   const { locale, t } = useLanguage();
@@ -434,95 +432,6 @@ export default function ProjectPageClient({ project: initialProject }) {
                 </div>
               </div>
             </motion.div>
-
-            {/* Tenants strip */}
-            {project.brands && project.brands.length > 0 && (
-              <motion.div 
-                variants={itemVariants}
-                className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-3xl p-3.5 sm:p-6 shadow-[0_8px_30px_rgba(0,59,60,0.05)] space-y-4"
-              >
-                <div className="flex items-center justify-between border-b border-fb-teal/10 pb-3">
-                  <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">
-                    {t('projectDetails.securedCovenants')} ({project.brands.length})
-                  </h4>
-                  <span className="text-[10px] text-emerald-700 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
-                    {locale === 'ar' ? 'العلامات التجارية' : 'Secured Brands'}
-                  </span>
-                </div>
-
-                {/* Dynamic Bento Logo Grid (Flexible Width/Height Adaptation) */}
-                {(() => {
-                  const processedBrands = (project.brands || []).map((brandItem, bIdx) => {
-                    const isObj = typeof brandItem === 'object' && brandItem !== null;
-                    const rawStr = !isObj ? String(brandItem || '').trim() : '';
-                    const isImagePath = rawStr.startsWith('/') || rawStr.startsWith('http') || /\.(png|jpg|jpeg|svg|webp|gif)$/i.test(rawStr);
-
-                    const rawName = isObj ? (brandItem.name || '') : (!isImagePath ? rawStr : '');
-                    const autoMatchedLogo = getBrandLogoUrl(rawName);
-                    const logo = isObj ? (brandItem.logo || brandItem.logoUrl || autoMatchedLogo) : (isImagePath ? rawStr : autoMatchedLogo);
-
-                    const initialRatio = (isObj && brandItem.ratio)
-                      ? brandItem.ratio
-                      : (logo && LOGO_RATIO_MAP[logo] ? LOGO_RATIO_MAP[logo] : 1.1);
-
-                    const finalRatio = clientRatios[bIdx] || initialRatio;
-
-                    const isNumeric = /^[\d\u0660-\u0669\s\-_.]+$/.test(rawName.trim());
-                    const cleanName = isNumeric ? '' : rawName;
-
-                    return { rawName, cleanName, logo, ratio: finalRatio, bIdx };
-                  });
-
-                  const bentoSpans = getOptimalBentoSpans(processedBrands);
-
-                  return (
-                    <div className="grid grid-cols-6 gap-2 sm:gap-3">
-                      {processedBrands.map((item, idx) => {
-                        const span = bentoSpans[idx] || 2;
-                        const isWide = span >= 3;
-                        const colSpanClass = span === 6 ? 'col-span-6' : span === 4 ? 'col-span-4' : span === 3 ? 'col-span-3' : 'col-span-2';
-
-                        return (
-                          <div 
-                            key={idx}
-                            className={`group relative flex flex-col items-center justify-center rounded-xl sm:rounded-2xl bg-fb-teal hover:bg-fb-teal-light border border-white/10 hover:border-fb-green/60 shadow-xs sm:shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 ${colSpanClass} h-[58px] sm:h-[84px] md:h-[92px] cursor-pointer overflow-hidden p-1.5 sm:p-3`}
-                            title={item.cleanName || `Partner ${idx + 1}`}
-                          >
-                            {/* Ambient glow on hover */}
-                            <div className="absolute inset-0 bg-fb-green/0 group-hover:bg-fb-green/10 transition-colors duration-300 pointer-events-none" />
-
-                            {/* Centered Large Logo Container */}
-                            <div className="w-full h-full flex items-center justify-center relative z-10 px-2">
-                              {item.logo ? (
-                                <Image 
-                                  src={item.logo} 
-                                  alt={item.cleanName || `Brand Logo ${idx + 1}`} 
-                                  width={160}
-                                  height={160}
-                                  sizes="(max-width: 640px) 140px, 200px"
-                                  loading="lazy"
-                                  decoding="async"
-                                  className="h-[38px] sm:h-[48px] md:h-[54px] w-auto max-w-[85%] object-contain drop-shadow-sm group-hover:scale-110 transition-transform duration-200"
-                                />
-                              ) : item.cleanName ? (
-                                <div className="flex flex-col items-center justify-center space-y-0.5 w-full">
-                                  <BrandLogo name={item.cleanName} className="h-6 sm:h-8 max-w-[85%] w-auto text-white fill-current" />
-                                  <span className="text-[10px] sm:text-[11px] font-bold text-white/90 truncate max-w-full text-center">
-                                    {item.cleanName}
-                                  </span>
-                                </div>
-                              ) : (
-                                <div className="w-2 h-2 rounded-full bg-fb-green/40" />
-                              )}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })()}
-              </motion.div>
-            )}
 
             {/* Consultation panel */}
             <motion.div 

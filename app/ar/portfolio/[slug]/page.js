@@ -71,17 +71,6 @@ export default function PortfolioLocationPageAr({ params }) {
           </div>
         </div>
 
-        <div className="mb-12">
-          <h2 className="text-xl font-bold text-fb-teal mb-6 text-center">البراندات الموجودة</h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {project.brands && project.brands.map((brand, i) => (
-              <div key={i} className="bg-white border border-fb-teal/15 px-4 py-2 rounded-xl text-sm font-semibold text-fb-teal shadow-sm">
-                {brand}
-              </div>
-            ))}
-          </div>
-        </div>
-
         <div className="mb-12 rounded-3xl overflow-hidden shadow-lg border border-fb-teal/10 h-[400px]">
           <iframe 
             width="100%" 
