@@ -31,3 +31,19 @@ Issue IDs refer to `docs/audit/PHASE-1-AUDIT.md`.
 3. `ADMIN_API_SECRET` — new random value, ≥ 32 chars (only for scripts; optional).
 4. `GITHUB_TOKEN` — new fine-grained token, contents read/write on `fb-company` only.
 5. Redeploy.
+
+---
+
+## Step 2 — P0 privacy: CVs (PRIV-01 … PRIV-03, owner decision D4)
+
+| File | Change | Why |
+|---|---|---|
+| `scripts/google-apps-script-careers.js` | New CVs are set to `DriveApp.Access.PRIVATE` (was `ANYONE_WITH_LINK`). The CV folder is kept private. Drive upload failure now returns `status: "error"` (was silently recorded as success). Optional shared secret (`WEBHOOK_SECRET` script property ↔ `CAREERS_WEBHOOK_SECRET` Vercel env). New one-time helper `restrictExistingCvs()`. Setup notes updated (Vercel env, redeploy as **new version**). | PRIV-01 |
+| `app/api/careers/route.js` | Rewritten. **No file is written to `public/`** (or anywhere on the web server). CV cap **4 MB** (Vercel limit 4.5 MB), PDF/DOC/DOCX only, email format check, field length limits, honeypot. Returns an error (`502 delivery_failed`) when the webhook is missing or fails, instead of reporting success. Errors carry a `code` for localisation. Uses shared rate limiter. | PRIV-02, PRIV-03, UX (false success) |
+| `app/(en)/careers/page.js`, `app/ar/careers/page.js` | Client-side 4 MB check; every error shown in Arabic or English from a code table; honeypot field added. | D4, UX-11 |
+| `data/translations.js` | Upload hint: "max 4 MB" / "الحد الأقصى 4 ميجابايت". | D4 |
+| `public/uploads/` | Removed empty local folder (never committed, never served). | PRIV-02 |
+
+**Verified locally:** missing fields → 400; bad email → 400; no consent → 400; 4.1 MB file → 413 `file_too_large`; `.exe` → 400 `file_type`; webhook unreachable → 502 `delivery_failed` (no false success); honeypot → 200 without delivery; 6th request in 3 min → 429. A real submission was **not** sent, to keep test rows out of your Sheet — please send one test application after deploying.
+
+**Owner action (Google):** paste the updated script into the Apps Script editor → Deploy → Manage deployments → Edit → **New version** (same URL). Optionally run `restrictExistingCvs()` once (you are already restricting existing files manually).

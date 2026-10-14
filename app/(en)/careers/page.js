@@ -45,6 +45,20 @@ const itemVariants = {
   }
 };
 
+// Must match the server cap in app/api/careers/route.js (Vercel's request limit is 4.5 MB).
+const MAX_CV_BYTES = 4 * 1024 * 1024;
+
+const CAREERS_ERRORS = {
+  rate_limited: { en: 'Too many submissions. Please wait a few minutes and try again.', ar: 'تم إرسال عدد كبير من الطلبات. يرجى الانتظار بضع دقائق ثم المحاولة مرة أخرى.' },
+  missing_fields: { en: 'Please fill in your full name, email, phone and department.', ar: 'يرجى إدخال الاسم الكامل والبريد الإلكتروني ورقم الهاتف والقسم.' },
+  invalid_email: { en: 'Please enter a valid email address.', ar: 'يرجى إدخال بريد إلكتروني صحيح.' },
+  consent_required: { en: 'Please agree to the data usage consent.', ar: 'يرجى الموافقة على استخدام البيانات لأغراض التوظيف.' },
+  file_too_large: { en: 'This file is larger than the 4 MB limit. Please upload a smaller file.', ar: 'حجم الملف يتجاوز الحد الأقصى المسموح به (4 ميجابايت). يرجى رفع ملف أصغر.' },
+  file_type: { en: 'Only PDF, DOC or DOCX files are accepted.', ar: 'يُقبل فقط ملف بصيغة PDF أو DOC أو DOCX.' },
+  invalid_request: { en: 'Your application could not be sent. Please try again.', ar: 'تعذّر إرسال الطلب. يرجى المحاولة مرة أخرى.' },
+  delivery_failed: { en: 'Your application could not be delivered. Please try again, or email it to info@fbassets.com.', ar: 'تعذّر تسليم طلبك. يرجى المحاولة مرة أخرى أو إرساله إلى info@fbassets.com.' },
+};
+
 export default function CareersPage() {
   const { locale, t } = useLanguage();
   const isAr = locale === 'ar';
@@ -78,8 +92,9 @@ export default function CareersPage() {
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        setErrorMessage(isAr ? 'حجم الملف يتجاوز 10 ميجابايت' : 'File exceeds 10MB limit');
+      if (file.size > MAX_CV_BYTES) {
+        setErrorMessage(isAr ? 'حجم الملف يتجاوز الحد الأقصى المسموح به (4 ميجابايت). يرجى رفع ملف أصغر.' : 'This file is larger than the 4 MB limit. Please upload a smaller file.');
+        e.target.value = '';
         return;
       }
       setCvFile(file);
@@ -120,6 +135,7 @@ export default function CareersPage() {
     formData.append('startDate', form.startDate.value);
     formData.append('expectedSalary', form.expectedSalary.value);
     formData.append('consent', consent ? 'true' : 'false');
+    formData.append('_gotcha', form._gotcha?.value || '');
 
     if (cvFile) {
       formData.append('cvFile', cvFile);
@@ -140,11 +156,13 @@ export default function CareersPage() {
         setDepartment('');
         setConsent(false);
       } else {
-        throw new Error(data.error || (isAr ? 'حدث خطأ أثناء إرسال الطلب' : 'Submission failed.'));
+        const code = response.status === 413 ? 'file_too_large' : data.code;
+        setErrorMessage((CAREERS_ERRORS[code] || CAREERS_ERRORS.delivery_failed)[isAr ? 'ar' : 'en']);
+        setStatus('error');
       }
     } catch (err) {
       console.error(err);
-      setErrorMessage(err.message || (isAr ? 'تعذر إرسال الطلب. يرجى المحاولة لاحقاً.' : 'Could not submit. Please try again later.'));
+      setErrorMessage(CAREERS_ERRORS.delivery_failed[isAr ? 'ar' : 'en']);
       setStatus('error');
     }
   };
@@ -314,6 +332,8 @@ export default function CareersPage() {
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+                {/* Honeypot: hidden from people and assistive tech; bots that fill it are ignored */}
+                <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
                 
                 {/* Header title inside form */}
                 <div className="text-start space-y-1 border-b border-fb-teal/10 pb-4">

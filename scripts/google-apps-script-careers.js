@@ -15,9 +15,22 @@
  *    - Execute as: "Me" (حسابك)
  *    - Who has access: "Anyone" (أي شخص)  <-- إجباري لكي يستقبل الموقع الطلبات
  * 8. اضغط Deploy ووافق على الصلاحيات (Authorize access).
- * 9. انسخ رابط الـ Web URL الناتج وضعه في ملف .env.local في الموقع:
+ * 9. انسخ رابط الـ Web URL الناتج وضعه في متغيرات البيئة في Vercel:
  *    CAREERS_GOOGLE_SHEETS_WEBHOOK_URL="https://script.google.com/macros/s/..../exec"
+ *
+ * الخصوصية (Privacy):
+ * - ملفات السيرة الذاتية تُحفظ في Drive بصلاحية "مقيّد" (Restricted) فقط — لا يستطيع أحد فتحها
+ *   إلا صاحب الحساب ومن تتم مشاركتهم يدوياً. لا يتم أبداً استخدام "أي شخص لديه الرابط".
+ * - مهم: بعد تحديث هذا الكود يجب عمل Deploy -> Manage deployments -> Edit -> New version
+ *   حتى يعمل الكود الجديد على نفس الرابط.
+ * - لتقييد الملفات القديمة دفعة واحدة: شغّل الدالة restrictExistingCvs() مرة واحدة من المحرر.
+ *
+ * حماية اختيارية (Optional shared secret):
+ * - Project Settings -> Script Properties -> أضف WEBHOOK_SECRET بقيمة عشوائية طويلة،
+ *   وأضف نفس القيمة في Vercel باسم CAREERS_WEBHOOK_SECRET. عندها تُرفض أي طلبات لا تحمل السر.
  */
+
+var CV_FOLDER_NAME = "FB_Company_Careers_CVs";
 
 function doPost(e) {
   try {
@@ -29,6 +42,16 @@ function doPost(e) {
     }
 
     var data = JSON.parse(e.postData.contents);
+
+    // Optional shared secret (Script Property WEBHOOK_SECRET must match Vercel's CAREERS_WEBHOOK_SECRET)
+    var expectedSecret = PropertiesService.getScriptProperties().getProperty("WEBHOOK_SECRET");
+    if (expectedSecret && data.secret !== expectedSecret) {
+      return ContentService.createTextOutput(JSON.stringify({
+        status: "error",
+        message: "Unauthorized"
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheetName = "طلبات التوظيف - Applications";
     var sheet = ss.getSheetByName(sheetName);
@@ -70,20 +93,22 @@ function doPost(e) {
     var cvUrl = "لم يتم إرفاق ملف";
     if (data.cvFileBase64 && data.cvFileName) {
       try {
-        var folderName = "FB_Company_Careers_CVs";
-        var folders = DriveApp.getFoldersByName(folderName);
-        var folder = folders.hasNext() ? folders.next() : DriveApp.createFolder(folderName);
+        var folder = getCvFolder_();
 
         var decodedData = Utilities.base64Decode(data.cvFileBase64);
         var mimeType = data.cvFileMimeType || "application/pdf";
         var blob = Utilities.newBlob(decodedData, mimeType, (data.fullName ? data.fullName.replace(/\s+/g, '_') + '_' : '') + data.cvFileName);
         
         var driveFile = folder.createFile(blob);
-        // جعل الملف متاحاً لمن يملك الرابط
-        driveFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        // الملف خاص: مقيّد لصاحب الحساب فقط (لا مشاركة عبر الرابط)
+        driveFile.setSharing(DriveApp.Access.PRIVATE, DriveApp.Permission.NONE);
         cvUrl = driveFile.getUrl();
       } catch (driveError) {
-        cvUrl = "خطأ في رفع الملف: " + driveError.toString();
+        // Report failure so the website shows an error instead of a false success
+        return ContentService.createTextOutput(JSON.stringify({
+          status: "error",
+          message: "CV upload failed: " + driveError.toString()
+        })).setMimeType(ContentService.MimeType.JSON);
       }
     }
 
@@ -129,6 +154,30 @@ function doPost(e) {
       message: error.toString() 
     })).setMimeType(ContentService.MimeType.JSON);
   }
+}
+
+// مجلد السير الذاتية (يُنشأ خاصاً إن لم يكن موجوداً)
+function getCvFolder_() {
+  var folders = DriveApp.getFoldersByName(CV_FOLDER_NAME);
+  var folder = folders.hasNext() ? folders.next() : DriveApp.createFolder(CV_FOLDER_NAME);
+  folder.setSharing(DriveApp.Access.PRIVATE, DriveApp.Permission.NONE);
+  return folder;
+}
+
+// تشغيل مرة واحدة: يجعل كل الملفات الموجودة في مجلد السير الذاتية "مقيّدة"
+function restrictExistingCvs() {
+  var folder = getCvFolder_();
+  var files = folder.getFiles();
+  var count = 0;
+  while (files.hasNext()) {
+    var f = files.next();
+    if (f.getSharingAccess() !== DriveApp.Access.PRIVATE) {
+      f.setSharing(DriveApp.Access.PRIVATE, DriveApp.Permission.NONE);
+      count++;
+    }
+  }
+  Logger.log("Restricted files: " + count);
+  return count;
 }
 
 // دالة اختبار للتأكد من عمل الرابط
