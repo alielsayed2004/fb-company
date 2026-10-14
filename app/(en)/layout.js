@@ -6,7 +6,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Analytics from "@/components/Analytics";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { DataProvider } from "@/context/DataContext";
@@ -53,7 +52,6 @@ export default function RootLayout({ children }) {
         <DataProvider>
           <LanguageProvider>
             <SmoothScroll />
-            <CustomCursor />
             <Navbar />
             {/* Main layout container with padding-top for fixed navigation header */}
             <main className="flex-grow">

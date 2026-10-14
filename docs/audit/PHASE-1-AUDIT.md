@@ -25,13 +25,12 @@ Severity: **P0** = broken / legal / trust / security risk · **P1** = hurts conv
 | Accessibility | ✅ A11Y-01…04 (D1 colour applied), RESP-01…04 — Lighthouse Accessibility 100 on all tested pages |
 | Content | ✅ CNT-01…05 (terminology, data-driven case study and brand list, 404, README) · ✅ D2 Modern Standard Arabic · 🟡 D3 Asset Management wording **[PENDING D3 CONFIRMATION]** |
 | Architecture | ✅ BUG-01 · 🟡 BUG-02 `/projects` layout removed; EN and AR remain separate root layouts (language switch = full page load — acceptable, no change recommended) · ✅ BLD-01 (👤 locally: `rm -rf node_modules && npm ci` to repair the corrupted SWC binary) |
-| P2 polish | ⏸ UI-01 spacing/radius token normalisation · ✅ UI-02 · ✅ UI-03 RTL logical properties · ❓ UI-04 custom cursor: keep or remove? (now off for touch and reduced-motion users) |
+| P2 polish | ⏸ UI-01 spacing/radius token normalisation · ✅ UI-02 · ✅ UI-03 RTL logical properties · ✅ UI-04 custom cursor removed (owner decision) |
 
 **Open questions for you**
 1. **Brand count label:** 54 = brand outlets summed per location; **39 distinct brands** appear in the project data. Show "54 brand outlets at our locations" (current) or "39 brand partners"?
 2. **Arabic tagline:** hero says "من الفكرة إلى القيمة"; older metadata used "من الرؤية إلى القيمة". Which is official?
-3. **Custom cursor (UI-04):** keep or remove?
-4. **Mobile hero video:** to reach Lighthouse mobile ≥ 90, show only the poster image (no video) on phones? (recommended) — or keep the video.
+3. **Mobile hero video:** to reach Lighthouse mobile ≥ 90, show only the poster image (no video) on phones? (recommended) — or keep the video.
 
 **Lighthouse after Phase 2** (local production build; mobile = simulated Moto G Power / slow 4G). Before → after.
 

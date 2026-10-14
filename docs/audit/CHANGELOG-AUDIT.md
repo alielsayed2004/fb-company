@@ -288,3 +288,14 @@ Best Practices: 96 → **100** on every page tested. Real Chrome with mobile thr
 | `docs/audit/PHASE-1-AUDIT.md` | Phase 2 status per issue, open questions, before/after Lighthouse. |
 
 **Final local verification:** 34 pages (17 × EN/AR) → 200; 387 internal links/assets → 200; no banned wording in visible text; 0 console errors on all 34 pages; all JSON-LD parses; Lighthouse Accessibility, Best Practices and SEO **100** on all 10 tested pages; Performance desktop 98–100, mobile 77–83.
+
+---
+
+## Step 11 — Custom cursor removed (owner decision UI-04)
+
+| File | Change |
+|---|---|
+| `components/CustomCursor.js` | **Deleted** (owner decision). |
+| `app/(en)/layout.js`, `app/ar/layout.js` | Cursor no longer mounted. |
+
+Verified: pages 200, no console errors; server HTML now contains **zero** `opacity:0` elements (the cursor dot was the last one).
