@@ -11,7 +11,7 @@ export default function CompanyProfile() {
     <section id="company-profile" className="py-16 bg-fb-bg-light text-fb-teal border-t border-fb-teal/5 relative overflow-hidden scroll-mt-20">
       <div className="max-w-7xl mx-auto px-6 space-y-12 relative z-10">
         <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <span className="eyebrow text-fb-green font-bold block text-xs tracking-wider">{t('home.companyProfile.eyebrow')}</span>
+          <span className="eyebrow block">{t('home.companyProfile.eyebrow')}</span>
           <h2 className="text-fb-teal font-extrabold text-2xl sm:text-3xl md:text-4xl tracking-tight leading-snug">{t('home.companyProfile.title')}</h2>
           <p className="text-slate-700 text-xs sm:text-sm md:text-base leading-relaxed max-w-xl mx-auto font-normal">
             {t('home.companyProfile.desc')}
@@ -35,11 +35,11 @@ export default function CompanyProfile() {
                 <FileText size={42} />
               </div>
               <div className="space-y-1">
-                <span className="text-xs font-mono font-bold text-fb-green uppercase tracking-widest block">F.B COMPANY</span>
+                <span className="text-xs font-mono font-bold text-fb-green-text uppercase tracking-widest block">F.B COMPANY</span>
                 <h3 className="text-xl font-extrabold text-fb-teal">Corporate Profile 2026</h3>
-                <p className="text-xs text-fb-black/50">Executive Sourcing & Asset Management</p>
+                <p className="text-xs text-fb-black/70">Executive Sourcing & Asset Management</p>
               </div>
-              <div className="pt-2 border-t border-fb-teal/5 w-full flex items-center justify-center space-x-2 rtl:space-x-reverse text-fb-green font-semibold text-xs">
+              <div className="pt-2 border-t border-fb-teal/5 w-full flex items-center justify-center space-x-2 rtl:space-x-reverse text-fb-green-text font-semibold text-xs">
                 <ExternalLink size={14} />
                 <span>{locale === 'ar' ? 'فتح في تاب مستقل' : 'Open in New Tab'}</span>
               </div>
@@ -49,7 +49,7 @@ export default function CompanyProfile() {
           {/* Document Specs & Actions (Right Column) */}
           <div className="lg:col-span-7 space-y-8">
             <div className="space-y-3">
-              <span className="text-xs font-bold text-fb-green uppercase tracking-wider block">{t('home.companyProfile.specsTitle')}</span>
+              <span className="text-xs font-bold text-fb-green-text uppercase tracking-wider block">{t('home.companyProfile.specsTitle')}</span>
               <ul className="space-y-3.5">
                 {[
                   t('home.companyProfile.spec1'),

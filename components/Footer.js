@@ -51,11 +51,11 @@ export default function Footer() {
               className="h-11 sm:h-14 md:h-16 w-auto object-contain"
             />
           </div>
-          <p className="text-slate-700 max-w-md text-xs sm:text-sm leading-relaxed text-start">
+          <p className="text-slate-700 max-w-md text-sm leading-relaxed text-start">
             {t('footer.desc')}
           </p>
           <div className="pt-0.5 sm:pt-1 text-start">
-            <span className="text-fb-green font-bold text-[11px] sm:text-xs tracking-widest uppercase block mb-0.5 sm:mb-1">
+            <span className="text-fb-green-text font-bold text-xs tracking-widest uppercase block mb-0.5 sm:mb-1">
               {locale === 'ar' ? 'الشعار المؤسسي' : 'Tagline'}
             </span>
             <p className="font-extrabold text-fb-teal text-sm sm:text-base">{t('footer.tagline')}</p>
@@ -66,7 +66,7 @@ export default function Footer() {
                 href="https://www.facebook.com/profile.php?id=61563734981427" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="p-2 sm:p-2.5 bg-fb-teal/5 text-fb-teal rounded-full hover:bg-fb-green hover:text-fb-teal transition-all duration-300 shadow-sm" 
+                className="inline-flex items-center justify-center w-11 h-11 bg-fb-teal/5 text-fb-teal rounded-full hover:bg-fb-green hover:text-fb-teal transition-colors shadow-sm" 
                 aria-label="Facebook"
               >
                 <svg className="w-[14px] h-[14px] sm:w-[15px] sm:h-[15px] fill-current" viewBox="0 0 24 24">
@@ -77,7 +77,7 @@ export default function Footer() {
                 href="https://x.com/FB_Company1" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="p-2 sm:p-2.5 bg-fb-teal/5 text-fb-teal rounded-full hover:bg-fb-green hover:text-fb-teal transition-all duration-300 shadow-sm" 
+                className="inline-flex items-center justify-center w-11 h-11 bg-fb-teal/5 text-fb-teal rounded-full hover:bg-fb-green hover:text-fb-teal transition-colors shadow-sm" 
                 aria-label="X (Twitter)"
               >
                 <svg className="w-[14px] h-[14px] sm:w-[15px] sm:h-[15px] fill-current" viewBox="0 0 24 24">
@@ -88,7 +88,7 @@ export default function Footer() {
                 href="https://www.instagram.com/fb_company1/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="p-2 sm:p-2.5 bg-fb-teal/5 text-fb-teal rounded-full hover:bg-fb-green hover:text-fb-teal transition-all duration-300 shadow-sm" 
+                className="inline-flex items-center justify-center w-11 h-11 bg-fb-teal/5 text-fb-teal rounded-full hover:bg-fb-green hover:text-fb-teal transition-colors shadow-sm" 
                 aria-label="Instagram"
               >
                 <svg className="w-[14px] h-[14px] sm:w-[15px] sm:h-[15px] fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
@@ -101,7 +101,7 @@ export default function Footer() {
                 href="https://www.linkedin.com/company/f-b-company1/about/?viewAsMember=true" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="p-2 sm:p-2.5 bg-fb-teal/5 text-fb-teal rounded-full hover:bg-fb-green hover:text-fb-teal transition-all duration-300 shadow-sm" 
+                className="inline-flex items-center justify-center w-11 h-11 bg-fb-teal/5 text-fb-teal rounded-full hover:bg-fb-green hover:text-fb-teal transition-colors shadow-sm" 
                 aria-label="LinkedIn"
               >
                 <svg className="w-[14px] h-[14px] sm:w-[15px] sm:h-[15px] fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
@@ -114,7 +114,7 @@ export default function Footer() {
                 href="https://www.tiktok.com/@fbcompany1" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="p-2 sm:p-2.5 bg-fb-teal/5 text-fb-teal rounded-full hover:bg-fb-green hover:text-fb-teal transition-all duration-300 shadow-sm" 
+                className="inline-flex items-center justify-center w-11 h-11 bg-fb-teal/5 text-fb-teal rounded-full hover:bg-fb-green hover:text-fb-teal transition-colors shadow-sm" 
                 aria-label="TikTok"
               >
                 <svg className="w-[14px] h-[14px] sm:w-[15px] sm:h-[15px] fill-current" viewBox="0 0 24 24">
@@ -127,11 +127,11 @@ export default function Footer() {
 
         {/* Directory Column */}
         <div className="space-y-3 sm:space-y-4 text-start">
-          <h4 className="text-fb-teal font-extrabold text-xs sm:text-sm uppercase tracking-wider">{t('footer.navTitle')}</h4>
-          <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
+          <h2 className="text-fb-teal font-extrabold text-xs sm:text-sm uppercase tracking-wider">{t('footer.navTitle')}</h2>
+          <ul className="space-y-1 text-sm">
             {navLinks.map((link) => (
               <li key={link.nameKey}>
-                <Link href={getLocalizedHref(link.href)} className="text-slate-700 hover:text-fb-green font-medium transition-colors">
+                <Link href={getLocalizedHref(link.href)} className="inline-flex items-center min-h-[44px] text-slate-700 hover:text-fb-teal hover:underline font-medium transition-colors">
                   {t(link.nameKey)}
                 </Link>
               </li>
@@ -141,7 +141,7 @@ export default function Footer() {
 
         {/* Contact Info Column */}
         <div className="space-y-3 sm:space-y-4 text-start">
-          <h4 className="text-fb-teal font-extrabold text-xs sm:text-sm uppercase tracking-wider">{t('footer.hq')}</h4>
+          <h2 className="text-fb-teal font-extrabold text-xs sm:text-sm uppercase tracking-wider">{t('footer.hq')}</h2>
           <ul className="space-y-3 sm:space-y-4 text-xs sm:text-sm text-slate-700 text-start">
             <li className="text-start">
               <a 
@@ -154,7 +154,7 @@ export default function Footer() {
                 <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center shrink-0 text-fb-green group-hover:bg-fb-green group-hover:text-fb-teal transition-colors mt-0.5 shadow-xs">
                   <MapPin size={15} strokeWidth={1.5} className="sm:w-[17px] sm:h-[17px]" />
                 </div>
-                <span className="leading-relaxed text-start pt-0.5 text-slate-700 group-hover:text-fb-green font-medium transition-colors min-w-0 break-words">
+                <span className="leading-relaxed text-start pt-0.5 text-slate-700 group-hover:text-fb-green-text font-medium transition-colors min-w-0 break-words">
                   {locale === 'ar' ? (contactInfo?.address_ar || contactInfo?.address || t('footer.address')) : (contactInfo?.address || t('footer.address'))}
                 </span>
               </a>
@@ -163,7 +163,7 @@ export default function Footer() {
               <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center shrink-0 text-fb-green">
                 <Mail size={15} strokeWidth={1.5} className="sm:w-[17px] sm:h-[17px]" />
               </div>
-              <a href={`mailto:${contactInfo?.email || 'info@fbassets.com'}`} className="hover:text-fb-green font-medium text-slate-700 transition-colors text-start break-all">
+              <a href={`mailto:${contactInfo?.email || 'info@fbassets.com'}`} className="hover:text-fb-green-text font-medium text-slate-700 transition-colors text-start break-all">
                 {contactInfo?.email || 'info@fbassets.com'}
               </a>
             </li>
@@ -174,7 +174,7 @@ export default function Footer() {
               <a 
                 href={`tel:${(contactInfo?.phone || '+201117751967').replace(/\s+/g, '')}`} 
                 dir="ltr"
-                className="hover:text-fb-green font-mono font-bold text-slate-800 transition-colors inline-block"
+                className="hover:text-fb-green-text font-mono font-bold text-slate-800 transition-colors inline-block"
               >
                 {contactInfo?.phone || '+20 111 775 1967'}
               </a>

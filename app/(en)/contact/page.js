@@ -119,7 +119,7 @@ function ContactFormInner() {
         <div className="bg-fb-green/10 border border-fb-green/30 text-fb-teal rounded-xl p-6 flex items-start space-x-4 rtl:space-x-reverse">
           <CheckCircle2 className="text-fb-green shrink-0 mt-0.5" size={24} />
           <div className="space-y-1">
-            <h4 className="font-bold text-fb-teal">{locale === 'ar' ? 'تم الإرسال بنجاح' : 'Submission Successful'}</h4>
+            <h3 className="font-bold text-fb-teal">{locale === 'ar' ? 'تم الإرسال بنجاح' : 'Submission Successful'}</h3>
             <p className="text-sm text-fb-teal/90">{t('contact.form.success')}</p>
           </div>
         </div>
@@ -137,7 +137,7 @@ function ContactFormInner() {
                 name="name"
                 required
                 placeholder={locale === 'ar' ? 'الاسم الكامل' : 'Your Name'}
-                className="w-full bg-fb-bg-light/90 border border-fb-teal/15 rounded-xl px-4 py-3.5 text-sm text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all shadow-xs placeholder:text-fb-teal/40 font-medium"
+                className="w-full bg-fb-bg-light/90 border border-fb-teal/15 rounded-xl px-4 py-3.5 text-base text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all shadow-xs placeholder:text-fb-teal/70 font-medium"
               />
             </div>
             <div className="space-y-2">
@@ -148,7 +148,7 @@ function ContactFormInner() {
                 name="email"
                 required
                 placeholder="name@company.com"
-                className="w-full bg-fb-bg-light/90 border border-fb-teal/15 rounded-xl px-4 py-3.5 text-sm text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all shadow-xs placeholder:text-fb-teal/40 font-medium"
+                className="w-full bg-fb-bg-light/90 border border-fb-teal/15 rounded-xl px-4 py-3.5 text-base text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all shadow-xs placeholder:text-fb-teal/70 font-medium"
               />
             </div>
           </div>
@@ -162,7 +162,7 @@ function ContactFormInner() {
                 name="phone"
                 required
                 placeholder="e.g. +20 123 456 7890"
-                className="w-full bg-fb-bg-light/90 border border-fb-teal/15 rounded-xl px-4 py-3.5 text-sm text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all shadow-xs placeholder:text-fb-teal/40 font-medium"
+                className="w-full bg-fb-bg-light/90 border border-fb-teal/15 rounded-xl px-4 py-3.5 text-base text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all shadow-xs placeholder:text-fb-teal/70 font-medium"
               />
             </div>
             <div className="space-y-2">
@@ -189,7 +189,7 @@ function ContactFormInner() {
               rows="5"
               required
               placeholder={locale === 'ar' ? 'حدد تفاصيل المشروع، أو متطلباتك العامة...' : 'Specify project details, brands, or general requirements...'}
-              className="w-full bg-fb-bg-light/90 border border-fb-teal/15 rounded-xl px-4 py-3.5 text-sm text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all shadow-xs placeholder:text-fb-teal/40 font-medium"
+              className="w-full bg-fb-bg-light/90 border border-fb-teal/15 rounded-xl px-4 py-3.5 text-base text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all shadow-xs placeholder:text-fb-teal/70 font-medium"
             ></textarea>
           </div>
 
@@ -307,7 +307,7 @@ export default function Contact() {
                   <MapPin className="shrink-0" size={18} strokeWidth={1.5} />
                 </div>
                 <div className="space-y-0.5 text-start">
-                  <h4 className="font-bold text-fb-teal text-sm uppercase tracking-wider">{t('contact.info.hq')}</h4>
+                  <h3 className="font-bold text-fb-teal text-sm uppercase tracking-wider">{t('contact.info.hq')}</h3>
                   <p className="text-sm text-slate-700 group-hover:text-fb-green transition-colors font-medium">{locale === 'ar' ? (contactInfo?.address_ar || contactInfo?.address || t('footer.address')) : (contactInfo?.address || t('footer.address'))}</p>
                 </div>
               </a>
@@ -317,7 +317,7 @@ export default function Contact() {
                   <Mail className="text-fb-green shrink-0" size={18} strokeWidth={1.5} />
                 </div>
                 <div className="space-y-0.5 text-start">
-                  <h4 className="font-bold text-fb-teal text-sm uppercase tracking-wider">{t('contact.info.email')}</h4>
+                  <h3 className="font-bold text-fb-teal text-sm uppercase tracking-wider">{t('contact.info.email')}</h3>
                   <a href={`mailto:${contactInfo?.email || 'info@fbassets.com'}`} className="text-sm text-slate-700 hover:text-fb-green transition-colors block font-medium">
                     {contactInfo?.email || 'info@fbassets.com'}
                   </a>
@@ -329,7 +329,7 @@ export default function Contact() {
                   <Phone className="text-fb-green shrink-0" size={18} strokeWidth={1.5} />
                 </div>
                 <div className="space-y-0.5 text-start">
-                  <h4 className="font-bold text-fb-teal text-sm uppercase tracking-wider">{t('contact.info.phone')}</h4>
+                  <h3 className="font-bold text-fb-teal text-sm uppercase tracking-wider">{t('contact.info.phone')}</h3>
                   <a 
                     href={`tel:${(contactInfo?.phone || '+201117751967').replace(/\s+/g, '')}`} 
                     dir="ltr" 

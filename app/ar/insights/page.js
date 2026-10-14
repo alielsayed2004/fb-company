@@ -25,7 +25,7 @@ export default function InsightsPageAr() {
           {posts.map((post) => (
             <Link key={post.slug} href={`/ar/insights/${post.slug}`} className="group bg-white rounded-3xl border border-fb-teal/10 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col">
               <div className="p-6 sm:p-8 flex-1 flex flex-col">
-                <div className="text-xs font-bold text-fb-green mb-3 uppercase tracking-wider">{post.meta.date}</div>
+                <div className="text-xs font-bold text-fb-green-text mb-3 uppercase tracking-wider">{post.meta.date}</div>
                 <h2 className="text-xl font-bold text-fb-teal mb-3 group-hover:text-fb-green transition-colors">{post.meta.title}</h2>
                 <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-1">{post.meta.description}</p>
                 <div className="inline-flex items-center gap-2 text-fb-teal font-semibold text-sm group-hover:text-fb-green transition-colors mt-auto">

@@ -241,7 +241,7 @@ export default function About() {
                 </div>
 
                 <div className="space-y-2 sm:space-y-3 w-full relative z-10">
-                  <h4 className="font-extrabold text-fb-teal text-base sm:text-lg md:text-xl tracking-tight leading-snug">{val.title}</h4>
+                  <h3 className="font-extrabold text-fb-teal text-base sm:text-lg md:text-xl tracking-tight leading-snug">{val.title}</h3>
                   <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">{val.desc}</p>
                 </div>
               </motion.div>
@@ -279,7 +279,7 @@ export default function About() {
                 <div className={`absolute ${locale === 'ar' ? '-right-[35px] md:-right-[51px]' : '-left-[35px] md:-left-[51px]'} top-1.5 w-4 h-4 rounded-full bg-fb-white border-2 border-fb-teal group-hover:border-fb-green group-hover:scale-125 transition-all duration-300 shadow-sm`} />
                 
                 <span className="text-3xl font-extrabold text-fb-green font-mono block tracking-tight group-hover:translate-x-1 transition-transform">{milestone.year}</span>
-                <h4 className="text-fb-teal font-bold text-lg md:text-xl tracking-tight leading-snug">{milestone.title}</h4>
+                <h3 className="text-fb-teal font-bold text-lg md:text-xl tracking-tight leading-snug">{milestone.title}</h3>
                 <p className="text-slate-700 text-sm md:text-base leading-relaxed max-w-2xl">{milestone.desc}</p>
               </motion.div>
             ))}

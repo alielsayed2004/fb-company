@@ -126,8 +126,9 @@ export default function PortfolioPage() {
       </section>
 
       {/* 3. MAIN PROJECT CARDS GRID */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6" aria-labelledby="locations-heading">
         <div className="max-w-7xl mx-auto">
+          <h2 id="locations-heading" className="sr-only">{isAr ? 'مواقعنا' : 'Our locations'}</h2>
           
           {(!projects || projects.length === 0) ? (
             <div className="bg-white rounded-3xl p-12 text-center border border-fb-teal/15 space-y-4 max-w-lg mx-auto shadow-sm">
@@ -177,7 +178,7 @@ export default function PortfolioPage() {
 
                         {/* Quick City & Road Overlay */}
                         <div className="absolute bottom-3 left-3.5 right-3.5 z-10 text-white space-y-0.5">
-                          <div className="inline-flex items-center gap-1 text-[11px] font-bold text-fb-green drop-shadow-xs">
+                          <div className="inline-flex items-center gap-1 text-xs font-bold text-fb-green drop-shadow-xs">
                             <MapPin size={12} className="shrink-0" />
                             <span>{city}</span>
                           </div>

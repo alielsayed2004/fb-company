@@ -66,6 +66,8 @@
   --color-fb-teal-light: #004d4f;
   --color-fb-green: #53B379;
   --color-fb-green-hover: #45a068;
+  /* D1: accessible shade of the brand green for SMALL text on light backgrounds only (5.17:1 on #E6EEF1). */
+  --color-fb-green-text: #306E49;
   --color-fb-bg-light: #E6EEF1;
   --color-fb-black: #101616;
   --color-fb-white: #FFFFFF;
@@ -119,13 +121,16 @@ button, input, select, textarea {
   background: var(--fb-green-accent);
 }
 
-/* Eyebrow utility */
-.eyebrow {
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: var(--fb-green-accent);
+/* Eyebrow: small label. Default colour is the accessible text green (light backgrounds);
+   on teal sections add `text-fb-green` (brand green passes 4.79:1 on teal). */
+@layer components {
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-fb-green-text);
+  }
 }
 
 /* Heading Sizes with Responsive Mobile Balancing */
@@ -199,9 +204,11 @@ button, input, select, textarea {
   letter-spacing: normal;
 }
 
-[dir="rtl"] .eyebrow {
-  letter-spacing: normal;
-  font-weight: 700;
+@layer components {
+  [dir="rtl"] .eyebrow {
+    letter-spacing: normal;
+    font-weight: 700;
+  }
 }
 
 /* Alternate Marquee Animations */

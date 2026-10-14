@@ -70,14 +70,19 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: locale === 'ar' ? -80 : 80 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
+            role="dialog"
+            aria-modal="true"
+            aria-label={getField(project, 'name')}
             className="w-screen max-w-2xl bg-fb-bg-light shadow-2xl flex flex-col h-full"
           >
             {/* Drawer Header & Actions */}
             <div className={`absolute top-4 ${locale === 'ar' ? 'left-4' : 'right-4'} z-30`}>
               <button
+                type="button"
+                autoFocus
                 onClick={onClose}
-                className="bg-fb-black/40 hover:bg-fb-black/70 text-fb-white p-2.5 rounded-full backdrop-blur-md transition-colors"
-                aria-label="Close panel"
+                className="inline-flex items-center justify-center w-11 h-11 bg-fb-black/40 hover:bg-fb-black/70 text-fb-white rounded-full backdrop-blur-md transition-colors"
+                aria-label={locale === 'ar' ? 'إغلاق' : 'Close'}
               >
                 <X size={20} />
               </button>
@@ -147,7 +152,7 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                 
                 {/* Overview */}
                 <div className="space-y-3">
-                  <h4 className="text-fb-teal font-bold uppercase tracking-wider text-xs">{t('projectDetails.overview')}</h4>
+                  <h3 className="text-fb-teal font-bold uppercase tracking-wider text-xs">{t('projectDetails.overview')}</h3>
                   <p className="text-fb-black/85 text-sm md:text-base leading-relaxed">
                     {getField(project, 'overview')}
                   </p>
@@ -155,21 +160,21 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
 
                 {/* Key Metrics Grid */}
                 <div className="space-y-3">
-                  <h4 className="text-fb-teal font-bold uppercase tracking-wider text-xs">{t('projectDetails.metrics')}</h4>
+                  <h3 className="text-fb-teal font-bold uppercase tracking-wider text-xs">{t('projectDetails.metrics')}</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     <div className="bg-fb-bg-light/90 border border-fb-teal/15 p-4 rounded-2xl shadow-xs hover:border-fb-green transition-all">
                       <Maximize2 size={18} className="text-fb-green mb-1.5" />
-                      <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{t('projectDetails.landArea')}</span>
+                      <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{t('projectDetails.landArea')}</span>
                       <span className="text-sm font-extrabold text-fb-teal font-mono">{project.metrics.landArea}</span>
                     </div>
                     <div className="bg-fb-bg-light/90 border border-fb-teal/15 p-4 rounded-2xl shadow-xs hover:border-fb-green transition-all">
                       <Users size={18} className="text-fb-green mb-1.5" />
-                      <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{t('projectDetails.brands')}</span>
+                      <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{t('projectDetails.brands')}</span>
                       <span className="text-sm font-extrabold text-fb-teal font-mono">{project.metrics.numBrands} {locale === 'ar' ? 'علامات' : 'Brands'}</span>
                     </div>
                     <div className="bg-fb-bg-light/90 border border-fb-teal/15 p-4 rounded-2xl shadow-xs hover:border-fb-green transition-all">
                       <Calendar size={18} className="text-fb-green mb-1.5" />
-                      <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{t('projectDetails.yearBuilt')}</span>
+                      <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{t('projectDetails.yearBuilt')}</span>
                       <span className="text-sm font-extrabold text-fb-teal font-mono">{project.metrics.openingYear}</span>
                     </div>
                   </div>
@@ -177,7 +182,7 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
 
                 {/* Horizontal Project Gallery */}
                 <div className="space-y-3">
-                  <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">{t('projectDetails.visualDoc')}</h4>
+                  <h3 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">{t('projectDetails.visualDoc')}</h3>
                   <div className={`flex space-x-4 ${locale === 'ar' ? 'space-x-reverse' : ''} overflow-x-auto pb-3 snap-x scrollbar-thin scrollbar-thumb-fb-teal`}>
                     {Array.isArray(project.gallery) && project.gallery.length > 0 ? (
                       project.gallery.map((imgSrc, index) => (
@@ -216,20 +221,20 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
 
                 {/* Location Snapshot */}
                 <div className="space-y-3 text-start">
-                  <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">{t('projectDetails.locIntel')}</h4>
+                  <h3 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">{t('projectDetails.locIntel')}</h3>
                   <div className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-3xl p-5 shadow-xs space-y-4 text-start">
                     <div className="flex items-start gap-3.5 text-start">
                       <div className="w-9 h-9 rounded-xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center shrink-0 text-fb-green mt-0.5">
                         <MapPin size={18} strokeWidth={1.5} />
                       </div>
                       <div className="flex-1 text-start space-y-0.5">
-                        <span className="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">{t('projectDetails.trafficAxis')}</span>
+                        <span className="text-xs text-slate-600 block font-bold uppercase tracking-wider">{t('projectDetails.trafficAxis')}</span>
                         <p className="text-sm font-semibold text-fb-teal">{getField(project.mapInfo, 'road') || (locale === 'ar' ? 'الممر الرئيسي' : 'Main Corridor')}</p>
                       </div>
                     </div>
                     <div className="grid grid-cols-1 gap-4 border-t border-fb-teal/10 pt-4 text-start">
                       <div className="text-start space-y-0.5">
-                        <span className="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">{t('projectDetails.sourcingPeak')}</span>
+                        <span className="text-xs text-slate-600 block font-bold uppercase tracking-wider">{t('projectDetails.sourcingPeak')}</span>
                         <p className="text-xs font-semibold text-fb-teal">{getField(project.mapInfo, 'peakHours') || '—'}</p>
                       </div>
                     </div>
@@ -239,7 +244,7 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                 {/* Consultation Callout */}
                 <div className="bg-fb-teal text-fb-white rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-lg">
                   <div className="space-y-1">
-                    <h5 className="font-bold text-fb-white text-sm md:text-base">{t('projectDetails.similarOpp')}</h5>
+                    <h3 className="font-bold text-fb-white text-sm md:text-base">{t('projectDetails.similarOpp')}</h3>
                     <p className="text-xs text-fb-bg-light/75">{t('projectDetails.similarOppDesc')}</p>
                   </div>
                   <div className="flex items-center gap-2.5 shrink-0 flex-wrap">

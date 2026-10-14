@@ -139,7 +139,7 @@ export default function AssetManagement() {
                       {step.icon}
                     </div>
                   </div>
-                  <h4 className="text-fb-teal font-extrabold text-base sm:text-lg">{step.title}</h4>
+                  <h3 className="text-fb-teal font-extrabold text-base sm:text-lg">{step.title}</h3>
                   <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
@@ -181,7 +181,7 @@ export default function AssetManagement() {
                   <div className="p-2.5 sm:p-3.5 bg-fb-teal/5 inline-block rounded-2xl border border-fb-teal/10 text-fb-green group-hover:bg-fb-green/10 group-hover:border-fb-green/30 transition-colors">
                     {service.icon}
                   </div>
-                  <h4 className="text-fb-teal font-extrabold text-lg sm:text-xl">{service.title}</h4>
+                  <h3 className="text-fb-teal font-extrabold text-lg sm:text-xl">{service.title}</h3>
                   <p className="text-slate-700 text-xs sm:text-sm md:text-base leading-relaxed">{service.desc}</p>
                 </div>
               </motion.div>

@@ -227,7 +227,7 @@ export default function CareersPage() {
             if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
           }}
         >
-          <span className="text-[11px] uppercase tracking-widest font-semibold">{isAr ? 'نموذج التقديم' : 'Application Form'}</span>
+          <span className="text-xs uppercase tracking-widest font-semibold">{isAr ? 'نموذج التقديم' : 'Application Form'}</span>
           <div className="w-5 h-9 rounded-full border-2 border-white/30 flex items-start justify-center p-1">
             <motion.div 
               animate={{ y: [0, 12, 0] }}
@@ -251,12 +251,12 @@ export default function CareersPage() {
           >
             <div className="bg-white/70 backdrop-blur-md border border-fb-teal/10 rounded-2xl p-6 sm:p-7 shadow-xs space-y-5">
               <div className="space-y-1.5 text-start">
-                <span className="text-[11px] font-bold text-fb-green uppercase tracking-widest block">
+                <span className="text-xs font-bold text-fb-green-text uppercase tracking-widest block">
                   {isAr ? 'بيئة عمل مؤسسية' : 'Culture & Growth'}
                 </span>
-                <h3 className="font-extrabold text-fb-teal text-lg sm:text-xl leading-snug">
+                <h2 className="font-extrabold text-fb-teal text-lg sm:text-xl leading-snug">
                   {t('careers.benefitsTitle')}
-                </h3>
+                </h2>
               </div>
 
               <div className="space-y-4 pt-1">
@@ -266,8 +266,8 @@ export default function CareersPage() {
                       {idx === 0 ? <Building2 size={16} /> : idx === 1 ? <Award size={16} /> : <Sparkles size={16} />}
                     </div>
                     <div className="space-y-0.5">
-                      <h4 className="text-xs sm:text-sm font-bold text-fb-teal">{b.title}</h4>
-                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">{b.desc}</p>
+                      <h3 className="text-xs sm:text-sm font-bold text-fb-teal">{b.title}</h3>
+                      <p className="text-xs sm:text-xs text-slate-600 leading-relaxed">{b.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -308,7 +308,7 @@ export default function CareersPage() {
                   <CheckCircle2 size={36} />
                 </div>
                 <div className="space-y-2 max-w-md mx-auto">
-                  <h3 className="text-xl sm:text-2xl font-bold text-fb-teal">{t('careers.successTitle')}</h3>
+                  <h2 className="text-xl sm:text-2xl font-bold text-fb-teal">{t('careers.successTitle')}</h2>
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{t('careers.successDesc')}</p>
                 </div>
                 <div className="pt-4">
@@ -332,7 +332,7 @@ export default function CareersPage() {
                     <Briefcase size={20} className="text-fb-green shrink-0" />
                     <span>{t('careers.formTitle')}</span>
                   </h2>
-                  <p className="text-xs text-slate-500">{t('careers.formSubtitle')}</p>
+                  <p className="text-xs text-slate-600">{t('careers.formSubtitle')}</p>
                 </div>
 
                 {/* ERROR ALERT */}
@@ -373,7 +373,7 @@ export default function CareersPage() {
                           name="fullName"
                           required
                           placeholder={t('careers.fullNamePlaceholder')}
-                          className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all placeholder:text-slate-400 font-medium"
+                          className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-base sm:text-base text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all placeholder:text-slate-400 font-medium"
                         />
                       </div>
                     </div>
@@ -390,7 +390,7 @@ export default function CareersPage() {
                         name="email"
                         required
                         placeholder={t('careers.emailPlaceholder')}
-                        className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all placeholder:text-slate-400 font-medium"
+                        className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-base sm:text-base text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all placeholder:text-slate-400 font-medium"
                       />
                     </div>
 
@@ -406,7 +406,7 @@ export default function CareersPage() {
                         name="phone"
                         required
                         placeholder={t('careers.phonePlaceholder')}
-                        className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all placeholder:text-slate-400 font-medium"
+                        className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-base sm:text-base text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all placeholder:text-slate-400 font-medium"
                       />
                     </div>
                   </div>
@@ -461,7 +461,7 @@ export default function CareersPage() {
                         id="experience"
                         name="experience"
                         placeholder={t('careers.experiencePlaceholder')}
-                        className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all placeholder:text-slate-400 font-medium"
+                        className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-base sm:text-base text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all placeholder:text-slate-400 font-medium"
                       />
                     </div>
 
@@ -474,7 +474,7 @@ export default function CareersPage() {
                         type="date"
                         id="startDate"
                         name="startDate"
-                        className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all font-medium cursor-pointer"
+                        className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-base sm:text-base text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all font-medium cursor-pointer"
                       />
                     </div>
 
@@ -488,7 +488,7 @@ export default function CareersPage() {
                         id="expectedSalary"
                         name="expectedSalary"
                         placeholder={t('careers.expectedSalaryPlaceholder')}
-                        className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all placeholder:text-slate-400 font-medium"
+                        className="w-full bg-fb-bg-light/80 border border-fb-teal/15 rounded-xl px-3.5 py-2.5 text-base sm:text-base text-fb-teal focus:outline-none focus:border-fb-green focus:ring-1 focus:ring-fb-green/30 transition-all placeholder:text-slate-400 font-medium"
                       />
                     </div>
                   </div>
@@ -514,38 +514,41 @@ export default function CareersPage() {
                       ref={fileInputRef}
                       onChange={handleFileChange}
                       accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                      className="hidden" 
+                      className="sr-only" 
                       id="cvFileInput"
+                      aria-label={t('careers.uploadCv')}
+                      tabIndex={-1}
                     />
 
                     {!cvFile ? (
-                      <div 
+                      <button
+                        type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="border-2 border-dashed border-fb-teal/20 hover:border-fb-green rounded-2xl p-5 text-center cursor-pointer transition-all bg-fb-bg-light/40 hover:bg-fb-bg-light/90 group"
+                        className="w-full border-2 border-dashed border-fb-teal/20 hover:border-fb-green rounded-2xl p-5 text-center cursor-pointer transition-all bg-fb-bg-light/40 hover:bg-fb-bg-light/90 group"
                       >
-                        <div className="w-10 h-10 rounded-full bg-fb-teal/5 text-fb-teal group-hover:text-fb-green group-hover:bg-fb-green/10 transition-colors mx-auto flex items-center justify-center mb-2">
+                        <span className="flex w-10 h-10 rounded-full bg-fb-teal/5 text-fb-teal group-hover:text-fb-green group-hover:bg-fb-green/10 transition-colors mx-auto flex items-center justify-center mb-2">
                           <UploadCloud size={20} />
-                        </div>
-                        <p className="text-xs sm:text-sm font-bold text-fb-teal group-hover:text-fb-green transition-colors">
+                        </span>
+                        <span className="block text-xs sm:text-sm font-bold text-fb-teal group-hover:text-fb-green transition-colors">
                           {t('careers.chooseFile')}
-                        </p>
-                        <p className="text-[11px] text-slate-500 mt-0.5">
+                        </span>
+                        <span className="block text-xs text-slate-600 mt-0.5">
                           {t('careers.uploadHint')}
-                        </p>
-                      </div>
+                        </span>
+                      </button>
                     ) : (
                       <div className="flex items-center justify-between p-3.5 rounded-xl bg-fb-green/10 border border-fb-green/30 text-start">
                         <div className="flex items-center gap-2.5 min-w-0">
                           <FileCheck size={20} className="text-fb-green shrink-0" />
                           <div className="min-w-0">
                             <p className="text-xs font-bold text-fb-teal truncate">{cvFile.name}</p>
-                            <p className="text-[10px] text-slate-500">{(cvFile.size / (1024 * 1024)).toFixed(2)} MB</p>
+                            <p className="text-xs text-slate-600">{(cvFile.size / (1024 * 1024)).toFixed(2)} MB</p>
                           </div>
                         </div>
                         <button
                           type="button"
                           onClick={handleRemoveFile}
-                          className="p-1.5 hover:bg-white rounded-lg text-slate-500 hover:text-red-600 transition-colors shrink-0 cursor-pointer"
+                          className="p-1.5 hover:bg-white rounded-lg text-slate-600 hover:text-red-600 transition-colors shrink-0 cursor-pointer"
                           title={t('careers.removeFile')}
                         >
                           <X size={16} />

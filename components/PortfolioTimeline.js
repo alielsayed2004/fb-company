@@ -38,7 +38,7 @@ export default function PortfolioTimeline({ projects: propProjects, onSelectProj
         
         {/* Section Header */}
         <div className="text-center space-y-2.5 sm:space-y-3">
-          <span className="eyebrow text-fb-green font-bold">{t('home.timeline.eyebrow')}</span>
+          <span className="eyebrow">{t('home.timeline.eyebrow')}</span>
           <h2 className="text-fb-teal font-extrabold tracking-tight text-2xl sm:text-4xl md:text-5xl text-balance">{t('home.timeline.title')}</h2>
           <p className="text-fb-teal/65 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">
             {t('home.timeline.desc')}

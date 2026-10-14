@@ -173,7 +173,7 @@ export default function FranchiseSourcing() {
                       {step.icon}
                     </div>
                   </div>
-                  <h4 className="font-bold text-fb-teal text-base sm:text-lg">{step.title}</h4>
+                  <h3 className="font-bold text-fb-teal text-base sm:text-lg">{step.title}</h3>
                   <p className="text-slate-700 text-xs md:text-sm leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
@@ -212,7 +212,7 @@ export default function FranchiseSourcing() {
                 </div>
 
                 <div className="space-y-2 sm:space-y-3 relative z-10">
-                  <h4 className="text-fb-teal font-extrabold text-lg sm:text-xl">{service.title}</h4>
+                  <h3 className="text-fb-teal font-extrabold text-lg sm:text-xl">{service.title}</h3>
                   <p className="text-slate-700 text-xs sm:text-sm md:text-base leading-relaxed">{service.desc}</p>
                 </div>
               </motion.div>
@@ -241,15 +241,15 @@ export default function FranchiseSourcing() {
           <div className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-5 sm:space-y-6 max-w-4xl mx-auto shadow-[0_8px_30px_rgba(0,59,60,0.05)]">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-start border-b border-fb-teal/10 pb-6">
               <div>
-                <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{locale === 'ar' ? 'الموقع' : 'Location'}</span>
+                <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{locale === 'ar' ? 'الموقع' : 'Location'}</span>
                 <span className="text-sm font-bold text-fb-teal">{locale === 'ar' ? caseStudy?.city_ar : caseStudy?.city}</span>
               </div>
               <div>
-                <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{locale === 'ar' ? 'الحالة' : 'Status'}</span>
+                <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{locale === 'ar' ? 'الحالة' : 'Status'}</span>
                 <span className="text-sm font-bold text-fb-teal">{locale === 'ar' ? (caseStudy?.status === 'Operational' ? 'قيد التشغيل' : 'قيد الإنشاء') : caseStudy?.status}</span>
               </div>
               <div>
-                <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{locale === 'ar' ? 'سنة الافتتاح' : 'Opening Year'}</span>
+                <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{locale === 'ar' ? 'سنة الافتتاح' : 'Opening Year'}</span>
                 <span className="text-sm font-extrabold text-fb-teal font-mono">{caseStudy?.metrics?.openingYear}</span>
               </div>
             </div>

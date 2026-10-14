@@ -237,3 +237,21 @@ Result: text at `opacity:0` in server HTML **48 → 0** (Home) and 10–30 → 0
 | Location (Marina 5) | 73 → ~75 | 5.9 MB → 2.6 MB |
 
 Best Practices: 96 → **100** on every page tested. Real Chrome with mobile throttling (slow 4G, 4× CPU) measures LCP **0.8–0.9 s** on Home and El Salam; Lighthouse's simulated LCP remains pessimistic (4–6 s) because it attributes the post-load video download to the page — final numbers in Phase 3.
+
+---
+
+## Step 8 — P1 accessibility & navigation (D1, A11Y-01…04, UX-09, UX-10, RESP-02, RESP-03)
+
+| File | Change | Why |
+|---|---|---|
+| `app/globals.css` | New token **`--color-fb-green-text: #306E49`** (owner decision D1: small text on light backgrounds only; 5.17:1 on `#E6EEF1`). `.eyebrow` uses it and now lives in `@layer components`, so `text-fb-green` still overrides it on teal sections where the brand green passes (4.79:1). `#53B379` unchanged everywhere else. | D1, A11Y-01 |
+| Light-background labels (insights dates, "Step 01" labels, careers benefit labels, company-profile block, timeline eyebrow, footer label, footer hovers) | `text-fb-green` → `text-fb-green-text`. | A11Y-01 |
+| All public pages/components | Text 9.5–11 px → 12 px; `text-fb-black/50` → `/70`, `slate-500` → `slate-600`, `text-fb-teal/40` → `/70` (all ≥ 4.5:1 on the light background). | A11Y-01, RESP-03 |
+| Pages, drawer, location page | Card/section headings `h4`/`h5` → `h3`; location-page sections, careers benefits/success and footer column titles → `h2`; visually-hidden `h2` "Our locations" on the portfolio grid. Visual sizes unchanged (classes). | A11Y-02 |
+| `components/Navbar.js` | Rewritten. Scrolled header is a **solid teal bar at every width** (links were white-on-light and unreadable on desktop over light sections); logo and language switch **stay visible** (they used to fade out); compact **"Book a Consultation"** button; active link `aria-current="page"`; 44 px targets. Mobile menu: `role="dialog"`, `aria-modal`, `aria-expanded`/`aria-controls`, focus moves into the menu, **focus trap**, **Escape closes**, focus returns to the menu button, scroll lock, closes on navigation, mirrored in RTL. Full link row from 1280 px; menu button below. | UX-09, UX-10, RESP-02 |
+| `components/ProjectDrawer.js` | `role="dialog"`, `aria-modal`, accessible name; close button 44 px, localized label, focused on open (Escape already closed it). | A11Y-03 |
+| Contact & careers forms | Inputs/selects/textareas 16 px (no iOS zoom on focus). | A11Y-04 |
+| `app/(en|ar)/careers/page.js` | CV picker is a real `<button>` (was a clickable `<div>`, unreachable by keyboard); file input labelled. | A11Y |
+| `components/Footer.js` | Social icons 44 × 44 px; navigation links 44 px tall and 14 px text. | RESP-02, UI-02 |
+
+**Verified locally:** Lighthouse Accessibility **100** on Home, Home AR, About, Asset Management, Franchise Sourcing, Portfolio, Contact, Careers (EN + AR) and a location page (was 94–98; `color-contrast` and `heading-order` no longer reported). Mobile menu tested: opens with focus inside, body scroll locked, Escape closes and returns focus to the button.

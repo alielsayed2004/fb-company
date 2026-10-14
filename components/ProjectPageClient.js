@@ -200,7 +200,7 @@ export default function ProjectPageClient({ project: initialProject }) {
               onClick={() => {
                 window.location.href = locale === 'ar' ? '/ar/portfolio' : '/portfolio';
               }}
-              className="inline-flex items-center space-x-1.5 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/35 hover:bg-fb-black/55 backdrop-blur-md px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/15 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+              className="inline-flex items-center space-x-1.5 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/35 hover:bg-fb-black/55 backdrop-blur-md px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/15 text-xs sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
             >
               <ArrowLeft size={13} className="mr-1.5 ml-1.5 rtl:rotate-180" />
               <span>{t('projectDetails.backToDevelopments')}</span>
@@ -216,7 +216,7 @@ export default function ProjectPageClient({ project: initialProject }) {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="flex items-center space-x-2.5 rtl:space-x-reverse justify-start flex-wrap gap-y-2"
           >
-            <span className="bg-fb-green text-fb-teal text-[11px] sm:text-xs font-extrabold px-3 py-1 rounded-md tracking-wider uppercase shadow-md">
+            <span className="bg-fb-green text-fb-teal text-xs sm:text-xs font-extrabold px-3 py-1 rounded-md tracking-wider uppercase shadow-md">
               {project.status === 'Operational' ? (locale === 'ar' ? 'قيد التشغيل' : 'Operational') : (locale === 'ar' ? 'قيد الإنشاء' : project.status)}
             </span>
             <span className="text-xs sm:text-sm text-fb-bg-light/90 font-medium flex items-center bg-white/10 backdrop-blur-md px-3 py-1 rounded-md border border-white/10">
@@ -262,7 +262,7 @@ export default function ProjectPageClient({ project: initialProject }) {
               }}
               animate={{ y: [0, 5, 0] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-              className="flex items-center space-x-2 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/40 hover:bg-fb-black/60 backdrop-blur-md px-4 py-2 sm:px-5 sm:py-2 rounded-full border border-fb-green/30 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-lg"
+              className="flex items-center space-x-2 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/40 hover:bg-fb-black/60 backdrop-blur-md px-4 py-2 sm:px-5 sm:py-2 rounded-full border border-fb-green/30 text-xs sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-lg"
             >
               <span>{locale === 'ar' ? 'تفاصيل المشروع' : 'Explore Details'}</span>
               <ChevronDown size={14} className="text-fb-green" />
@@ -290,7 +290,7 @@ export default function ProjectPageClient({ project: initialProject }) {
               variants={itemVariants}
               className="space-y-4 bg-fb-bg-light/90 p-8 rounded-3xl border border-fb-teal/15 shadow-[0_8px_30px_rgba(0,59,60,0.05)]"
             >
-              <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs border-b border-fb-teal/5 pb-3">{t('projectDetails.overview')}</h4>
+              <h2 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs border-b border-fb-teal/5 pb-3">{t('projectDetails.overview')}</h2>
               <p className="text-fb-black/85 text-base md:text-lg leading-relaxed">
                 {getField(project, 'overview')}
               </p>
@@ -298,7 +298,7 @@ export default function ProjectPageClient({ project: initialProject }) {
 
             {/* Key Metrics Grid */}
             <motion.div variants={itemVariants} className="space-y-4">
-              <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">{t('projectDetails.metrics')}</h4>
+              <h2 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">{t('projectDetails.metrics')}</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
                 {[
                   { label: t('projectDetails.landArea'), val: project.metrics?.landArea, icon: <Maximize2 className="text-fb-green" size={20} /> },
@@ -308,7 +308,7 @@ export default function ProjectPageClient({ project: initialProject }) {
                   <div key={idx} className="bg-fb-bg-light/90 border border-fb-teal/15 p-5 rounded-2xl shadow-sm flex flex-col justify-between min-h-[120px] hover:border-fb-green hover:shadow-md transition-all duration-300">
                     <div className="p-2.5 bg-fb-teal/5 rounded-lg inline-block self-start mb-2">{m.icon}</div>
                     <div>
-                      <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{m.label}</span>
+                      <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{m.label}</span>
                       <span className="text-base font-extrabold text-fb-teal font-mono">{m.val}</span>
                     </div>
                   </div>
@@ -319,12 +319,12 @@ export default function ProjectPageClient({ project: initialProject }) {
             {/* Smart Project Gallery */}
             <motion.div variants={itemVariants} className="space-y-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs flex items-center gap-2">
+                <h2 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs flex items-center gap-2">
                   <Camera size={16} className="text-fb-green" />
                   <span>{t('projectDetails.visualDoc')} ({allGalleryItems.length})</span>
-                </h4>
+                </h2>
                 {allGalleryItems.length > 0 && (
-                  <span className="text-[11px] text-slate-400 font-medium">
+                  <span className="text-xs text-slate-400 font-medium">
                     {locale === 'ar' ? 'اضغط لتكبير الصورة' : 'Click to expand image'}
                   </span>
                 )}
@@ -375,14 +375,14 @@ export default function ProjectPageClient({ project: initialProject }) {
               variants={itemVariants}
               className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-3xl p-6 shadow-[0_8px_30px_rgba(0,59,60,0.05)] space-y-5 text-start"
             >
-              <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs border-b border-fb-teal/5 pb-3">{t('projectDetails.locIntel')}</h4>
+              <h2 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs border-b border-fb-teal/5 pb-3">{t('projectDetails.locIntel')}</h2>
               <div className="space-y-4">
                 <div className="flex items-start gap-3.5 text-start">
                   <div className="w-9 h-9 rounded-xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center shrink-0 text-fb-green mt-0.5">
                     <MapPin size={18} strokeWidth={1.5} />
                   </div>
                   <div className="flex-1 text-start space-y-0.5">
-                    <span className="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">{t('projectDetails.trafficAxis')}</span>
+                    <span className="text-xs text-slate-600 block font-bold uppercase tracking-wider">{t('projectDetails.trafficAxis')}</span>
                     <p className="text-sm font-semibold text-fb-teal leading-snug">{getField(project.mapInfo, 'road') || (locale === 'ar' ? 'ممر رئيسي' : 'Main Corridor')}</p>
                   </div>
                 </div>
@@ -392,7 +392,7 @@ export default function ProjectPageClient({ project: initialProject }) {
                     <Calendar size={18} strokeWidth={1.5} />
                   </div>
                   <div className="flex-1 text-start space-y-0.5">
-                    <span className="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">{t('projectDetails.sourcingPeak')}</span>
+                    <span className="text-xs text-slate-600 block font-bold uppercase tracking-wider">{t('projectDetails.sourcingPeak')}</span>
                     <p className="text-sm font-semibold text-fb-teal leading-snug">{getField(project.mapInfo, 'peakHours') || '—'}</p>
                   </div>
                 </div>
@@ -405,7 +405,7 @@ export default function ProjectPageClient({ project: initialProject }) {
               className="bg-fb-teal text-fb-white rounded-2xl p-6 shadow-lg space-y-4 relative overflow-hidden"
             >
               <div className="absolute inset-0 opacity-5 grid-bg-overlay pointer-events-none" />
-              <h5 className="font-extrabold text-fb-white text-lg tracking-tight z-10 relative">{t('projectDetails.sourcingOpp')}</h5>
+              <h2 className="font-extrabold text-fb-white text-lg tracking-tight z-10 relative">{t('projectDetails.sourcingOpp')}</h2>
               <p className="text-xs text-fb-bg-light/80 leading-relaxed z-10 relative">
                 {t('projectDetails.sourcingOppDesc').replace('{name}', getField(project, 'name'))}
               </p>

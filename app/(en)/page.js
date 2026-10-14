@@ -320,7 +320,7 @@ export default function Home() {
 
                 <div className="space-y-3 sm:space-y-4 relative z-10">
                   <div className="p-2.5 sm:p-3 rounded-xl bg-fb-teal/5 border border-fb-teal/10 text-fb-green group-hover:bg-fb-green/10 transition-colors inline-block">{usp.icon}</div>
-                  <h4 className="font-bold text-fb-teal text-base leading-snug">{usp.title}</h4>
+                  <h3 className="font-bold text-fb-teal text-base leading-snug">{usp.title}</h3>
                   <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">{usp.desc}</p>
                 </div>
               </motion.div>
@@ -357,8 +357,8 @@ export default function Home() {
                   {item.icon}
                 </div>
                 <div className="space-y-1">
-                  <span className="text-fb-green text-xs font-bold uppercase tracking-widest">{locale === 'ar' ? `الخطوة ${item.step}` : `Step ${item.step}`}</span>
-                  <h4 className="font-bold text-fb-teal text-base sm:text-lg">{item.name}</h4>
+                  <span className="text-fb-green-text text-xs font-bold uppercase tracking-widest">{locale === 'ar' ? `الخطوة ${item.step}` : `Step ${item.step}`}</span>
+                  <h3 className="font-bold text-fb-teal text-base sm:text-lg">{item.name}</h3>
                 </div>
                 <p className="text-slate-700 text-xs sm:text-sm leading-relaxed max-w-xs">{item.desc}</p>
               </motion.div>

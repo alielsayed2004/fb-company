@@ -1,199 +1,209 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Globe } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
+const NAV_LINKS = [
+  { nameKey: 'nav.home', href: '/' },
+  { nameKey: 'nav.portfolio', href: '/portfolio' },
+  { nameKey: 'nav.assetManagement', href: '/asset-management' },
+  { nameKey: 'nav.franchiseSourcing', href: '/franchise-sourcing' },
+  { nameKey: 'nav.aboutUs', href: '/about' },
+  { nameKey: 'nav.careers', href: '/careers' },
+  { nameKey: 'nav.contactUs', href: '/contact' },
+];
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const pathname = usePathname();
-  const { locale, toggleLanguage, t } = useLanguage();
+  const pathname = usePathname() || '/';
+  const { locale, t } = useLanguage();
   const isAr = locale === 'ar';
+  const toggleRef = useRef(null);
+  const drawerRef = useRef(null);
 
-  const alternatePath = isAr 
-    ? pathname.replace(/^\/ar/, '') || '/' 
-    : `/ar${pathname === '/' ? '' : pathname}`;
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-
-  const navLinks = [
-    { nameKey: 'nav.home', href: '/' },
-    { nameKey: 'nav.portfolio', href: '/portfolio' },
-    { nameKey: 'nav.assetManagement', href: '/asset-management' },
-    { nameKey: 'nav.franchiseSourcing', href: '/franchise-sourcing' },
-    { nameKey: 'nav.aboutUs', href: '/about' },
-    { nameKey: 'nav.careers', href: '/careers' },
-    { nameKey: 'nav.contactUs', href: '/contact' }
-  ];
-
-  const getLocalizedHref = (href) => {
-    if (!isAr) return href;
-    if (href === '/') return '/ar';
-    return `/ar${href}`;
+  const alternatePath = isAr ? pathname.replace(/^\/ar/, '') || '/' : `/ar${pathname === '/' ? '' : pathname}`;
+  const localized = (href) => (isAr ? (href === '/' ? '/ar' : `/ar${href}`) : href);
+  const isActive = (href) => {
+    const target = localized(href);
+    return href === '/' ? pathname === target : pathname === target || pathname.startsWith(`${target}/`);
   };
 
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setIsOpen(false);
+    toggleRef.current?.focus();
+  }, []);
+
+  // Mobile menu: scroll lock, focus the first link, trap focus, close with Escape.
+  useEffect(() => {
+    if (!isOpen) return;
+    document.body.style.overflow = 'hidden';
+    const focusables = () => drawerRef.current?.querySelectorAll('a[href], button:not([disabled])') || [];
+    focusables()[0]?.focus();
+
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeMenu();
+      } else if (e.key === 'Tab') {
+        const els = [...focusables()];
+        if (!els.length) return;
+        const first = els[0];
+        const last = els[els.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [isOpen, closeMenu]);
+
+  // Close the menu after navigation.
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
   // Hooks above must run on every render; hide the public navigation inside the admin area.
-  if (pathname?.startsWith('/admin')) {
+  if (pathname.startsWith('/admin')) {
     return null;
   }
 
+  const LanguageSwitch = ({ className = '' }) => (
+    <Link
+      href={alternatePath}
+      hrefLang={isAr ? 'en' : 'ar'}
+      lang={isAr ? 'en' : 'ar'}
+      className={`inline-flex items-center gap-2 min-h-[44px] px-4 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 text-white text-sm font-semibold transition-colors ${className}`}
+    >
+      <Globe size={16} className="text-fb-green" aria-hidden="true" />
+      <span>{isAr ? 'English' : 'العربية'}</span>
+    </Link>
+  );
+
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 pointer-events-none ${
-        isScrolled 
-          ? 'bg-fb-teal/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-none border-b border-white/10 md:border-transparent pt-[calc(0.75rem+env(safe-area-inset-top,0px))] pb-3 md:py-5 shadow-lg md:shadow-none' 
-          : 'bg-transparent pt-[calc(1rem+env(safe-area-inset-top,0px))] pb-4 md:py-5'
-      }`}>
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 flex justify-between items-center">
-          {/* Left Side: Logo / Brand Name (Always visible on mobile, hides on desktop scroll) */}
-          <div className={`flex-1 flex items-center justify-start transition-all duration-500 transform ${
-            isScrolled 
-              ? 'md:opacity-0 md:-translate-x-12 rtl:md:translate-x-12 md:pointer-events-none opacity-100 pointer-events-auto' 
-              : 'opacity-100 translate-x-0 pointer-events-auto'
-          }`}>
-            <Link href={isAr ? '/ar' : '/'} className="flex items-center">
-              <Image
-                src="/company/logo.png"
-                alt="F.B Company"
-                width={150}
-                height={48}
-                priority
-                sizes="(max-width: 640px) 100px, 150px"
-                className="h-8 sm:h-10 md:h-12 w-auto object-contain brightness-0 invert drop-shadow-md"
-              />
-            </Link>
-          </div>
+      <header
+        className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 pt-[env(safe-area-inset-top,0px)] ${
+          isScrolled ? 'bg-fb-teal/95 backdrop-blur-md shadow-lg border-b border-white/10' : 'bg-transparent'
+        }`}
+      >
+        <nav aria-label={isAr ? 'التنقل الرئيسي' : 'Main navigation'} className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-4 h-16 md:h-20">
+          <Link href={localized('/')} className="inline-flex items-center min-h-[44px] shrink-0" aria-label={isAr ? 'شركة إف بي — الرئيسية' : 'F.B Company — Home'}>
+            <Image
+              src="/company/logo.png"
+              alt="F.B Company"
+              width={150}
+              height={38}
+              priority
+              sizes="150px"
+              className="h-9 md:h-10 w-auto object-contain brightness-0 invert"
+            />
+          </Link>
 
-          {/* Desktop Central Pill Navigation (Floating, perfectly centered) */}
-          <div className="hidden md:flex flex-none items-center backdrop-blur-md border border-white/10 bg-white/10 p-1 rounded-full shadow-lg pointer-events-auto">
-            {navLinks.map((link) => {
-              const localizedHref = getLocalizedHref(link.href);
-              const isActive = pathname === localizedHref;
-              return (
+          <ul className="hidden xl:flex items-center gap-1">
+            {NAV_LINKS.map((link) => (
+              <li key={link.nameKey}>
                 <Link
-                  key={link.nameKey}
-                  href={localizedHref}
-                  className={`text-xs lg:text-[13px] xl:text-sm font-medium tracking-wide transition-all duration-300 px-3 lg:px-4 py-1.5 rounded-full ${
-                    isActive 
-                      ? 'bg-white text-fb-teal shadow-md font-semibold' 
-                      : 'text-white/80 hover:text-white hover:bg-white/5'
+                  href={localized(link.href)}
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  className={`inline-flex items-center min-h-[44px] px-3 rounded-full text-sm font-semibold transition-colors ${
+                    isActive(link.href) ? 'bg-white text-fb-teal' : 'text-white/90 hover:text-white hover:bg-white/10'
                   }`}
                 >
                   {t(link.nameKey)}
                 </Link>
-              );
-            })}
-          </div>
+              </li>
+            ))}
+          </ul>
 
-          {/* Right Side: Language Switcher with smooth exit animation on scroll */}
-          <div className={`flex-1 hidden md:flex items-center justify-end transition-all duration-500 transform ${
-            isScrolled 
-              ? 'opacity-0 translate-x-12 rtl:-translate-x-12 pointer-events-none' 
-              : 'opacity-100 translate-x-0 pointer-events-auto'
-          }`}>
-            <Link 
-              href={alternatePath}
-              className="flex items-center space-x-2 rtl:space-x-reverse text-white/85 cursor-pointer hover:text-white transition-colors text-sm font-semibold select-none bg-white/5 hover:bg-white/10 px-4 py-1.5 rounded-full border border-white/10 shadow-sm"
+          <div className="flex items-center gap-2">
+            <LanguageSwitch className="hidden md:inline-flex" />
+            <Link
+              href={localized('/contact?interest=consultation#consultation-form')}
+              className="hidden md:inline-flex items-center min-h-[44px] px-5 rounded-full bg-fb-green hover:bg-fb-green-hover text-fb-teal text-sm font-extrabold transition-colors"
             >
-              <Globe size={15} className="text-fb-green" />
-              <span className={locale === 'en' ? 'text-fb-green font-extrabold' : 'text-white/70'}>ENG</span>
-              <span className="text-white/30 text-xs">|</span>
-              <span className={locale === 'ar' ? 'text-fb-green font-extrabold' : 'text-white/70'}>العربية</span>
+              {t('common.bookConsultation')}
             </Link>
+            <button
+              ref={toggleRef}
+              type="button"
+              onClick={() => setIsOpen((o) => !o)}
+              aria-expanded={isOpen}
+              aria-controls="mobile-menu"
+              aria-label={isOpen ? (isAr ? 'إغلاق القائمة' : 'Close menu') : (isAr ? 'فتح القائمة' : 'Open menu')}
+              className="xl:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl border border-white/15 bg-white/10 hover:bg-white/20 text-white transition-colors"
+            >
+              {isOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
+            </button>
           </div>
+        </nav>
+      </header>
 
-          {/* Mobile Hamburger Toggle */}
+      {isOpen && <div onClick={closeMenu} className="fixed inset-0 bg-black/60 z-40 xl:hidden" aria-hidden="true" />}
+
+      <div
+        id="mobile-menu"
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={isAr ? 'القائمة' : 'Menu'}
+        hidden={!isOpen}
+        className="fixed inset-y-0 end-0 z-50 w-80 max-w-[85vw] bg-fb-teal shadow-2xl xl:hidden overflow-y-auto pt-[calc(1rem+env(safe-area-inset-top,0px))] pb-[calc(2rem+env(safe-area-inset-bottom,0px))] px-6"
+      >
+        <div className="flex justify-end mb-4">
           <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-white focus:outline-none p-2 bg-white/10 hover:bg-white/20 active:scale-95 backdrop-blur-md rounded-xl border border-white/15 pointer-events-auto transition-all shadow-sm"
-            aria-label="Toggle navigation menu"
+            type="button"
+            onClick={closeMenu}
+            aria-label={isAr ? 'إغلاق القائمة' : 'Close menu'}
+            className="inline-flex items-center justify-center w-11 h-11 rounded-xl border border-white/15 bg-white/10 text-white"
           >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
+            <X size={22} aria-hidden="true" />
           </button>
         </div>
-      </nav>
-
-      {/* Mobile Backdrop Overlay */}
-      {isOpen && (
-        <div
-          onClick={() => setIsOpen(false)}
-          className="fixed inset-0 bg-black/60 backdrop-blur-xs z-30 md:hidden transition-opacity"
-          aria-hidden="true"
-        />
-      )}
-
-      {/* Mobile Drawer Navigation */}
-      <div
-        className={`fixed inset-y-0 right-0 rtl:right-auto rtl:left-0 w-80 max-w-[85vw] bg-fb-teal shadow-2xl z-40 transform transition-all duration-300 ease-in-out md:hidden ${
-          isOpen 
-            ? 'translate-x-0 opacity-100 visible' 
-            : (isAr ? '-translate-x-full opacity-0 invisible pointer-events-none' : 'translate-x-full opacity-0 invisible pointer-events-none')
-        }`}
-        aria-hidden={!isOpen}
-      >
-        <div className="h-full flex flex-col justify-between p-6 sm:p-8 pt-[calc(5rem+env(safe-area-inset-top,0px))] pb-[calc(2rem+env(safe-area-inset-bottom,0px))] overflow-y-auto">
-          <div className="flex flex-col space-y-5">
-            {navLinks.map((link) => {
-              const localizedHref = getLocalizedHref(link.href);
-              const isActive = pathname === localizedHref;
-              return (
-                <Link
-                  key={link.nameKey}
-                  href={localizedHref}
-                  onClick={() => setIsOpen(false)}
-                  className={`text-lg font-semibold tracking-wide border-b border-fb-white/10 pb-3 transition-colors ${
-                    isActive ? 'text-fb-green' : 'text-fb-white/90'
-                  }`}
-                >
-                  {t(link.nameKey)}
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="flex flex-col space-y-6">
-            {/* Mobile language switch */}
-            <Link 
-              href={alternatePath}
-              onClick={() => setIsOpen(false)}
-              className="flex items-center space-x-2 rtl:space-x-reverse text-white/85 cursor-pointer hover:text-white transition-colors text-sm font-semibold select-none bg-white/5 hover:bg-white/10 px-4 py-2.5 rounded-lg border border-white/10 self-start"
-            >
-              <Globe size={18} className="text-fb-green" />
-              <span className={locale === 'en' ? 'text-fb-green font-extrabold' : 'text-white/70'}>ENG</span>
-              <span className="text-white/30">|</span>
-              <span className={locale === 'ar' ? 'text-fb-green font-extrabold' : 'text-white/70'}>العربية</span>
-            </Link>
-            
-            <div className="text-center pt-6">
-              <p className="text-xs text-fb-bg-light/40">F.B Company — {t('nav.tagline')}</p>
-            </div>
-          </div>
+        <ul className="flex flex-col">
+          {NAV_LINKS.map((link) => (
+            <li key={link.nameKey}>
+              <Link
+                href={localized(link.href)}
+                onClick={() => setIsOpen(false)}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                className={`flex items-center min-h-[48px] text-lg font-semibold border-b border-white/10 ${
+                  isActive(link.href) ? 'text-fb-green' : 'text-white'
+                }`}
+              >
+                {t(link.nameKey)}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-8 flex flex-col gap-3">
+          <Link
+            href={localized('/contact?interest=consultation#consultation-form')}
+            onClick={() => setIsOpen(false)}
+            className="inline-flex items-center justify-center min-h-[48px] rounded-xl bg-fb-green text-fb-teal font-extrabold"
+          >
+            {t('common.bookConsultation')}
+          </Link>
+          <LanguageSwitch className="justify-center" />
         </div>
       </div>
     </>
