@@ -2,7 +2,6 @@ import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AIAssistant from "@/components/AIAssistant";
-import AdminPanelModal from "@/components/AdminPanelModal";
 import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import { LanguageProvider } from "@/context/LanguageContext";
@@ -130,7 +129,6 @@ export default function RootLayout({ children }) {
               {children}
             </main>
             <AIAssistant />
-            <AdminPanelModal />
             <Footer />
           </LanguageProvider>
         </DataProvider>

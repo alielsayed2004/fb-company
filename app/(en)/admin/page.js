@@ -75,7 +75,6 @@ export default function AdminPage() {
   const [authError, setAuthError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const [adminSecret, setAdminSecret] = useState('');
 
   // Active Tab
   const [activeTab, setActiveTab] = useState('projects'); // 'projects', 'blogs', 'brands', 'company'
@@ -91,7 +90,6 @@ export default function AdminPage() {
   const [editableContact, setEditableContact] = useState({});
 
   // GitHub Cloud Sync State
-  const [githubToken, setGithubToken] = useState('');
   const [isCloudConnected, setIsCloudConnected] = useState(false);
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
   const [tokenTestStatus, setTokenTestStatus] = useState({ loading: false, success: null, message: '' });
@@ -107,124 +105,44 @@ export default function AdminPage() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
 
-  // Helper for admin API calls with secret
-  const getAdminSecret = () => {
-    return adminSecret || (typeof window !== 'undefined' ? sessionStorage.getItem('fb_admin_api_secret') : '') || '';
+
+  // Ask the server whether its GITHUB_TOKEN (Vercel env) can push to the repository.
+  const checkCloudSync = async () => {
+    setTokenTestStatus({ loading: true, success: null, message: locale === 'ar' ? 'جاري التحقق من إعدادات الخادم...' : 'Checking server configuration...' });
+    try {
+      const res = await fetch('/api/admin/sync?action=verify-token');
+      const data = await res.json();
+      const ok = Boolean(data && data.valid);
+      setIsCloudConnected(ok);
+      setTokenTestStatus({
+        loading: false,
+        success: ok,
+        message: ok
+          ? (locale === 'ar' ? `✅ متصل بمستودع ${data.repoName}` : `✅ Connected to ${data.repoName}`)
+          : `❌ ${data.message || (locale === 'ar' ? 'GITHUB_TOKEN غير مضبوط على الخادم' : 'GITHUB_TOKEN is not configured on the server')}`
+      });
+    } catch (e) {
+      setIsCloudConnected(false);
+      setTokenTestStatus({ loading: false, success: false, message: `❌ ${e.message}` });
+    }
   };
 
-  // On initial mount: verify active server session & cloud connection
+  // On initial mount: verify the server session (httpOnly cookie) and cloud-sync status
   useEffect(() => {
-    async function checkSessionAndVerifyCloud() {
-      let currentSecret = '';
+    async function checkSession() {
       try {
         const sessionRes = await fetch('/api/admin/login');
         if (sessionRes.ok) {
           const sessionData = await sessionRes.json();
           if (sessionData && sessionData.authenticated) {
             setIsAuthenticated(true);
-            if (sessionData.adminSecret) {
-              currentSecret = sessionData.adminSecret;
-              setAdminSecret(currentSecret);
-              sessionStorage.setItem('fb_admin_api_secret', currentSecret);
-            }
+            checkCloudSync();
           }
         }
       } catch (e) {}
-
-      if (!currentSecret && typeof window !== 'undefined') {
-        currentSecret = sessionStorage.getItem('fb_admin_api_secret') || '';
-        if (currentSecret) setAdminSecret(currentSecret);
-      }
-
-      let activeTok = '';
-      if (typeof window !== 'undefined') {
-        activeTok = localStorage.getItem('fb_github_token') || '';
-      }
-      setGithubToken(activeTok || '');
-
-      if (activeTok && currentSecret) {
-        try {
-          const verifyRes = await fetch('/api/admin/sync?action=verify-token', {
-            headers: {
-              'x-github-token': activeTok,
-              'x-admin-secret': currentSecret
-            }
-          });
-          const verifyData = await verifyRes.json();
-          setIsCloudConnected(Boolean(verifyData && verifyData.valid));
-        } catch (e) {
-          setIsCloudConnected(false);
-        }
-      } else {
-        setIsCloudConnected(false);
-      }
     }
-
-    checkSessionAndVerifyCloud();
+    checkSession();
   }, []);
-
-  const handleSaveToken = async (val) => {
-    const clean = val.trim();
-    setGithubToken(clean);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('fb_github_token', clean);
-    }
-    setTokenTestStatus({ loading: false, success: null, message: '' });
-    if (clean) {
-      try {
-        const secret = getAdminSecret();
-        await fetch('/api/admin/sync', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(secret ? { 'x-admin-secret': secret } : {})
-          },
-          body: JSON.stringify({ action: 'save-token', token: clean })
-        });
-      } catch (e) {}
-    }
-  };
-
-  const handleTestToken = async (tok) => {
-    const t = (tok !== undefined ? tok : githubToken).trim();
-    if (!t) {
-      setTokenTestStatus({ loading: false, success: false, message: locale === 'ar' ? 'يرجى إدخال رمز Token' : 'Please enter a token' });
-      setIsCloudConnected(false);
-      return;
-    }
-    setTokenTestStatus({ loading: true, success: null, message: locale === 'ar' ? 'جاري التحقق مع مستودع GitHub...' : 'Verifying with GitHub repo...' });
-    try {
-      const secret = getAdminSecret();
-      const res = await fetch(`/api/admin/sync?action=verify-token`, {
-        headers: {
-          'x-github-token': t,
-          ...(secret ? { 'x-admin-secret': secret } : {})
-        }
-      });
-      const data = await res.json();
-      if (data.valid) {
-        setTokenTestStatus({
-          loading: false,
-          success: true,
-          message: locale === 'ar'
-            ? `✅ متصل بنجاح مع مستودع ${data.repoName} (صلاحيات الرفع متوفرة)`
-            : `✅ Successfully connected to ${data.repoName} (write permissions confirmed)`
-        });
-        setIsCloudConnected(true);
-        handleSaveToken(t);
-      } else {
-        setTokenTestStatus({
-          loading: false,
-          success: false,
-          message: `❌ ${data.message || (locale === 'ar' ? 'رمز غير صالح أو منتهي الصلاحية' : 'Invalid or expired token')}`
-        });
-        setIsCloudConnected(false);
-      }
-    } catch (e) {
-      setTokenTestStatus({ loading: false, success: false, message: `❌ ${e.message}` });
-      setIsCloudConnected(false);
-    }
-  };
 
   // Synchronize local editable state with DataContext
   useEffect(() => {
@@ -266,13 +184,9 @@ export default function AdminPage() {
       const data = await res.json();
       if (res.ok && data.success) {
         setIsAuthenticated(true);
-        const secret = data.adminSecret || '';
-        if (secret) {
-          setAdminSecret(secret);
-          sessionStorage.setItem('fb_admin_api_secret', secret);
-        }
         setPassword('');
-        loadFreshDataFromDisk(secret);
+        loadFreshDataFromDisk();
+        checkCloudSync();
       } else {
         setAuthError(data.error || (locale === 'ar' ? 'كلمة المرور غير صحيحة' : 'Invalid password'));
       }
@@ -287,8 +201,6 @@ export default function AdminPage() {
     try {
       await fetch('/api/admin/logout', { method: 'POST' });
     } catch (e) {}
-    sessionStorage.removeItem('fb_admin_api_secret');
-    setAdminSecret('');
     setIsAuthenticated(false);
     if (typeof window !== 'undefined') {
       window.location.href = '/admin/login';
@@ -296,13 +208,10 @@ export default function AdminPage() {
   };
 
   // Pull fresh data from disk/server
-  const loadFreshDataFromDisk = async (overrideSecret) => {
+  const loadFreshDataFromDisk = async () => {
     setIsRefreshing(true);
     try {
-      const secret = overrideSecret || getAdminSecret();
-      const res = await fetch('/api/admin/sync', {
-        headers: secret ? { 'x-admin-secret': secret } : {}
-      });
+      const res = await fetch('/api/admin/sync');
       const data = await res.json();
       if (data.success) {
         if (Array.isArray(data.projects) && data.projects.length > 0) {
@@ -368,15 +277,9 @@ export default function AdminPage() {
         contactInfo: editableContact
       };
 
-      const token = (typeof window !== 'undefined' ? localStorage.getItem('fb_github_token') : '') || githubToken;
-      const secret = getAdminSecret();
       const res = await fetch('/api/admin/sync', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(secret ? { 'x-admin-secret': secret } : {}),
-          ...(token ? { 'x-github-token': token } : {})
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
 
@@ -394,8 +297,8 @@ export default function AdminPage() {
         setStatusMessage({
           type: 'warning',
           text: locale === 'ar'
-            ? '⚠️ الموقع يعمل على استضافة سحابية (Vercel). للحفظ والمزامنة المباشرة، يرجى إدخال GitHub Token في النافذة المفتوحة.'
-            : '⚠️ Live cloud deployment detected. Please enter your GitHub Token to enable cloud syncing.'
+            ? '⚠️ المزامنة السحابية غير مفعّلة: اضبط GITHUB_TOKEN في إعدادات Vercel ثم أعد النشر.'
+            : '⚠️ Cloud sync is not configured: set GITHUB_TOKEN in the Vercel environment and redeploy.'
         });
       } else {
         setStatusMessage({
@@ -504,15 +407,9 @@ export default function AdminPage() {
     });
 
     try {
-      const token = (typeof window !== 'undefined' ? localStorage.getItem('fb_github_token') : '') || githubToken;
-      const secret = getAdminSecret();
       const res = await fetch('/api/admin/sync', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(secret ? { 'x-admin-secret': secret } : {}),
-          ...(token ? { 'x-github-token': token } : {})
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           projects: updated,
           blogsEn: editableBlogsEn,
@@ -532,7 +429,7 @@ export default function AdminPage() {
         setIsTokenModalOpen(true);
         setStatusMessage({
           type: 'warning',
-          text: locale === 'ar' ? 'تم الحذف محلياً؛ يرجى ربط رمز GitHub Token لتأكيد الحذف على النت مباشرة.' : 'Deleted locally; configure GitHub Token to sync cloud.'
+          text: locale === 'ar' ? 'تم الحذف محلياً؛ اضبط GITHUB_TOKEN في إعدادات Vercel لتفعيل المزامنة.' : 'Deleted locally; set GITHUB_TOKEN in the Vercel environment to enable sync.'
         });
       } else {
         setStatusMessage({
@@ -1586,40 +1483,19 @@ export default function AdminPage() {
                     <span className="text-amber-600 font-bold text-base leading-none mt-0.5">⚠️</span>
                     <div className="space-y-1.5 w-full">
                       <div className="font-bold text-amber-900">
-                        {locale === 'ar' ? 'رمز الوصول (GitHub Token) منتهي الصلاحية أو غير متصل' : 'GitHub Token is Expired or Disconnected'}
+                        {locale === 'ar' ? 'المزامنة السحابية غير مفعّلة على الخادم' : 'Cloud sync is not configured on the server'}
                       </div>
-                      <p className="text-[11px] text-amber-800 leading-relaxed">
-                        {locale === 'ar'
-                          ? 'خطوات تجديد الرمز في أقل من دقيقة لتفعيل الرفع التلقائي لـ GitHub و Vercel:'
-                          : 'Follow these quick steps to generate a new token and enable auto-deploy:'}
-                      </p>
                       <ol className="text-[11px] text-amber-900 list-decimal list-inside space-y-1 bg-white/70 p-2.5 rounded-lg border border-amber-200/60 font-medium">
-                        <li>
-                          {locale === 'ar' ? 'افتح صفحة التوكنز: ' : 'Open GitHub tokens: '}
-                          <a href="https://github.com/settings/tokens" target="_blank" rel="noreferrer" className="underline font-bold text-emerald-800 hover:text-emerald-900">
-                            github.com/settings/tokens
-                          </a>
-                        </li>
-                        <li>{locale === 'ar' ? 'اضغط Generate new token (classic)' : 'Click Generate new token (classic)'}</li>
-                        <li>{locale === 'ar' ? 'اختر صلاحية repo (Full control)' : 'Check "repo" scope (Full control)'}</li>
-                        <li>{locale === 'ar' ? 'انسخ الرمز الجديد الذي يبدأ بـ ghp_ والصقه في الأسفل ثم اضغط "اختبار الاتصال"' : 'Copy new token (starts with ghp_), paste below and click Test'}</li>
+                        <li>{locale === 'ar' ? 'أنشئ رمز GitHub بصلاحية كتابة على هذا المستودع فقط (Fine-grained token).' : 'Create a fine-grained GitHub token with write access to this repository only.'}</li>
+                        <li>{locale === 'ar' ? 'أضفه في Vercel ← Settings ← Environment Variables باسم GITHUB_TOKEN.' : 'Add it in Vercel → Settings → Environment Variables as GITHUB_TOKEN.'}</li>
+                        <li>{locale === 'ar' ? 'أعد النشر ثم اضغط "إعادة الفحص".' : 'Redeploy, then click "Re-check".'}</li>
                       </ol>
+                      <p className="text-[11px] text-amber-800 leading-relaxed">
+                        {locale === 'ar' ? 'لأسباب أمنية لا يمكن إدخال الرمز من المتصفح.' : 'For security, the token can no longer be entered in the browser.'}
+                      </p>
                     </div>
                   </div>
                 )}
-
-                <div className="space-y-1.5">
-                  <label className="block text-xs font-bold text-fb-teal">
-                    GitHub Personal Access Token (PAT)
-                  </label>
-                  <input
-                    type="password"
-                    value={githubToken}
-                    onChange={(e) => handleSaveToken(e.target.value)}
-                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    className="w-full px-3.5 py-2.5 text-xs font-mono rounded-xl bg-slate-50 border border-slate-300 focus:outline-hidden focus:border-fb-green focus:bg-white"
-                  />
-                </div>
 
                 {tokenTestStatus.message && (
                   <div className={`p-2.5 rounded-xl text-xs font-bold flex items-center gap-2 ${
@@ -1637,29 +1513,20 @@ export default function AdminPage() {
 
               <div className="flex items-center justify-between pt-2">
                 <button
-                  onClick={() => handleTestToken(githubToken)}
+                  onClick={checkCloudSync}
                   disabled={tokenTestStatus.loading}
                   className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
                 >
                   {tokenTestStatus.loading ? <Loader2 size={13} className="animate-spin" /> : <Key size={13} />}
-                  <span>{locale === 'ar' ? 'اختبار الاتصال' : 'Test Connection'}</span>
+                  <span>{locale === 'ar' ? 'إعادة الفحص' : 'Re-check'}</span>
                 </button>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      handleSaveToken(githubToken);
-                      setIsTokenModalOpen(false);
-                      setStatusMessage({
-                        type: 'success',
-                        text: locale === 'ar' ? 'تم حفظ رمز GitHub بنجاح!' : 'GitHub token saved successfully!'
-                      });
-                    }}
-                    className="px-5 py-2 rounded-xl bg-fb-teal text-fb-green hover:bg-fb-teal/90 text-xs font-extrabold transition-all shadow-xs cursor-pointer"
-                  >
-                    {locale === 'ar' ? 'تأكيد وحفظ' : 'Save & Close'}
-                  </button>
-                </div>
+                <button
+                  onClick={() => setIsTokenModalOpen(false)}
+                  className="px-5 py-2 rounded-xl bg-fb-teal text-fb-green hover:bg-fb-teal/90 text-xs font-extrabold transition-all shadow-xs cursor-pointer"
+                >
+                  {locale === 'ar' ? 'إغلاق' : 'Close'}
+                </button>
               </div>
             </motion.div>
           </div>

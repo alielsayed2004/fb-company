@@ -1,27 +1,56 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { signAdminToken, verifyAdminToken, COOKIE_NAME, TOKEN_EXPIRY_SECONDS } from '@/lib/auth';
+import {
+  signAdminToken,
+  verifyAdminToken,
+  isAdminAuthConfigured,
+  getPasswordHash,
+  isSameOrigin,
+  sessionCookieOptions,
+  COOKIE_NAME,
+} from '@/lib/auth';
+import { rateLimit, getClientIp } from '@/lib/rateLimit';
 
-// Default bcrypt hash for '186204' ensuring production/Vercel works seamlessly out of the box
-const DEFAULT_HASH = '$2b$10$.YUHw2xK5DIL29Mnf4N4peOZy9vyzxjsKbvFbw8wOoNZlE4K.8Iqi';
-const DEFAULT_ADMIN_SECRET = 'fb_sec_7a50c7449a1e79c94c4dc7ac5ed0f48208b805f9eaab249d';
+// 5 attempts per IP per 15 minutes; failed attempts also add a short delay.
+const LOGIN_LIMIT = { limit: 5, windowMs: 15 * 60 * 1000 };
 
 export async function POST(request) {
+  // Fail closed: without the env configuration nobody can log in.
+  if (!isAdminAuthConfigured()) {
+    console.error('Admin login disabled: set ADMIN_PASSWORD_HASH_B64 (or a valid ADMIN_PASSWORD_HASH) and ADMIN_JWT_SECRET (min 32 chars).');
+    return NextResponse.json(
+      { success: false, error: 'Admin login is not configured.' },
+      { status: 503 }
+    );
+  }
+
+  if (!isSameOrigin(request)) {
+    return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
+  }
+
+  const ip = getClientIp(request);
+  const { limited, retryAfterSeconds } = rateLimit(`login:${ip}`, LOGIN_LIMIT);
+  if (limited) {
+    return NextResponse.json(
+      { success: false, error: 'Too many login attempts. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(retryAfterSeconds) } }
+    );
+  }
+
   try {
     const body = await request.json().catch(() => ({}));
     const { password } = body;
 
-    const hash = process.env.ADMIN_PASSWORD_HASH || DEFAULT_HASH;
-
-    if (!password || typeof password !== 'string') {
+    if (!password || typeof password !== 'string' || password.length > 200) {
       return NextResponse.json(
         { success: false, error: 'Password is required' },
         { status: 400 }
       );
     }
 
-    const isValid = await bcrypt.compare(password, hash);
+    const isValid = await bcrypt.compare(password, getPasswordHash());
     if (!isValid) {
+      await new Promise((r) => setTimeout(r, 750));
       return NextResponse.json(
         { success: false, error: 'Invalid password' },
         { status: 401 }
@@ -29,24 +58,8 @@ export async function POST(request) {
     }
 
     const token = await signAdminToken({ role: 'admin' });
-    const adminSecret = process.env.ADMIN_API_SECRET || DEFAULT_ADMIN_SECRET;
-
-    const response = NextResponse.json({
-      success: true,
-      message: 'Authenticated successfully',
-      adminSecret
-    });
-
-    response.cookies.set({
-      name: COOKIE_NAME,
-      value: token,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: TOKEN_EXPIRY_SECONDS,
-    });
-
+    const response = NextResponse.json({ success: true, message: 'Authenticated successfully' });
+    response.cookies.set({ ...sessionCookieOptions(), value: token });
     return response;
   } catch (error) {
     console.error('Login error:', error);
@@ -57,20 +70,12 @@ export async function POST(request) {
   }
 }
 
-// GET: Check active session status
+// GET: Check active session status (never returns any secret)
 export async function GET(request) {
   const token = request.cookies.get(COOKIE_NAME)?.value;
   const verified = await verifyAdminToken(token);
-
   if (verified) {
-    const adminSecret = process.env.ADMIN_API_SECRET || DEFAULT_ADMIN_SECRET;
-    return NextResponse.json({
-      authenticated: true,
-      adminSecret
-    });
+    return NextResponse.json({ authenticated: true });
   }
-
-  return NextResponse.json({
-    authenticated: false
-  }, { status: 401 });
+  return NextResponse.json({ authenticated: false }, { status: 401 });
 }

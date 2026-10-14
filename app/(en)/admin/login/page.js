@@ -34,13 +34,17 @@ export default function AdminLoginPage() {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        if (data.adminSecret) {
-          sessionStorage.setItem('fb_admin_api_secret', data.adminSecret);
-        }
+        // Session is an httpOnly cookie set by the server; nothing is stored in the browser.
         router.push('/admin');
         router.refresh();
       } else {
-        setError(data.error || (locale === 'ar' ? 'كلمة المرور غير صحيحة' : 'Invalid password'));
+        if (res.status === 429) {
+          setError(locale === 'ar' ? 'محاولات كثيرة. يرجى المحاولة لاحقاً.' : 'Too many attempts. Please try again later.');
+        } else if (res.status === 503) {
+          setError(locale === 'ar' ? 'تسجيل الدخول غير مُعدّ على الخادم.' : 'Admin login is not configured on the server.');
+        } else {
+          setError(locale === 'ar' ? 'كلمة المرور غير صحيحة' : 'Invalid password');
+        }
       }
     } catch (err) {
       setError(locale === 'ar' ? 'حدث خطأ أثناء الاتصال بالخادم' : 'Failed to connect to authentication server');

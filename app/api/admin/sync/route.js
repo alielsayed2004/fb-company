@@ -1,23 +1,12 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import { commitFilesToGitHub, verifyGitHubToken, resolveToken } from '@/lib/githubSync';
-
-const execPromise = promisify(exec);
+import { isAdminRequest } from '@/lib/auth';
 
 const SAFE_ID_REGEX = /^[a-zA-Z0-9_-]+$/;
 const SAFE_FILENAME_REGEX = /^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/;
 
-function validateAdminSecret(req) {
-  const adminSecret = process.env.ADMIN_API_SECRET || 'fb_sec_7a50c7449a1e79c94c4dc7ac5ed0f48208b805f9eaab249d';
-  const providedSecret = req.headers.get('x-admin-secret');
-  if (!adminSecret || !providedSecret || providedSecret !== adminSecret) {
-    return false;
-  }
-  return true;
-}
 
 // Check if running in a writable filesystem (false on Vercel serverless)
 function checkIsFsWritable() {
@@ -83,9 +72,9 @@ function saveBase64MediaLocal(dataUri, targetDir, exactFilename) {
 // GET: Fetch latest data safely without resurrecting deleted items
 export async function GET(req) {
   // 1. Strict server-side auth check
-  if (!validateAdminSecret(req)) {
+  if (!(await isAdminRequest(req))) {
     return NextResponse.json(
-      { success: false, error: 'Unauthorized: missing or invalid x-admin-secret header' },
+      { success: false, error: 'Unauthorized' },
       { status: 401 }
     );
   }
@@ -94,11 +83,10 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const action = searchParams.get('action');
 
-    // Token verification helper endpoint
+    // Cloud-sync status: checks the server-side GITHUB_TOKEN only (never a browser-supplied token)
     if (action === 'verify-token') {
-      const token = resolveToken(req.headers.get('x-github-token') || searchParams.get('token'));
-      const result = await verifyGitHubToken(token);
-      return NextResponse.json(result);
+      const result = await verifyGitHubToken(resolveToken());
+      return NextResponse.json({ valid: result.valid, repoName: result.repoName, canPush: result.canPush, message: result.message });
     }
 
     const rootDir = process.cwd();
@@ -237,32 +225,15 @@ export async function GET(req) {
 // POST: Save all changes directly (Local Filesystem on dev + GitHub Database API on cloud/Vercel)
 export async function POST(req) {
   // 1. Strict server-side auth check
-  if (!validateAdminSecret(req)) {
+  if (!(await isAdminRequest(req))) {
     return NextResponse.json(
-      { success: false, error: 'Unauthorized: missing or invalid x-admin-secret header' },
+      { success: false, error: 'Unauthorized' },
       { status: 401 }
     );
   }
 
   try {
     const body = await req.json();
-
-    // Support updating token in .env.local on dev machine
-    if (body.action === 'save-token' && typeof body.token === 'string') {
-      const isFsWritable = checkIsFsWritable();
-      if (isFsWritable) {
-        const envPath = path.join(process.cwd(), '.env.local');
-        let envContent = fs.existsSync(envPath) ? fs.readFileSync(envPath, 'utf8') : '';
-        if (envContent.includes('GITHUB_TOKEN=')) {
-          envContent = envContent.replace(/GITHUB_TOKEN=.*/g, `GITHUB_TOKEN="${body.token.trim()}"`);
-        } else {
-          envContent += `\nGITHUB_TOKEN="${body.token.trim()}"\n`;
-        }
-        fs.writeFileSync(envPath, envContent, 'utf8');
-        process.env.GITHUB_TOKEN = body.token.trim();
-      }
-      return NextResponse.json({ success: true, message: 'Token saved' });
-    }
 
     const { projects, blogsEn, blogsAr, brands, counters, contactInfo } = body;
 
@@ -289,12 +260,8 @@ export async function POST(req) {
       }
     }
 
-    // Now safely resolve githubToken (caller is already authenticated)
-    const githubToken = resolveToken(
-      req.headers.get('x-github-token') ||
-      process.env.GITHUB_TOKEN ||
-      body.githubToken
-    );
+    // GitHub token comes from the server environment only
+    const githubToken = resolveToken();
 
     const isFsWritable = checkIsFsWritable();
     const rootDir = process.cwd();
@@ -537,18 +504,6 @@ export async function POST(req) {
         console.error('GitHub API Commit failed:', apiErr);
         const isBadCreds = apiErr.message && (apiErr.message.includes('401') || apiErr.message.includes('Bad credentials'));
         if (isFsWritable) {
-          try {
-            const { stdout: statusOut } = await execPromise('git status --porcelain', { cwd: rootDir });
-            if (statusOut && statusOut.trim().length > 0) {
-              await execPromise('git add data/ public/projects/ public/logos/', { cwd: rootDir });
-              const commitMsg = `Content sync: Update projects & assets from Admin [${new Date().toISOString().slice(0, 19).replace('T', ' ')}]`;
-              await execPromise(`git commit -m "${commitMsg}"`, { cwd: rootDir });
-              try {
-                await execPromise('git push origin main', { cwd: rootDir, env: { ...process.env, GIT_TERMINAL_PROMPT: '0' } });
-              } catch (pushErr) {}
-            }
-          } catch (e) {}
-
           return NextResponse.json({
             success: true,
             warning: false,
@@ -562,7 +517,7 @@ export async function POST(req) {
           success: false,
           error: apiErr.message,
           message: isBadCreds
-            ? 'رمز GitHub Token منتهي الصلاحية (Bad credentials). يرجى إدخال رمز صالح في إعدادات المزامنة السحابية.'
+            ? 'رمز GITHUB_TOKEN في إعدادات Vercel منتهي الصلاحية أو غير صالح (Bad credentials). يرجى تحديثه من لوحة Vercel.'
             : `فشل الحفظ عبر GitHub API: ${apiErr.message}`
         }, { status: 500 });
       }
@@ -570,34 +525,11 @@ export async function POST(req) {
 
     // Strategy B: No GitHub Token, but local filesystem is writable (Local Development Machine)
     if (isFsWritable) {
-      let gitMessage = 'تم الحفظ في ملفات المشروع بنجاح';
-      let synced = false;
-      try {
-        const { stdout: statusOut } = await execPromise('git status --porcelain', { cwd: rootDir });
-        if (statusOut && statusOut.trim().length > 0) {
-          await execPromise('git add data/ public/projects/ public/logos/', { cwd: rootDir });
-          const commitMsg = `Content sync: Update projects & assets from Admin [${new Date().toISOString().slice(0, 19).replace('T', ' ')}]`;
-          try {
-            await execPromise('git push origin main', { cwd: rootDir, env: { ...process.env, GIT_TERMINAL_PROMPT: '0' } });
-            gitMessage = 'تم حفظ التعديلات ورفعها إلى مستودع GitHub بنجاح! ✅';
-            synced = true;
-          } catch (pushErr) {
-            gitMessage = 'تم حفظ جميع التعديلات في ملفات المشروع بنجاح! ✅';
-            synced = true;
-          }
-        } else {
-          gitMessage = 'تم حفظ الملفات محلياً (لا توجد تغييرات جديدة لرفعها) ✅';
-          synced = true;
-        }
-      } catch (gitErr) {
-        gitMessage = 'تم حفظ جميع التعديلات في ملفات المشروع بنجاح! ✅';
-      }
-
       return NextResponse.json({
         success: true,
-        message: gitMessage,
-        mode: 'local-git',
-        synced,
+        message: 'تم حفظ جميع التعديلات في ملفات المشروع محلياً ✅ (ارفعها إلى GitHub يدوياً)',
+        mode: 'local-disk',
+        synced: false,
         projects: cleanedProjects,
         brands: cleanedBrands
       });
@@ -607,7 +539,7 @@ export async function POST(req) {
     return NextResponse.json({
       success: false,
       requiresToken: true,
-      message: 'الموقع يعمل في بيئة سحابية (Vercel). للحفظ والمزامنة المباشرة، يرجى إدخال رمز GitHub Token في زر "إعدادات المزامنة السحابية" بأعلى لوحة التحكم.',
+      message: 'المزامنة السحابية غير مفعّلة: يجب ضبط متغير البيئة GITHUB_TOKEN في إعدادات Vercel ثم إعادة النشر.',
       error: 'GITHUB_TOKEN_REQUIRED'
     }, { status: 400 });
 
