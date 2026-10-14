@@ -47,3 +47,16 @@ Issue IDs refer to `docs/audit/PHASE-1-AUDIT.md`.
 **Verified locally:** missing fields → 400; bad email → 400; no consent → 400; 4.1 MB file → 413 `file_too_large`; `.exe` → 400 `file_type`; webhook unreachable → 502 `delivery_failed` (no false success); honeypot → 200 without delivery; 6th request in 3 min → 429. A real submission was **not** sent, to keep test rows out of your Sheet — please send one test application after deploying.
 
 **Owner action (Google):** paste the updated script into the Apps Script editor → Deploy → Manage deployments → Edit → **New version** (same URL). Optionally run `restrictExistingCvs()` once (you are already restricting existing files manually).
+
+---
+
+## Step 3 — P0 leads: contact form (UX-01, UX-02, UX-07 partial)
+
+| File | Change | Why |
+|---|---|---|
+| `app/api/contact/route.js` | Rewritten. Sends to Google Sheets and Formspree in parallel and checks each response. **Success only if at least one destination accepted the lead; if both fail → `502 delivery_failed`.** Every failed destination is logged (`Contact lead delivery failed via …`) and a total failure logs `CONTACT LEAD NOT DELIVERED (…)` — without the visitor's personal data. Server-side validation (required fields, email format, length limits, allowed interest values), honeypot checked, shared rate limiter. Formspree gets `_replyto` and a subject line. | UX-01, UX-02 |
+| `app/(en)/contact/page.js`, `app/ar/contact/page.js` | Errors shown in EN/AR from a code table; on delivery failure the message shows your phone and email as a fallback; `role="alert"`; honeypot sent and hidden from assistive tech; every `?interest=` used on the site (`leasing`, `sourcing`, `consultation`, …) maps to a real option (default: consultation). | UX-01, UX-07 |
+
+**Verified locally (mock endpoints):** both down → 502 + log lines; Sheets down & Formspree up → 200 + Sheets failure logged; both up → 200, both received; missing fields → 400; bad email → 400; honeypot → 200 without delivery.
+
+**Where to see failures:** Vercel → Project → Logs, search `CONTACT LEAD NOT DELIVERED`. (Optional later: alerting via a Vercel log drain.)

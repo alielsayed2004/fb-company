@@ -29,19 +29,32 @@ const itemVariants = {
   }
 };
 
+const CONTACT_ERRORS = {
+  rate_limited: { en: 'Too many messages in a short time. Please wait a minute and try again.', ar: 'تم إرسال عدد كبير من الرسائل خلال وقت قصير. يرجى الانتظار دقيقة ثم المحاولة مرة أخرى.' },
+  missing_fields: { en: 'Please fill in all required fields.', ar: 'يرجى ملء جميع الحقول المطلوبة.' },
+  invalid_email: { en: 'Please enter a valid email address.', ar: 'يرجى إدخال بريد إلكتروني صحيح.' },
+  invalid_request: { en: 'Your message could not be sent. Please try again.', ar: 'تعذّر إرسال رسالتك. يرجى المحاولة مرة أخرى.' },
+  delivery_failed: { en: 'Your message could not be delivered. Please try again, or contact us directly:', ar: 'تعذّر تسليم رسالتك. يرجى المحاولة مرة أخرى أو التواصل معنا مباشرة:' },
+};
+
 function ContactFormInner() {
   const searchParams = useSearchParams();
   const interestParam = searchParams.get('interest');
-  const initialInterest = (interestParam === 'asset-management' || interestParam === 'consultation')
-    ? interestParam
-    : (interestParam === 'franchise-sourcing' || interestParam === 'sourcing')
-    ? 'franchise-sourcing'
-    : 'not-sure';
+  // Every ?interest= value used across the site maps to an option in the select.
+  const INTEREST_MAP = {
+    'asset-management': 'asset-management',
+    'franchise-sourcing': 'franchise-sourcing',
+    sourcing: 'franchise-sourcing',
+    leasing: 'franchise-sourcing',
+    consultation: 'consultation',
+  };
+  const initialInterest = INTEREST_MAP[interestParam] || 'consultation';
   const [interest, setInterest] = useState(initialInterest);
   const [status, setStatus] = useState(null); // 'success', 'error', 'submitting'
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorCode, setErrorCode] = useState('');
   const { locale, t } = useLanguage();
   const { contactInfo } = useData();
+  const isAr = locale === 'ar';
 
   useEffect(() => {
     const param = searchParams.get('interest');
@@ -60,7 +73,7 @@ function ContactFormInner() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('submitting');
-    setErrorMessage('');
+    setErrorCode('');
 
     const form = e.target;
     const payload = {
@@ -69,6 +82,7 @@ function ContactFormInner() {
       phone: form.phone.value,
       interest: form.interest.value,
       message: form.message.value,
+      _gotcha: form._gotcha?.value || '',
     };
 
     try {
@@ -111,7 +125,7 @@ function ContactFormInner() {
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Honeypot field to block spam */}
-          <input type="text" name="_gotcha" style={{ display: 'none' }} />
+          <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="space-y-2">
@@ -179,9 +193,18 @@ function ContactFormInner() {
           </div>
 
           {status === 'error' && (
-            <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 flex items-start space-x-3 rtl:space-x-reverse">
-              <AlertCircle className="shrink-0 mt-0.5 mr-1 ml-1" size={20} />
-              <p className="text-sm">{errorMessage}</p>
+            <div role="alert" className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 flex items-start gap-3">
+              <AlertCircle className="shrink-0 mt-0.5" size={20} />
+              <div className="text-sm space-y-1">
+                <p>{CONTACT_ERRORS[errorCode]?.[isAr ? 'ar' : 'en'] || CONTACT_ERRORS.delivery_failed[isAr ? 'ar' : 'en']}</p>
+                {errorCode === 'delivery_failed' && (
+                  <p>
+                    <a href={`tel:${(contactInfo?.phone || '').replace(/\s+/g, '')}`} dir="ltr" className="font-bold underline">{contactInfo?.phone}</a>
+                    {' · '}
+                    <a href={`mailto:${contactInfo?.email}`} className="font-bold underline">{contactInfo?.email}</a>
+                  </p>
+                )}
+              </div>
             </div>
           )}
 

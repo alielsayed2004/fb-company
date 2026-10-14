@@ -1,121 +1,102 @@
 import { NextResponse } from 'next/server';
+import { rateLimit, getClientIp } from '@/lib/rateLimit';
 
-// In-memory sliding window rate limiting (max 3 requests per IP per minute)
-const rateLimitMap = new Map();
-const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
-const MAX_REQUESTS_PER_WINDOW = 3;
+// 3 messages per IP per minute.
+const CONTACT_LIMIT = { limit: 3, windowMs: 60 * 1000 };
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const INTERESTS = new Set(['consultation', 'asset-management', 'franchise-sourcing', 'other']);
 
-function isRateLimited(ip) {
-  const now = Date.now();
-  const windowStart = now - RATE_LIMIT_WINDOW_MS;
-  const timestamps = rateLimitMap.get(ip) || [];
+// Errors carry a stable `code` so the page can show an Arabic or English message.
+function fail(code, status, error) {
+  return NextResponse.json({ success: false, code, error }, { status });
+}
 
-  const recent = timestamps.filter((time) => time > windowStart);
-
-  if (recent.length >= MAX_REQUESTS_PER_WINDOW) {
-    rateLimitMap.set(ip, recent);
-    return true;
+// Sends one copy of the lead; resolves to { ok, detail } and never throws.
+async function deliver(name, url, init) {
+  try {
+    const res = await fetch(url, { ...init, signal: AbortSignal.timeout(10000) });
+    return { name, ok: res.ok, detail: `HTTP ${res.status}` };
+  } catch (err) {
+    return { name, ok: false, detail: err.message };
   }
-
-  recent.push(now);
-  rateLimitMap.set(ip, recent);
-
-  // Periodic cleanup
-  if (rateLimitMap.size > 1000) {
-    for (const [key, times] of rateLimitMap.entries()) {
-      const active = times.filter((t) => t > windowStart);
-      if (active.length === 0) {
-        rateLimitMap.delete(key);
-      } else {
-        rateLimitMap.set(key, active);
-      }
-    }
-  }
-
-  return false;
 }
 
 export async function POST(request) {
+  const { limited, retryAfterSeconds } = rateLimit(`contact:${getClientIp(request)}`, CONTACT_LIMIT);
+  if (limited) {
+    return NextResponse.json(
+      { success: false, code: 'rate_limited', error: 'Too many requests. Please wait a minute before submitting again.' },
+      { status: 429, headers: { 'Retry-After': String(retryAfterSeconds) } }
+    );
+  }
+
+  let body = {};
   try {
-    // 1. Rate limiting check
-    const forwarded = request.headers.get('x-forwarded-for');
-    const ip = (forwarded ? forwarded.split(',')[0].trim() : null) ||
-      request.headers.get('x-real-ip') ||
-      '127.0.0.1';
-
-    if (isRateLimited(ip)) {
-      return NextResponse.json(
-        { success: false, error: 'Too many requests. Please wait a minute before submitting again.' },
-        { status: 429 }
-      );
-    }
-
-    // 2. Validate required environment variables (no hardcoded fallbacks allowed)
-    const googleSheetWebhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
-    const formspreeEndpoint = process.env.FORMSPREE_ENDPOINT;
-
-    if (!googleSheetWebhookUrl) {
-      return NextResponse.json(
-        { success: false, error: 'Server configuration error: GOOGLE_SHEETS_WEBHOOK_URL is not set' },
-        { status: 500 }
-      );
-    }
-
-    if (!formspreeEndpoint) {
-      return NextResponse.json(
-        { success: false, error: 'Server configuration error: FORMSPREE_ENDPOINT is not set' },
-        { status: 500 }
-      );
-    }
-
-    // 3. Parse request payload
-    let body;
     const contentType = request.headers.get('content-type') || '';
-
     if (contentType.includes('application/json')) {
       body = await request.json();
     } else if (contentType.includes('multipart/form-data') || contentType.includes('application/x-www-form-urlencoded')) {
-      const formData = await request.formData();
-      body = Object.fromEntries(formData.entries());
-    } else {
-      body = {};
+      body = Object.fromEntries((await request.formData()).entries());
     }
-
-    const { name, email, phone, interest, message } = body;
-
-    // 4. Send to Google Sheets Webhook
-    try {
-      await fetch(googleSheetWebhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          timestamp: new Date().toLocaleString('ar-EG', { timeZone: 'Africa/Cairo' }),
-          name: name || '',
-          email: email || '',
-          phone: phone || '',
-          interest: interest || '',
-          message: message || '',
-        }),
-        redirect: 'follow'
-      });
-    } catch (err) {
-      console.error('Error posting to Google Sheets Webhook:', err);
-    }
-
-    // 5. Send to Formspree endpoint
-    try {
-      await fetch(formspreeEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ name, email, phone, interest, message }),
-      });
-    } catch (e) {
-      console.error('Error posting to Formspree:', e);
-    }
-
-    return NextResponse.json({ success: true, message: 'Message sent successfully' }, { status: 200 });
-  } catch (error) {
-    console.error('Contact submit error:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (e) {
+    return fail('invalid_request', 400, 'Invalid form submission.');
   }
+
+  const field = (key, max) => (typeof body[key] === 'string' ? body[key].trim().slice(0, max) : '');
+  const name = field('name', 120);
+  const email = field('email', 200);
+  const phone = field('phone', 40);
+  const message = field('message', 5000);
+  const interest = INTERESTS.has(field('interest', 40)) ? field('interest', 40) : 'other';
+
+  // Honeypot: real users never fill this hidden field.
+  if (field('_gotcha', 200)) {
+    return NextResponse.json({ success: true }, { status: 200 });
+  }
+
+  if (!name || !email || !phone || !message) {
+    return fail('missing_fields', 400, 'Please fill in all required fields.');
+  }
+  if (!EMAIL_RE.test(email)) {
+    return fail('invalid_email', 400, 'Please enter a valid email address.');
+  }
+
+  const sheetsUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+  const formspreeUrl = process.env.FORMSPREE_ENDPOINT;
+  const lead = { name, email, phone, interest, message };
+
+  const deliveries = [];
+  if (sheetsUrl) {
+    deliveries.push(deliver('google_sheets', sheetsUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ timestamp: new Date().toLocaleString('ar-EG', { timeZone: 'Africa/Cairo' }), ...lead }),
+      redirect: 'follow',
+    }));
+  }
+  if (formspreeUrl) {
+    deliveries.push(deliver('formspree', formspreeUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ ...lead, _replyto: email, _subject: `fbassets.com — ${interest}` }),
+    }));
+  }
+
+  const results = await Promise.all(deliveries);
+  const delivered = results.filter((r) => r.ok);
+
+  for (const r of results.filter((x) => !x.ok)) {
+    console.error(`Contact lead delivery failed via ${r.name}: ${r.detail}`);
+  }
+
+  // Report success only when at least one destination actually accepted the lead.
+  if (delivered.length === 0) {
+    console.error(
+      `CONTACT LEAD NOT DELIVERED (${results.length ? results.map((r) => `${r.name}: ${r.detail}`).join('; ') : 'no destinations configured'}). ` +
+      `Interest: ${interest}, submitted ${new Date().toISOString()}`
+    );
+    return fail('delivery_failed', 502, 'Your message could not be delivered. Please call or email us directly.');
+  }
+
+  return NextResponse.json({ success: true, message: 'Message sent successfully' }, { status: 200 });
 }
