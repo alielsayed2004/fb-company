@@ -1,6 +1,7 @@
 [
   {
     "id": "chillout-10th-of-ramadan-banks",
+    "slug": "10th-of-ramadan-chillout-station",
     "name": "Chillout Hub – 10th of Ramadan (Banks Service Center)",
     "name_ar": "شيل أوت هب – العاشر من رمضان (مركز خدمات البنوك)",
     "city": "10th of Ramadan City",
@@ -55,6 +56,7 @@
   },
   {
     "id": "chillout-mostafa-kamel",
+    "slug": "mostafa-kamel-axis-new-cairo",
     "name": "Chillout Hub – Mostafa Kamel Axis",
     "name_ar": "شيل أوت هب – محور مصطفى كامل",
     "city": "New Cairo",
@@ -99,6 +101,7 @@
   },
   {
     "id": "chillout-marina-5",
+    "slug": "marina-5-north-coast",
     "name": "Chillout Hub – Marina 5",
     "name_ar": "شيل أوت هب – مارينا 5",
     "city": "North Coast",
@@ -146,6 +149,7 @@
   },
   {
     "id": "chillout-10th-of-ramadan-alrowad",
+    "slug": "al-rowad-club-10th-of-ramadan",
     "name": "Chillout Hub – 10th of Ramadan (Al-Rowad Club)",
     "name_ar": "شيل أوت هب – العاشر من رمضان (نادي الرواد)",
     "city": "10th of Ramadan City",
@@ -196,6 +200,7 @@
   },
   {
     "id": "sour-nady-el-nady",
+    "slug": "sour-nady-el-nady-sheraton",
     "name": "Sour Nady El Nady",
     "name_ar": "سور نادي النادي",
     "city": "Sheraton",
@@ -237,6 +242,7 @@
   },
   {
     "id": "sour-nady-el-obour",
+    "slug": "sour-nady-el-obour",
     "name": "Sour Nady El Obour",
     "name_ar": "سور نادي العبور",
     "city": "Obour City",
@@ -275,6 +281,7 @@
   },
   {
     "id": "el-salam-plaza-mall",
+    "slug": "el-salam-plaza-mall",
     "name": "El Salam Plaza Mall",
     "name_ar": "مول السلام بلازا",
     "city": "El Salam",

@@ -244,7 +244,7 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                   </div>
                   <div className="flex items-center gap-2.5 shrink-0 flex-wrap">
                     <Link
-                      href={`/projects/${project.id}`}
+                      href={`${locale === 'ar' ? '/ar' : ''}/portfolio/${project.slug || project.id}`}
                       onClick={onClose}
                       className="flex items-center space-x-1.5 rtl:space-x-reverse bg-white/10 hover:bg-white/20 text-white font-bold px-3.5 py-2.5 rounded-xl text-xs transition-colors shadow-sm"
                     >

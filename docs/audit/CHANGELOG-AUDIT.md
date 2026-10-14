@@ -141,3 +141,28 @@ Also removed: home "guarantee 100% occupancy" + "Audited and verified institutio
 - `components/AdminPanelModal.js`, `components/BlogSection.js` — no longer rendered; now unused.
 
 **Verified locally:** all 15 key pages return 200; server HTML shows `7 / 54 / 40,900` without JavaScript; none of the banned terms appear in visible text (except inside the disclaimer itself); Risk Disclaimer linked on every page; no `/admin` link; **zero console errors and zero `/api/*` calls** on public pages (was a 401 on every page).
+
+---
+
+## Step 5 — P0 SEO: broken URLs, redirects, crawlers (SEO-01…03, SEO-06, SEO-07, GEO-04, SEC-06 partial, BLD-01)
+
+| File | Change | Why |
+|---|---|---|
+| `app/(en)/portfolio/[slug]/page.js`, `app/ar/portfolio/[slug]/page.js` | Rebuilt as the **canonical location page** (owner decision): server component, `await params` (Next 16), static generation of all 7 slugs in EN + AR, `dynamicParams = false` → unknown slugs return a real **404** (was 200 "Not Found"). Renders the full case-study UI. Unique title/description per location and language; JSON-LD `Place` (`ShoppingCenter` for El Salam) + `BreadcrumbList` with only data-backed facts. The Google Maps iframe (blocked by CSP) is gone. | SEO-01, SEO-09 |
+| `components/ProjectPageClient.js` (moved from `app/projects/[id]/`) | Back button → localized `/portfolio`; AR status "قيد التشغيل" (was "تشغيل ممتاز" = "excellent operation"); **removed developer instructions shown to the public** ("drop photos into public/projects/…") → visible `[Location photos pending]`; localized contact link. | UX, CNT |
+| `lib/projects.js` (new) | Server helpers: slug lookup and photo/logo/video discovery (moved from the deleted `/projects/[id]` page). | Single source |
+| `lib/locationSeo.js` (new) | Location metadata + JSON-LD builders. | SEO-01, GEO-02 |
+| `data/projects.json` | Added `slug` to each location (keeps the URLs already in the sitemap). | SEO-01 |
+| `app/projects/` (route, layout, page) | **Removed**; replaced by 301 redirects. | SEO-03 |
+| Portfolio grid, drawer, homepage timeline | Links point to `/portfolio/<slug>` (or `/ar/portfolio/<slug>`). | SEO-03, UX-06 |
+| `app/(en|ar)/insights/[slug]/page.js` | `await params` fixes the **HTTP 500**; static params, real 404 for unknown slugs, `noindex`, Article schema, single `<h1>` (Markdown headings demoted). Layout files removed (metadata now in the page). | SEO-02 |
+| `lib/api.js` | Article slug validated (`^[a-z0-9-]+$`) — blocks path traversal into the filesystem. | Security |
+| `next.config.mjs` | **301** redirects: `/projects/<id>` → `/portfolio/<slug>` and `/ar/projects/<id>` → `/ar/portfolio/<slug>` (generated from `projects.json`), plus catch-alls; **www.fbassets.com → fbassets.com 301** backstop; CSP tightened (removed `'unsafe-eval'`, browser access to `api.github.com`, `formspree.io`, `script.google.com` — forms post to our own API); `outputFileTracingRoot` (removes the lockfile warning). | SEO-03, SEO-07, SEC-06, BLD-01 |
+| `app/sitemap.js` | Rebuilt from data: 17 pages × EN/AR = 34 URLs incl. the 7 location pages and the Risk Disclaimer; no Insights, no `/projects`. | SEO-06 |
+| `app/robots.js` | `*` plus explicit **GPTBot, ClaudeBot, PerplexityBot, Google-Extended**: allow `/`, disallow `/admin` and `/api/` (owner decision). | GEO-04 |
+| `app/llms.txt/route.js` (new) | `/llms.txt` generated from `data/company.json` + `data/projects.json`: entity summary, both services, figures with as-of date, all locations, contact, disclaimer link. | GEO-04 |
+| `out/` | Stale static export deleted (approved; was never committed). | Owner decision |
+
+**Verified locally:** all 7 location pages EN + AR → 200, one `<h1>`, unique titles, Place/ShoppingCenter + BreadcrumbList; `/portfolio/does-not-exist` → 404; `/projects/chillout-marina-5` → 301 `/portfolio/marina-5-north-coast`; `/ar/projects/sour-nady-el-obour` → 301 `/ar/portfolio/sour-nady-el-obour`; `/insights/<slug>` → 200 `noindex` (was 500); traversal attempt → 404; `Host: www.fbassets.com` → 301 `https://fbassets.com/...`; sitemap 34 URLs; robots and llms.txt correct; zero console errors on location pages.
+
+**Owner action (Vercel dashboard):** Project → Settings → Domains → add `www.fbassets.com` → "Redirect to fbassets.com" → **301**. This issues the www certificate; the config redirect is only a backstop.

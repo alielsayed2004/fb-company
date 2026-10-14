@@ -96,7 +96,7 @@ export default function ProjectPageClient({ project: initialProject }) {
     return (
       <div className="min-h-screen bg-fb-bg-light flex flex-col items-center justify-center p-6">
         <h2 className="text-fb-teal font-extrabold text-2xl mb-4">{t('common.projectNotFound')}</h2>
-        <Link href="/" className="text-fb-green hover:underline flex items-center space-x-2">
+        <Link href={locale === 'ar' ? '/ar' : '/'} className="text-fb-teal hover:underline flex items-center gap-2">
           <ArrowLeft size={16} />
           <span>{t('common.backToHome')}</span>
         </Link>
@@ -202,11 +202,7 @@ export default function ProjectPageClient({ project: initialProject }) {
             <button
               type="button"
               onClick={() => {
-                if (typeof window !== 'undefined' && window.history.length > 1) {
-                  window.history.back();
-                } else {
-                  window.location.href = locale === 'ar' ? '/ar/#portfolio' : '/#portfolio';
-                }
+                window.location.href = locale === 'ar' ? '/ar/portfolio' : '/portfolio';
               }}
               className="inline-flex items-center space-x-1.5 rtl:space-x-reverse text-fb-green hover:text-white bg-fb-black/35 hover:bg-fb-black/55 backdrop-blur-md px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/15 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
             >
@@ -225,7 +221,7 @@ export default function ProjectPageClient({ project: initialProject }) {
             className="flex items-center space-x-2.5 rtl:space-x-reverse justify-start flex-wrap gap-y-2"
           >
             <span className="bg-fb-green text-fb-teal text-[11px] sm:text-xs font-extrabold px-3 py-1 rounded-md tracking-wider uppercase shadow-md">
-              {project.status === 'Operational' ? (locale === 'ar' ? 'تشغيل ممتاز' : 'Operational') : (locale === 'ar' ? 'تحت الإنشاء' : project.status)}
+              {project.status === 'Operational' ? (locale === 'ar' ? 'قيد التشغيل' : 'Operational') : (locale === 'ar' ? 'قيد الإنشاء' : project.status)}
             </span>
             <span className="text-xs sm:text-sm text-fb-bg-light/90 font-medium flex items-center bg-white/10 backdrop-blur-md px-3 py-1 rounded-md border border-white/10">
               <MapPin size={13} className="mr-1.5 ml-1.5 text-fb-green shrink-0" />
@@ -366,25 +362,10 @@ export default function ProjectPageClient({ project: initialProject }) {
                   ))}
                 </div>
               ) : (
-                /* User-friendly guidance placeholder when no photos yet */
-                <div className="bg-fb-bg-light/90 border border-dashed border-fb-teal/20 rounded-3xl p-8 sm:p-12 text-center space-y-3">
-                  <div className="w-14 h-14 rounded-2xl bg-fb-teal/5 flex items-center justify-center mx-auto text-fb-green border border-fb-teal/10">
-                    <ImageIcon size={28} />
-                  </div>
-                  <h5 className="text-fb-teal font-extrabold text-base">
-                    {locale === 'ar' ? 'معرض صور المشروع' : 'Project Photo Gallery'}
-                  </h5>
-                  <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
-                    {locale === 'ar' 
-                      ? `يمكنك إضافة الصور الخاصة بهذا المشروع بوضعها في المجلد:\npublic/projects/${project.id}/` 
-                      : `You can add photos for this project by dropping them into:\npublic/projects/${project.id}/`}
-                  </p>
-                  <div className="pt-2">
-                    <code className="text-[11px] bg-fb-teal/5 text-fb-teal px-3 py-1.5 rounded-md font-mono border border-fb-teal/10 inline-block direction-ltr">
-                      public/projects/{project.id}/
-                    </code>
-                  </div>
-                </div>
+                /* No photos yet: visible placeholder, no internal file paths */
+                <p className="bg-fb-bg-light/90 border border-dashed border-fb-teal/20 rounded-3xl p-8 text-center text-sm text-slate-600">
+                  {locale === 'ar' ? '[صور الموقع قيد الإضافة]' : '[Location photos pending]'}
+                </p>
               )}
             </motion.div>
 
@@ -433,7 +414,7 @@ export default function ProjectPageClient({ project: initialProject }) {
                 {t('projectDetails.sourcingOppDesc').replace('{name}', getField(project, 'name'))}
               </p>
               <Link
-                href={`/contact?interest=sourcing&project=${project.id}`}
+                href={`${locale === 'ar' ? '/ar' : ''}/contact?interest=franchise-sourcing&project=${project.id}#consultation-form`}
                 className="w-full flex items-center justify-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold py-3.5 rounded-lg text-xs transition-colors shadow-md uppercase tracking-wider z-10 relative"
               >
                 <span>{t('projectDetails.consultBtn')}</span>

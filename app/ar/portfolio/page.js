@@ -168,7 +168,7 @@ export default function PortfolioPage() {
                   >
                     {/* Card Top / Visual */}
                     <Link 
-                      href={`/projects/${project.id}`}
+                      href={`${locale === 'ar' ? '/ar' : ''}/portfolio/${project.slug || project.id}`}
                       className="relative aspect-16/10 overflow-hidden bg-fb-teal/10 cursor-pointer block"
                     >
                         <Image
@@ -200,7 +200,7 @@ export default function PortfolioPage() {
                     {/* Card Footer / CTA */}
                     <div className="p-4 sm:p-5">
                       <Link
-                        href={`/projects/${project.id}`}
+                        href={`${locale === 'ar' ? '/ar' : ''}/portfolio/${project.slug || project.id}`}
                         className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-fb-teal hover:bg-fb-green text-white hover:text-fb-teal font-extrabold text-xs transition-all duration-300 shadow-md group-hover:shadow-lg cursor-pointer"
                       >
                         <span>{isAr ? 'استعراض تفاصيل المشروع والمعرض' : 'View Full Details & Gallery'}</span>

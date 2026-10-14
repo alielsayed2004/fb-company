@@ -1,54 +1,31 @@
-export default function sitemap() {
-  const baseUrl = 'https://fbassets.com';
-  const fixedDate = new Date('2026-10-06T00:00:00.000Z');
+import { SITE_URL } from '@/lib/seo';
+import { getAllLocations, locationSlug } from '@/lib/projects';
 
-  const routes = [
+// Indexable pages only (no admin, API or Insights while it is out of the navigation).
+const LAST_MODIFIED = new Date('2026-10-14T00:00:00.000Z');
+
+export default function sitemap() {
+  const paths = [
     '/',
     '/about',
     '/asset-management',
     '/franchise-sourcing',
-    '/insights',
     '/portfolio',
-    '/portfolio/10th-of-ramadan-chillout-station',
-    '/portfolio/mostafa-kamel-axis-new-cairo',
-    '/portfolio/marina-5-north-coast',
-    '/portfolio/al-rowad-club-10th-of-ramadan',
-    '/portfolio/sour-nady-el-nady-sheraton',
-    '/portfolio/sour-nady-el-obour',
-    '/portfolio/el-salam-plaza-mall',
+    ...getAllLocations().map((p) => `/portfolio/${locationSlug(p)}`),
     '/contact',
     '/careers',
     '/privacy-policy',
-    '/terms'
+    '/terms',
+    '/risk-disclaimer',
   ];
 
-  const sitemapEntries = [];
-
-  routes.forEach(route => {
-    // English URL
-    sitemapEntries.push({
-      url: `${baseUrl}${route}`,
-      lastModified: fixedDate,
-      alternates: {
-        languages: {
-          en: `${baseUrl}${route}`,
-          ar: `${baseUrl}/ar${route === '/' ? '' : route}`
-        }
-      }
-    });
-    
-    // Arabic URL
-    sitemapEntries.push({
-      url: `${baseUrl}/ar${route === '/' ? '' : route}`,
-      lastModified: fixedDate,
-      alternates: {
-        languages: {
-          en: `${baseUrl}${route}`,
-          ar: `${baseUrl}/ar${route === '/' ? '' : route}`
-        }
-      }
-    });
+  return paths.flatMap((path) => {
+    const en = `${SITE_URL}${path === '/' ? '' : path}`;
+    const ar = `${SITE_URL}/ar${path === '/' ? '' : path}`;
+    const alternates = { languages: { en, ar, 'x-default': en } };
+    return [
+      { url: en, lastModified: LAST_MODIFIED, alternates },
+      { url: ar, lastModified: LAST_MODIFIED, alternates },
+    ];
   });
-
-  return sitemapEntries;
 }
