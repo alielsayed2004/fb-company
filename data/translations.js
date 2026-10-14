@@ -47,7 +47,7 @@ export const translations = {
       },
       partners: {
         eyebrow: "Brand Partners",
-        title: "Brands Operating at Our Locations",
+        title: "Our Brand Partners",
         loading: "Loading brand partners..."
       },
       about: {
@@ -368,7 +368,7 @@ export const translations = {
       },
       partners: {
         eyebrow: "شركاؤنا",
-        title: "علامات تجارية تعمل في مواقعنا",
+        title: "العلامات التجارية الشريكة",
         loading: "جارٍ تحميل العلامات التجارية..."
       },
       about: {

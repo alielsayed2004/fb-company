@@ -189,3 +189,51 @@ Everything below was re-checked as unreferenced immediately before removal. Rest
 | Earlier steps: `data/projects/*.json` (8 files), `data/blogs.json`, `out/` | — | See Steps 4 and 5. |
 
 **Now unused but NOT deleted (not on the approved list):** `components/AdminPanelModal.js`, `components/BlogSection.js`, `components/SmoothScroll.js` (renders nothing), `lib/db.js` (IndexedDB helper, no longer imported). `components/AIAssistant.js` is kept on purpose (owner decision).
+
+---
+
+## Step 7 — Performance & motion (MOT-01…05, PERF-01…03, owner's performance list) + fix for a Step 5 regression
+
+### Regression found and fixed
+Step 5 added catch-all redirects `/projects/:path*` → `/portfolio`. These also matched the **real photo/video files** in `public/projects/<id>/…`, so location images and videos were redirected (never deployed — found during local testing). `next.config.mjs` now keeps only the exact per-location redirects (`/projects/<id>` → `/portfolio/<slug>`, AR too) plus `/projects` → `/portfolio`. Re-verified: 418 unique local links/assets across 24 pages return 200; old location URLs still 301.
+
+### Content visible without JavaScript
+| File | Change |
+|---|---|
+| `components/motion.js` (new) | Drop-in `motion` used by all public pages: mount animations (hero) render as plain visible HTML; scroll reveals render visible with `data-reveal`; real framer-motion is kept only for interactive/state-driven animation (exit/AnimatePresence, layout, gestures, MotionValue parallax, `animate` without `initial`). |
+| `lib/reveal.js` (new) + root layouts | Tiny inline script: only elements that start **below the first screen** are hidden-then-revealed (IntersectionObserver, once), and only if JS runs and reduced motion is off. Anything on screen at load is never hidden. 3 s safety reveal. |
+| `app/globals.css` | Reveal CSS (opacity + transform only, 500 ms, one easing); global `prefers-reduced-motion` rule disables animations/transitions. |
+| `components/InteractiveEarthFocus.js` | Uses the new `motion`; decorative globe image no longer `priority` (it was preloaded and competing with the hero). |
+
+Result: text at `opacity:0` in server HTML **48 → 0** (Home) and 10–30 → 0 (inner pages); the only remaining `opacity:0` is the decorative cursor dot. Text still invisible after scrolling: **0** on all pages at 390 px and 1440 px; with JavaScript disabled: **0** (was 48).
+
+### Logo marquee
+| File | Change |
+|---|---|
+| `components/PartnersMarquee.js` | One set of 3 rows for all breakpoints, each duplicated once for a seamless loop: **435 → 111 `<img>`** on Home; plain lazy `<img>` with fixed size instead of next/image srcsets; alt text from `lib/brandLogos.js` (was "Brand Partner #N"); duplicate copies `aria-hidden`; **pauses on hover/focus + visible Pause/Play button**; `h3` → `h2`. Home HTML **873 KB → 157 KB**. |
+| `data/translations.js` | Marquee title "Our Brand Partners" / "العلامات التجارية الشريكة" (the logos come from the company profile, not only the project data). |
+
+### Videos
+| Change | Before → after |
+|---|---|
+| All 14 videos re-encoded (H.264, ≤1280 px, ≤30 fps, CRF 28, no audio track, fast-start) — same file names; frame comparison showed no visible difference under the hero overlay. | **≈ 75 MB → 13 MB** (e.g. contact 11.2 → 0.9 MB, hero 8.3 → 1.4 MB) |
+| `components/HeroVideo.js` (new): poster image paints immediately; video attaches only after the `load` event (idle); skipped for reduced-motion and Data-Saver users. Used on Home, About, both service pages, Portfolio, Contact, Careers and location pages. | Hero video no longer competes with first paint |
+| New posters `public/videos/*-poster.jpg` (13–43 KB; home 90 KB). Location pages use the Next image optimizer for the cover poster (Marina cover 2.9 MB PNG → 99 KB WebP). | — |
+| Remaining `preload="auto"` → `preload="metadata"`. | — |
+
+### Fonts
+| Change |
+|---|
+| Lama Sans converted to **WOFF2** (≈155 KB → ≈51 KB per weight), TTF kept as fallback; unused Thin (100) and ExtraLight (200) faces removed from CSS; **Regular and ExtraBold preloaded**. |
+| Render-blocking Google Fonts `@import` for **Outfit** removed (not a brand font); fallbacks are system fonts with Arabic support. CSP no longer allows Google Fonts. |
+
+### Measured (local production build)
+| Page | Lighthouse mobile Perf before → after | Page weight before → after |
+|---|---|---|
+| Home | 59 → ~78 | 9.9 MB → 2.7 MB |
+| Home AR | 59 → ~80 | 9.8 MB → 2.7 MB |
+| Asset Management | 76 → ~83 | 3.5 MB → 0.9 MB |
+| Contact | 76 → ~83 | 12.2 MB → 1.6 MB |
+| Location (Marina 5) | 73 → ~75 | 5.9 MB → 2.6 MB |
+
+Best Practices: 96 → **100** on every page tested. Real Chrome with mobile throttling (slow 4G, 4× CPU) measures LCP **0.8–0.9 s** on Home and El Salam; Lighthouse's simulated LCP remains pessimistic (4–6 s) because it attributes the post-load video download to the page — final numbers in Phase 3.

@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from '@/components/motion';
 import { Shield, Compass, BookOpen, Layers, Users, Award, TrendingUp, Landmark, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import HeroVideo from '@/components/HeroVideo';
 import { useData } from '@/context/DataContext';
 import StatCounter from '@/components/StatCounter';
 
@@ -108,18 +109,7 @@ export default function About() {
       {/* 1. HERO SECTION */}
       <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] min-h-screen h-screen shrink-0 px-4 sm:px-6">
         {/* Background Video */}
-        <video
-          ref={videoRef}
-          key="/videos/about.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105"
-        >
-          <source src="/videos/about.mp4" type="video/mp4" />
-        </video>
+        <HeroVideo src="/videos/about.mp4" poster="/videos/about-poster.jpg" className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105" />
         {/* Dark Overlay to protect text contrast */}
         <div className="absolute inset-0 bg-fb-teal/60 mix-blend-multiply z-0 pointer-events-none" />
 

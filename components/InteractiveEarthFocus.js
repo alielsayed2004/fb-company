@@ -2,7 +2,8 @@
 
 import React, { useRef, useState, useSyncExternalStore } from 'react';
 import Image from 'next/image';
-import { motion, useMotionValue, useSpring, useTransform, useScroll, useReducedMotion } from 'framer-motion';
+import { useMotionValue, useSpring, useTransform, useScroll, useReducedMotion } from 'framer-motion';
+import { motion } from '@/components/motion';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function InteractiveEarthFocus() {
@@ -138,7 +139,6 @@ export default function InteractiveEarthFocus() {
               src="/images/earth-egypt-focus-cropped.png"
               alt="F.B Company Global Perspective with Strategic Focus on Egypt"
               fill
-              priority
               sizes="(max-width: 768px) 100vw, 550px"
               className="object-contain object-center transition-transform duration-700"
             />

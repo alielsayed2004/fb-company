@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from '@/components/motion';
 import { FileText, CheckCircle2, ExternalLink, Download } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 

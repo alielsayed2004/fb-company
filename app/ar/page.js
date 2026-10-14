@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { useScroll, useTransform } from 'framer-motion';
+import { motion } from '@/components/motion';
 import { ArrowRight, ShieldCheck, Target, BarChart4, Cpu, Search, Compass, Shield, TrendingUp, Fuel, Building2, Store, FileText, Download, CheckCircle2, Briefcase } from 'lucide-react';
 import projectsData from '@/data/projects.json';
 import ProjectDrawer from '@/components/ProjectDrawer';
@@ -14,6 +15,7 @@ import CompanyProfile from '@/components/CompanyProfile';
 import StatCounter from '@/components/StatCounter';
 import ServicePaths from '@/components/ServicePaths';
 import { useLanguage } from '@/context/LanguageContext';
+import HeroVideo from '@/components/HeroVideo';
 import { useData } from '@/context/DataContext';
 
 const corporateEase = [0.22, 1, 0.36, 1];
@@ -123,17 +125,7 @@ export default function Home() {
           style={{ y: heroBgY, willChange: 'transform' }}
           className="absolute inset-0 w-full h-full pointer-events-none z-0"
         >
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            poster="/videos/hero-poster.jpg"
-            className="w-full h-full object-cover opacity-50 scale-105"
-          >
-            <source src="/videos/hero-bg.mp4" type="video/mp4" />
-          </video>
+          <HeroVideo src="/videos/hero-bg.mp4" poster="/videos/hero-poster.jpg" className="w-full h-full object-cover opacity-50 scale-105" />
           <div className="absolute inset-0 bg-fb-teal/60 mix-blend-multiply pointer-events-none" />
           <div className="absolute inset-0 hero-grid-overlay pointer-events-none" />
         </motion.div>

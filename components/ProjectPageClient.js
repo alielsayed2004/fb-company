@@ -3,13 +3,15 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
+import { motion } from '@/components/motion';
 import { 
   ArrowLeft, MapPin, Calendar, Layout, Maximize2, Users, 
   ArrowUpRight, TrendingUp, Camera, ChevronDown, X, 
   ChevronLeft, ChevronRight, ImageIcon
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import HeroVideo from '@/components/HeroVideo';
 import { useData } from '@/context/DataContext';
 
 export default function ProjectPageClient({ project: initialProject }) {
@@ -174,17 +176,11 @@ export default function ProjectPageClient({ project: initialProject }) {
       {/* 1. FULLSCREEN HERO HEADER */}
       <section className={`relative min-h-[100dvh] min-h-screen shrink-0 flex flex-col justify-between pt-24 sm:pt-28 pb-10 md:pb-12 bg-gradient-to-br ${project.coverColor || 'from-teal-800 to-teal-950'} text-fb-white overflow-hidden border-b border-fb-teal/20`}>
         {/* Background Video */}
-        <video
-          ref={videoRef}
-          key={videoSrc}
+        <HeroVideo
           src={videoSrc}
-          autoPlay
-          loop
-          muted
-          playsInline
+          poster={`/_next/image?url=${encodeURIComponent(project.coverImage || `/projects/${project.id}/cover.jpg`)}&w=1200&q=75`}
           onError={handleVideoError}
-          poster={project.coverImage || `/projects/${project.id}/cover.jpg`}
-          className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none z-0 scale-105 transition-transform duration-1000"
+          className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none z-0 scale-105"
         />
         {/* Dark Overlay to protect text contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-fb-teal/90 via-fb-teal/50 to-fb-teal/60 mix-blend-multiply z-0 pointer-events-none" />

@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion } from '@/components/motion';
 import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import HeroVideo from '@/components/HeroVideo';
 import { useData } from '@/context/DataContext';
 
 const corporateEase = [0.22, 1, 0.36, 1];
@@ -249,18 +250,7 @@ export default function Contact() {
       {/* Hero */}
       <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] min-h-screen h-screen shrink-0 px-4 sm:px-6">
         {/* Background Video */}
-        <video
-          ref={videoRef}
-          key="/videos/contact.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105"
-        >
-          <source src="/videos/contact.mp4" type="video/mp4" />
-        </video>
+        <HeroVideo src="/videos/contact.mp4" poster="/videos/contact-poster.jpg" className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105" />
         {/* Dark Overlay to protect text contrast */}
         <div className="absolute inset-0 bg-fb-teal/60 mix-blend-multiply z-0 pointer-events-none" />
 

@@ -9,9 +9,9 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 const cspHeader = `
   default-src 'self';
   script-src 'self' 'unsafe-inline';
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  style-src 'self' 'unsafe-inline';
   img-src 'self' blob: data: https:;
-  font-src 'self' data: https://fonts.gstatic.com;
+  font-src 'self' data:;
   connect-src 'self';
   media-src 'self' blob: data:;
   frame-src 'self';
@@ -46,8 +46,7 @@ const nextConfig = {
       ...locationRedirects,
       { source: '/projects', destination: '/portfolio', statusCode: 301 },
       { source: '/ar/projects', destination: '/ar/portfolio', statusCode: 301 },
-      { source: '/projects/:path*', destination: '/portfolio', statusCode: 301 },
-      { source: '/ar/projects/:path*', destination: '/ar/portfolio', statusCode: 301 },
+      // No catch-all for /projects/*: /projects/<id>/<file> are real photo/video assets in public/.
     ];
   },
 

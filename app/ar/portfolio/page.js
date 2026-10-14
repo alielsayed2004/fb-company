@@ -3,12 +3,13 @@
 import { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion } from '@/components/motion';
 import { 
   Building2, MapPin, ArrowRight, 
   Store, Fuel, TrendingUp
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import HeroVideo from '@/components/HeroVideo';
 import { useData } from '@/context/DataContext';
 
 const corporateEase = [0.22, 1, 0.36, 1];
@@ -63,18 +64,7 @@ export default function PortfolioPage() {
 
       {/* 1. HERO SECTION */}
       <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] min-h-screen h-screen shrink-0 px-4 sm:px-6">
-        <video
-          ref={videoRef}
-          key="/videos/portfolio.mp4?v=2"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105"
-        >
-          <source src="/videos/portfolio.mp4?v=2" type="video/mp4" />
-        </video>
+        <HeroVideo src="/videos/portfolio.mp4?v=2" poster="/videos/portfolio-poster.jpg" className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105" />
         <div className="absolute inset-0 bg-fb-teal/60 mix-blend-multiply z-0 pointer-events-none" />
         <div className="absolute inset-0 hero-grid-overlay pointer-events-none z-0" />
 

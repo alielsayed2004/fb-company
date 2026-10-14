@@ -1,28 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────
-   LAMA SANS COMPLETE FONT FAMILY (ARABIC & LATIN 100-900)
+   LAMA SANS (ARABIC & LATIN) — WOFF2 with TTF fallback, weights 300–900 in use.
+   Regular (400) and ExtraBold (800) are preloaded in the root layouts.
    ───────────────────────────────────────────────────────────── */
-@font-face {
-  font-family: 'Lama Sans';
-  src: url('/fonts/LamaSans-Thin.ttf') format('truetype');
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
 
 @font-face {
   font-family: 'Lama Sans';
-  src: url('/fonts/LamaSans-ExtraLight.ttf') format('truetype');
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Lama Sans';
-  src: url('/fonts/LamaSans-Light.ttf') format('truetype');
+  src: url('/fonts/LamaSans-Light.woff2') format('woff2'), url('/fonts/LamaSans-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -30,7 +15,7 @@
 
 @font-face {
   font-family: 'Lama Sans';
-  src: url('/fonts/LamaSans-Regular.ttf') format('truetype');
+  src: url('/fonts/LamaSans-Regular.woff2') format('woff2'), url('/fonts/LamaSans-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -38,7 +23,7 @@
 
 @font-face {
   font-family: 'Lama Sans';
-  src: url('/fonts/LamaSans-Medium.ttf') format('truetype');
+  src: url('/fonts/LamaSans-Medium.woff2') format('woff2'), url('/fonts/LamaSans-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -46,7 +31,7 @@
 
 @font-face {
   font-family: 'Lama Sans';
-  src: url('/fonts/LamaSans-SemiBold.ttf') format('truetype');
+  src: url('/fonts/LamaSans-SemiBold.woff2') format('woff2'), url('/fonts/LamaSans-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -54,7 +39,7 @@
 
 @font-face {
   font-family: 'Lama Sans';
-  src: url('/fonts/LamaSans-Bold.ttf') format('truetype');
+  src: url('/fonts/LamaSans-Bold.woff2') format('woff2'), url('/fonts/LamaSans-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -62,7 +47,7 @@
 
 @font-face {
   font-family: 'Lama Sans';
-  src: url('/fonts/LamaSans-ExtraBold.ttf') format('truetype');
+  src: url('/fonts/LamaSans-ExtraBold.woff2') format('woff2'), url('/fonts/LamaSans-ExtraBold.ttf') format('truetype');
   font-weight: 800;
   font-style: normal;
   font-display: swap;
@@ -70,7 +55,7 @@
 
 @font-face {
   font-family: 'Lama Sans';
-  src: url('/fonts/LamaSans-Black.ttf') format('truetype');
+  src: url('/fonts/LamaSans-Black.woff2') format('woff2'), url('/fonts/LamaSans-Black.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -85,8 +70,8 @@
   --color-fb-black: #101616;
   --color-fb-white: #FFFFFF;
   
-  --font-lama: "Lama Sans", "Outfit", sans-serif;
-  --font-sans: "Lama Sans", "Outfit", sans-serif;
+  --font-lama: "Lama Sans", system-ui, "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-sans: "Lama Sans", system-ui, "Segoe UI", Tahoma, Arial, sans-serif;
 }
 
 :root {
@@ -110,7 +95,7 @@ html {
 body {
   background-color: var(--fb-bg-light);
   color: var(--fb-black-text);
-  font-family: "Lama Sans", "Outfit", sans-serif;
+  font-family: "Lama Sans", system-ui, "Segoe UI", Tahoma, Arial, sans-serif;
   overflow-x: hidden;
   will-change: auto;
 }
@@ -242,6 +227,16 @@ button, input, select, textarea {
   animation: marquee-right 75s linear infinite;
 }
 
+/* Marquee pauses on hover, keyboard focus, or the visible Pause button */
+.marquee:hover .animate-marquee-left,
+.marquee:hover .animate-marquee-right,
+.marquee:focus-within .animate-marquee-left,
+.marquee:focus-within .animate-marquee-right,
+.marquee.is-paused .animate-marquee-left,
+.marquee.is-paused .animate-marquee-right {
+  animation-play-state: paused;
+}
+
 /* Slow ticker animation for numbers band */
 @keyframes ticker {
   0% { transform: translateX(0); }
@@ -346,7 +341,27 @@ button, input, select, textarea {
   padding-top: max(1rem, env(safe-area-inset-top, 0px));
 }
 
+/* ─────────────────────────────────────────────────────────────
+   SCROLL REVEAL (see lib/reveal.js + components/motion.js)
+   Content is visible by default; it is only hidden-then-revealed when the inline
+   script has marked <html data-reveal-ready> (JS on, motion allowed).
+   Only opacity and transform are animated (GPU-friendly, no layout shift).
+   ───────────────────────────────────────────────────────────── */
+[data-reveal-ready] [data-reveal][data-pending]:not([data-shown]) {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+}
+[data-reveal-ready] [data-reveal] {
+  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1), transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
   .animate-marquee-left,
   .animate-marquee-right,
   .animate-ticker,

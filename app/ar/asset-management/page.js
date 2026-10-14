@@ -2,11 +2,12 @@
 
 import { useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion } from '@/components/motion';
 import { ArrowRight, MapPin, Layers, CheckCircle, Search, Target, Building2, BarChart4, Landmark, ShieldCheck, TrendingUp } from 'lucide-react';
 import CompanyProfile from '@/components/CompanyProfile';
 import ServiceCta, { HeroCta } from '@/components/ServiceCta';
 import { useLanguage } from '@/context/LanguageContext';
+import HeroVideo from '@/components/HeroVideo';
 
 const corporateEase = [0.22, 1, 0.36, 1];
 
@@ -65,18 +66,7 @@ export default function AssetManagement() {
       {/* Hero */}
       <section className="bg-fb-teal text-fb-white relative overflow-hidden flex flex-col justify-center min-h-[100dvh] h-[100dvh] min-h-screen h-screen shrink-0 px-4 sm:px-6">
         {/* Background Video */}
-        <video
-          ref={videoRef}
-          key="/videos/asset-management.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105"
-        >
-          <source src="/videos/asset-management.mp4" type="video/mp4" />
-        </video>
+        <HeroVideo src="/videos/asset-management.mp4" poster="/videos/asset-management-poster.jpg" className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0 scale-105" />
         {/* Dark Overlay to protect text contrast */}
         <div className="absolute inset-0 bg-fb-teal/60 mix-blend-multiply z-0 pointer-events-none" />
 
