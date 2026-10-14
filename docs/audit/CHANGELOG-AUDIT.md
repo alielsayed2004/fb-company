@@ -166,3 +166,26 @@ Also removed: home "guarantee 100% occupancy" + "Audited and verified institutio
 **Verified locally:** all 7 location pages EN + AR → 200, one `<h1>`, unique titles, Place/ShoppingCenter + BreadcrumbList; `/portfolio/does-not-exist` → 404; `/projects/chillout-marina-5` → 301 `/portfolio/marina-5-north-coast`; `/ar/projects/sour-nady-el-obour` → 301 `/ar/portfolio/sour-nady-el-obour`; `/insights/<slug>` → 200 `noindex` (was 500); traversal attempt → 404; `Host: www.fbassets.com` → 301 `https://fbassets.com/...`; sitemap 34 URLs; robots and llms.txt correct; zero console errors on location pages.
 
 **Owner action (Vercel dashboard):** Project → Settings → Domains → add `www.fbassets.com` → "Redirect to fbassets.com" → **301**. This issues the www certificate; the config redirect is only a backstop.
+
+---
+
+## Step 6 — Approved deletions (cleanup)
+
+Everything below was re-checked as unreferenced immediately before removal. Restore any item with `git checkout <commit>~1 -- <path>`.
+
+| Removed | Size | Notes |
+|---|---|---|
+| `components/EgyptScannerCard.js` | — | Contained per-site "EXPECTED YIELD 13.9–17.2%" and "100% occupancy". |
+| `components/EgyptMap.js` | — | Unused. |
+| `components/EagleOfForesight.js` | — | Unused. |
+| `components/ImpactNumbers.js` | — | Unused (duplicate counter logic). |
+| `components/PartnersGrid.js` | — | Unused. |
+| `components/BrandLogo.js` | — | Unused. |
+| `lenis` (npm dependency) | — | `SmoothScroll.js` never used it. |
+| `public/images/earth-egypt-focus-transparent.png`, `-user.png`, `-wide.png`, `earth-egypt-focus.png`, `globe-sphere-pure.png` | ≈ 2.5 MB | Only `earth-egypt-focus-cropped.png` is used. |
+| `public/videos/hero-bg.mp4.gif` | 8.4 MB | Unreferenced. |
+| `public/videos/hero-bg-mobile.mp4` | — | Unreferenced. |
+| `public/file.svg`, `globe.svg`, `next.svg`, `vercel.svg`, `window.svg` | 20 KB | create-next-app defaults, unreferenced. |
+| Earlier steps: `data/projects/*.json` (8 files), `data/blogs.json`, `out/` | — | See Steps 4 and 5. |
+
+**Now unused but NOT deleted (not on the approved list):** `components/AdminPanelModal.js`, `components/BlogSection.js`, `components/SmoothScroll.js` (renders nothing), `lib/db.js` (IndexedDB helper, no longer imported). `components/AIAssistant.js` is kept on purpose (owner decision).
