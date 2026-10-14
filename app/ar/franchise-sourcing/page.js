@@ -8,6 +8,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import HeroVideo from '@/components/HeroVideo';
 import projectsData from '@/data/projects.json';
 import ServiceCta, { HeroCta } from '@/components/ServiceCta';
+import Faq from '@/components/Faq';
 
 const corporateEase = [0.22, 1, 0.36, 1];
 
@@ -267,6 +268,8 @@ export default function FranchiseSourcing() {
           </div>
         </motion.div>
       </section>
+
+      <Faq topic="sourcing" />
 
       <ServiceCta
         title={t('sourcing.ctaTitle')}

@@ -6,6 +6,7 @@ import { motion } from '@/components/motion';
 import { ArrowRight, MapPin, Layers, CheckCircle, Search, Target, Building2, BarChart4, Landmark, ShieldCheck, TrendingUp } from 'lucide-react';
 import CompanyProfile from '@/components/CompanyProfile';
 import ServiceCta, { HeroCta } from '@/components/ServiceCta';
+import Faq from '@/components/Faq';
 import { useLanguage } from '@/context/LanguageContext';
 import HeroVideo from '@/components/HeroVideo';
 
@@ -222,6 +223,8 @@ export default function AssetManagement() {
           </motion.div>
         </motion.div>
       </section>
+
+      <Faq topic="asset" />
 
       <ServiceCta
         title={t('asset.ctaTitle')}

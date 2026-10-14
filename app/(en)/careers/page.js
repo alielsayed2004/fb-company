@@ -153,6 +153,7 @@ export default function CareersPage() {
 
       if (response.ok && data.success) {
         setStatus('success');
+        window.dispatchEvent(new CustomEvent('fb:lead', { detail: { form: 'careers' } }));
         form.reset();
         setCvFile(null);
         setDepartment('');

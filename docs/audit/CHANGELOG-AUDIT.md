@@ -255,3 +255,22 @@ Best Practices: 96 → **100** on every page tested. Real Chrome with mobile thr
 | `components/Footer.js` | Social icons 44 × 44 px; navigation links 44 px tall and 14 px text. | RESP-02, UI-02 |
 
 **Verified locally:** Lighthouse Accessibility **100** on Home, Home AR, About, Asset Management, Franchise Sourcing, Portfolio, Contact, Careers (EN + AR) and a location page (was 94–98; `color-contrast` and `heading-order` no longer reported). Mobile menu tested: opens with focus inside, body scroll locked, Escape closes and returns focus to the button.
+
+---
+
+## Step 9 — P1 GEO, trust & analytics readiness (GEO-01…03, EEAT-01 partial, TRUST-01, TRUST-02, UX-08, CNT-04)
+
+| File | Change | Why |
+|---|---|---|
+| `lib/schema.js` (new) | One JSON-LD generator from `data/company.json`: `Organization` (logo, slogan, address, phone, email, social profiles), `ProfessionalService` local business with **geo coordinates parsed from your own Google Maps link (TO VERIFY)** and `hasMap`, `Person` Eng. Mohamed Bahr as Chief Executive Officer (no "founder" claim), `WebSite`. No opening hours (not provided). Type stays `ProfessionalService` until D3 is confirmed. Replaces two hand-copied blocks in the root layouts. | GEO-02 |
+| `lib/schema.js → ENTITY` | **One quotable entity definition (EN + AR)**, used word-for-word on Home ("About" block), About page intro, `/llms.txt` and in structured data. | GEO-01 |
+| `data/faq.js`, `components/Faq.js` (new) | Bilingual FAQ on Home (5), Asset Management (4) and Franchise Location Sourcing (4) with `FAQPage` schema; native `<details>` (works without JS). Includes "Does F.B Company guarantee returns or occupancy? — No." Answers use only facts already on the site — **TO VERIFY**. | GEO-03, compliance |
+| `app/(en|ar)/privacy-policy/page.js` | Rewritten EN + AR: data collected (contact, job applications incl. CVs, server logs), purposes, processors actually used (Vercel, Google Sheets/Drive with restricted CV access, Formspree), cookies, rights, contact. Visible `[ADD: legal review]`, `[ADD: retention period]`, `[ADD: response time]`, cross-border transfer note. | TRUST-01 |
+| `components/Analytics.js` (new) | GA4 + bilingual consent banner + events `generate_lead` (contact/careers success), `click_phone`, `click_email`, `click_whatsapp`, `download_profile`. **Inactive until `NEXT_PUBLIC_GA_MEASUREMENT_ID` is set** ([ADD: GA4 measurement ID]); CSP allows Google Analytics only when that variable exists. | TRUST-02 |
+| `components/WhatsAppButton.js` (new), `data/company.json` (`contactInfo.whatsapp: ""`) | Floating WhatsApp button (44 px+, safe-area aware, hidden on Contact/Careers so it never covers form fields). **Renders only after you add the number** ([ADD: WhatsApp business number]). | UX-08 |
+| Contact & careers pages | Dispatch a `fb:lead` event on successful submission (used by analytics). | TRUST-02 |
+| `components/NotFoundContent.js`, `app/global-not-found.js`, `app/(en)/not-found.js`, `app/ar/not-found.js` (new); `next.config.mjs` (`experimental.globalNotFound`) | Branded 404 (logo, EN + AR, links to Home, both services, locations, contact), returns HTTP 404, `noindex`. Global version needed because the site has separate EN and AR root layouts. | CNT-04 |
+
+**Verified locally:** all JSON-LD blocks parse; types per page as listed above; FAQ renders without JavaScript; unknown URLs and unknown location slugs (EN/AR) → 404 with the branded page; Lighthouse Accessibility 100 and SEO 100 on Home, Asset Management, AR Franchise Sourcing and Privacy; no console errors.
+
+**Owner actions:** send the GA4 measurement ID (then set `NEXT_PUBLIC_GA_MEASUREMENT_ID` in Vercel) and the WhatsApp number (then fill `contactInfo.whatsapp`), confirm the FAQ answers and the office coordinates.

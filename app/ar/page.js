@@ -14,6 +14,8 @@ import PortfolioTimeline from '@/components/PortfolioTimeline';
 import CompanyProfile from '@/components/CompanyProfile';
 import StatCounter from '@/components/StatCounter';
 import ServicePaths from '@/components/ServicePaths';
+import { ENTITY } from '@/lib/schema';
+import Faq from '@/components/Faq';
 import { useLanguage } from '@/context/LanguageContext';
 import HeroVideo from '@/components/HeroVideo';
 import { useData } from '@/context/DataContext';
@@ -263,7 +265,7 @@ export default function Home() {
             <h2 className="text-fb-teal font-bold text-2xl sm:text-3xl md:text-4xl text-balance">{t('home.about.title')}</h2>
             <div className="text-fb-black/80 text-xs sm:text-sm md:text-base leading-relaxed space-y-3 sm:space-y-4">
               <p>
-                {t('home.about.p1')}
+                {ENTITY[locale === 'ar' ? 'ar' : 'en']}
               </p>
               <p className="text-xs md:text-sm text-fb-black/60 italic border-l-2 border-fb-green pl-4">
                 {t('home.about.p2')}
@@ -377,6 +379,8 @@ export default function Home() {
       <CompanyProfile />
 
       {/* 10. Articles section hidden (owner decision D5) until Insights returns */}
+
+      <Faq topic="home" />
 
       {/* 11. FINAL CONSULTATION CTA */}
       <section className="bg-fb-teal text-fb-bg-light py-16 sm:py-24 md:py-28 flex flex-col justify-center items-center px-4 sm:px-6 relative overflow-hidden border-t border-fb-bg-light/10">

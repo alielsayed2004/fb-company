@@ -6,13 +6,16 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 // Browsers only talk to our own origin: forms post to /api/*, which forwards to Formspree/Google server-side.
 // 'unsafe-inline' is still required for Next.js inline bootstrap scripts (no nonce setup yet).
+// Google Analytics domains are allowed only when GA4 is configured (NEXT_PUBLIC_GA_MEASUREMENT_ID).
+const ga = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ? ' https://www.googletagmanager.com https://*.google-analytics.com' : '';
+
 const cspHeader = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline';
+  script-src 'self' 'unsafe-inline'${ga};
   style-src 'self' 'unsafe-inline';
   img-src 'self' blob: data: https:;
   font-src 'self' data:;
-  connect-src 'self';
+  connect-src 'self'${ga};
   media-src 'self' blob: data:;
   frame-src 'self';
   object-src 'none';
@@ -33,6 +36,9 @@ const locationRedirects = projects.flatMap((p) => {
 const nextConfig = {
   // The parent folder has its own lockfile; pin the workspace root to this project.
   outputFileTracingRoot: projectRoot,
+
+  // Branded 404 for unmatched URLs across both root layouts (app/global-not-found.js).
+  experimental: { globalNotFound: true },
 
   async redirects() {
     return [

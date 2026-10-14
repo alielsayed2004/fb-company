@@ -7,6 +7,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import HeroVideo from '@/components/HeroVideo';
 import { useData } from '@/context/DataContext';
 import StatCounter from '@/components/StatCounter';
+import { ENTITY } from '@/lib/schema';
 
 const corporateEase = [0.22, 1, 0.36, 1];
 
@@ -162,7 +163,7 @@ export default function About() {
             }}
             className="text-fb-bg-light/85 text-xs sm:text-sm md:text-[15px] max-w-lg leading-relaxed font-normal"
           >
-            {t('about.desc')}
+            {ENTITY[locale === 'ar' ? 'ar' : 'en']}
           </motion.p>
         </motion.div>
       </section>

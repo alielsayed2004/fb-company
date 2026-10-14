@@ -1,8 +1,11 @@
 import "../globals.css";
 import { pageMetadata, SITE_URL } from "@/lib/seo";
 import { revealScript } from "@/lib/reveal";
+import { organizationJsonLd } from "@/lib/schema";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Analytics from "@/components/Analytics";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import { LanguageProvider } from "@/context/LanguageContext";
@@ -32,59 +35,7 @@ export const viewport = {
   initialScale: 1,
 };
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://fbassets.com/#organization",
-      "name": "F.B Company",
-      "alternateName": ["FB Assets", "F.B Assets", "إف بي للاستثمار وإدارة الأصول"],
-      "url": "https://fbassets.com",
-      "logo": "https://fbassets.com/company/logo.png",
-      "slogan": "From Vision to Value",
-      "description": "F.B Company is an Egyptian asset management and franchise location sourcing firm. We identify, develop, and manage high-traffic commercial locations and match them with franchise brands across Egypt.",
-      "email": "info@fbassets.com",
-      "telephone": "+201117751967",
-      "founder": { "@type": "Person", "name": "Eng. Mohamed Bahr", "jobTitle": "CEO" },
-      "areaServed": { "@type": "Country", "name": "Egypt" },
-      "knowsAbout": ["Asset Management", "Commercial Real Estate", "Franchise Location Sourcing", "Retail Site Selection", "Investment Management"],
-      "sameAs": [
-        "https://www.facebook.com/profile.php?id=61563734981427",
-        "https://x.com/FB_Company1",
-        "https://www.instagram.com/fb_company1/",
-        "https://www.linkedin.com/company/f-b-company1/about/?viewAsMember=true",
-        "https://www.tiktok.com/@fbcompany1"
-      ]
-    },
-    {
-      "@type": "ProfessionalService",
-      "@id": "https://fbassets.com/#localbusiness",
-      "name": "F.B Company",
-      "parentOrganization": { "@id": "https://fbassets.com/#organization" },
-      "url": "https://fbassets.com",
-      "image": "https://fbassets.com/company/logo.png",
-      "telephone": "+201117751967",
-      "email": "info@fbassets.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "B165, Dr. Ahmed Okasha St., El Banafseg Buildings",
-        "addressLocality": "New Cairo",
-        "addressRegion": "Cairo Governorate",
-        "addressCountry": "EG"
-      },
-      "areaServed": "Egypt"
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://fbassets.com/#website",
-      "url": "https://fbassets.com",
-      "name": "F.B Company",
-      "publisher": { "@id": "https://fbassets.com/#organization" },
-      "inLanguage": ["en", "ar"]
-    }
-  ]
-};
+const organizationLd = organizationJsonLd('en');
 
 export default function RootLayout({ children }) {
   return (
@@ -95,7 +46,7 @@ export default function RootLayout({ children }) {
         <link rel="preload" href="/fonts/LamaSans-ExtraBold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
         />
       </head>
       <body className="min-h-full flex flex-col bg-fb-bg-light text-fb-black antialiased font-lama">
@@ -109,6 +60,8 @@ export default function RootLayout({ children }) {
               {children}
             </main>
             <Footer />
+            <WhatsAppButton />
+            <Analytics />
           </LanguageProvider>
         </DataProvider>
       </body>

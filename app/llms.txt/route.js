@@ -1,6 +1,7 @@
 import { SITE_URL } from '@/lib/seo';
 import { getAllLocations, locationSlug } from '@/lib/projects';
 import company from '@/data/company.json';
+import { ENTITY } from '@/lib/schema';
 
 // /llms.txt — plain-language summary for AI assistants, generated from the same data files as the site.
 export const dynamic = 'force-static';
@@ -14,7 +15,7 @@ export function GET() {
 
   const body = `# F.B Company
 
-> F.B Company is an Egyptian company based in New Cairo with two lines of business: commercial real estate asset management (managing, leasing and operating commercial locations) and franchise location sourcing (finding locations in fuel stations, malls and clubs for franchise brands expanding in Egypt). Tagline: "From Vision to Value".
+> ${ENTITY.en} Tagline: "From Vision to Value".
 
 Figures based on company records as of ${company.countersMeta?.asOf || '2026'}: ${c.locations} commercial locations, ${c.brands} brand outlets at those locations, ${c.area} m² total land area.
 

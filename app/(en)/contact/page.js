@@ -100,6 +100,7 @@ function ContactFormInner() {
 
       if (response.ok && data.success) {
         setStatus('success');
+        window.dispatchEvent(new CustomEvent('fb:lead', { detail: { form: 'contact', interest: payload.interest } }));
         form.reset();
       } else {
         throw new Error(data.error || t('contact.form.error'));
