@@ -13,7 +13,8 @@ export default function CustomCursor() {
       media.addEventListener('change', callback);
       return () => media.removeEventListener('change', callback);
     },
-    () => (typeof window !== 'undefined' ? (window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window) : false),
+    // Also treated as "off" when the visitor prefers reduced motion (the cursor follower is decorative motion).
+    () => (typeof window !== 'undefined' ? (window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window || window.matchMedia('(prefers-reduced-motion: reduce)').matches) : false),
     () => false
   );
 

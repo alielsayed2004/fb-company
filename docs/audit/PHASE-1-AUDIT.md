@@ -7,6 +7,51 @@ Severity: **P0** = broken / legal / trust / security risk · **P1** = hurts conv
 
 ---
 
+## Phase 2 status — 2026-10-14 (branch `audit/full-site-2026-10`, details in `CHANGELOG-AUDIT.md`)
+
+**Legend:** ✅ fixed and verified locally · 🟡 partly done / needs your data · 👤 action on your side (dashboard, Google, designer, lawyer) · ⏸ not done (P2, optional)
+
+| Area | Status |
+|---|---|
+| Security | ✅ SEC-01 fail-closed auth, no hard-coded secrets · ✅ SEC-02 httpOnly session only · ✅ SEC-03 login rate limit (per instance) · ✅ SEC-04 no browser token, no `.env.local` writes, no shell git · 👤 SEC-05 revoke GitHub PAT + reset remote · 🟡 SEC-06 CSP tightened (`unsafe-eval` and third-party origins removed); `unsafe-inline` remains (needs nonces) |
+| Privacy | ✅ PRIV-02 no CV files on the web server · ✅ PRIV-03 4 MB cap with EN/AR message · ✅ PRIV-01 Apps Script stores CVs as Restricted — 👤 paste + redeploy the script as a new version |
+| Compliance | ✅ CMP-01…06 all guarantee/yield/occupancy/traffic claims removed, AI assistant unmounted · ✅ CMP-07 Risk Disclaimer EN/AR + footer link — 👤 legal review · 👤 CMP-08 company-profile PDF needs a corrected export from your designer |
+| Data | ✅ DATA-01…04 one source of truth (`data/company.json`), no browser override, no admin API calls from public pages, duplicate files removed — figures **[TO VERIFY]** |
+| SEO | ✅ SEO-01…06, SEO-08, SEO-09 (canonical location pages EN/AR, 301s, 500s fixed, titles/descriptions, OG images, sitemap) · ✅/👤 SEO-07 www 301 backstop in code — add `www` domain in Vercel |
+| UX & equal weight | ✅ UX-01…07, UX-09…11 · 🟡 UX-08 WhatsApp button ready (needs number), office hours [ADD] |
+| Motion & performance | ✅ MOT-01…05 · ✅ PERF-01…03 · 🟡 PERF-04 mobile Lighthouse 59 → 77–83 (target ≥ 90 not yet reached in Lighthouse's simulation; real throttled LCP ≈ 1 s) · 👤 PERF-05 PDF size (designer) |
+| GEO | ✅ GEO-01 entity definition · ✅ GEO-02 Organization/LocalBusiness/Person/WebSite/Place/Breadcrumb/FAQPage schema · ✅ GEO-03 FAQs EN/AR **[TO VERIFY answers]** · ✅ GEO-04 robots (AI crawlers allowed) + `/llms.txt` |
+| Trust | 🟡 EEAT-01 leadership block is a visible `[ADD]` placeholder · ✅ TRUST-01 privacy policy rewritten — 👤 legal review · 🟡 TRUST-02 GA4 + consent + events ready (needs measurement ID) |
+| Accessibility | ✅ A11Y-01…04 (D1 colour applied), RESP-01…04 — Lighthouse Accessibility 100 on all tested pages |
+| Content | ✅ CNT-01…05 (terminology, data-driven case study and brand list, 404, README) · ✅ D2 Modern Standard Arabic · 🟡 D3 Asset Management wording **[PENDING D3 CONFIRMATION]** |
+| Architecture | ✅ BUG-01 · 🟡 BUG-02 `/projects` layout removed; EN and AR remain separate root layouts (language switch = full page load — acceptable, no change recommended) · ✅ BLD-01 (👤 locally: `rm -rf node_modules && npm ci` to repair the corrupted SWC binary) |
+| P2 polish | ⏸ UI-01 spacing/radius token normalisation · ✅ UI-02 · ✅ UI-03 RTL logical properties · ❓ UI-04 custom cursor: keep or remove? (now off for touch and reduced-motion users) |
+
+**Open questions for you**
+1. **Brand count label:** 54 = brand outlets summed per location; **39 distinct brands** appear in the project data. Show "54 brand outlets at our locations" (current) or "39 brand partners"?
+2. **Arabic tagline:** hero says "من الفكرة إلى القيمة"; older metadata used "من الرؤية إلى القيمة". Which is official?
+3. **Custom cursor (UI-04):** keep or remove?
+4. **Mobile hero video:** to reach Lighthouse mobile ≥ 90, show only the poster image (no video) on phones? (recommended) — or keep the video.
+
+**Lighthouse after Phase 2** (local production build; mobile = simulated Moto G Power / slow 4G). Before → after.
+
+| Page | Mobile Perf | Desktop Perf | A11y | Best Practices | SEO | Page weight |
+|---|---|---|---|---|---|---|
+| Home | 59 → 77 | 90 → 98 | 94 → 100 | 96 → 100 | 100 | 9.9 MB → 2.7 MB |
+| Home AR | 59 → 78 | 92 → 99 | 94 → 100 | 96 → 100 | 100 | 9.8 MB → 2.6 MB |
+| About | 76 → 83 | 96 → 100 | 94 → 100 | 96 → 100 | 100 | 6.2 MB → 1.4 MB |
+| Asset Management | 76 → 83 | 96 → 99 | 94 → 100 | 96 → 100 | 100 | 3.5 MB → 0.9 MB |
+| Franchise Sourcing | 70 → 83 | 96 → 99 | 94 → 100 | 96 → 100 | 100 | 6.9 MB → 1.2 MB |
+| Franchise Sourcing AR | 76 → 82 | 96 → 99 | 98 → 100 | 96 → 100 | 100 | 6.9 MB → 1.2 MB |
+| Portfolio | 94 → 80 | 88 → 98 | 94 → 100 | 96 → 100 | 100 | 4.9 MB → 1.8 MB |
+| Contact | 76 → 83 | 97 → 99 | 95 → 100 | 96 → 100 | 100 | 12.2 MB → 1.6 MB |
+| Careers | 70 → 83 | 97 → 100 | 95 → 100 | 96 → 100 | 100 | 3.0 MB → 1.2 MB |
+| Location (Marina 5) | 73 → 81 | 82 → 98 | 94 → 100 | 96 → 100 | 100 | 5.9 MB → 2.2 MB |
+
+Notes: Portfolio mobile dropped 94 → 80 because its hero now shows a poster and then a video like every other page (before, its LCP happened to be text). Mobile is still below the ≥ 90 target in Lighthouse's **simulation**, which charges the post-load hero video to the page; measured in real Chrome with slow-4G + 4× CPU throttling, LCP is 0.8–1.0 s on Home and service pages. Options to reach ≥ 90 in Lighthouse: no hero video on mobile (poster only), or smaller mobile video cuts — your call (design decision).
+
+---
+
 ## 1. Summary scores (out of 10)
 
 | Area | Score | One-line reason |

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useScroll, useTransform } from 'framer-motion';
+import { useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { motion } from '@/components/motion';
 import { ArrowRight, ShieldCheck, Target, BarChart4, Cpu, Search, Compass, Shield, TrendingUp, Fuel, Building2, Store, FileText, Download, CheckCircle2, Briefcase } from 'lucide-react';
 import projectsData from '@/data/projects.json';
@@ -54,10 +54,12 @@ export default function Home() {
     offset: ["start start", "end start"]
   });
 
-  const heroBgY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"]);
-  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
+  // Parallax is disabled entirely for visitors who prefer reduced motion.
+  const reduceMotion = useReducedMotion();
+  const heroBgY = useTransform(scrollYProgress, [0, 1], reduceMotion ? ["0%", "0%"] : ["0%", "28%"]);
+  const heroTextY = useTransform(scrollYProgress, [0, 1], reduceMotion ? ["0%", "0%"] : ["0%", "35%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], reduceMotion ? [1, 1] : [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 1], reduceMotion ? [1, 1] : [1, 0.95]);
 
   // Word-by-word reveal for hero headline
   const heroWords = t('nav.tagline').split(" ");
@@ -267,7 +269,7 @@ export default function Home() {
               <p>
                 {ENTITY[locale === 'ar' ? 'ar' : 'en']}
               </p>
-              <p className="text-xs md:text-sm text-fb-black/60 italic border-l-2 border-fb-green pl-4">
+              <p className="text-xs md:text-sm text-fb-black/60 italic border-s-2 border-fb-green ps-4">
                 {t('home.about.p2')}
               </p>
             </div>

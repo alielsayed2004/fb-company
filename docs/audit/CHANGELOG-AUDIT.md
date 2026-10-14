@@ -274,3 +274,17 @@ Best Practices: 96 → **100** on every page tested. Real Chrome with mobile thr
 **Verified locally:** all JSON-LD blocks parse; types per page as listed above; FAQ renders without JavaScript; unknown URLs and unknown location slugs (EN/AR) → 404 with the branded page; Lighthouse Accessibility 100 and SEO 100 on Home, Asset Management, AR Franchise Sourcing and Privacy; no console errors.
 
 **Owner actions:** send the GA4 measurement ID (then set `NEXT_PUBLIC_GA_MEASUREMENT_ID` in Vercel) and the WhatsApp number (then fill `contactInfo.whatsapp`), confirm the FAQ answers and the office coordinates.
+
+---
+
+## Step 10 — P2 polish, docs and final verification (UI-03, CNT-05, MOT-03)
+
+| File | Change |
+|---|---|
+| `app/(en|ar)/page.js` | Hero parallax (JS-driven) disabled for visitors who prefer reduced motion; quote block uses logical `border-s`/`ps-4` (mirrors in Arabic). |
+| `components/CustomCursor.js` | Off for reduced-motion users (already off on touch devices). |
+| `README.md` | Replaced the create-next-app default: run, content files, environment variables, admin, SEO/GEO, audit docs. |
+| `docs/audit/PHASE-3-DEVICE-CHECKLIST.md` (new) | Manual device/browser checklist (iOS Safari, Samsung Internet, landscape, notch, keyboard, 200% zoom, real form delivery, CV privacy, admin). |
+| `docs/audit/PHASE-1-AUDIT.md` | Phase 2 status per issue, open questions, before/after Lighthouse. |
+
+**Final local verification:** 34 pages (17 × EN/AR) → 200; 387 internal links/assets → 200; no banned wording in visible text; 0 console errors on all 34 pages; all JSON-LD parses; Lighthouse Accessibility, Best Practices and SEO **100** on all 10 tested pages; Performance desktop 98–100, mobile 77–83.

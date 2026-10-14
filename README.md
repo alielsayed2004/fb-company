@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# fbassets.com — F.B Company website
 
-## Getting Started
+Next.js 16 (App Router) site for F.B Company, New Cairo, Egypt — commercial real estate asset management and franchise location sourcing. English at `/`, Arabic (RTL) at `/ar`. Hosted on **Vercel**.
 
-First, run the development server:
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm ci
+npm run dev        # http://localhost:3000
+npm run build && npm start   # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where content lives (single source of truth)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+| What | File |
+|---|---|
+| Key figures (locations, brand outlets, land area) + verification status | `data/company.json` → `counters`, `countersMeta` |
+| Address, phone, email, social links, map link, WhatsApp | `data/company.json` → `contactInfo` |
+| Locations (name, city, status, metrics, brands, overview EN/AR, URL slug) | `data/projects.json` |
+| Location photos / video / logos | `public/projects/<id>/` (`cover.jpg`, `video.mp4`, `logos/`) |
+| Brand logos in the marquee | `data/brands.json` + `public/logos/`, names in `lib/brandLogos.js` |
+| Page copy (EN + Modern Standard Arabic) | `data/translations.js` |
+| FAQ (EN + AR) | `data/faq.js` |
+| Articles (Insights, currently `noindex` and out of the nav) | `content/insights/{en,ar}/*.md` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy rules: no guarantees, no return/yield/occupancy claims, no superlatives, no licence claims. Figures only from `data/company.json`.
 
-## Learn More
+## Environment variables (Vercel → Settings → Environment Variables)
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Required | Purpose |
+|---|---|---|
+| `ADMIN_PASSWORD_HASH_B64` | yes (admin) | Base64 of a bcrypt hash. Generate with `node scripts/hash-admin-password.js`. (A raw `$2b$…` hash gets corrupted by Next.js `$` expansion.) |
+| `ADMIN_JWT_SECRET` | yes (admin) | ≥ 32 random characters. Missing/short → admin login disabled (fails closed). |
+| `ADMIN_API_SECRET` | optional | ≥ 32 chars; server-to-server `x-admin-secret` only, never used in a browser. |
+| `GITHUB_TOKEN` | optional | Fine-grained token (contents read/write on this repo) so the admin dashboard can publish edits. |
+| `GOOGLE_SHEETS_WEBHOOK_URL` | yes | Contact form → Google Sheet (Apps Script web app). |
+| `FORMSPREE_ENDPOINT` | yes | Contact form → email. The form reports an error if **both** deliveries fail. |
+| `CAREERS_GOOGLE_SHEETS_WEBHOOK_URL` | yes | Careers form → Sheet + private Drive folder (`scripts/google-apps-script-careers.js`). |
+| `CAREERS_WEBHOOK_SECRET` | optional | Shared secret checked by the careers Apps Script (`WEBHOOK_SECRET` script property). |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | optional | Enables GA4 (with consent banner). |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Admin
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`/admin` (not linked publicly). Session is an httpOnly cookie; login is rate-limited. Saving commits `data/*.json` to GitHub via `GITHUB_TOKEN`, which triggers a Vercel rebuild.
 
-## Deploy on Vercel
+## SEO / GEO
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Per-page metadata via `lib/seo.js`; structured data via `lib/schema.js` and `lib/locationSeo.js`; `app/sitemap.js`, `app/robots.js` (AI crawlers allowed), `app/llms.txt/route.js`. Canonical location URLs: `/portfolio/<slug>` (+ `/ar/...`); `/projects/<id>` 301-redirects there.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Audit
+
+`docs/audit/PHASE-1-AUDIT.md` (findings, decisions, placeholders) and `docs/audit/CHANGELOG-AUDIT.md` (every change, per step).
