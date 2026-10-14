@@ -1,11 +1,10 @@
 ---
 title: "Understanding Triple-Net Leases"
-description: "Why triple-net leases are becoming the gold standard for institutional property owners in Egypt."
+description: "What a triple-net lease is and how it divides costs between owner and tenant."
 date: "2026-08-20"
 author: "F.B Company Research"
 coverImage: "/company/logo.png"
 ---
 # Understanding Triple-Net Leases
 
-Triple-Net (NNN) leases are reshaping asset management by offering predictable net cash flows...
-(Placeholder content)
+[ADD: article text]

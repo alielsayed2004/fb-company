@@ -5,46 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import { Shield, Compass, BookOpen, Layers, Users, Award, TrendingUp, Landmark, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
-
-function Counter({ value, duration = 1.5 }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-
-  const rawNum = parseInt(String(value || '0').replace(/[^0-9]/g, ''), 10) || 0;
-
-  useEffect(() => {
-    if (!isInView || rawNum <= 0) return;
-
-    let start = 0;
-    const totalMs = duration * 1000;
-    const steps = 35;
-    const stepTime = Math.max(Math.floor(totalMs / steps), 20);
-    const stepIncrement = Math.ceil(rawNum / steps);
-    
-    const timer = setInterval(() => {
-      start += stepIncrement;
-      if (start >= rawNum) {
-        clearInterval(timer);
-        start = rawNum;
-      }
-      setCount(start);
-    }, stepTime);
-
-    return () => clearInterval(timer);
-  }, [isInView, rawNum, duration]);
-
-  const formatNumber = (num) => {
-    const formatted = (num > 0 ? num : rawNum).toLocaleString();
-    const str = String(value || '');
-    if (str.includes('%')) return `${formatted}%`;
-    if (str.startsWith('+')) return `+${formatted}`;
-    if (str.endsWith('+')) return `${formatted}+`;
-    return formatted;
-  };
-
-  return <span ref={ref}>{formatNumber(count)}</span>;
-}
+import StatCounter from '@/components/StatCounter';
 
 const corporateEase = [0.22, 1, 0.36, 1];
 
@@ -111,33 +72,35 @@ export default function About() {
     }
   ];
 
+  // Years and events from the previous site copy — TO VERIFY with management (see audit report).
   const milestones = [
-    { 
-      year: "2021", 
-      title: locale === 'ar' ? "التأسيس والنشاط الرئيسي" : "Foundation & Sourcing Core", 
-      desc: locale === 'ar' ? "تأسيس شركة إف بي (F.B Company) لتحديد المواقع الاستثمارية المميزة وغير المستغلة على طول طرق السفر والممرات الحيوية في مصر." : "Established F.B Company to identify under-utilized locations along Egypt's developing transit corridors." 
+    {
+      year: "2021",
+      title: locale === 'ar' ? "التأسيس" : "Foundation",
+      desc: locale === 'ar' ? "تأسيس شركة إف بي لتحديد مواقع تجارية غير مستغلة على طرق السفر والمحاور الرئيسية في مصر." : "F.B Company was founded to identify under-used commercial locations along Egypt's main roads and corridors."
     },
-    { 
-      year: "2022", 
-      title: locale === 'ar' ? "الانطلاقة في الساحل الشمالي" : "North Coast Breakthrough", 
-      desc: locale === 'ar' ? "سورسينج وهيكلة مجمع مارينا 5 التجاري الرائد، وتسكين كبرى العلامات التجارية للأغذية والتجزئة." : "Sourced and structured the flagship Marina 5 commercial plaza, leasing to top convenience and food brands." 
+    {
+      year: "2022",
+      title: locale === 'ar' ? "الساحل الشمالي" : "North Coast",
+      desc: locale === 'ar' ? "توفير موقع شيل أوت هب مارينا 5 وتأجيره لعلامات تجارية في قطاعَي الأغذية والتجزئة." : "Sourced Chillout Hub Marina 5 and leased it to food and retail brands."
     },
-    { 
-      year: "2023", 
-      title: locale === 'ar' ? "مجمع العاشر من رمضان الخدمي" : "10th of Ramadan Industrial Hub", 
-      desc: locale === 'ar' ? "تطوير مركز خدمات البنوك وتدشين مجمع شيل أوت هب للخدمات والوقود، إلى جانب توفير مقرات لماكدونالدز وبابا جونز." : "Constructed the landmark Banks Service Center, introducing Chillout Hub fuel plaza alongside McDonald's and Papa John's." 
+    {
+      year: "2023",
+      title: locale === 'ar' ? "العاشر من رمضان" : "10th of Ramadan",
+      desc: locale === 'ar' ? "افتتاح موقع شيل أوت هب في مركز خدمات البنوك بمدينة العاشر من رمضان." : "Opened Chillout Hub at the Banks Service Center in 10th of Ramadan City."
     },
-    { 
-      year: "2024", 
-      title: locale === 'ar' ? "التوسع الحضري في القاهرة" : "Metropolitan Expansion", 
-      desc: locale === 'ar' ? "هيكلة أسوار الأندية والمناطق الحضرية المتميزة في مصر الجديدة (شيراتون) ومدينة العبور، وتحقيق نسبة إشغال 100%." : "Structured multiple club perimeter layouts in Cairo (Sheraton & Obour) securing 100% triple-net lease occupancy." 
+    {
+      year: "2024",
+      title: locale === 'ar' ? "القاهرة الكبرى" : "Greater Cairo",
+      desc: locale === 'ar' ? "تطوير مواقع تجارية على أسوار أندية في مصر الجديدة (شيراتون) ومدينة العبور." : "Developed club-perimeter commercial locations in Heliopolis (Sheraton) and Obour City."
     },
-    { 
-      year: "2026", 
-      title: locale === 'ar' ? "خطة التوسع المستقبلية" : "Strategic Pipeline", 
-      desc: locale === 'ar' ? "سورسينج أراض جديدة على طريق القاهرة السويس، مستهدفين تجاوز 500,000 متر مربع من المساحات المدارة." : "Sourcing modern commercial corridor nodes on Suez highway, targeting over 500,000 SQM under management." 
+    {
+      year: "2026",
+      title: locale === 'ar' ? "مشروعات قيد التنفيذ" : "Under Development",
+      desc: locale === 'ar' ? "مول السلام بلازا قيد الإنشاء." : "El Salam Plaza Mall is under construction."
     }
   ];
+
 
   return (
     <div className="flex flex-col min-h-screen relative bg-fb-bg-light">
@@ -226,31 +189,30 @@ export default function About() {
           className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10"
         >
           <div className="text-center mb-10 sm:mb-16 space-y-2.5 sm:space-y-3">
-            <span className="eyebrow">{locale === 'ar' ? 'مؤشرات الأداء المؤسسي' : 'Key Metrics'}</span>
+            <span className="eyebrow">{locale === 'ar' ? 'أرقام رئيسية' : 'Key Figures'}</span>
             <h2 className="text-fb-teal font-extrabold tracking-tight text-2xl sm:text-3xl md:text-4xl text-balance">{t('about.metricsTitle')}</h2>
           </div>
 
           <motion.div 
             variants={containerVariants}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8"
           >
             {[
-              { label: t('about.metrics.sqm'), value: counters?.sqm || "500,000+", icon: <Layers strokeWidth={1.5} className="text-fb-green" size={24} /> },
-              { label: t('about.metrics.occupancy'), value: counters?.occupancy || "100%", icon: <TrendingUp strokeWidth={1.5} className="text-fb-green" size={24} /> },
-              { label: t('about.metrics.brands'), value: counters?.brands || "200+", icon: <Users strokeWidth={1.5} className="text-fb-green" size={24} /> },
-              { label: t('about.metrics.gas'), value: counters?.gas || "8+", icon: <Landmark strokeWidth={1.5} className="text-fb-green" size={24} /> }
+              { label: t('about.metrics.locations'), value: counters?.locations, icon: <Landmark strokeWidth={1.5} className="text-fb-teal" size={24} aria-hidden="true" /> },
+              { label: t('about.metrics.brands'), value: counters?.brands, icon: <Users strokeWidth={1.5} className="text-fb-teal" size={24} aria-hidden="true" /> },
+              { label: t('about.metrics.area'), value: counters?.area, icon: <Layers strokeWidth={1.5} className="text-fb-teal" size={24} aria-hidden="true" /> }
             ].map((stat, idx) => (
               <motion.div 
                 key={idx} 
                 variants={itemVariants}
                 className="bg-fb-bg-light/90 border border-fb-teal/15 p-5 sm:p-8 rounded-2xl sm:rounded-3xl text-center space-y-3 sm:space-y-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300 relative group overflow-hidden"
               >
-                <div className="absolute top-0 left-0 w-1.5 h-full bg-fb-teal group-hover:bg-fb-green transition-colors animate-pulse" />
+                <div className="absolute top-0 start-0 w-1.5 h-full bg-fb-teal group-hover:bg-fb-green transition-colors" />
                 <div className="p-2.5 sm:p-3 bg-fb-teal/5 border border-fb-teal/10 rounded-xl inline-block group-hover:bg-fb-green/10 transition-colors">{stat.icon}</div>
                 <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 font-mono tracking-tight block">
-                  <Counter value={stat.value} />
+                  <StatCounter value={stat.value} />
                 </div>
-                <p className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-700">{stat.label}</p>
+                <p className="text-sm font-bold text-slate-700">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>

@@ -1,12 +1,10 @@
-export const metadata = {
-  title: "Terms of Service | F.B Company",
-  description: "Terms of Service for F.B Company.",
-  alternates: { canonical: '/ar/terms', languages: { 'en': '/terms', 'ar': '/ar/terms', 'x-default': '/terms' } },
-  openGraph: {
-    title: "Terms of Service | F.B Company",
-    description: "Terms of Service for F.B Company.",
-    url: '/ar/terms',
-  }
-};
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata = pageMetadata({
+  path: '/terms',
+  locale: 'ar',
+  title: "شروط الاستخدام | إف بي",
+  description: "الشروط التي تسري عند استخدام موقع fbassets.com التابع لشركة إف بي في القاهرة الجديدة، مصر.",
+});
 
 export default function Layout({ children }) { return children; }

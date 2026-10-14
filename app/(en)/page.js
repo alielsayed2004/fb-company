@@ -10,54 +10,11 @@ import TenantPartnershipSection from '@/components/TenantPartnershipSection';
 import InteractiveEarthFocus from '@/components/InteractiveEarthFocus';
 import PartnersMarquee from '@/components/PartnersMarquee';
 import PortfolioTimeline from '@/components/PortfolioTimeline';
-import BlogSection from '@/components/BlogSection';
 import CompanyProfile from '@/components/CompanyProfile';
+import StatCounter from '@/components/StatCounter';
+import ServicePaths from '@/components/ServicePaths';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
-
-function Counter({ value, duration = 1.5 }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-
-  useEffect(() => {
-    if (isInView) {
-      let start = 0;
-      const isPercent = value.includes('%');
-      const isPlus = value.includes('+');
-
-      const end = parseInt(value.replace(/[^0-9]/g, ''), 10);
-      if (isNaN(end) || start === end) return;
-
-      const totalMiliseconds = duration * 1000;
-      const incrementTime = Math.max(Math.floor(totalMiliseconds / end), 15);
-
-      const timer = setInterval(() => {
-        start += Math.ceil(end / (totalMiliseconds / incrementTime));
-        if (start >= end) {
-          clearInterval(timer);
-          start = end;
-        }
-        setCount(start);
-      }, incrementTime);
-
-      return () => clearInterval(timer);
-    }
-  }, [isInView, value, duration]);
-
-  const formatNumber = (num) => {
-    const formatted = num.toLocaleString();
-    const isPercent = value.includes('%');
-    const isPlus = value.includes('+');
-
-    if (isPlus && value.startsWith('+')) return `+${formatted}`;
-    if (isPlus && value.endsWith('+')) return `${formatted}+`;
-    if (isPercent) return `${formatted}%`;
-    return formatted;
-  };
-
-  return <span ref={ref}>{formatNumber(count)}</span>;
-}
 
 const corporateEase = [0.22, 1, 0.36, 1];
 
@@ -112,6 +69,8 @@ export default function Home() {
       },
     }),
   };
+
+  const href = (path) => (locale === 'ar' ? (path === '/' ? '/ar' : `/ar${path}`) : path);
 
   const getField = (obj, field) => {
     if (locale === 'ar') {
@@ -229,149 +188,68 @@ export default function Home() {
             className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4 max-w-sm sm:max-w-none mx-auto w-full"
           >
             <Link
-              href="/contact?interest=consultation#consultation-form"
-              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl text-sm transition-all duration-300 shadow-lg hover:shadow-fb-green/20 hover:-translate-y-0.5 active:scale-98"
+              href={href('/asset-management')}
+              className="w-full sm:w-auto sm:min-w-[260px] inline-flex items-center justify-center gap-2 min-h-[48px] bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-6 py-3.5 rounded-xl text-sm transition-colors shadow-lg"
             >
-              <span>{t('common.bookConsultation')}</span>
-              <ArrowRight size={16} className={locale === 'ar' ? 'rotate-180' : ''} />
+              <span>{locale === 'ar' ? 'لملاك العقارات: إدارة الأصول' : 'Property owners: Asset Management'}</span>
+              <ArrowRight size={16} className="rtl:rotate-180" aria-hidden="true" />
             </Link>
-            <a
-              href="/FB_Company_Profile.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rtl:space-x-reverse bg-white/5 hover:bg-fb-bg-light/10 text-fb-bg-light border border-fb-bg-light/25 font-bold px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl text-sm transition-all duration-300 cursor-pointer shadow-sm hover:border-fb-green/40 hover:-translate-y-0.5 active:scale-98"
+            <Link
+              href={href('/franchise-sourcing')}
+              className="w-full sm:w-auto sm:min-w-[260px] inline-flex items-center justify-center gap-2 min-h-[48px] bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-6 py-3.5 rounded-xl text-sm transition-colors shadow-lg"
             >
-              <FileText size={16} className="text-fb-green shrink-0" />
-              <span>{t('common.companyProfile')}</span>
-            </a>
+              <span>{locale === 'ar' ? 'للعلامات التجارية: توفير المواقع' : 'Brands: Franchise Location Sourcing'}</span>
+              <ArrowRight size={16} className="rtl:rotate-180" aria-hidden="true" />
+            </Link>
           </motion.div>
         </motion.div>
       </section>
 
-      {/* 2. SUCCESS NUMBERS BAND (Statement on Left + 2x2 Square Grid on Right with Brand Light Background) */}
-      <section className="bg-fb-bg-light border-y border-fb-teal/10 py-10 sm:py-16 md:py-24 px-4 sm:px-6 flex flex-col justify-center relative overflow-hidden z-20">
-        {/* Subtle Ambient Radial Glow */}
-        <div
-          className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[350px] bg-fb-green/5 rounded-full blur-[100px] pointer-events-none"
-          aria-hidden="true"
-        />
+      {/* 1b. THE TWO BUSINESS LINES — equal size and weight */}
+      <ServicePaths />
 
+      {/* 2. KEY FIGURES — values come from data/company.json (single source of truth) */}
+      <section className="bg-fb-bg-light border-y border-fb-teal/10 py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative overflow-hidden z-20">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center relative z-10">
-
-          {/* Left Column: Authoritative Institutional Statement */}
           <div className="lg:col-span-5 space-y-4 sm:space-y-6 text-start">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fb-teal/5 border border-fb-teal/10 text-fb-green text-xs font-bold uppercase tracking-widest">
-              <BarChart4 size={14} />
-              <span>{locale === 'ar' ? 'مؤشرات الأداء المؤسسي' : 'PROVEN TRACK RECORD'}</span>
-            </div>
-
+            <span className="eyebrow inline-flex items-center gap-2">
+              <BarChart4 size={14} aria-hidden="true" />
+              {locale === 'ar' ? 'شركة إف بي بالأرقام' : 'F.B Company in Numbers'}
+            </span>
             <h2 className="text-fb-teal font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight leading-tight text-balance">
               {locale === 'ar'
-                ? 'أرقام وحقائق تعكس حجم انتشارنا وريادة أصولنا'
-                : 'Delivering Scale, Precision, and Sustained Value Across Egypt.'}
+                ? 'مواقع تجارية في القاهرة الكبرى والعاشر من رمضان والساحل الشمالي'
+                : 'Commercial Locations Across Greater Cairo, 10th of Ramadan and the North Coast'}
             </h2>
-
-            <p className="text-fb-black/75 text-xs sm:text-sm md:text-base font-normal leading-relaxed">
+            <p className="text-fb-black/75 text-base leading-relaxed">
               {locale === 'ar'
-                ? 'نرتكز على الدراسات الميدانية لحركة المرور وتأمين الشراكات مع كبرى العلامات التجارية لتحقيق استقرار تشغيلي كامل وعوائد استثمارية قياسية.'
-                : 'Our data-backed sourcing frameworks and long-term asset management consistently guarantee 100% occupancy across premium arterial corridors.'}
+                ? 'نختار مواقعنا بناءً على دراسات ميدانية لحركة المرور والكثافة المحيطة، ونعمل مع علامات تجارية محلية ودولية.'
+                : 'We select our locations through field studies of traffic and catchment, and work with national and international brands.'}
             </p>
-
-            <div className="pt-1 sm:pt-2 flex items-center gap-2 sm:gap-3 text-xs font-semibold text-fb-green tracking-wide">
-              <ShieldCheck size={16} className="shrink-0 sm:w-[18px] sm:h-[18px]" />
-              <span>{locale === 'ar' ? 'بيانات وإحصاءات معتمدة ومحدثة دورياً' : 'Audited and verified institutional metrics'}</span>
-            </div>
+            <p className="text-sm text-fb-black/70">
+              {locale === 'ar' ? 'الأرقام وفق سجلات الشركة حتى أكتوبر 2026.' : 'Figures based on company records as of October 2026.'}
+            </p>
           </div>
 
-          {/* Right Column: 2x2 Balanced Metric Cards matching Page Background with Distinct Borders */}
-          <div className="lg:col-span-7 grid grid-cols-2 gap-3.5 sm:gap-6">
-
-            {/* Card 1: SQM Managed */}
-            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-2xl sm:rounded-3xl p-4 sm:p-7 flex flex-col justify-between min-h-[140px] sm:min-h-[195px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
-              {/* Large Background Overlay Watermark Icon */}
-              <Building2 size={85} className="sm:w-[115px] sm:h-[115px] absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
-
-              <div className="flex items-center justify-between relative z-10">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
-                  <Building2 size={18} className="sm:w-5 sm:h-5" />
-                </div>
-                <span className="text-[11px] sm:text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">01</span>
-              </div>
-              <div className="space-y-0.5 sm:space-y-1 relative z-10 pt-3 sm:pt-4">
-                <div className="text-fb-teal font-black text-2xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
-                  <Counter value={counters?.sqm || "500,000+"} />
-                </div>
-                <div className="text-[11px] sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
-                  {t('home.counters.sqm')}
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2: Occupancy Rate */}
-            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-2xl sm:rounded-3xl p-4 sm:p-7 flex flex-col justify-between min-h-[140px] sm:min-h-[195px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
-              {/* Large Background Overlay Watermark Icon */}
-              <TrendingUp size={85} className="sm:w-[115px] sm:h-[115px] absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
-
-              <div className="flex items-center justify-between relative z-10">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
-                  <TrendingUp size={18} className="sm:w-5 sm:h-5" />
-                </div>
-                <span className="text-[11px] sm:text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">02</span>
-              </div>
-              <div className="space-y-0.5 sm:space-y-1 relative z-10 pt-3 sm:pt-4">
-                <div className="text-fb-teal font-black text-2xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
-                  <Counter value={counters?.occupancy || "100%"} />
-                </div>
-                <div className="text-[11px] sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
-                  {t('home.counters.occupancy')}
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3: Brand Partners */}
-            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-2xl sm:rounded-3xl p-4 sm:p-7 flex flex-col justify-between min-h-[140px] sm:min-h-[195px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
-              {/* Large Background Overlay Watermark Icon */}
-              <Store size={85} className="sm:w-[115px] sm:h-[115px] absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
-
-              <div className="flex items-center justify-between relative z-10">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
-                  <Store size={18} className="sm:w-5 sm:h-5" />
-                </div>
-                <span className="text-[11px] sm:text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">03</span>
-              </div>
-              <div className="space-y-0.5 sm:space-y-1 relative z-10 pt-3 sm:pt-4">
-                <div className="text-fb-teal font-black text-2xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
-                  <Counter value={counters?.brands || "200+"} />
-                </div>
-                <div className="text-[11px] sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
-                  {t('home.counters.brands')}
-                </div>
-              </div>
-            </div>
-
-            {/* Card 4: Commercial Projects */}
-            <div className="bg-fb-bg-light/90 border border-fb-teal/15 hover:border-fb-green transition-all duration-300 rounded-2xl sm:rounded-3xl p-4 sm:p-7 flex flex-col justify-between min-h-[140px] sm:min-h-[195px] group shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:-translate-y-1.5 relative overflow-hidden">
-              {/* Large Background Overlay Watermark Icon */}
-              <Fuel size={85} className="sm:w-[115px] sm:h-[115px] absolute -bottom-5 -right-5 rtl:-left-5 rtl:right-auto text-fb-teal/[0.05] group-hover:text-fb-green/[0.12] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none" />
-
-              <div className="flex items-center justify-between relative z-10">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-green group-hover:scale-110 group-hover:bg-fb-green group-hover:text-fb-teal transition-all shadow-xs">
-                  <Fuel size={18} className="sm:w-5 sm:h-5" />
-                </div>
-                <span className="text-[11px] sm:text-xs font-mono font-bold text-fb-teal/40 uppercase tracking-widest">04</span>
-              </div>
-              <div className="space-y-0.5 sm:space-y-1 relative z-10 pt-3 sm:pt-4">
-                <div className="text-fb-teal font-black text-2xl sm:text-4xl lg:text-5xl font-mono tracking-tight group-hover:text-fb-green transition-colors">
-                  <Counter value={counters?.gas || "8+"} />
-                </div>
-                <div className="text-[11px] sm:text-sm font-extrabold tracking-wider text-fb-black/80 uppercase leading-snug">
-                  {t('home.counters.gas')}
-                </div>
-              </div>
-            </div>
-
-          </div>
-
+          <ul className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            {[
+              { key: 'locations', icon: <Fuel size={20} aria-hidden="true" /> },
+              { key: 'brands', icon: <Store size={20} aria-hidden="true" /> },
+              { key: 'area', icon: <Building2 size={20} aria-hidden="true" /> },
+            ].map((stat) => (
+              <li key={stat.key} className="bg-white/60 border border-fb-teal/15 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)]">
+                <span className="w-11 h-11 rounded-xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-teal">
+                  {stat.icon}
+                </span>
+                <span className="text-fb-teal font-black text-4xl lg:text-5xl font-mono tracking-tight">
+                  <StatCounter value={counters?.[stat.key]} />
+                </span>
+                <span className="text-sm font-bold text-fb-black/80 leading-snug">
+                  {t(`home.counters.${stat.key}`)}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -401,11 +279,11 @@ export default function Home() {
             </div>
             <div className="pt-1 sm:pt-2">
               <Link
-                href="/about"
-                className="inline-flex items-center space-x-1.5 text-fb-teal font-bold text-xs uppercase tracking-wider hover:text-fb-green transition-colors"
+                href={href('/about')}
+                className="inline-flex items-center gap-1.5 min-h-[44px] text-fb-teal font-bold text-sm uppercase tracking-wider hover:underline underline-offset-4"
               >
                 <span>{t('home.about.link')}</span>
-                <ArrowRight size={14} />
+                <ArrowRight size={14} className="rtl:rotate-180" aria-hidden="true" />
               </Link>
             </div>
           </div>
@@ -429,17 +307,7 @@ export default function Home() {
           <div className="text-center space-y-3 sm:space-y-4 max-w-4xl mx-auto">
             <span className="eyebrow">{t('home.usp.eyebrow')}</span>
             <h2 className="text-fb-teal font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-balance leading-snug">
-              {locale === 'ar' ? (
-                <>
-                  <span className="inline-block whitespace-nowrap">دقة التحليلات الميدانية</span>
-                  <span className="text-fb-green mx-1.5 sm:mx-2">•</span>
-                  <span className="inline-block whitespace-nowrap">انضباط الحيازة</span>
-                  <span className="text-fb-green mx-1.5 sm:mx-2">•</span>
-                  <span className="inline-block whitespace-nowrap">استدامة العوائد</span>
-                </>
-              ) : (
-                t('home.usp.title')
-              )}
+              {t('home.usp.title')}
             </h2>
           </div>
 
@@ -516,8 +384,7 @@ export default function Home() {
       {/* 9. OFFICIAL COMPANY PROFILE & CORPORATE PRESENTATION */}
       <CompanyProfile />
 
-      {/* 10. BLOG / INDUSTRY NEWS SECTION */}
-      <BlogSection />
+      {/* 10. Articles section hidden (owner decision D5) until Insights returns */}
 
       {/* 11. FINAL CONSULTATION CTA */}
       <section className="bg-fb-teal text-fb-bg-light py-16 sm:py-24 md:py-28 flex flex-col justify-center items-center px-4 sm:px-6 relative overflow-hidden border-t border-fb-bg-light/10">
@@ -532,18 +399,17 @@ export default function Home() {
           </p>
           <div className="pt-2 sm:pt-4 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <Link
-              href="/contact?interest=consultation"
-              className="inline-flex items-center space-x-2 rtl:space-x-reverse bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-8 py-3.5 sm:px-10 sm:py-4.5 rounded-2xl text-sm transition-all shadow-xl hover:shadow-fb-green/20 hover:scale-105"
+              href={href('/contact?interest=consultation#consultation-form')}
+              className="inline-flex items-center gap-2 min-h-[48px] bg-fb-green hover:bg-fb-green-hover text-fb-teal font-extrabold px-8 py-3.5 rounded-2xl text-sm transition-colors shadow-xl"
             >
               <span>{t('common.bookConsultation')}</span>
-              <ArrowRight size={16} className="ml-1.5 mr-1.5 rtl:rotate-180" />
+              <ArrowRight size={16} className="rtl:rotate-180" aria-hidden="true" />
             </Link>
             <Link
-              href="/careers"
-              className="inline-flex items-center space-x-2 rtl:space-x-reverse bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-7 py-3.5 sm:px-8 sm:py-4.5 rounded-2xl text-sm transition-all hover:scale-105 backdrop-blur-md"
+              href={href('/contact?interest=franchise-sourcing#consultation-form')}
+              className="inline-flex items-center gap-2 min-h-[48px] bg-white/10 hover:bg-white/20 border border-white/25 text-white font-bold px-7 py-3.5 rounded-2xl text-sm transition-colors"
             >
-              <Briefcase size={16} className="ml-1 mr-1" />
-              <span>{locale === 'ar' ? 'انضم لفريقنا (التوظيف)' : 'Careers & Hiring'}</span>
+              <span>{t('sourcing.ctaBtn')}</span>
             </Link>
           </div>
         </div>

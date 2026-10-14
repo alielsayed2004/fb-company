@@ -1,9 +1,16 @@
 {
   "counters": {
-    "sqm": "500,000+",
-    "occupancy": "100%",
-    "brands": "200+",
-    "gas": "8+"
+    "locations": "7",
+    "brands": "54",
+    "area": "40,900"
+  },
+  "countersMeta": {
+    "status": "TO VERIFY",
+    "asOf": "2026-10-14",
+    "source": "Derived from data/projects.json: locations = number of projects (incl. 1 under construction), brands = sum of metrics.numBrands, area = sum of metrics.landArea (m²). Replace with verified figures when confirmed.",
+    "units": {
+      "area": "m²"
+    }
   },
   "contactInfo": {
     "address": "B165, Dr. Ahmed Okasha St., El Banafseg Buildings, New Cairo, Egypt",

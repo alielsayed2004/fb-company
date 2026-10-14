@@ -1,16 +1,12 @@
-export const metadata = {
-  title: 'الرؤى والأبحاث | إف بي',
-  description: 'وجهات نظر مبنية على البيانات حول العقارات التجارية وإدارة الأصول والامتياز التجاري في مصر.',
-  alternates: {
-    canonical: '/ar/insights',
-    languages: {
-      'en': '/insights',
-      'ar': '/ar/insights',
-      'x-default': '/insights'
-    }
-  }
-};
+import { pageMetadata } from '@/lib/seo';
 
-export default function Layout({ children }) {
-  return children;
-}
+// Not indexed while articles are placeholders and Insights is out of the navigation.
+export const metadata = pageMetadata({
+  path: '/insights',
+  locale: 'ar',
+  title: "مقالات | إف بي",
+  description: "مقالات من شركة إف بي حول العقارات التجارية ومواقع الفرنشايز في مصر.",
+  noindex: true,
+});
+
+export default function Layout({ children }) { return children; }

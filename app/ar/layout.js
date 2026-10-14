@@ -1,44 +1,20 @@
 import "../globals.css";
+import { pageMetadata, SITE_URL } from "@/lib/seo";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AIAssistant from "@/components/AIAssistant";
 import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { DataProvider } from "@/context/DataContext";
 
 export const metadata = {
-  metadataBase: new URL('https://fbassets.com'),
-  title: "إف بي | إدارة أصول وتوفير مواقع للفرانشايز في مصر",
-  description: "شركة إف بي بتختار وتطوّر وتدير مواقع تجارية عالية الحركة في مصر، وبتربطها بأكبر براندات الفرانشايز. من الرؤية إلى القيمة.",
-  alternates: {
-    canonical: '/ar',
-    languages: {
-      'en': '/',
-      'ar': '/ar',
-      'x-default': '/'
-    }
-  },
-  openGraph: {
-    title: "إف بي | إدارة أصول وتوفير مواقع للفرانشايز في مصر",
-    description: "شركة إف بي بتختار وتطوّر وتدير مواقع تجارية عالية الحركة في مصر، وبتربطها بأكبر براندات الفرانشايز. من الرؤية إلى القيمة.",
-    url: '/ar',
-    siteName: 'F.B Company',
-    images: [
-      {
-        url: '/company/logo.png',
-        width: 800,
-        height: 600,
-      }
-    ],
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: "إف بي | إدارة أصول وتوفير مواقع للفرانشايز في مصر",
-    description: "شركة إف بي بتختار وتطوّر وتدير مواقع تجارية عالية الحركة في مصر، وبتربطها بأكبر براندات الفرانشايز. من الرؤية إلى القيمة.",
-    images: ['/company/logo.png'],
-  },
+  metadataBase: new URL(SITE_URL),
+  ...pageMetadata({
+    path: '/',
+    locale: 'ar',
+    title: "إف بي | إدارة الأصول وتوفير مواقع الفرنشايز في مصر",
+    description: "شركة إف بي في القاهرة الجديدة: إدارة الأصول العقارية التجارية وتوفير مواقع الفرنشايز في محطات الوقود والمولات والأندية في مصر.",
+  }),
   icons: {
     icon: [
       { url: "/company/icon.svg", type: "image/svg+xml" },
@@ -66,7 +42,7 @@ const organizationJsonLd = {
       "url": "https://fbassets.com",
       "logo": "https://fbassets.com/company/logo.png",
       "slogan": "From Vision to Value",
-      "description": "F.B Company is an Egyptian asset management and franchise location sourcing firm. We identify, develop, and manage high-traffic commercial locations and match them with leading franchise brands across Egypt.",
+      "description": "F.B Company is an Egyptian asset management and franchise location sourcing firm. We identify, develop, and manage high-traffic commercial locations and match them with franchise brands across Egypt.",
       "email": "info@fbassets.com",
       "telephone": "+201117751967",
       "founder": { "@type": "Person", "name": "Eng. Mohamed Bahr", "jobTitle": "CEO" },
@@ -128,7 +104,6 @@ export default function RootLayout({ children }) {
             <main className="flex-grow">
               {children}
             </main>
-            <AIAssistant />
             <Footer />
           </LanguageProvider>
         </DataProvider>

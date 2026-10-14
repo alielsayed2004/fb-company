@@ -307,11 +307,10 @@ export default function ProjectPageClient({ project: initialProject }) {
             {/* Key Metrics Grid */}
             <motion.div variants={itemVariants} className="space-y-4">
               <h4 className="text-fb-teal font-extrabold uppercase tracking-wider text-xs">{t('projectDetails.metrics')}</h4>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
                 {[
                   { label: t('projectDetails.landArea'), val: project.metrics?.landArea, icon: <Maximize2 className="text-fb-green" size={20} /> },
                   { label: t('projectDetails.brands'), val: `${project.metrics?.numBrands || project.brands?.length || 0} ${locale === 'ar' ? 'علامات' : 'Brands'}`, icon: <Users className="text-fb-green" size={20} /> },
-                  { label: t('projectDetails.occupancy'), val: project.metrics?.occupancyRate === 'Pending' ? (locale === 'ar' ? 'قيد التخصيص' : 'Pending') : project.metrics?.occupancyRate, icon: <TrendingUp className="text-fb-green" size={20} /> },
                   { label: t('projectDetails.yearBuilt'), val: project.metrics?.openingYear, icon: <Calendar className="text-fb-green" size={20} /> }
                 ].map((m, idx) => (
                   <div key={idx} className="bg-fb-bg-light/90 border border-fb-teal/15 p-5 rounded-2xl shadow-sm flex flex-col justify-between min-h-[120px] hover:border-fb-green hover:shadow-md transition-all duration-300">
@@ -413,21 +412,11 @@ export default function ProjectPageClient({ project: initialProject }) {
 
                 <div className="flex items-start gap-3.5 text-start">
                   <div className="w-9 h-9 rounded-xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center shrink-0 text-fb-green mt-0.5">
-                    <TrendingUp size={18} strokeWidth={1.5} />
-                  </div>
-                  <div className="flex-1 text-start space-y-0.5">
-                    <span className="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">{t('projectDetails.catchment')}</span>
-                    <p className="text-sm font-semibold text-fb-teal leading-snug">{getField(project.mapInfo, 'catchment') || (locale === 'ar' ? 'تدفق عالي' : 'High Volume Flows')}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3.5 text-start">
-                  <div className="w-9 h-9 rounded-xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center shrink-0 text-fb-green mt-0.5">
                     <Calendar size={18} strokeWidth={1.5} />
                   </div>
                   <div className="flex-1 text-start space-y-0.5">
                     <span className="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">{t('projectDetails.sourcingPeak')}</span>
-                    <p className="text-sm font-semibold text-fb-teal leading-snug">{getField(project.mapInfo, 'peakHours') || (locale === 'ar' ? 'أوقات الذروة والنشاط' : 'Peak Sourcing Hours')}</p>
+                    <p className="text-sm font-semibold text-fb-teal leading-snug">{getField(project.mapInfo, 'peakHours') || '—'}</p>
                   </div>
                 </div>
               </div>

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Layers, CheckCircle, Search, Target, Building2, BarChart4, Landmark, ShieldCheck, TrendingUp } from 'lucide-react';
 import CompanyProfile from '@/components/CompanyProfile';
+import ServiceCta, { HeroCta } from '@/components/ServiceCta';
 import { useLanguage } from '@/context/LanguageContext';
 
 const corporateEase = [0.22, 1, 0.36, 1];
@@ -45,10 +46,10 @@ export default function AssetManagement() {
   }, []);
 
   const steps = [
-    { num: "01", icon: <Search strokeWidth={1.5} size={22} />, watermark: <Search size={110} />, title: locale === 'ar' ? "التقييم والتدقيق" : "Assess", desc: locale === 'ar' ? "تدقيق تفصيلي لمقاييس الأصول، واللوائح البلدية، والتدفقات النقدية." : "Detailed audit of asset metrics, municipal regulations, and cash flows." },
-    { num: "02", icon: <Target strokeWidth={1.5} size={22} />, watermark: <Target size={110} />, title: locale === 'ar' ? "التوافق والتطابق" : "Match", desc: locale === 'ar' ? "مواءمة العقارات والقطع مع الأهداف المؤسسية ومستويات تحمل المخاطر." : "Aligning properties with institutional objectives and risk tolerances." },
-    { num: "03", icon: <Building2 strokeWidth={1.5} size={22} />, watermark: <Building2 size={110} />, title: locale === 'ar' ? "الإشراف والإدارة" : "Manage", desc: locale === 'ar' ? "التحسين النشط لعقود الإيجار التشغيلية وقوائم المستأجرين." : "Active optimization of operational leases and tenant rosters." },
-    { num: "04", icon: <BarChart4 strokeWidth={1.5} size={22} />, watermark: <BarChart4 size={110} />, title: locale === 'ar' ? "التقارير المالية" : "Report", desc: locale === 'ar' ? "تدقيق مالي دوري شفاف وحوكمة كاملة للتقارير والأرباح." : "Transparent, real-time performance auditing and financial transparency." }
+    { num: "01", icon: <Search strokeWidth={1.5} size={22} />, watermark: <Search size={110} />, title: locale === 'ar' ? "التقييم" : "Assess", desc: locale === 'ar' ? "مراجعة حالة الموقع والاشتراطات التنظيمية والعقود القائمة." : "Reviewing the site's condition, regulatory requirements and existing contracts." },
+    { num: "02", icon: <Target strokeWidth={1.5} size={22} />, watermark: <Target size={110} />, title: locale === 'ar' ? "التخطيط" : "Plan", desc: locale === 'ar' ? "وضع خطة للتأجير ومزيج المستأجرين والتشغيل بما يتفق مع أهداف المالك." : "Planning leasing, tenant mix and operations in line with the owner's objectives." },
+    { num: "03", icon: <Building2 strokeWidth={1.5} size={22} />, watermark: <Building2 size={110} />, title: locale === 'ar' ? "الإدارة" : "Manage", desc: locale === 'ar' ? "إدارة عقود الإيجار والمستأجرين والتشغيل اليومي للموقع." : "Managing leases, tenants and day-to-day site operations." },
+    { num: "04", icon: <BarChart4 strokeWidth={1.5} size={22} />, watermark: <BarChart4 size={110} />, title: locale === 'ar' ? "التقارير" : "Report", desc: locale === 'ar' ? "تقارير دورية واضحة للمالك عن الموقع والمستأجرين." : "Regular, clear reporting to the owner on the site and its tenants." }
   ];
 
   const services = [
@@ -106,6 +107,9 @@ export default function AssetManagement() {
           >
             {t('asset.desc')}
           </motion.p>
+          <div className="pt-2">
+            <HeroCta label={t('asset.ctaBtn')} path="/contact?interest=asset-management#consultation-form" />
+          </div>
         </div>
       </section>
 
@@ -229,7 +233,14 @@ export default function AssetManagement() {
         </motion.div>
       </section>
 
-      {/* CTA Section Replaced by Company Profile */}
+      <ServiceCta
+        title={t('asset.ctaTitle')}
+        desc={t('asset.ctaDesc')}
+        btn={t('asset.ctaBtn')}
+        path="/contact?interest=asset-management#consultation-form"
+        note={<>{t('asset.disclaimer')} <Link href={locale === 'ar' ? '/ar/risk-disclaimer' : '/risk-disclaimer'} className="underline">{t('footer.riskDisclaimer')}</Link></>}
+      />
+
       <CompanyProfile />
 
     </div>

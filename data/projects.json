@@ -18,12 +18,11 @@
       "/projects/chillout-10th-of-ramadan-banks/gallery-1789826174045-6.jpg",
       "/projects/chillout-10th-of-ramadan-banks/gallery-1789826174046-9.jpg"
     ],
-    "overview": "A flagship multi-service fuel and commercial asset located in the dense industrial and banking core of 10th of Ramadan City, hosting a premium selection of national and international retail and F&B brands.",
-    "overview_ar": "مشروع وقود ومحلات تجارية في قلب المنطقة الصناعية والمصرفية بمدينة العاشر من رمضان، بيجمع مجموعة قوية من العلامات الوطنية والعالمية في مكان واحد.",
+    "overview": "A multi-service fuel and retail location at the Banks Service Center in 10th of Ramadan City, with national and international food, retail and service brands.",
+    "overview_ar": "موقع وقود وتجزئة متعدد الخدمات في مركز خدمات البنوك بمدينة العاشر من رمضان، يضم علامات تجارية محلية ودولية في مجالات الأغذية والتجزئة والخدمات.",
     "metrics": {
       "landArea": "7,200 SQM",
       "numBrands": "15",
-      "occupancyRate": "100%",
       "openingYear": "2023"
     },
     "brands": [
@@ -50,8 +49,6 @@
     "mapInfo": {
       "road": "Main Banks Service Corridor",
       "road_ar": "ممر البنوك الخدمي الرئيسي",
-      "catchment": "120,000+ daily vehicles & employees",
-      "catchment_ar": "أكثر من 120,000 موظف ومركبة يومياً",
       "peakHours": "8:00 AM - 9:00 PM",
       "peakHours_ar": "8:00 صباحاً - 9:00 مساءً"
     }
@@ -69,12 +66,11 @@
     "video": "/projects/chillout-mostafa-kamel/video.mp4",
     "coverImage": "/projects/chillout-mostafa-kamel/cover.jpg",
     "gallery": [],
-    "overview": "A high-traffic fuel station plaza situated along the vital Mostafa Kamel Axis in New Cairo, serving the premium residential catchment of South Academy and adjacent districts.",
-    "overview_ar": "محطة وقود ومجمع تجاري على محور مصطفى كامل الحيوي في القاهرة الجديدة، بيخدم يوميًا سكان جنوب الأكاديمية والمناطق المجاورة اللي بتشهد حركة مرور كثيفة على مدار اليوم.",
+    "overview": "A fuel station and retail location on the Mostafa Kamel Axis, south of the Academy in New Cairo, serving the surrounding residential districts.",
+    "overview_ar": "محطة وقود وموقع تجاري على محور مصطفى كامل جنوب الأكاديمية بالقاهرة الجديدة، يخدم المناطق السكنية المحيطة.",
     "metrics": {
       "landArea": "5,400 SQM",
       "numBrands": "11",
-      "occupancyRate": "100%",
       "openingYear": "2024"
     },
     "brands": [
@@ -97,8 +93,6 @@
     "mapInfo": {
       "road": "Mostafa Kamel Axis",
       "road_ar": "محور مصطفى كامل",
-      "catchment": "85,000+ local residents in 1.5km radius",
-      "catchment_ar": "أكثر من 85,000 نسمة في محيط 1.5 كم",
       "peakHours": "10:00 AM - 11:00 PM",
       "peakHours_ar": "10:00 صباحاً - 11:00 مساءً"
     }
@@ -122,12 +116,11 @@
       "/projects/chillout-marina-5/IMG_7685.jpeg",
       "/projects/chillout-marina-5/cover.png"
     ],
-    "overview": "A premium seasonal and year-round gateway commercial hub servicing the elite coastal corridor of Marina 5, directly facing the Rotana Hotel gates.",
-    "overview_ar": "بوابة تجارية على الساحل الشمالي، قدام بوابة فندق روتانا مباشرة في مارينا 5، بتستقبل الزوار في الصيف والشتاء على حد سواء.",
+    "overview": "A commercial location on the Alexandria–Matrouh road at Marina 5 on the North Coast, opposite the Rotana Hotel, open in summer and winter.",
+    "overview_ar": "موقع تجاري على طريق الإسكندرية–مطروح في مارينا 5 بالساحل الشمالي، أمام فندق روتانا، ويعمل صيفاً وشتاءً.",
     "metrics": {
       "landArea": "9,200 SQM",
       "numBrands": "8",
-      "occupancyRate": "100%",
       "openingYear": "2022"
     },
     "brands": [
@@ -147,8 +140,6 @@
     "mapInfo": {
       "road": "Alex-Matrouh Coastal Rd (KM 105)",
       "road_ar": "طريق إسكندرية - مطروح الساحلي (كم 105)",
-      "catchment": "300,000+ weekly summer tourists",
-      "catchment_ar": "أكثر من 300,000 سائح أسبوعياً في الصيف",
       "peakHours": "12:00 PM - 3:00 AM",
       "peakHours_ar": "12:00 ظهراً - 3:00 صباحاً"
     }
@@ -178,12 +169,11 @@
       "/projects/chillout-10th-of-ramadan-alrowad/٤.png",
       "/projects/chillout-10th-of-ramadan-alrowad/٥.png"
     ],
-    "overview": "Strategically positioned adjacent to the high-traffic Al-Rowad Club, this development captures local families, sports club visitors, and regional commuters daily.",
-    "overview_ar": "موقع مختار بعناية جنب نادي الرواد الرياضي، وسط إقبال يومي من العائلات وزوار النادي والمسافرين العابرين على الطريق.",
+    "overview": "A commercial location next to Al-Rowad Club in 10th of Ramadan City, serving club visitors, local families and passing traffic.",
+    "overview_ar": "موقع تجاري بجوار نادي الرواد بمدينة العاشر من رمضان، يخدم زوار النادي والأسر المقيمة والمارّين على الطريق.",
     "metrics": {
       "landArea": "4,900 SQM",
       "numBrands": "5",
-      "occupancyRate": "100%",
       "openingYear": "2023"
     },
     "brands": [
@@ -200,8 +190,6 @@
     "mapInfo": {
       "road": "Al-Rowad Club Main Road",
       "road_ar": "الطريق الرئيسي لنادي الرواد",
-      "catchment": "40,000+ local sports club footfall",
-      "catchment_ar": "أكثر من 40,000 زائر محلي للنادي",
       "peakHours": "3:00 PM - 10:00 PM",
       "peakHours_ar": "3:00 عصراً - 10:00 مساءً"
     }
@@ -221,12 +209,11 @@
     "gallery": [
       "/projects/sour-nady-el-nady/cover.png"
     ],
-    "overview": "An urban commercial strip border development on the walls of Nady El Nady in Sheraton, providing dedicated brand options to high-income local catchments.",
-    "overview_ar": "شريط تجاري على سور نادي النادي بمنطقة شيراتون في مصر الجديدة، بيقدّم لسكان المنطقة ذوي الدخل المرتفع خيارات تجارية مختارة بعناية.",
+    "overview": "A commercial strip on the perimeter wall of Nady El Nady in the Sheraton area of Heliopolis, Cairo.",
+    "overview_ar": "شريط تجاري على سور نادي النادي بمنطقة شيراتون في مصر الجديدة بالقاهرة.",
     "metrics": {
       "landArea": "3,800 SQM",
       "numBrands": "6",
-      "occupancyRate": "100%",
       "openingYear": "2024"
     },
     "brands": [
@@ -244,8 +231,6 @@
     "mapInfo": {
       "road": "Nady El Nady Access Road",
       "road_ar": "طريق الوصول لنادي النادي",
-      "catchment": "70,000+ local urban population",
-      "catchment_ar": "أكثر من 70,000 نسمة من السكان المحليين",
       "peakHours": "4:00 PM - 11:00 PM",
       "peakHours_ar": "4:00 عصراً - 11:00 مساءً"
     }
@@ -263,12 +248,11 @@
     "video": "/projects/sour-nady-el-obour/video.mp4",
     "coverImage": "/projects/sour-nady-el-obour/cover.jpg",
     "gallery": [],
-    "overview": "A commercial perimeter leasing layout executed around the Obour City Club wall, delivering premium retail and F&B anchors to a growing suburban residential city.",
-    "overview_ar": "مساحات تجارية مؤجرة على سور نادي العبور، بتقدّم علامات تجارية ومحلات تجزئة مختارة لخدمة التجمع السكني المتنامي في مدينة العبور.",
+    "overview": "Commercial units leased on the perimeter of the Obour City Club, with retail and food brands serving Obour City.",
+    "overview_ar": "وحدات تجارية مؤجرة على سور نادي مدينة العبور، تضم علامات تجارية في مجالَي التجزئة والأغذية لخدمة سكان مدينة العبور.",
     "metrics": {
       "landArea": "4,200 SQM",
       "numBrands": "5",
-      "occupancyRate": "96%",
       "openingYear": "2023"
     },
     "brands": [
@@ -285,8 +269,6 @@
     "mapInfo": {
       "road": "Obour Club Main Axis",
       "road_ar": "المحور الرئيسي لنادي العبور",
-      "catchment": "50,000+ local residents & club members",
-      "catchment_ar": "أكثر من 50,000 من السكان المحليين وأعضاء النادي",
       "peakHours": "12:00 PM - 10:00 PM",
       "peakHours_ar": "12:00 ظهراً - 10:00 مساءً"
     }
@@ -304,12 +286,11 @@
     "video": "/projects/el-salam-plaza-mall/video.mp4",
     "coverImage": "/projects/el-salam-plaza-mall/cover.jpg",
     "gallery": [],
-    "overview": "A flagship commercial shopping mall and retail plaza development located along the high-density El Salam corridor in Cairo, anchoring top-tier retail and F&B brands.",
-    "overview_ar": "مول تجاري على ممر طريق السلام عالي الكثافة بالقاهرة، هيضم نخبة من كبرى علامات التجزئة والمطاعم بمجرد افتتاحه.",
+    "overview": "A shopping mall under construction on the El Salam corridor in Cairo.",
+    "overview_ar": "مول تجاري قيد الإنشاء على محور طريق السلام بالقاهرة.",
     "metrics": {
       "landArea": "6,200 SQM",
       "numBrands": "4",
-      "occupancyRate": "Allocating",
       "openingYear": "2026"
     },
     "brands": [
@@ -324,11 +305,7 @@
     },
     "mapInfo": {
       "road": "El Salam Transit Corridor",
-      "road_ar": "ممر طريق السلام الرئيسي",
-      "catchment": "180,000+ daily commuter vehicle flows",
-      "catchment_ar": "أكثر من 180,000 سيارة للمسافرين يومياً",
-      "peakHours": "Finalizing Allocations",
-      "peakHours_ar": "في مرحلة التخصيص النهائي"
+      "road_ar": "ممر طريق السلام الرئيسي"
     }
   }
 ]

@@ -1,12 +1,10 @@
-export const metadata = {
-  title: "تواصل مع إف بي | التجمع الخامس، القاهرة",
-  description: "احجز استشارة مع إف بي. زورنا في التجمع الخامس أو كلمنا على 01117751967 أو ابعت على info@fbassets.com.",
-  alternates: { canonical: '/ar/contact', languages: { 'en': '/contact', 'ar': '/ar/contact', 'x-default': '/contact' } },
-  openGraph: {
-    title: "Contact F.B Company | New Cairo, Egypt",
-    description: "Book a consultation with F.B Company. Visit us in New Cairo, call +20 111 775 1967, or email info@fbassets.com.",
-    url: '/ar/contact',
-  }
-};
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata = pageMetadata({
+  path: '/contact',
+  locale: 'ar',
+  title: "تواصل مع شركة إف بي | القاهرة الجديدة",
+  description: "احجز استشارة مع شركة إف بي في القاهرة الجديدة. اتصل على 01117751967 أو راسلنا على info@fbassets.com.",
+});
 
 export default function Layout({ children }) { return children; }

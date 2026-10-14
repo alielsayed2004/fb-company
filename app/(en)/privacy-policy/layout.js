@@ -1,12 +1,10 @@
-export const metadata = {
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata = pageMetadata({
+  path: '/privacy-policy',
+  locale: 'en',
   title: "Privacy Policy | F.B Company",
-  description: "Privacy Policy for F.B Company.",
-  alternates: { canonical: '/privacy-policy', languages: { 'en': '/privacy-policy', 'ar': '/ar/privacy-policy', 'x-default': '/privacy-policy' } },
-  openGraph: {
-    title: "Privacy Policy | F.B Company",
-    description: "Privacy Policy for F.B Company.",
-    url: '/privacy-policy',
-  }
-};
+  description: "How F.B Company collects, uses and protects personal data shared through fbassets.com, including enquiries and job applications.",
+});
 
 export default function Layout({ children }) { return children; }

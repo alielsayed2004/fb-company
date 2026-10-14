@@ -92,7 +92,6 @@ export async function GET(req) {
     const rootDir = process.cwd();
     const dataDir = path.join(rootDir, 'data');
     const projectsFile = path.join(dataDir, 'projects.json');
-    const projectsSubDir = path.join(dataDir, 'projects');
     const publicProjectsDir = path.join(rootDir, 'public', 'projects');
     const imageExts = new Set(['.jpg', '.jpeg', '.png', '.webp', '.svg', '.avif']);
 
@@ -103,27 +102,6 @@ export async function GET(req) {
       try {
         projects = JSON.parse(fs.readFileSync(projectsFile, 'utf8'));
       } catch (e) {}
-    }
-
-    // Safely enrich existing projects without resurrecting deleted ones
-    if (fs.existsSync(projectsSubDir) && Array.isArray(projects) && projects.length > 0) {
-      const activeIds = new Set(projects.map(p => p.id));
-      const files = fs.readdirSync(projectsSubDir).filter(f => f.endsWith('.json'));
-      const individualMap = new Map();
-
-      for (const f of files) {
-        try {
-          const content = JSON.parse(fs.readFileSync(path.join(projectsSubDir, f), 'utf8'));
-          if (content && content.id && activeIds.has(content.id)) {
-            individualMap.set(content.id, content);
-          }
-        } catch (e) {}
-      }
-
-      projects = projects.map(p => ({
-        ...p,
-        ...(individualMap.get(p.id) || {})
-      }));
     }
 
     // Enrich covers only if cover is missing or broken
@@ -178,17 +156,6 @@ export async function GET(req) {
       };
     });
 
-    let blogsEn = [];
-    let blogsAr = [];
-    const blogsFile = path.join(dataDir, 'blogs.json');
-    if (fs.existsSync(blogsFile)) {
-      try {
-        const b = JSON.parse(fs.readFileSync(blogsFile, 'utf8'));
-        blogsEn = b.en || [];
-        blogsAr = b.ar || [];
-      } catch (e) {}
-    }
-
     let brands = [];
     const brandsFile = path.join(dataDir, 'brands.json');
     if (fs.existsSync(brandsFile)) {
@@ -211,8 +178,6 @@ export async function GET(req) {
     return NextResponse.json({
       success: true,
       projects,
-      blogsEn,
-      blogsAr,
       brands,
       counters,
       contactInfo
@@ -235,7 +200,7 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    const { projects, blogsEn, blogsAr, brands, counters, contactInfo } = body;
+    const { projects, brands, counters, contactInfo } = body;
 
     // Sanitize client-supplied IDs with strict regex whitelist before path construction
     if (Array.isArray(projects)) {
@@ -266,7 +231,6 @@ export async function POST(req) {
     const isFsWritable = checkIsFsWritable();
     const rootDir = process.cwd();
     const dataDir = path.join(rootDir, 'data');
-    const projectsSubDir = path.join(dataDir, 'projects');
     const publicProjectsDir = path.join(rootDir, 'public', 'projects');
     const logosPublicDir = path.join(rootDir, 'public', 'logos');
 
@@ -352,19 +316,6 @@ export async function POST(req) {
           gallery
         };
 
-        // Individual project file for GitHub
-        filesForGitHub.push({
-          path: `data/projects/${projId}.json`,
-          content: JSON.stringify(cleaned, null, 2)
-        });
-
-        // If local disk is writable, write individual file
-        if (isFsWritable) {
-          if (!fs.existsSync(projectsSubDir)) fs.mkdirSync(projectsSubDir, { recursive: true });
-          const singleProjectFile = path.join(projectsSubDir, `${projId}.json`);
-          fs.writeFileSync(singleProjectFile, JSON.stringify(cleaned, null, 2), 'utf8');
-        }
-
         return cleaned;
       });
 
@@ -378,20 +329,6 @@ export async function POST(req) {
         if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
         const masterProjectsFile = path.join(dataDir, 'projects.json');
         fs.writeFileSync(masterProjectsFile, JSON.stringify(cleanedProjects, null, 2), 'utf8');
-
-        // Delete removed project json files locally and on GitHub
-        const activeFileNames = new Set(cleanedProjects.map(p => `${p.id}.json`));
-        if (fs.existsSync(projectsSubDir)) {
-          const existingFiles = fs.readdirSync(projectsSubDir).filter(f => f.endsWith('.json'));
-          for (const f of existingFiles) {
-            if (!activeFileNames.has(f)) {
-              deletedFilesForGitHub.push(`data/projects/${f}`);
-              if (isFsWritable) {
-                try { fs.unlinkSync(path.join(projectsSubDir, f)); } catch (e) {}
-              }
-            }
-          }
-        }
 
         // Delete removed project directories and assets locally and on GitHub
         const activeProjIds = new Set(cleanedProjects.map(p => p.id));
@@ -414,18 +351,6 @@ export async function POST(req) {
             }
           }
         }
-      }
-    }
-
-    // 2. Blogs
-    if (blogsEn || blogsAr) {
-      const blogsContent = JSON.stringify({ en: blogsEn || [], ar: blogsAr || [] }, null, 2);
-      filesForGitHub.push({
-        path: 'data/blogs.json',
-        content: blogsContent
-      });
-      if (isFsWritable) {
-        fs.writeFileSync(path.join(dataDir, 'blogs.json'), blogsContent, 'utf8');
       }
     }
 
@@ -469,7 +394,16 @@ export async function POST(req) {
 
     // 4. Company Info
     if (counters || contactInfo) {
-      const companyContent = JSON.stringify({ counters, contactInfo }, null, 2);
+      // Keep any other keys in company.json (e.g. countersMeta: verification status / source).
+      let existingCompany = {};
+      try {
+        existingCompany = JSON.parse(fs.readFileSync(path.join(dataDir, 'company.json'), 'utf8'));
+      } catch (e) {}
+      const companyContent = JSON.stringify({
+        ...existingCompany,
+        ...(counters ? { counters } : {}),
+        ...(contactInfo ? { contactInfo } : {}),
+      }, null, 2) + '\n';
       filesForGitHub.push({
         path: 'data/company.json',
         content: companyContent

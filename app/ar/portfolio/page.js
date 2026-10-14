@@ -108,55 +108,31 @@ export default function PortfolioPage() {
             className="text-fb-bg-light/85 text-xs sm:text-base md:text-lg leading-relaxed max-w-2xl font-light"
           >
             {isAr
-              ? 'نخبة من المشاريع والمجمعات التجارية المدارة في أهم المواقع الحيوية بمصر.'
-              : 'A curated portfolio of prime commercial projects across Egypt.'}
+              ? 'المواقع التجارية التي وفّرتها شركة إف بي أو طوّرتها أو تديرها في أنحاء مصر.'
+              : 'Commercial locations F.B Company has sourced, developed or manages across Egypt.'}
           </motion.p>
         </div>
       </section>
 
-      {/* 2. LIVE PORTFOLIO STATS STRIP */}
+      {/* 2. KEY FIGURES STRIP — values from data/company.json */}
       <section className="bg-white border-b border-fb-teal/10 py-6 sm:py-8 px-4 sm:px-6 relative z-20 shadow-xs">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x rtl:sm:divide-x-reverse divide-fb-teal/10">
-          <div className="pt-2 sm:pt-0 sm:px-4 flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center text-fb-green shrink-0">
-              <Building2 size={20} />
-            </div>
-            <div>
-              <div className="font-mono font-extrabold text-xl sm:text-2xl text-fb-teal">{counters?.sqm || '500,000+'}</div>
-              <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">{t('home.counters.sqm')}</div>
-            </div>
-          </div>
-
-          <div className="pt-2 sm:pt-0 sm:px-4 flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center text-fb-green shrink-0">
-              <TrendingUp size={20} />
-            </div>
-            <div>
-              <div className="font-mono font-extrabold text-xl sm:text-2xl text-fb-teal">{counters?.occupancy || '100%'}</div>
-              <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">{t('home.counters.occupancy')}</div>
-            </div>
-          </div>
-
-          <div className="pt-2 sm:pt-0 sm:px-4 flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center text-fb-green shrink-0">
-              <Store size={20} />
-            </div>
-            <div>
-              <div className="font-mono font-extrabold text-xl sm:text-2xl text-fb-teal">{counters?.brands || '200+'}</div>
-              <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">{t('home.counters.brands')}</div>
-            </div>
-          </div>
-
-          <div className="pt-2 sm:pt-0 sm:px-4 flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center text-fb-green shrink-0">
-              <Fuel size={20} />
-            </div>
-            <div>
-              <div className="font-mono font-extrabold text-xl sm:text-2xl text-fb-teal">{counters?.gas || '8+'}</div>
-              <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">{t('home.counters.gas')}</div>
-            </div>
-          </div>
-        </div>
+        <ul className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x rtl:sm:divide-x-reverse divide-fb-teal/10">
+          {[
+            { key: 'locations', icon: <Fuel size={20} aria-hidden="true" /> },
+            { key: 'brands', icon: <Store size={20} aria-hidden="true" /> },
+            { key: 'area', icon: <Building2 size={20} aria-hidden="true" /> },
+          ].map((stat) => (
+            <li key={stat.key} className="pt-3 sm:pt-0 sm:px-4 flex items-center gap-3.5">
+              <span className="w-11 h-11 rounded-2xl bg-fb-teal/5 border border-fb-teal/10 flex items-center justify-center text-fb-teal shrink-0">
+                {stat.icon}
+              </span>
+              <span>
+                <span dir="ltr" className="block font-mono font-extrabold text-xl sm:text-2xl text-fb-teal tabular-nums">{counters?.[stat.key]}</span>
+                <span className="block text-sm font-bold text-slate-600">{t(`home.counters.${stat.key}`)}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* 3. MAIN PROJECT CARDS GRID */}

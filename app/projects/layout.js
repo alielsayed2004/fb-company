@@ -1,7 +1,6 @@
 import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AIAssistant from "@/components/AIAssistant";
 import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import { LanguageProvider } from "@/context/LanguageContext";
@@ -10,7 +9,7 @@ import { DataProvider } from "@/context/DataContext";
 export const metadata = {
   metadataBase: new URL('https://fbassets.com'),
   title: "F.B Company | Projects & Prime Commercial Assets",
-  description: "Explore F.B Company's portfolio of premier fuel plazas and commercial developments across Egypt.",
+  description: "Commercial locations sourced, developed or managed by F.B Company across Egypt.",
 };
 
 export default function ProjectsRootLayout({ children }) {
@@ -25,7 +24,6 @@ export default function ProjectsRootLayout({ children }) {
             <main className="flex-grow">
               {children}
             </main>
-            <AIAssistant />
             <Footer />
           </LanguageProvider>
         </DataProvider>

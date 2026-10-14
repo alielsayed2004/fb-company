@@ -1,12 +1,10 @@
-export const metadata = {
-  title: "Asset Management in Egypt | Commercial Real Estate Investment | F.B Company",
-  description: "Research-led asset management for commercial real estate in Egypt. We acquire, develop, and manage income-generating locations built for long-term value.",
-  alternates: { canonical: '/asset-management', languages: { 'en': '/asset-management', 'ar': '/ar/asset-management', 'x-default': '/asset-management' } },
-  openGraph: {
-    title: "Asset Management in Egypt | Commercial Real Estate Investment | F.B Company",
-    description: "Research-led asset management for commercial real estate in Egypt. We acquire, develop, and manage income-generating locations built for long-term value.",
-    url: '/asset-management',
-  }
-};
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata = pageMetadata({
+  path: '/asset-management',
+  locale: 'en',
+  title: "Commercial Real Estate Asset Management | F.B Company",
+  description: "We manage, lease and operate commercial locations in Egypt: tenant mix, lease administration and day-to-day operations.",
+});
 
 export default function Layout({ children }) { return children; }

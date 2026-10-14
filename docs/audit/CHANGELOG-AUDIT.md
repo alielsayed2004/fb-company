@@ -60,3 +60,84 @@ Issue IDs refer to `docs/audit/PHASE-1-AUDIT.md`.
 **Verified locally (mock endpoints):** both down → 502 + log lines; Sheets down & Formspree up → 200 + Sheets failure logged; both up → 200, both received; missing fields → 400; bad email → 400; honeypot → 200 without delivery.
 
 **Where to see failures:** Vercel → Project → Logs, search `CONTACT LEAD NOT DELIVERED`. (Optional later: alerting via a Vercel log drain.)
+
+
+---
+
+## Step 4 — P0 compliance & data, P1 equal weight (CMP-01…08, DATA-01…04, UX-03, UX-04, UX-05, UX-06 partial, SEO-04/05 partial, BUG-01)
+
+### Single source of truth
+| File | Change | Why |
+|---|---|---|
+| `data/company.json` | Counters are now `locations: 7`, `brands: 54`, `area: 40,900` (m²) with a `countersMeta` block: **status TO VERIFY**, as-of 2026-10-14, and how each value is derived from `data/projects.json`. No occupancy figure. | DATA-01, owner instruction |
+| `context/DataContext.js` | Rewritten as a thin provider over `data/*.json` (bundled at build). **Removed:** IndexedDB/localStorage loading and writing, the public call to `/api/admin/sync`, the code that rewrote stored `60+`→`200+` and `50,000+`→`500,000+`, `sanitizeArabicName()` (verified no-op on current data), all hard-coded blog/brand/counter defaults. | DATA-01, DATA-02, DATA-03 |
+| `data/projects/*.json` (8 files incl. README) | **Deleted** (approved). They overrode `projects.json` with different values: Banks Service Center 8 brands (master 15), Mostafa Kamel 6 (master 11). Master values kept — **TO VERIFY**. | DATA-04 |
+| `data/blogs.json` | **Deleted** (approved second article source). `content/insights/*.md` is the only article source. | Owner decision |
+| `app/projects/[id]/page.js` | No longer merges the deleted per-project files. | DATA-04 |
+| `app/api/admin/sync/route.js` | No longer reads/writes `data/projects/*.json` or `data/blogs.json`; keeps other keys (e.g. `countersMeta`) when saving `company.json`. | DATA-04 |
+| `app/(en)/admin/page.js` | Articles tab removed (its data source was deleted); occupancy input and the `"100%"` / `100,000+ vehicles` defaults for new locations removed. | DATA, CMP |
+| `components/StatCounter.js` | New. Server HTML contains the **final value** (no more "0+"); counts up once only after hydration, when visible, and only if reduced motion is off. | MOT-02 |
+
+### Unverified figures removed from the public site
+Removed from `data/projects.json` (this file is shipped to browsers, so hiding in the UI was not enough). Values kept here for your verification:
+
+| Location | Field | Removed value |
+|---|---|---|
+| `chillout-10th-of-ramadan-banks` | `metrics.occupancyRate` | 100% |
+| `chillout-10th-of-ramadan-banks` | `mapInfo.catchment` | 120,000+ daily vehicles & employees |
+| `chillout-mostafa-kamel` | `metrics.occupancyRate` | 100% |
+| `chillout-mostafa-kamel` | `mapInfo.catchment` | 85,000+ local residents in 1.5km radius |
+| `chillout-marina-5` | `metrics.occupancyRate` | 100% |
+| `chillout-marina-5` | `mapInfo.catchment` | 300,000+ weekly summer tourists |
+| `chillout-10th-of-ramadan-alrowad` | `metrics.occupancyRate` | 100% |
+| `chillout-10th-of-ramadan-alrowad` | `mapInfo.catchment` | 40,000+ local sports club footfall |
+| `sour-nady-el-nady` | `metrics.occupancyRate` | 100% |
+| `sour-nady-el-nady` | `mapInfo.catchment` | 70,000+ local urban population |
+| `sour-nady-el-obour` | `metrics.occupancyRate` | 96% |
+| `sour-nady-el-obour` | `mapInfo.catchment` | 50,000+ local residents & club members |
+| `el-salam-plaza-mall` | `metrics.occupancyRate` | Allocating |
+| `el-salam-plaza-mall` | `mapInfo.catchment` | 180,000+ daily commuter vehicle flows |
+
+Also removed: home "guarantee 100% occupancy" + "Audited and verified institutional metrics" (+ AR "عوائد استثمارية قياسية"); occupancy cards on Home, About, Portfolio, location drawer, location page and timeline ("100% Occupied" badge); tenant-section "100,000+ daily vehicles", "up to 70%", "pre-approved licensing", "100% Portfolio Occupancy", "Proven Advantage"; franchise case study "100% Leased"; About timeline "100% triple-net occupancy" and "targeting 500,000 SQM"; company-profile block "500,000+ SQM" bullet; meta "50+ leading brand partners", "KFC", "عائد مستمر".
+
+### Copy
+| File | Change | Why |
+|---|---|---|
+| `data/translations.js` | Fully rewritten. EN: institutional, non-promissory; no yield/return/guarantee/superlatives. **AR: Modern Standard Arabic throughout (D2).** Asset Management described only as commercial real estate asset management — managing, leasing and operating commercial locations (**[PENDING D3 CONFIRMATION]**); no client funds/portfolios/risk-tolerance wording. "Division One/Two" replaced with service names. Counter keys renamed `locations/brands/area`. Terminology: "Franchise Location Sourcing" / "توفير مواقع الفرنشايز". Leadership text = visible placeholder `[ADD: …]`. | CMP-04, D2, D3, CNT-01, EEAT-01 |
+| `data/projects.json` | All 7 overviews rewritten factually (EN + MSA AR) — no "flagship/premium/elite/top-tier". | CMP-04 |
+| `components/TenantPartnershipSection.js` | Rewritten: capability pillars without numbers; brand list **derived from `projects.json`** (39 distinct brands, with number of locations each); localized CTA. | CMP-03, CNT-03 |
+| `components/PortfolioTimeline.js` | Removed catchment sentence and occupancy badge; the tag that labelled locations "Asset Management"/"Franchise Sourcing" **by odd/even index** now shows the city. | CMP-05, data accuracy |
+| `components/ProjectDrawer.js`, `app/projects/[id]/ProjectPageClient.js` | Occupancy and catchment removed; no invented fallbacks ("High Volume"). | CMP-05 |
+| `app/(en|ar)/about/page.js` | 3 figures; timeline rewritten neutrally (years **TO VERIFY**). | DATA-01, CMP |
+| `app/(en|ar)/franchise-sourcing/page.js` | Case study reads city/status/year/brands from `projects.json`; process steps rewritten; RTL alignment (`text-start`). | CMP, CNT-02 |
+| `app/(en|ar)/asset-management/page.js` | Process steps rewritten (removed "risk tolerances", "الأرباح"). | D3, CMP |
+| `app/(en|ar)/portfolio/page.js`, `app/(en|ar)/page.js` | 3 figures; neutral hero/statement copy; AR "why" heading no longer hard-coded ("استدامة العوائد"). | CMP, DATA-01 |
+| `content/insights/*/*.md` | Claims removed; bodies replaced with visible `[ADD: article text]` (they were placeholders). | CMP |
+
+### Risk disclaimer & legal
+| File | Change |
+|---|---|
+| `app/(en)/risk-disclaimer/*`, `app/ar/risk-disclaimer/*` | New page EN + AR, visible `[ADD: legal review]` notice. No licence claim. |
+| `components/Footer.js` | Links: Privacy · Terms · **Risk Disclaimer**; **Admin link removed** (D6); 44 px link targets; hooks-order bug fixed (BUG-01). |
+| `components/Navbar.js` | Hooks-order bug fixed (BUG-01). |
+| Asset Management page | Short disclaimer under the closing CTA, linking to the Risk Disclaimer. |
+
+### Equal weight for both business lines
+| File | Change |
+|---|---|
+| `components/ServicePaths.js` (new) | Home section: two identical cards — "For commercial property owners → Asset Management" and "For brands looking for a location → Franchise Location Sourcing" — same size, 3 points each, primary CTA + "About…" link. |
+| `app/(en|ar)/page.js` | Hero buttons: two equal path buttons (replaces Consultation + 23 MB PDF). Final CTA: Consultation + "Submit Your Brand Requirements" (Careers removed). Articles section hidden (D5). All links localized for AR. |
+| `components/ServiceCta.js` (new) | Shared hero button + closing CTA used by **both** service pages. Asset Management now has a hero CTA and a closing CTA (it had none). |
+
+### Metadata (SEO-04/05 brought forward)
+| File | Change |
+|---|---|
+| `lib/seo.js` (new) | `pageMetadata()` builder: canonical, hreflang en/ar/x-default, OG + Twitter `summary_large_image`, branded image, optional `noindex`. |
+| All page `layout.js` (EN + AR) + root layouts | New titles ≤ 60 chars and descriptions ≤ 155 chars per page and language (AR in MSA; AR pages no longer have English titles/OG text). Insights pages `noindex` while placeholder. |
+| `public/og/fb-company-og.png` (new) | 1200×630 share image from the existing logo and brand colours — **[ADD: approved branded OG image]** if you want a designed one. |
+
+### Unmounted (code kept)
+- `components/AIAssistant.js` — no longer rendered on any page (owner decision 3).
+- `components/AdminPanelModal.js`, `components/BlogSection.js` — no longer rendered; now unused.
+
+**Verified locally:** all 15 key pages return 200; server HTML shows `7 / 54 / 40,900` without JavaScript; none of the banned terms appear in visible text (except inside the disclaimer itself); Risk Disclaimer linked on every page; no `/admin` link; **zero console errors and zero `/api/*` calls** on public pages (was a 401 on every page).

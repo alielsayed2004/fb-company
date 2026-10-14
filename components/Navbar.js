@@ -18,10 +18,6 @@ export default function Navbar() {
     ? pathname.replace(/^\/ar/, '') || '/' 
     : `/ar${pathname === '/' ? '' : pathname}`;
 
-  if (pathname?.startsWith('/admin')) {
-    return null;
-  }
-
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -61,6 +57,11 @@ export default function Navbar() {
     if (href === '/') return '/ar';
     return `/ar${href}`;
   };
+
+  // Hooks above must run on every render; hide the public navigation inside the admin area.
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <>

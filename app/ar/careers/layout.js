@@ -1,12 +1,10 @@
-export const metadata = {
-  title: "Careers at F.B Company | Jobs in Asset Management, Egypt",
-  description: "Join F.B Company in New Cairo. Explore open roles in sales, marketing, and asset management.",
-  alternates: { canonical: '/ar/careers', languages: { 'en': '/careers', 'ar': '/ar/careers', 'x-default': '/careers' } },
-  openGraph: {
-    title: "Careers at F.B Company | Jobs in Asset Management, Egypt",
-    description: "Join F.B Company in New Cairo. Explore open roles in sales, marketing, and asset management.",
-    url: '/ar/careers',
-  }
-};
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata = pageMetadata({
+  path: '/careers',
+  locale: 'ar',
+  title: "الوظائف في شركة إف بي | مصر",
+  description: "انضم إلى فريق شركة إف بي في إدارة الأصول العقارية التجارية وتوفير مواقع الفرنشايز في مصر، وقدّم طلبك عبر الإنترنت.",
+});
 
 export default function Layout({ children }) { return children; }

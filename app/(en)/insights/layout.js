@@ -1,16 +1,12 @@
-export const metadata = {
-  title: 'Market Insights & Research | F.B Company',
-  description: 'Data-driven perspectives on commercial real estate, asset management, and retail franchising in Egypt.',
-  alternates: {
-    canonical: '/insights',
-    languages: {
-      'en': '/insights',
-      'ar': '/ar/insights',
-      'x-default': '/insights'
-    }
-  }
-};
+import { pageMetadata } from '@/lib/seo';
 
-export default function Layout({ children }) {
-  return children;
-}
+// Not indexed while articles are placeholders and Insights is out of the navigation.
+export const metadata = pageMetadata({
+  path: '/insights',
+  locale: 'en',
+  title: "Insights | F.B Company",
+  description: "Articles from F.B Company on commercial real estate and franchise locations in Egypt.",
+  noindex: true,
+});
+
+export default function Layout({ children }) { return children; }

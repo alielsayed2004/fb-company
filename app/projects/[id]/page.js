@@ -118,20 +118,6 @@ function getDiscoveredImages(projectId) {
   }
 }
 
-// Helper to read individual project JSON if present in data/projects/[id].json
-function getIndividualProjectData(projectId) {
-  try {
-    const filePath = path.join(process.cwd(), 'data', 'projects', `${projectId}.json`);
-    if (fs.existsSync(filePath)) {
-      const raw = fs.readFileSync(filePath, 'utf8');
-      return JSON.parse(raw);
-    }
-  } catch (err) {
-    // fallback
-  }
-  return null;
-}
-
 export default async function ProjectPage({ params }) {
   const resolvedParams = await params;
   const baseProject = projectsData.find((p) => p.id === resolvedParams.id);
@@ -140,9 +126,7 @@ export default async function ProjectPage({ params }) {
     return <ProjectPageClient project={null} />;
   }
 
-  // Check individual JSON file override
-  const individualData = getIndividualProjectData(resolvedParams.id);
-  const currentProject = { ...baseProject, ...(individualData || {}) };
+  const currentProject = baseProject;
 
   // Auto-discover images in folder
   const discoveredImages = getDiscoveredImages(resolvedParams.id);

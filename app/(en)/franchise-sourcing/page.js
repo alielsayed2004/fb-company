@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Search, ClipboardCheck, Compass, CheckCircle, Store, FileText, ShieldCheck, TrendingUp } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import projectsData from '@/data/projects.json';
+import ServiceCta, { HeroCta } from '@/components/ServiceCta';
 
 const corporateEase = [0.22, 1, 0.36, 1];
 
@@ -47,37 +49,37 @@ export default function FranchiseSourcing() {
     { 
       num: "01", 
       watermark: <Search size={110} />,
-      title: locale === 'ar' ? "البحث والاستقصاء" : "Research", 
+      title: locale === 'ar' ? "البحث" : "Research", 
       icon: <Search strokeWidth={1.5} size={22} />, 
-      desc: locale === 'ar' ? "مراجعات ديموغرافية، إحصاءات حركة المرور، وتحليلات الذكاء الجغرافي للمنطقة." : "Demographic reviews, road-traffic volumes, and catchment intelligence analysis." 
+      desc: locale === 'ar' ? "دراسة الخصائص السكانية وأعداد حركة المرور والكثافة المحيطة بالمنطقة." : "Reviewing demographics, traffic counts and the surrounding catchment." 
     },
     { 
       num: "02", 
       watermark: <Compass size={110} />,
-      title: locale === 'ar' ? "التحليل والتقييم" : "Analyze", 
+      title: locale === 'ar' ? "التحليل" : "Analyse", 
       icon: <Compass strokeWidth={1.5} size={22} />, 
-      desc: locale === 'ar' ? "التحقق من اللوائح البلدية، مسافات التراجع الآمنة، والتحقق من الجدوى الفنية." : "Municipal code validation, setback rules, and physical feasibility checks." 
+      desc: locale === 'ar' ? "مراجعة اشتراطات التخطيط وقواعد الارتداد والجدوى الفنية للموقع." : "Checking planning requirements, setback rules and technical feasibility." 
     },
     { 
       num: "03", 
       watermark: <MapPin size={110} />,
-      title: locale === 'ar' ? "تأمين المواقع" : "Source", 
+      title: locale === 'ar' ? "التوفير" : "Source", 
       icon: <MapPin strokeWidth={1.5} size={22} />, 
-      desc: locale === 'ar' ? "الاستحواذ على الأراضي والزوايا المتميزة غير المدرجة في السوق المفتوح عبر علاقاتنا القوية." : "Acquiring premium corners and off-market parcels through proprietary relationships." 
+      desc: locale === 'ar' ? "تحديد المواقع المناسبة، بما فيها مواقع غير معروضة في السوق، عبر شبكة علاقاتنا." : "Identifying suitable sites, including ones not yet on the market, through our network." 
     },
     { 
       num: "04", 
       watermark: <ClipboardCheck size={110} />,
-      title: locale === 'ar' ? "التفاوض والهيكلة" : "Negotiate", 
+      title: locale === 'ar' ? "التفاوض" : "Negotiate", 
       icon: <ClipboardCheck strokeWidth={1.5} size={22} />, 
-      desc: locale === 'ar' ? "صياغة عقود إيجار طويلة الأجل تتوافق مع متطلبات كبرى الشركات والعلامات التجارية العالمية." : "Structuring long-term leases matching corporate requirements for global franchise tenants." 
+      desc: locale === 'ar' ? "هيكلة عقود إيجار طويلة الأجل تتوافق مع متطلبات العلامة التجارية." : "Structuring long-term leases that match the brand's requirements." 
     },
     { 
       num: "05", 
       watermark: <CheckCircle size={110} />,
-      title: locale === 'ar' ? "التنفيذ والتسليم" : "Secure", 
+      title: locale === 'ar' ? "التسليم" : "Hand Over", 
       icon: <CheckCircle strokeWidth={1.5} size={22} />, 
-      desc: locale === 'ar' ? "إتمام الإجراءات القانونية والتعاقدية النهائية، وتسليم التراخيص والبلدية." : "Executing transactional closures, final contracts, and municipal permitting handovers." 
+      desc: locale === 'ar' ? "إتمام التعاقد النهائي وتنسيق التراخيص وتسليم الوحدة." : "Finalising the contract, coordinating permits and handing over the unit." 
     }
   ];
 
@@ -88,10 +90,9 @@ export default function FranchiseSourcing() {
     { watermark: <TrendingUp size={120} />, title: t('sourcing.services.3.title'), desc: t('sourcing.services.3.desc') }
   ];
 
-  const brands = [
-    "McDonald's", "El Ezaby", "Othaim Market", "Bazooka", "Karam Elsham", 
-    "Halawany El Abd", "2B", "Dream 2000", "Max Muscle", "Dushka", "Al Maliky", "Remas Land"
-  ];
+  // Example location comes from data/projects.json (single source of truth).
+  const caseStudy = projectsData.find((p) => p.id === 'chillout-10th-of-ramadan-banks');
+  const brands = (caseStudy?.brands || []).map((b) => (typeof b === 'string' ? b : b.name));
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -140,6 +141,9 @@ export default function FranchiseSourcing() {
           >
             {t('sourcing.desc')}
           </motion.p>
+          <div className="pt-2">
+            <HeroCta label={t('sourcing.ctaBtn')} path="/contact?interest=franchise-sourcing#consultation-form" />
+          </div>
         </div>
       </section>
 
@@ -245,23 +249,23 @@ export default function FranchiseSourcing() {
           </div>
 
           <div className="bg-fb-bg-light/90 border border-fb-teal/15 rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-5 sm:space-y-6 max-w-4xl mx-auto shadow-[0_8px_30px_rgba(0,59,60,0.05)]">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left border-b border-fb-teal/10 pb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-start border-b border-fb-teal/10 pb-6">
               <div>
                 <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{locale === 'ar' ? 'الموقع' : 'Location'}</span>
-                <span className="text-sm font-bold text-fb-teal">{locale === 'ar' ? 'مدينة العاشر من رمضان' : '10th of Ramadan City'}</span>
+                <span className="text-sm font-bold text-fb-teal">{locale === 'ar' ? caseStudy?.city_ar : caseStudy?.city}</span>
               </div>
               <div>
                 <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{locale === 'ar' ? 'الحالة' : 'Status'}</span>
-                <span className="text-sm font-bold text-fb-teal">{locale === 'ar' ? 'مشغّل (مؤجر بالكامل 100%)' : 'Operational (100% Leased)'}</span>
+                <span className="text-sm font-bold text-fb-teal">{locale === 'ar' ? (caseStudy?.status === 'Operational' ? 'قيد التشغيل' : 'قيد الإنشاء') : caseStudy?.status}</span>
               </div>
               <div>
-                <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{locale === 'ar' ? 'سنة التشييد' : 'Year Built'}</span>
-                <span className="text-sm font-extrabold text-fb-teal font-mono">2023</span>
+                <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{locale === 'ar' ? 'سنة الافتتاح' : 'Opening Year'}</span>
+                <span className="text-sm font-extrabold text-fb-teal font-mono">{caseStudy?.metrics?.openingYear}</span>
               </div>
             </div>
 
             <div className="space-y-4">
-              <h4 className="text-fb-teal font-extrabold text-xs uppercase tracking-wider text-center md:text-left">{t('sourcing.covenantsTitle')}</h4>
+              <h3 className="text-fb-teal font-extrabold text-sm uppercase tracking-wider text-center md:text-start">{t('sourcing.covenantsTitle')}</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {brands.map((brand, idx) => (
                   <div key={idx} className="bg-fb-bg-light/90 border border-fb-teal/15 text-xs text-center font-bold text-fb-teal py-3 px-3 rounded-2xl shadow-xs hover:border-fb-green hover:shadow-sm transition-all flex items-center justify-center">
@@ -274,25 +278,12 @@ export default function FranchiseSourcing() {
         </motion.div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-fb-teal text-fb-white py-20 px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#53B379_1px,transparent_1px),linear-gradient(to_bottom,#53B379_1px,transparent_1px)] bg-[size:32px_32px]" />
-        <div className="max-w-3xl mx-auto relative z-10 space-y-6">
-          <h2 className="text-fb-bg-light font-extrabold text-3xl">{t('sourcing.ctaTitle')}</h2>
-          <p className="text-fb-bg-light/80 text-sm md:text-base">
-            {t('sourcing.ctaDesc')}
-          </p>
-          <div className="pt-4">
-            <Link
-              href="/contact?interest=franchise-sourcing"
-              className="inline-flex items-center space-x-2 bg-fb-green hover:bg-fb-green-hover text-fb-teal font-bold px-10 py-4 rounded-xl transition-colors shadow-lg"
-            >
-              <span>{t('sourcing.ctaBtn')}</span>
-              <ArrowRight size={16} className="ml-1.5 mr-1.5" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <ServiceCta
+        title={t('sourcing.ctaTitle')}
+        desc={t('sourcing.ctaDesc')}
+        btn={t('sourcing.ctaBtn')}
+        path="/contact?interest=franchise-sourcing#consultation-form"
+      />
 
     </div>
   );

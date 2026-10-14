@@ -15,9 +15,8 @@ export default function PortfolioTimeline({ projects: propProjects, onSelectProj
   const { projects: contextProjects } = useData();
   const projectsData = propProjects && propProjects.length > 0 ? propProjects : (contextProjects || []);
 
-  const getBusinessLineTag = (idx) => {
-    return idx % 2 === 0 ? t('nav.assetManagement') : t('nav.franchiseSourcing');
-  };
+  // Tag shows the location's city (a real data field), not an assumed business line.
+  const getBusinessLineTag = (idx) => getField(projectsData[idx] || {}, 'city');
 
   const handleRowClick = (idx) => {
     setExpandedIndex(expandedIndex === idx ? null : idx);
@@ -56,9 +55,9 @@ export default function PortfolioTimeline({ projects: propProjects, onSelectProj
             
             const namePart = getField(project, 'name');
             const cityPart = getField(project, 'city');
-            const catchmentText = locale === 'ar' 
-              ? `${project.metrics.numBrands} علامات تجارية مؤجرة، تخدم ${getField(project.mapInfo, 'catchment') || 'محيط استثماري مروري مرتفع'}`
-              : `${project.metrics.numBrands} covenant brands active on site, serving ${getField(project.mapInfo, 'catchment') || 'high transit corridor catchment'}.`;
+            const catchmentText = locale === 'ar'
+              ? `${project.metrics.numBrands} علامة تجارية في هذا الموقع.`
+              : `${project.metrics.numBrands} brands at this location.`;
 
             return (
               <motion.div
@@ -183,14 +182,6 @@ export default function PortfolioTimeline({ projects: propProjects, onSelectProj
                               </motion.span>
                             </>
                           )}
-
-                          {/* Frosted Glass Stat Badges */}
-                          <div className="absolute bottom-6 left-6 rtl:left-auto rtl:right-6 z-20 flex gap-2">
-                            <span className="px-3.5 py-1.5 rounded-lg text-xs font-bold text-fb-teal bg-fb-white/80 backdrop-blur-md border border-fb-teal/10 shadow-sm flex items-center space-x-1.5 rtl:space-x-reverse">
-                              <CheckCircle size={13} className="text-fb-green shrink-0" />
-                              <span>{project.metrics.occupancyRate || '100%'} {locale === 'ar' ? 'مؤجر بالكامل' : 'Occupied'}</span>
-                            </span>
-                          </div>
 
                           {/* Link Button */}
                           <div className="absolute bottom-6 right-6 rtl:right-auto rtl:left-6 z-20">

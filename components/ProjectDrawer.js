@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, Calendar, Layout, Maximize2, Users, ArrowUpRight, TrendingUp } from 'lucide-react';
+import { X, MapPin, Calendar, Layout, Maximize2, Users, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
@@ -156,7 +156,7 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                 {/* Key Metrics Grid */}
                 <div className="space-y-3">
                   <h4 className="text-fb-teal font-bold uppercase tracking-wider text-xs">{t('projectDetails.metrics')}</h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     <div className="bg-fb-bg-light/90 border border-fb-teal/15 p-4 rounded-2xl shadow-xs hover:border-fb-green transition-all">
                       <Maximize2 size={18} className="text-fb-green mb-1.5" />
                       <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{t('projectDetails.landArea')}</span>
@@ -166,11 +166,6 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                       <Users size={18} className="text-fb-green mb-1.5" />
                       <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{t('projectDetails.brands')}</span>
                       <span className="text-sm font-extrabold text-fb-teal font-mono">{project.metrics.numBrands} {locale === 'ar' ? 'علامات' : 'Brands'}</span>
-                    </div>
-                    <div className="bg-fb-bg-light/90 border border-fb-teal/15 p-4 rounded-2xl shadow-xs hover:border-fb-green transition-all">
-                      <TrendingUp size={18} className="text-fb-green mb-1.5" />
-                      <span className="text-[10px] text-fb-black/50 block font-bold uppercase tracking-wider">{t('projectDetails.occupancy')}</span>
-                      <span className="text-sm font-extrabold text-fb-teal font-mono">{project.metrics.occupancyRate === 'Pending' ? (locale === 'ar' ? 'قيد التخصيص' : 'Pending') : project.metrics.occupancyRate}</span>
                     </div>
                     <div className="bg-fb-bg-light/90 border border-fb-teal/15 p-4 rounded-2xl shadow-xs hover:border-fb-green transition-all">
                       <Calendar size={18} className="text-fb-green mb-1.5" />
@@ -232,14 +227,10 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                         <p className="text-sm font-semibold text-fb-teal">{getField(project.mapInfo, 'road') || (locale === 'ar' ? 'الممر الرئيسي' : 'Main Corridor')}</p>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 border-t border-fb-teal/10 pt-4 text-start">
-                      <div className="text-start space-y-0.5">
-                        <span className="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">{t('projectDetails.catchment')}</span>
-                        <p className="text-xs font-semibold text-fb-teal">{getField(project.mapInfo, 'catchment') || (locale === 'ar' ? 'حجم تدفق عالي' : 'High Volume')}</p>
-                      </div>
+                    <div className="grid grid-cols-1 gap-4 border-t border-fb-teal/10 pt-4 text-start">
                       <div className="text-start space-y-0.5">
                         <span className="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">{t('projectDetails.sourcingPeak')}</span>
-                        <p className="text-xs font-semibold text-fb-teal">{getField(project.mapInfo, 'peakHours') || (locale === 'ar' ? 'أوقات العمل القياسية' : 'Standard Business Hours')}</p>
+                        <p className="text-xs font-semibold text-fb-teal">{getField(project.mapInfo, 'peakHours') || '—'}</p>
                       </div>
                     </div>
                   </div>

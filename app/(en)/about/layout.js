@@ -1,12 +1,10 @@
-export const metadata = {
-  title: "About F.B Company | Egyptian Asset Management Firm in New Cairo",
-  description: "Learn about F.B Company, led by Eng. Mohamed Bahr — an Egyptian firm turning overlooked spaces into high-performing commercial destinations.",
-  alternates: { canonical: '/about', languages: { 'en': '/about', 'ar': '/ar/about', 'x-default': '/about' } },
-  openGraph: {
-    title: "About F.B Company | Egyptian Asset Management Firm in New Cairo",
-    description: "Learn about F.B Company, led by Eng. Mohamed Bahr — an Egyptian firm turning overlooked spaces into high-performing commercial destinations.",
-    url: '/about',
-  }
-};
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata = pageMetadata({
+  path: '/about',
+  locale: 'en',
+  title: "About F.B Company | New Cairo, Egypt",
+  description: "F.B Company, based in New Cairo, manages, leases and operates commercial locations and sources sites for franchise brands across Egypt.",
+});
 
 export default function Layout({ children }) { return children; }

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Lock, KeyRound, Save, Plus, Trash2, RotateCcw, Building2,
-  Newspaper, Tag, BarChart3, CheckCircle2, Phone, Mail, MapPin,
+  Tag, BarChart3, CheckCircle2, Phone, Mail, MapPin,
   Globe, Upload, Video, Image as ImageIcon, Camera, Loader2,
   RefreshCw, GitBranch, ArrowLeft, Eye, ExternalLink, LogOut,
   Search, ChevronDown, ChevronUp, AlertTriangle, ShieldCheck,
@@ -54,13 +54,10 @@ const compressImage = (file, maxWidth = 1200, quality = 0.75) => {
 export default function AdminPage() {
   const {
     projects,
-    blogsEn,
-    blogsAr,
     brands,
     counters,
     contactInfo,
     saveProjects,
-    saveBlogs,
     saveBrands,
     saveCounters,
     saveContactInfo,
@@ -77,14 +74,12 @@ export default function AdminPage() {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   // Active Tab
-  const [activeTab, setActiveTab] = useState('projects'); // 'projects', 'blogs', 'brands', 'company'
+  const [activeTab, setActiveTab] = useState('projects'); // 'projects', 'brands', 'company'
   const [expandedProjectId, setExpandedProjectId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Editable Copies
   const [editableProjects, setEditableProjects] = useState([]);
-  const [editableBlogsEn, setEditableBlogsEn] = useState([]);
-  const [editableBlogsAr, setEditableBlogsAr] = useState([]);
   const [editableBrands, setEditableBrands] = useState([]);
   const [editableCounters, setEditableCounters] = useState({});
   const [editableContact, setEditableContact] = useState({});
@@ -149,12 +144,6 @@ export default function AdminPage() {
     if (projects && projects.length > 0 && editableProjects.length === 0) {
       setEditableProjects(projects);
     }
-    if (blogsEn && blogsEn.length > 0 && editableBlogsEn.length === 0) {
-      setEditableBlogsEn(blogsEn);
-    }
-    if (blogsAr && blogsAr.length > 0 && editableBlogsAr.length === 0) {
-      setEditableBlogsAr(blogsAr);
-    }
     if (brands && brands.length > 0 && editableBrands.length === 0) {
       setEditableBrands(brands);
     }
@@ -164,7 +153,7 @@ export default function AdminPage() {
     if (contactInfo && Object.keys(editableContact).length === 0) {
       setEditableContact(contactInfo);
     }
-  }, [projects, blogsEn, blogsAr, brands, counters, contactInfo]);
+  }, [projects, brands, counters, contactInfo]);
 
   // Handle Login with Password via server API
   const handleLogin = async (e) => {
@@ -220,8 +209,6 @@ export default function AdminPage() {
           setEditableProjects(filtered);
           saveProjects(filtered);
         }
-        if (Array.isArray(data.blogsEn) && data.blogsEn.length > 0) setEditableBlogsEn(data.blogsEn);
-        if (Array.isArray(data.blogsAr) && data.blogsAr.length > 0) setEditableBlogsAr(data.blogsAr);
         if (Array.isArray(data.brands) && data.brands.length > 0) {
           setEditableBrands(data.brands);
           saveBrands(data.brands);
@@ -260,9 +247,8 @@ export default function AdminPage() {
     });
 
     try {
-      // 1. Save to Client Storage (IndexedDB & LocalStorage)
+      // 1. Update the in-memory copy
       saveProjects(editableProjects);
-      saveBlogs(editableBlogsEn, editableBlogsAr);
       saveBrands(editableBrands);
       saveCounters(editableCounters);
       saveContactInfo(editableContact);
@@ -270,8 +256,6 @@ export default function AdminPage() {
       // 2. Sync to Server Disk Files & Git Push
       const payload = {
         projects: editableProjects,
-        blogsEn: editableBlogsEn,
-        blogsAr: editableBlogsAr,
         brands: editableBrands,
         counters: editableCounters,
         contactInfo: editableContact
@@ -358,14 +342,13 @@ export default function AdminPage() {
         landArea: "5,000 SQM",
         gla: "3,500 SQM",
         numBrands: 2,
-        occupancyRate: "100%",
         openingYear: "2026"
       },
       mapInfo: {
         road: "Main Ring Road",
         road_ar: "الطريق الدائري الرئيسي",
-        catchment: "100,000+ Vehicles/day",
-        catchment_ar: "100,000+ مركبة يومياً",
+        catchment: "",
+        catchment_ar: "",
         peakHours: "4:00 PM - 11:00 PM",
         peakHours_ar: "4:00 مساءً - 11:00 مساءً"
       },
@@ -412,8 +395,6 @@ export default function AdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           projects: updated,
-          blogsEn: editableBlogsEn,
-          blogsAr: editableBlogsAr,
           brands: editableBrands,
           counters: editableCounters,
           contactInfo: editableContact
@@ -834,17 +815,6 @@ export default function AdminPage() {
             </span>
           </button>
 
-          <button
-            onClick={() => setActiveTab('blogs')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
-              activeTab === 'blogs'
-                ? 'bg-fb-teal text-fb-green shadow-sm'
-                : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-fb-teal border border-fb-teal/10 shadow-xs'
-            }`}
-          >
-            <Newspaper size={16} />
-            <span>{locale === 'ar' ? 'المقالات والأخبار' : 'Articles & Press'}</span>
-          </button>
 
           <button
             onClick={() => setActiveTab('company')}
@@ -1040,15 +1010,6 @@ export default function AdminPage() {
                                 type="text"
                                 value={proj.metrics?.numBrands || ''}
                                 onChange={(e) => handleMetricChange(idx, 'numBrands', e.target.value)}
-                                className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal shadow-xs"
-                              />
-                            </div>
-                            <div>
-                              <label className="block mb-1.5 text-slate-600 font-extrabold">Occupancy Rate (نسبة الإشغال)</label>
-                              <input
-                                type="text"
-                                value={proj.metrics?.occupancyRate || '100%'}
-                                onChange={(e) => handleMetricChange(idx, 'occupancyRate', e.target.value)}
                                 className="w-full bg-white border border-fb-teal/20 rounded-xl p-3 text-xs text-fb-teal shadow-xs"
                               />
                             </div>
@@ -1338,33 +1299,6 @@ export default function AdminPage() {
         {/* ======================================================== */}
         {/* TAB 3: BLOGS & PRESS                                     */}
         {/* ======================================================== */}
-        {activeTab === 'blogs' && (
-          <div className="space-y-6">
-            <div className="bg-white p-4 rounded-2xl border border-fb-teal/10 shadow-xs">
-              <div className="text-sm font-extrabold text-fb-teal mb-1">
-                {locale === 'ar' ? 'المقالات والتقارير الصحفية' : 'News, Articles & Research'}
-              </div>
-              <p className="text-xs text-slate-500 font-medium">
-                {locale === 'ar' ? 'إجمالي المقالات المنشورة: ' : 'Total Published Articles: '}
-                {editableBlogsEn.length} (English) / {editableBlogsAr.length} (العربية)
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {editableBlogsEn.map((blog, idx) => (
-                <div key={idx} className="bg-white border border-fb-teal/10 rounded-2xl p-4 space-y-2 shadow-xs">
-                  <div className="flex items-center justify-between text-[11px] text-slate-500 font-medium">
-                    <span>{blog.date}</span>
-                    <span className="px-2 py-0.5 rounded-md bg-fb-teal/5 text-fb-teal border border-fb-teal/15 font-bold">{blog.category}</span>
-                  </div>
-                  <div className="text-xs font-bold text-fb-teal">{blog.title}</div>
-                  <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">{blog.excerpt}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* ======================================================== */}
         {/* TAB 4: COMPANY INFO & COUNTERS                           */}
         {/* ======================================================== */}

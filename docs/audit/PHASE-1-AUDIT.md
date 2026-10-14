@@ -221,6 +221,15 @@ Headless Chrome, widths 320 / 360 / 375 / 390 / 414 / 768 / 820 / 1024 / 1280 / 
 
 ---
 
+## Owner decisions applied in Phase 2 (2026-10-14)
+
+- **Figures in use until verified — all [TO VERIFY]:** 7 commercial locations · 54 brand outlets at our locations · 40,900 m² total land area (derived from `data/projects.json`; source and date recorded in `data/company.json → countersMeta`). No occupancy figure anywhere.
+  - Note: 54 is the sum of brands per location; **39 distinct brands** appear in the project data. Label currently reads "brand outlets at our locations" — see open question below.
+- **Asset Management service description: [PENDING D3 CONFIRMATION]** — currently "commercial real estate asset management: managing, leasing and operating commercial locations". No client-funds / investment-portfolio / risk-tolerance wording anywhere.
+- About-page timeline years (2021–2026) and per-location metrics (land area, opening year, tenant lists) — [TO VERIFY].
+
+---
+
 ## 9. Placeholder list — data I need from you
 
 | # | Item | Used on |

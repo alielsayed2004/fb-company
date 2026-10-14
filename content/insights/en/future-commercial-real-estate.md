@@ -7,5 +7,4 @@ coverImage: "/company/logo.png"
 ---
 # The Future of Commercial Real Estate in Egypt
 
-Commercial real estate in Egypt is undergoing a transformation driven by rapid infrastructure development. At F.B Company, we leverage these shifts to identify high-yield locations...
-(Placeholder content)
+Commercial real estate in Egypt is undergoing a transformation driven by rapid infrastructure development. [ADD: article text]

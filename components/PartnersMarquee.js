@@ -2,14 +2,14 @@
 
 import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
-import { useData, defaultBrands } from '@/context/DataContext';
+import { useData } from '@/context/DataContext';
 import { Sparkles } from 'lucide-react';
 
 export default function PartnersMarquee() {
   const { t, locale } = useLanguage();
   const { brands } = useData();
 
-  const activeBrands = (brands && brands.length > 0) ? brands : defaultBrands;
+  const activeBrands = brands || [];
 
   // Filter to only brands with real verified logo files (1.png to 54.png)
   const validBrands = activeBrands.filter((b) => {

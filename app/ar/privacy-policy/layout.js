@@ -1,12 +1,10 @@
-export const metadata = {
-  title: "Privacy Policy | F.B Company",
-  description: "Privacy Policy for F.B Company.",
-  alternates: { canonical: '/ar/privacy-policy', languages: { 'en': '/privacy-policy', 'ar': '/ar/privacy-policy', 'x-default': '/privacy-policy' } },
-  openGraph: {
-    title: "Privacy Policy | F.B Company",
-    description: "Privacy Policy for F.B Company.",
-    url: '/ar/privacy-policy',
-  }
-};
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata = pageMetadata({
+  path: '/privacy-policy',
+  locale: 'ar',
+  title: "سياسة الخصوصية | إف بي",
+  description: "كيف تجمع شركة إف بي البيانات الشخصية المقدَّمة عبر موقع fbassets.com وتستخدمها وتحميها، بما فيها الاستفسارات وطلبات التوظيف.",
+});
 
 export default function Layout({ children }) { return children; }
