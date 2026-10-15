@@ -246,7 +246,7 @@ export default function ProjectPageClient({ project: initialProject }) {
 
         {/* Bottom Hero Anchor / Scroll Indicator */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 w-full flex items-center justify-between pb-2">
-          <div className="hidden sm:flex items-center space-x-4 rtl:space-x-reverse text-xs text-white/60 font-mono">
+          <div className="hidden sm:flex items-center space-x-4 rtl:space-x-reverse text-xs text-white/60 tabular-nums">
             <span>{project.metrics?.landArea}</span>
             <span>•</span>
             <span>{project.metrics?.numBrands || project.brands?.length} {locale === 'ar' ? 'علامات' : 'Brands'}</span>
@@ -309,7 +309,7 @@ export default function ProjectPageClient({ project: initialProject }) {
                     <div className="p-2.5 bg-fb-teal/5 rounded-lg inline-block self-start mb-2">{m.icon}</div>
                     <div>
                       <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{m.label}</span>
-                      <span className="text-base font-extrabold text-fb-teal font-mono">{m.val}</span>
+                      <span className="text-base font-extrabold text-fb-teal tabular-nums">{m.val}</span>
                     </div>
                   </div>
                 ))}
@@ -442,7 +442,7 @@ export default function ProjectPageClient({ project: initialProject }) {
               <div className="text-xs sm:text-sm font-medium tracking-wide">
                 <span>{getField(project, 'name')}</span>
                 <span className="mx-2 text-white/30">•</span>
-                <span className="text-fb-green font-mono">{activeImageIndex + 1} / {allGalleryItems.length}</span>
+                <span className="text-fb-green tabular-nums">{activeImageIndex + 1} / {allGalleryItems.length}</span>
               </div>
               <button
                 type="button"

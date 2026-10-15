@@ -1,13 +1,13 @@
 {
   "counters": {
     "locations": "7",
-    "brands": "54",
-    "area": "40,900"
+    "brands": "200+",
+    "area": "500,000+"
   },
   "countersMeta": {
-    "status": "TO VERIFY",
-    "asOf": "2026-10-14",
-    "source": "Derived from data/projects.json: locations = number of projects (incl. 1 under construction), brands = sum of metrics.numBrands, area = sum of metrics.landArea (m²). Replace with verified figures when confirmed.",
+    "status": "Provided by owner",
+    "asOf": "2026-10-15",
+    "source": "locations = number of projects in data/projects.json (incl. 1 under construction). brands (200+) and area (500,000+ m² managed & sourced) provided by the owner on 2026-10-15.",
     "units": {
       "area": "m²"
     }

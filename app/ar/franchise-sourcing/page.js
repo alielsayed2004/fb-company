@@ -169,7 +169,7 @@ export default function FranchiseSourcing() {
 
                 <div className="space-y-3 sm:space-y-4 relative z-10">
                   <div className="flex justify-between items-center">
-                    <span className="text-fb-green font-mono font-extrabold text-xl sm:text-2xl">{step.num}</span>
+                    <span className="text-fb-green tabular-nums font-extrabold text-xl sm:text-2xl">{step.num}</span>
                     <div className="p-2 sm:p-2.5 rounded-xl bg-fb-teal/5 text-fb-green border border-fb-teal/10 group-hover:bg-fb-green/10 transition-colors">
                       {step.icon}
                     </div>
@@ -251,7 +251,7 @@ export default function FranchiseSourcing() {
               </div>
               <div>
                 <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{locale === 'ar' ? 'سنة الافتتاح' : 'Opening Year'}</span>
-                <span className="text-sm font-extrabold text-fb-teal font-mono">{caseStudy?.metrics?.openingYear}</span>
+                <span className="text-sm font-extrabold text-fb-teal tabular-nums">{caseStudy?.metrics?.openingYear}</span>
               </div>
             </div>
 

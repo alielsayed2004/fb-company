@@ -165,17 +165,17 @@ export default function ProjectDrawer({ project: initialProject, onClose }) {
                     <div className="bg-fb-bg-light/90 border border-fb-teal/15 p-4 rounded-2xl shadow-xs hover:border-fb-green transition-all">
                       <Maximize2 size={18} className="text-fb-green mb-1.5" />
                       <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{t('projectDetails.landArea')}</span>
-                      <span className="text-sm font-extrabold text-fb-teal font-mono">{project.metrics.landArea}</span>
+                      <span className="text-sm font-extrabold text-fb-teal tabular-nums">{project.metrics.landArea}</span>
                     </div>
                     <div className="bg-fb-bg-light/90 border border-fb-teal/15 p-4 rounded-2xl shadow-xs hover:border-fb-green transition-all">
                       <Users size={18} className="text-fb-green mb-1.5" />
                       <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{t('projectDetails.brands')}</span>
-                      <span className="text-sm font-extrabold text-fb-teal font-mono">{project.metrics.numBrands} {locale === 'ar' ? 'علامات' : 'Brands'}</span>
+                      <span className="text-sm font-extrabold text-fb-teal tabular-nums">{project.metrics.numBrands} {locale === 'ar' ? 'علامات' : 'Brands'}</span>
                     </div>
                     <div className="bg-fb-bg-light/90 border border-fb-teal/15 p-4 rounded-2xl shadow-xs hover:border-fb-green transition-all">
                       <Calendar size={18} className="text-fb-green mb-1.5" />
                       <span className="text-xs text-fb-black/70 block font-bold uppercase tracking-wider">{t('projectDetails.yearBuilt')}</span>
-                      <span className="text-sm font-extrabold text-fb-teal font-mono">{project.metrics.openingYear}</span>
+                      <span className="text-sm font-extrabold text-fb-teal tabular-nums">{project.metrics.openingYear}</span>
                     </div>
                   </div>
                 </div>

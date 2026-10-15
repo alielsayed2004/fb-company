@@ -35,7 +35,7 @@ export default function CompanyProfile() {
                 <FileText size={42} />
               </div>
               <div className="space-y-1">
-                <span className="text-xs font-mono font-bold text-fb-green-text uppercase tracking-widest block">F.B COMPANY</span>
+                <span className="text-xs tabular-nums font-bold text-fb-green-text uppercase tracking-widest block">F.B COMPANY</span>
                 <h3 className="text-xl font-extrabold text-fb-teal">Corporate Profile 2026</h3>
                 <p className="text-xs text-fb-black/70">Executive Sourcing & Asset Management</p>
               </div>

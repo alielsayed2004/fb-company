@@ -174,7 +174,7 @@ export default function Footer() {
               <a 
                 href={`tel:${(contactInfo?.phone || '+201117751967').replace(/\s+/g, '')}`} 
                 dir="ltr"
-                className="hover:text-fb-green-text font-mono font-bold text-slate-800 transition-colors inline-block"
+                className="hover:text-fb-green-text tabular-nums font-bold text-slate-800 transition-colors inline-block"
               >
                 {contactInfo?.phone || '+20 111 775 1967'}
               </a>

@@ -17,7 +17,7 @@ export function GET() {
 
 > ${ENTITY.en} Tagline: "From Vision to Value".
 
-Figures based on company records as of ${company.countersMeta?.asOf || '2026'}: ${c.locations} commercial locations, ${c.brands} brand outlets at those locations, ${c.area} m² total land area.
+Figures from company data as of ${company.countersMeta?.asOf || '2026'}: ${c.locations} commercial locations, ${c.brands} brand partners, ${c.area} m² of commercial space managed and sourced.
 
 Content on this website is general information, not investment advice. No return, occupancy or value is guaranteed. See ${SITE_URL}/risk-disclaimer.
 

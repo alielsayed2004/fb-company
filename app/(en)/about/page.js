@@ -196,11 +196,11 @@ export default function About() {
               <motion.div 
                 key={idx} 
                 variants={itemVariants}
-                className="bg-fb-bg-light/90 border border-fb-teal/15 p-5 sm:p-8 rounded-2xl sm:rounded-3xl text-center space-y-3 sm:space-y-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300 relative group overflow-hidden"
+                className="min-w-0 bg-fb-bg-light/90 border border-fb-teal/15 p-5 lg:p-8 rounded-2xl sm:rounded-3xl text-center space-y-3 sm:space-y-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)] hover:shadow-[0_15px_35px_rgba(83,179,121,0.15)] hover:border-fb-green hover:-translate-y-1.5 transition-all duration-300 relative group overflow-hidden"
               >
                 <div className="absolute top-0 start-0 w-1.5 h-full bg-fb-teal group-hover:bg-fb-green transition-colors" />
                 <div className="p-2.5 sm:p-3 bg-fb-teal/5 border border-fb-teal/10 rounded-xl inline-block group-hover:bg-fb-green/10 transition-colors">{stat.icon}</div>
-                <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 font-mono tracking-tight block">
+                <div className="text-3xl lg:text-4xl xl:text-5xl font-extrabold text-fb-teal tracking-tight block whitespace-nowrap">
                   <StatCounter value={stat.value} />
                 </div>
                 <p className="text-sm font-bold text-slate-700">{stat.label}</p>
@@ -279,7 +279,7 @@ export default function About() {
                 {/* Timeline Bullet */}
                 <div className={`absolute ${locale === 'ar' ? '-right-[35px] md:-right-[51px]' : '-left-[35px] md:-left-[51px]'} top-1.5 w-4 h-4 rounded-full bg-fb-white border-2 border-fb-teal group-hover:border-fb-green group-hover:scale-125 transition-all duration-300 shadow-sm`} />
                 
-                <span className="text-3xl font-extrabold text-fb-green font-mono block tracking-tight group-hover:translate-x-1 transition-transform">{milestone.year}</span>
+                <span className="text-3xl font-extrabold text-fb-green block tracking-tight group-hover:translate-x-1 transition-transform">{milestone.year}</span>
                 <h3 className="text-fb-teal font-bold text-lg md:text-xl tracking-tight leading-snug">{milestone.title}</h3>
                 <p className="text-slate-700 text-sm md:text-base leading-relaxed max-w-2xl">{milestone.desc}</p>
               </motion.div>

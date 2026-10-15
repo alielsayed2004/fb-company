@@ -42,8 +42,8 @@ export const translations = {
       subheadline: "Commercial real estate asset management and franchise location sourcing in Egypt.",
       counters: {
         locations: "Commercial locations",
-        brands: "Brand outlets at our locations",
-        area: "m² total land area"
+        brands: "Brand partners",
+        area: "m² managed & sourced"
       },
       partners: {
         eyebrow: "Brand Partners",
@@ -138,8 +138,8 @@ export const translations = {
       metricsTitle: "F.B Company in Numbers",
       metrics: {
         locations: "Commercial locations",
-        brands: "Brand outlets at our locations",
-        area: "m² total land area"
+        brands: "Brand partners",
+        area: "m² managed & sourced"
       },
       valuesTitle: "Our Values",
       valuesSubtitle: "Operating Principles",
@@ -363,8 +363,8 @@ export const translations = {
       subheadline: "إدارة الأصول العقارية التجارية وتوفير مواقع الفرنشايز في مصر.",
       counters: {
         locations: "موقعاً تجارياً",
-        brands: "فرعاً لعلامات تجارية في مواقعنا",
-        area: "م² إجمالي مساحة الأراضي"
+        brands: "علامة تجارية شريكة",
+        area: "م² مساحات مُدارة ومُوفَّرة"
       },
       partners: {
         eyebrow: "شركاؤنا",
@@ -459,8 +459,8 @@ export const translations = {
       metricsTitle: "شركة إف بي بالأرقام",
       metrics: {
         locations: "موقعاً تجارياً",
-        brands: "فرعاً لعلامات تجارية في مواقعنا",
-        area: "م² إجمالي مساحة الأراضي"
+        brands: "علامة تجارية شريكة",
+        area: "م² مساحات مُدارة ومُوفَّرة"
       },
       valuesTitle: "قيمنا",
       valuesSubtitle: "مبادئ العمل",

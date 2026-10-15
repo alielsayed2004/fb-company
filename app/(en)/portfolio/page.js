@@ -117,7 +117,7 @@ export default function PortfolioPage() {
                 {stat.icon}
               </span>
               <span>
-                <span dir="ltr" className="block font-mono font-extrabold text-xl sm:text-2xl text-fb-teal tabular-nums">{counters?.[stat.key]}</span>
+                <span dir="ltr" className="block font-extrabold text-xl sm:text-2xl text-fb-teal tabular-nums">{counters?.[stat.key]}</span>
                 <span className="block text-sm font-bold text-slate-600">{t(`home.counters.${stat.key}`)}</span>
               </span>
             </li>

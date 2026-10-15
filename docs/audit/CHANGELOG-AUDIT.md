@@ -299,3 +299,17 @@ Best Practices: 96 → **100** on every page tested. Real Chrome with mobile thr
 | `app/(en)/layout.js`, `app/ar/layout.js` | Cursor no longer mounted. |
 
 Verified: pages 200, no console errors; server HTML now contains **zero** `opacity:0` elements (the cursor dot was the last one).
+
+---
+
+## Step 12 — Owner-provided figures, number typography, stats heading (2026-10-15)
+
+| File | Change | Why |
+|---|---|---|
+| `data/company.json` | Counters per owner instruction: **200+** brand partners, **500,000+** m² managed & sourced (7 locations unchanged). `countersMeta` now records them as provided by the owner on 2026-10-15. Single source → Home, About, Portfolio and `/llms.txt` all updated. | Owner decision |
+| `data/translations.js` | Labels: "Brand partners" / "علامة تجارية شريكة"; "m² managed & sourced" / "م² مساحات مُدارة ومُوفَّرة". | Owner decision |
+| Public pages & components | All numbers use the brand font (Lama Sans) with tabular figures instead of a monospace font (the wide comma in "40,900"); sizes scale by breakpoint so "500,000+" never overflows its card (checked 390–1920 px, EN/AR, Home + About). | Brand font, layout |
+| `app/(en|ar)/page.js` | Stats heading shortened and smaller: "Our Work Across Egypt" / "حجم أعمالنا في مصر"; note "Figures from company data, October 2026". | Owner request |
+| `app/llms.txt/route.js` | Wording matches the new labels. | Consistency |
+
+Note for the record: the project data on the site lists 7 locations totalling 40,900 m² of land and 39 distinct tenant brands; the new headline figures describe the company-wide managed & sourced footprint and partner base as stated by the owner.

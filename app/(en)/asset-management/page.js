@@ -135,7 +135,7 @@ export default function AssetManagement() {
 
                 <div className="space-y-3 sm:space-y-4 relative z-10">
                   <div className="flex justify-between items-center">
-                    <span className="text-fb-green font-mono font-extrabold text-2xl sm:text-3xl block">{step.num}</span>
+                    <span className="text-fb-green tabular-nums font-extrabold text-2xl sm:text-3xl block">{step.num}</span>
                     <div className="p-2 sm:p-2.5 rounded-xl bg-fb-teal/5 text-fb-green border border-fb-teal/10 group-hover:bg-fb-green/10 group-hover:border-fb-green/30 transition-colors">
                       {step.icon}
                     </div>

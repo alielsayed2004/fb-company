@@ -102,7 +102,7 @@ export default function PortfolioTimeline({ projects: propProjects, onSelectProj
                         {parseInt(project.metrics?.openingYear, 10) >= 2026 
                           ? (locale === 'ar' ? `تاريخ الإنجاز المتوقع: ` : `Expected Completion: `)
                           : (locale === 'ar' ? `سنة التأسيس: ` : `Established: `)}
-                        <span className="font-mono font-bold text-fb-teal">{project.metrics?.openingYear || '2023'}</span>
+                        <span className="tabular-nums font-bold text-fb-teal">{project.metrics?.openingYear || '2023'}</span>
                       </span>
                     </div>
 
@@ -177,7 +177,7 @@ export default function PortfolioTimeline({ projects: propProjects, onSelectProj
                                 initial={{ scale: prefersReducedMotion ? 1 : 1.05 }}
                                 animate={{ scale: 1 }}
                                 transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
-                                className="text-fb-teal/35 font-mono text-sm tracking-widest relative z-10 select-none block"
+                                className="text-fb-teal/35 tabular-nums text-sm tracking-widest relative z-10 select-none block"
                               >
                                 {t('home.timeline.pending')}
                               </motion.span>

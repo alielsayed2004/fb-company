@@ -212,10 +212,8 @@ export default function Home() {
               <BarChart4 size={14} aria-hidden="true" />
               {locale === 'ar' ? 'شركة إف بي بالأرقام' : 'F.B Company in Numbers'}
             </span>
-            <h2 className="text-fb-teal font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight leading-tight text-balance">
-              {locale === 'ar'
-                ? 'مواقع تجارية في القاهرة الكبرى والعاشر من رمضان والساحل الشمالي'
-                : 'Commercial Locations Across Greater Cairo, 10th of Ramadan and the North Coast'}
+            <h2 className="text-fb-teal font-extrabold text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-snug text-balance">
+              {locale === 'ar' ? 'حجم أعمالنا في مصر' : 'Our Work Across Egypt'}
             </h2>
             <p className="text-fb-black/75 text-base leading-relaxed">
               {locale === 'ar'
@@ -223,7 +221,7 @@ export default function Home() {
                 : 'We select our locations through field studies of traffic and catchment, and work with national and international brands.'}
             </p>
             <p className="text-sm text-fb-black/70">
-              {locale === 'ar' ? 'الأرقام وفق سجلات الشركة حتى أكتوبر 2026.' : 'Figures based on company records as of October 2026.'}
+              {locale === 'ar' ? 'الأرقام وفق بيانات الشركة، أكتوبر 2026.' : 'Figures from company data, October 2026.'}
             </p>
           </div>
 
@@ -233,11 +231,11 @@ export default function Home() {
               { key: 'brands', icon: <Store size={20} aria-hidden="true" /> },
               { key: 'area', icon: <Building2 size={20} aria-hidden="true" /> },
             ].map((stat) => (
-              <li key={stat.key} className="bg-white/60 border border-fb-teal/15 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)]">
+              <li key={stat.key} className="min-w-0 bg-white/60 border border-fb-teal/15 rounded-2xl p-5 xl:p-6 flex flex-col gap-4 shadow-[0_8px_30px_rgba(0,59,60,0.05)]">
                 <span className="w-11 h-11 rounded-xl bg-fb-teal/5 border border-fb-teal/15 flex items-center justify-center text-fb-teal">
                   {stat.icon}
                 </span>
-                <span className="text-fb-teal font-black text-4xl lg:text-5xl font-mono tracking-tight">
+                <span className="text-fb-teal font-extrabold text-4xl sm:text-3xl xl:text-4xl tracking-tight whitespace-nowrap">
                   <StatCounter value={counters?.[stat.key]} />
                 </span>
                 <span className="text-sm font-bold text-fb-black/80 leading-snug">

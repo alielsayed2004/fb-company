@@ -334,7 +334,7 @@ export default function Contact() {
                   <a 
                     href={`tel:${(contactInfo?.phone || '+201117751967').replace(/\s+/g, '')}`} 
                     dir="ltr" 
-                    className="text-sm text-slate-700 hover:text-fb-green font-mono font-semibold transition-colors block"
+                    className="text-sm text-slate-700 hover:text-fb-green tabular-nums font-semibold transition-colors block"
                   >
                     {contactInfo?.phone || '+20 111 775 1967'}
                   </a>
